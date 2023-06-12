@@ -76,6 +76,12 @@ export default function Home() {
             <PieChart />
           </div>
         </div>
+        <div className="w-1/4 card bg-white rounded-xl p-2">
+          <p className="text-gray-700 uppercase m-2">Revenue</p>
+          <div>
+            <LineChart />
+          </div>
+        </div>
       </div>
     </div >
   );
