@@ -12,11 +12,12 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div>
-        <p className="text-xl bg-red-500">This is a protected page.</p>
-        <pre>{JSON.stringify(session)}</pre>
+    <div className="my-6 text-gray-700">
+      <div className="">
+        <h2 className="text-2xl mb-2">Welcome, </h2>
+        <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
+
     </div>
   );
 }
