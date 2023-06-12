@@ -1,6 +1,11 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { FiUsers } from 'react-icons/fi'
+import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
+import { BiCalendar } from 'react-icons/bi'
+import { BsCreditCard } from 'react-icons/bs'
+import { TbReport } from 'react-icons/tb'
 
 export default function Home() {
   const { data: session, status } = useSession({
@@ -14,10 +19,47 @@ export default function Home() {
   return (
     <div className="my-6 text-gray-700">
       <div className="">
-        <h2 className="text-2xl mb-2">Welcome, </h2>
+        <h2 className="text-2xl mb-2">Welcome, {session.user.name}</h2>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
-
-    </div>
+      <div className="flex gap-4 w-full mt-8">
+        <div className="bg-white p-[20px] rounded-xl shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Users</p>
+          </div>
+        </div>
+        <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <AiOutlineLike size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Holidays</p>
+          </div>
+        </div>
+        <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <BiCalendar size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Events</p>
+          </div>
+        </div>
+        <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <BsCreditCard size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Payroll</p>
+          </div>
+        </div>
+        <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <AiOutlineCalculator size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Accounts</p>
+          </div>
+        </div>
+        <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+            <TbReport size={40} color="gray" className="group-hover:scale-110 duration-200" />
+            <p>Reports</p>
+          </div>
+        </div>
+      </div>
+    </div >
   );
 }
