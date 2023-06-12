@@ -29,7 +29,7 @@ const Sidebar = () => {
                         {/* <i className='pi pi-folder hover:text-sky-400 duration-200' style={{ fontSize: '1.4rem' }}></i> */}
                         <div>
                             <span class="relative flex h-3 w-3 float-right -ml-1.5 -mt-1">
-                                <span class="custom-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 -ml-0.5 -mt-0.5"></span>
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 -ml-0.5 -mt-0.5"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
                             </span>
                             <HiMail size={20} color='gray' />

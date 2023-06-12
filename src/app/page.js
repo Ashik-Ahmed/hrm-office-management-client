@@ -6,6 +6,9 @@ import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
 import { BiCalendar } from 'react-icons/bi'
 import { BsCreditCard } from 'react-icons/bs'
 import { TbReport } from 'react-icons/tb'
+import StackedChart from "./component/Charts/StackedChart";
+import PieChart from "./component/Charts/PieChart";
+import LineChart from "./component/Charts/LineChart";
 
 export default function Home() {
   const { data: session, status } = useSession({
@@ -22,7 +25,7 @@ export default function Home() {
         <h2 className="text-2xl mb-2">Welcome, {session.user.name}</h2>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
-      <div className="flex gap-4 w-full mt-8">
+      <div className="flex gap-4 w-full my-8">
         <div className="bg-white p-[20px] rounded-xl shadow-xl w-full flex justify-center items-center">
           <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
             <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
@@ -57,6 +60,14 @@ export default function Home() {
           <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
             <TbReport size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Reports</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-x-4 mb-6">
+        <div className="w-1/2 card bg-white rounded-xl p-2">
+          <p className="text-gray-700 uppercase m-2">Revenue Calc.</p>
+          <div className="">
+            <StackedChart />
           </div>
         </div>
       </div>
