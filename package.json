@@ -1,5 +1,5 @@
 {
-  "name": "hrm-office-management-frontend",
+  "name": "hrm-office-management-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,9 +13,13 @@
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
     "next": "13.4.5",
+    "next-auth": "^4.22.1",
     "postcss": "8.4.24",
+    "primeicons": "^6.0.1",
+    "primereact": "^9.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.9.0",
     "tailwindcss": "3.3.2"
   }
 }

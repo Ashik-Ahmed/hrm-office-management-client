@@ -1,0 +1,33 @@
+.custom-spin {
+    animation: spin 3s linear infinite;
+    /* Adjust the duration to control the spin speed */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.custom-ping {
+    animation: ping 1.5s linear infinite;
+    animation-delay: 2s;
+    /* Adjust the duration to control the ping speed */
+}
+
+@keyframes ping {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
