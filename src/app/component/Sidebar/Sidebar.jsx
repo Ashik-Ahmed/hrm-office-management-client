@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import Link from 'next/link';
 import { RiSettings5Fill } from 'react-icons/ri'
@@ -7,8 +9,23 @@ import { MdNotifications } from 'react-icons/md'
 import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
+import { useSession } from 'next-auth/react';
+import Loading from '../Loading/Loading';
 
 const Sidebar = () => {
+
+    const { data: session, status } = useSession({
+        required: true,
+    });
+
+    if (status === "loading") {
+        return (
+            <div className="h-screen w-full flex justify-center items-center">
+                <Loading />
+            </div>
+        )
+    }
+
     return (
         <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700'>
             <div className='flex mt-6'>
@@ -29,7 +46,7 @@ const Sidebar = () => {
                         {/* <i className='pi pi-folder hover:text-sky-400 duration-200' style={{ fontSize: '1.4rem' }}></i> */}
                         <div>
                             <span class="relative flex h-3 w-3 float-right -ml-1.5 -mt-1">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 -ml-0.5 -mt-0.5"></span>
+                                <span class="custom-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 -ml-0.5 -mt-0.5"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
                             </span>
                             <HiMail size={20} color='gray' />
@@ -47,10 +64,9 @@ const Sidebar = () => {
                 </div>
 
                 <div className='w-full'>
-                    <h2 className='text-2xl hover:bg-red-500'>Infozillion</h2>
-
+                    <h2 className='text-2xl'>Infozillion</h2>
                     <div className='mt-8 text-sm'>
-                        <p className='text-xs hover:bg-red-500' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
+                        <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
                         <ul className=' mt-4 text-gray-600'>
                             <Link href='/' style={{ fontFamily: 'revert' }} className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-hourglass'></i> HRMS</Link>
                             <Link href='/' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Dashboard</Link>

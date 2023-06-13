@@ -9,6 +9,7 @@ import { TbReport } from 'react-icons/tb'
 import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
+import Loading from "./component/Loading/Loading";
 
 export default function Home() {
   const { data: session, status } = useSession({
