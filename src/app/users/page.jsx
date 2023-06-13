@@ -16,8 +16,9 @@ const Users = () => {
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
     const [role, setRole] = useState()
+    const [image, setImage] = useState()
 
-    const { register, formState: { errors }, handleSubmit } = useForm();
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const [data, setData] = useState("");
 
     const userRole = ["Super Admin", "Admin", "Employee"]
@@ -37,9 +38,65 @@ const Users = () => {
         fetchAllUsers()
     }, [])
 
-    const handleAddUser = (data) => {
+    const handlePhotoChange = (event) => {
+        setImage(event.target.files[0]);
+    };
+
+    //add user form submission functionality
+    const handleAddUser = async (data) => {
         console.log("Add user");
-        console.log(data);
+        const userPhoto = new FormData()
+        userPhoto.append('image', image)
+        console.log(userPhoto);
+        // reset();
+        // setRole(null);
+
+        const { photo, ...userData } = data;
+        // console.log(userData);
+        // console.log(photo);
+
+        try {
+            await fetch('https://api.imgbb.com/1/upload?key=a0bd0c6e9b17f5f8fa7f35d20163bdf3', {
+                method: 'POST',
+                body: userPhoto
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+
+                    if (data.data.url) {
+                        userData.photo = data.data.url
+                        fetch('http://localhost:5000/api/v1/user', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(userData)
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status == 'Success') {
+                                    console.log(data);
+                                }
+                                else {
+                                    console.log(data);
+                                }
+                            })
+                    }
+                })
+
+
+        } catch (error) {
+            console.error('Error occurred during image upload:', error);
+        }
+    }
+
+    const fullNameBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <span>{rowData.firstName} {rowData.lastName}</span>
+            </div>
+        )
     }
 
     return (
@@ -55,7 +112,7 @@ const Users = () => {
                     </span>
                 </div>
                 <DataTable value={users} loading={loading} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="name" header="Name" ></Column>
+                    <Column body={fullNameBodyTemplate} header="Name" ></Column>
                     <Column field="email" header="Email" ></Column>
                     <Column field="role" header="Role" ></Column>
                 </DataTable>
@@ -100,6 +157,9 @@ const Users = () => {
                             {...register("userRole", { required: "User role is required" })}
                             value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
                         {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                    </div>
+                    <div className='mt-2'>
+                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
                     </div>
 
                     <div className='mt-4 text-right'>
