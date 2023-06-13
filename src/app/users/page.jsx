@@ -7,8 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
-
-
+import { useForm } from 'react-hook-form';
 
 
 const Users = () => {
@@ -17,6 +16,9 @@ const Users = () => {
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
     const [role, setRole] = useState()
+
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    const [data, setData] = useState("");
 
     const userRole = ["Super Admin", "Admin", "Employee"]
 
@@ -35,9 +37,9 @@ const Users = () => {
         fetchAllUsers()
     }, [])
 
-    const handleAddUser = (e) => {
-        e.preventDefault()
+    const handleAddUser = (data) => {
         console.log("Add user");
+        console.log(data);
     }
 
     return (
@@ -60,18 +62,44 @@ const Users = () => {
             </div>
 
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
-                <form onSubmit={handleAddUser}>
-                    <InputText type='text' placeholder="Employee ID*" className='w-full' />
+                <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
+                    <InputText
+                        {...register("employeeId", { required: "Employee ID is required" })}
+                        placeholder="Employee ID*" className='w-full' />
+                    {errors.employeeId?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.employeeId.message}</span>}
                     <div className='mt-2 flex gap-x-4'>
-                        <InputText type='text' placeholder="First Name*" className='w-full' />
-                        <InputText type='text' placeholder="Last Name*" className='w-full' />
+                        <div className='w-full'>
+                            <InputText
+                                {...register("firstName", { required: "First Name is required" })}
+                                type='text' placeholder="First Name*" className='w-full' />
+                            {errors.firstName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.firstName.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("lastName", { required: "Last Name is required" })}
+                                type='text' placeholder="Last Name*" className='w-full' />
+                            {errors.lastName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.lastName.message}</span>}
+                        </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
-                        <InputText type='email' placeholder="Email*" className='w-full' />
-                        <InputText type='text' placeholder="Mobile*" className='w-full' />
+                        <div className='w-full'>
+                            <InputText
+                                {...register("email", { required: "Email is required" })}
+                                type='email' placeholder="Email*" className='w-full' />
+                            {errors.email?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.email.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("mobile", { required: "Mobile no. is required" })}
+                                type='text' placeholder="Mobile*" className='w-full' />
+                            {errors.mobile?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.mobile.message}</span>}
+                        </div>
                     </div>
                     <div className='mt-2'>
-                        <Dropdown value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
+                        <Dropdown
+                            {...register("userRole", { required: "User role is required" })}
+                            value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
+                        {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
                     </div>
 
                     <div className='mt-4 text-right'>
