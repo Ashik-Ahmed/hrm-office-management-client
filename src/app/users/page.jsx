@@ -135,6 +135,18 @@ const Users = () => {
     //delete user
     const handleDeleteUser = () => {
         console.log('user delete', deleteUserDialog.firstName);
+
+        fetch(`http://localhost:5000/api/v1/user/${deleteUserDialog._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.data.deletedCount > 0) {
+                    fetchAllUsers()
+                    setDeleteUserDialog(false)
+                }
+            })
     }
 
     const fullNameBodyTemplate = (rowData) => {
