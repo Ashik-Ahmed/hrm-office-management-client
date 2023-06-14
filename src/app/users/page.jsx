@@ -12,6 +12,8 @@ import Image from 'next/image';
 import user from '../../../public/images/user.png'
 import { FiEdit } from 'react-icons/fi'
 import { RiDeleteBinLine } from 'react-icons/ri'
+import { Calendar } from 'primereact/calendar';
+
 
 
 const Users = () => {
@@ -21,6 +23,7 @@ const Users = () => {
     const [addUserDialog, setAddUserDialog] = useState(false)
     const [editUserDialog, setEditUserDialog] = useState(false)
     const [deleteUserDialog, setDeleteUserDialog] = useState(false)
+    const [date, setDate] = useState('')
     const [role, setRole] = useState()
     const [image, setImage] = useState()
 
@@ -51,9 +54,6 @@ const Users = () => {
     //add user form submission functionality
     const handleAddUser = async (data) => {
         console.log("Add user");
-        const userPhoto = new FormData()
-        userPhoto.append('image', image)
-        console.log(userPhoto);
         // reset();
         // setRole(null);
 
@@ -62,38 +62,68 @@ const Users = () => {
         // console.log(photo);
 
         try {
-            await fetch('https://api.imgbb.com/1/upload?key=a0bd0c6e9b17f5f8fa7f35d20163bdf3', {
-                method: 'POST',
-                body: userPhoto
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
+            if (image) {
+                console.log('inside with image');
+                const userPhoto = new FormData()
+                userPhoto.append('image', image)
 
-                    if (data.data.url) {
-                        userData.photo = data.data.url
-                        fetch('http://localhost:5000/api/v1/user', {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json'
-                            },
-                            body: JSON.stringify(userData)
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.status == 'Success') {
-                                    console.log(data);
-                                    reset();
-                                    setRole(null);
-                                    fetchAllUsers()
-                                    setAddUserDialog(false)
-                                }
-                                else {
-                                    console.log(data);
-                                }
-                            })
-                    }
+                await fetch('https://api.imgbb.com/1/upload?key=a0bd0c6e9b17f5f8fa7f35d20163bdf3', {
+                    method: 'POST',
+                    body: userPhoto
                 })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+
+                        if (data.data.url) {
+                            userData.photo = data.data.url
+                            fetch('http://localhost:5000/api/v1/user', {
+                                method: 'POST',
+                                headers: {
+                                    'content-type': 'application/json'
+                                },
+                                body: JSON.stringify(userData)
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.status == 'Success') {
+                                        console.log(data);
+                                        reset();
+                                        setRole(null);
+                                        setImage(null)
+                                        fetchAllUsers()
+                                        setAddUserDialog(false)
+                                    }
+                                    else {
+                                        console.log(data);
+                                    }
+                                })
+                        }
+                    })
+            }
+            else {
+                console.log('inside without image');
+                fetch('http://localhost:5000/api/v1/user', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status == 'Success') {
+                            console.log(data);
+                            reset();
+                            setRole(null);
+                            fetchAllUsers()
+                            setAddUserDialog(false)
+                        }
+                        else {
+                            console.log(data);
+                        }
+                    })
+            }
 
 
         } catch (error) {
@@ -140,18 +170,20 @@ const Users = () => {
 
 
     return (
-        <div className='my-4'>
-            <Button onClick={() => setAddUserDialog(true)} label="Add User" icon="pi pi-plus" className='p-button p-button-sm p-button-info' />
+        <div className='my-2'>
 
-            <div className="card p-4 bg-white rounded-md my-2 shadow-xl">
-                <div className='flex justify-between items-center mb-2'>
-                    <h3 className='font-light'>USER LIST</h3>
+            <div className="card p-2 bg-white rounded-md my-2 shadow-xl">
+                <div className='flex justify-between items-center'>
+                    <div className='flex items-center gap-x-2'>
+                        <h3 className='font-light'>USER LIST</h3>
+                        <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' />
+                    </div>
                     <span className="p-input-icon-left">
                         <i className="pi pi-search" />
                         <InputText placeholder="Search" />
                     </span>
                 </div>
-                <DataTable value={users} loading={loading} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={users} loading={loading} tableStyle={{ minWidth: '50rem' }}>
                     {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                     <Column body={fullNameBodyTemplate} header="Name" ></Column>
                     <Column field="designation" header="Designation" ></Column>
@@ -162,10 +194,18 @@ const Users = () => {
 
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
-                    <InputText
-                        {...register("employeeId", { required: "Employee ID is required" })}
-                        placeholder="Employee ID*" className='w-full' />
-                    {errors.employeeId?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.employeeId.message}</span>}
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className="w-full">
+                            <InputText
+                                {...register("employeeId", { required: "Employee ID is required" })}
+                                placeholder="Employee ID*" className='w-full' />
+                            {errors.employeeId?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.employeeId.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <Calendar value={date} onChange={(e) => setDate(e.value)} placeholder='Joining Date*' showIcon className='w-full' />
+                            {/* {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.joiningDate.message}</span>} */}
+                        </div>
+                    </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
@@ -204,7 +244,7 @@ const Users = () => {
                         <div className='w-full'>
                             <Dropdown
                                 {...register("userRole", { required: "User role is required" })}
-                                value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
+                                value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type*" className="w-full placeholder-opacity-20" />
                             {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
                         </div>
                     </div>
