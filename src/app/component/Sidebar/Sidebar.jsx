@@ -11,12 +11,28 @@ import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { useSession } from 'next-auth/react';
 import Loading from '../Loading/Loading';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Sidebar = () => {
 
     const { data: session, status } = useSession({
         required: true,
     });
+
+    const currentPath = usePathname();
+
+    const menus = [
+        { name: 'Users', link: '/users' },
+        { name: 'Department', link: '/department' },
+        { name: 'Employee', link: '/employee' },
+        { name: 'Activities', link: '/activities' },
+        { name: 'Holidays', link: '/holidays' },
+        { name: 'Events', link: '/events' },
+        { name: 'Payroll', link: '/payroll' },
+        { name: 'Accounts', link: '/accounts' },
+        { name: 'Report', link: '/report' },
+        { name: 'Guest', link: '/guest' },
+    ]
 
     if (status === "loading") {
         return (
@@ -68,8 +84,17 @@ const Sidebar = () => {
                     <div className='mt-8 text-sm'>
                         <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
                         <ul className=' mt-4 text-gray-600'>
-                            <Link href='/' style={{ fontFamily: 'revert' }} className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-hourglass'></i> HRMS</Link>
-                            <Link href='/' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Dashboard</Link>
+                            <p className={`py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
+
+                            <Link href='/' style={{ fontFamily: 'revert' }} className={`${currentPath == '/' && 'border-r-2 border-r-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath == '/' ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  Dashboard</Link>
+                            {
+                                menus.map((menu, index) => {
+                                    return (
+                                        <Link key={index} href={menu.link} style={{ fontFamily: 'revert' }} className={`${currentPath.includes(menu.link) && 'border-r-2 border-r-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath.includes(menu.link) ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  {menu.name}</Link>
+                                    )
+                                })
+                            }
+                            {/* <Link href='/' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Dashboard</Link>
                             <Link href='/users' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Users</Link>
                             <Link href='/department' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Department</Link>
                             <Link href='/employee' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Employee</Link>
@@ -78,7 +103,7 @@ const Sidebar = () => {
                             <Link href='/events' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Events</Link>
                             <Link href='/payroll' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Payroll</Link>
                             <Link href='/accounts' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Accounts</Link>
-                            <Link href='/' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Report</Link>
+                            <Link href='/' className='py-2 hover:tracking-wider hover:border-r-2 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4'> <i className='pi pi-ellipsis-h scale-75'></i> Report</Link> */}
                         </ul>
                     </div>
                 </div>

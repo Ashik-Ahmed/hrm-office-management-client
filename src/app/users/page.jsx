@@ -8,6 +8,8 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { useForm } from 'react-hook-form';
+import Image from 'next/image';
+import user from '../../../public/images/user.png'
 
 
 const Users = () => {
@@ -77,6 +79,10 @@ const Users = () => {
                             .then(data => {
                                 if (data.status == 'Success') {
                                     console.log(data);
+                                    reset();
+                                    setRole(null);
+                                    fetchAllUsers()
+                                    setAddUserDialog(false)
                                 }
                                 else {
                                     console.log(data);
@@ -93,8 +99,13 @@ const Users = () => {
 
     const fullNameBodyTemplate = (rowData) => {
         return (
-            <div>
-                <span>{rowData.firstName} {rowData.lastName}</span>
+            <div className="flex items-center gap-2">
+                <div>
+                    <Image src={rowData.photo || user} height={30} width={30} priority alt='user photo' />
+                </div>
+                <div>
+                    <span>{rowData.firstName} {rowData.lastName}</span>
+                </div>
             </div>
         )
     }
@@ -112,9 +123,10 @@ const Users = () => {
                     </span>
                 </div>
                 <DataTable value={users} loading={loading} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
+                    {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                     <Column body={fullNameBodyTemplate} header="Name" ></Column>
                     <Column field="email" header="Email" ></Column>
-                    <Column field="role" header="Role" ></Column>
+                    <Column field="userRole" header="Role" ></Column>
                 </DataTable>
             </div>
 
