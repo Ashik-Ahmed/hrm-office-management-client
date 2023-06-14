@@ -10,6 +10,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import user from '../../../public/images/user.png'
+import { FiEdit } from 'react-icons/fi'
+import { RiDeleteBinLine } from 'react-icons/ri'
 
 
 const Users = () => {
@@ -17,13 +19,15 @@ const Users = () => {
     const [users, setUsers] = useState(null)
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
+    const [editUserDialog, setEditUserDialog] = useState(false)
+    const [deleteUserDialog, setDeleteUserDialog] = useState(false)
     const [role, setRole] = useState()
     const [image, setImage] = useState()
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const [data, setData] = useState("");
 
-    const userRole = ["Super Admin", "Admin", "Employee"]
+    const userRole = ['Super Admin', 'Admin', 'HR Admin', 'Accounts', 'Employee']
 
 
     const fetchAllUsers = () => {
@@ -97,18 +101,43 @@ const Users = () => {
         }
     }
 
+
+    //delete user
+    const handleDeleteUser = () => {
+        console.log('user delete', deleteUserDialog.firstName);
+    }
+
     const fullNameBodyTemplate = (rowData) => {
         return (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
                 <div>
-                    <Image src={rowData.photo || user} height={30} width={30} priority alt='user photo' />
+                    <Image src={rowData.photo || user} height={40} width={40} priority alt='user photo' />
                 </div>
                 <div>
-                    <span>{rowData.firstName} {rowData.lastName}</span>
+                    <span className='text-lg font-semibold'>{rowData.firstName} {rowData.lastName}</span>
+                    <p className='text-sm'>{rowData.email}</p>
                 </div>
             </div>
         )
     }
+
+    const roleBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <p className={`${rowData.userRole == 'Super Admin' ? 'bg-violet-500' : (rowData.userRole == 'Admin' ? 'bg-sky-500' : 'bg-gray-300')} px-2 rounded-sm text-white text-center w-fit`}>{rowData.userRole}</p>
+            </div >
+        )
+    }
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <div className='flex gap-x-4'>
+                <FiEdit size={18} color='blue' className='cursor-pointer' />
+                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={18} color='red' className='cursor-pointer' />
+            </div>
+        )
+    }
+
 
     return (
         <div className='my-4'>
@@ -125,8 +154,9 @@ const Users = () => {
                 <DataTable value={users} loading={loading} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}>
                     {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                     <Column body={fullNameBodyTemplate} header="Name" ></Column>
-                    <Column field="email" header="Email" ></Column>
-                    <Column field="userRole" header="Role" ></Column>
+                    <Column field="designation" header="Designation" ></Column>
+                    <Column body={roleBodyTemplate} header="Role" ></Column>
+                    <Column body={actionBodyTemplate} header="Action" ></Column>
                 </DataTable>
             </div>
 
@@ -164,20 +194,41 @@ const Users = () => {
                             {errors.mobile?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.mobile.message}</span>}
                         </div>
                     </div>
-                    <div className='mt-2'>
-                        <Dropdown
-                            {...register("userRole", { required: "User role is required" })}
-                            value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
-                        {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("designation", { required: "Designation is required" })}
+                                type='text' placeholder="Designation*" className='w-full' />
+                            {errors.designation?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.designation.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <Dropdown
+                                {...register("userRole", { required: "User role is required" })}
+                                value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type" className="w-full md:w-14rem" />
+                            {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                        </div>
                     </div>
                     <div className='mt-2'>
                         <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" icon="pi pi-check" autoFocus className="p-button-info p-button-sm" />
+                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-info p-button-sm" />
                     </div>
                 </form>
+            </Dialog>
+
+
+            {/* user delete modal */}
+            <Dialog header="Delete Confirmation" visible={deleteUserDialog} onHide={() => setDeleteUserDialog(false)}
+                style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                <p className="m-0">
+                    Do you want to delete this user?
+                </p>
+                <div className='flex justify-center gap-x-2 mt-8'>
+                    <Button onClick={() => setDeleteUserDialog(false)} label='No' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={handleDeleteUser} label='Yes' className='p-button p-button-sm p-button-danger' />
+                </div>
             </Dialog>
         </div>
     );
