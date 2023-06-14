@@ -17,6 +17,7 @@ import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Loading from '../component/Loading/Loading';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 
 
@@ -32,6 +33,24 @@ const Users = () => {
     const [date, setDate] = useState('')
     const [role, setRole] = useState()
     const [image, setImage] = useState()
+
+    const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        firstName: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        lastName: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
+
+    const onGlobalFilterChange = (e) => {
+        const value = e.target.value;
+        let _filters = { ...filters };
+
+        _filters['global'].value = value;
+
+        setFilters(_filters);
+        setGlobalFilterValue(value);
+    };
 
     const toast = useRef(null)
 
@@ -241,10 +260,12 @@ const Users = () => {
                     </div>
                     <span className="p-input-icon-left">
                         <i className="pi pi-search" />
-                        <InputText placeholder="Search" />
+                        <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" />
                     </span>
                 </div>
-                <DataTable value={users} loading={loading} tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
+                <DataTable value={users} loading={loading}
+                    filters={filters} filterDisplay="menu" globalFilterFields={['firstName', 'lastName', 'email']} emptyMessage="No Members found."
+                    tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
                     {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                     <Column body={fullNameBodyTemplate} header="Name" ></Column>
                     <Column field="designation" header="Designation" ></Column>
