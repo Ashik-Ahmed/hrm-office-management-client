@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
@@ -11,8 +11,14 @@ import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import user from '../../../public/images/user.png'
 import { FiEdit } from 'react-icons/fi'
+import { AiFillPlusSquare } from 'react-icons/ai'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { Calendar } from 'primereact/calendar';
+import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import Loading from '../component/Loading/Loading';
+
+
 
 
 
@@ -27,18 +33,19 @@ const Users = () => {
     const [role, setRole] = useState()
     const [image, setImage] = useState()
 
+    const toast = useRef(null)
+
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    const [data, setData] = useState("");
 
     const userRole = ['Super Admin', 'Admin', 'HR Admin', 'Accounts', 'Employee']
 
 
     const fetchAllUsers = () => {
         setLoading(true)
-        fetch('http://localhost:5000/api/v1/user')
+        fetch('http://localhost:5000/api/v1/employee')
             .then(res => res.json())
             .then(data => {
-                setUsers(data.data.users)
+                setUsers(data.data.employees)
                 setLoading(false)
             })
     }
@@ -53,13 +60,13 @@ const Users = () => {
 
     //add user form submission functionality
     const handleAddUser = async (data) => {
-        console.log("Add user");
-        // reset();
-        // setRole(null);
+
+        setLoading(true);
+
+        data.joiningDate = date?.toLocaleDateString("en-GB");
+        console.log(data);
 
         const { photo, ...userData } = data;
-        // console.log(userData);
-        // console.log(photo);
 
         try {
             if (image) {
@@ -77,7 +84,7 @@ const Users = () => {
 
                         if (data.data.url) {
                             userData.photo = data.data.url
-                            fetch('http://localhost:5000/api/v1/user', {
+                            fetch('http://localhost:5000/api/v1/employee', {
                                 method: 'POST',
                                 headers: {
                                     'content-type': 'application/json'
@@ -90,20 +97,32 @@ const Users = () => {
                                         console.log(data);
                                         reset();
                                         setRole(null);
+                                        setDate(null)
                                         setImage(null)
                                         fetchAllUsers()
+                                        setLoading(false)
                                         setAddUserDialog(false)
+                                        toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee profile created', life: 3000 });
                                     }
                                     else {
                                         console.log(data);
+                                        reset();
+                                        setRole(null);
+                                        setDate(null)
+                                        setImage(null)
+                                        fetchAllUsers()
+                                        setLoading(false)
+                                        setAddUserDialog(false)
+                                        toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again.', life: 3000 });
                                     }
                                 })
                         }
                     })
             }
             else {
+                setLoading(true)
                 console.log('inside without image');
-                fetch('http://localhost:5000/api/v1/user', {
+                fetch('http://localhost:5000/api/v1/employee', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -116,11 +135,23 @@ const Users = () => {
                             console.log(data);
                             reset();
                             setRole(null);
+                            setDate(null)
+                            setImage(null)
                             fetchAllUsers()
+                            setLoading(false)
                             setAddUserDialog(false)
+                            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee profile created', life: 3000 });
                         }
                         else {
                             console.log(data);
+                            reset();
+                            setRole(null);
+                            setDate(null)
+                            setImage(null)
+                            fetchAllUsers()
+                            setLoading(false)
+                            setAddUserDialog(false)
+                            toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                         }
                     })
             }
@@ -128,15 +159,25 @@ const Users = () => {
 
         } catch (error) {
             console.error('Error occurred during image upload:', error);
+            reset();
+            setRole(null);
+            setDate(null)
+            setImage(null)
+            fetchAllUsers()
+            setLoading(false)
+            setAddUserDialog(false)
+            toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Photo upload failed', life: 3000 });
         }
     }
 
 
     //delete user
     const handleDeleteUser = () => {
-        console.log('user delete', deleteUserDialog.firstName);
 
-        fetch(`http://localhost:5000/api/v1/user/${deleteUserDialog._id}`, {
+        setLoading(true)
+        // console.log('user delete', deleteUserDialog.firstName);
+
+        fetch(`http://localhost:5000/api/v1/employee/${deleteUserDialog._id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())
@@ -144,7 +185,14 @@ const Users = () => {
                 console.log(data);
                 if (data.data.deletedCount > 0) {
                     fetchAllUsers()
-                    setDeleteUserDialog(false)
+                    setDeleteUserDialog(false);
+                    setLoading(false)
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee deleted.', life: 3000 });
+                }
+                else {
+                    setDeleteUserDialog(false);
+                    setLoading(false);
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
                 }
             })
     }
@@ -153,11 +201,11 @@ const Users = () => {
         return (
             <div className="flex items-center gap-4">
                 <div>
-                    <Image src={rowData.photo || user} height={40} width={40} priority alt='user photo' />
+                    <Image src={rowData.photo || user} height={35} width={35} priority alt='user photo' />
                 </div>
                 <div>
-                    <span className='text-lg font-semibold'>{rowData.firstName} {rowData.lastName}</span>
-                    <p className='text-sm'>{rowData.email}</p>
+                    <span className='text-md font-semibold'>{rowData.firstName} {rowData.lastName}</span>
+                    <p className='text-xs'>{rowData.email}</p>
                 </div>
             </div>
         )
@@ -166,7 +214,7 @@ const Users = () => {
     const roleBodyTemplate = (rowData) => {
         return (
             <div>
-                <p className={`${rowData.userRole == 'Super Admin' ? 'bg-violet-500' : (rowData.userRole == 'Admin' ? 'bg-sky-500' : 'bg-gray-300')} px-2 rounded-sm text-white text-center w-fit`}>{rowData.userRole}</p>
+                <p className={`${rowData.userRole == 'Super Admin' ? 'bg-violet-500' : (rowData.userRole == 'Admin' ? 'bg-sky-500' : (rowData.userRole == 'HR Admin' ? 'bg-blue-500' : (rowData.userRole == 'Accounts' ? 'bg-lime-500' : 'bg-gray-500')))} px-2 rounded-sm text-white text-center w-fit`}>{rowData.userRole}</p>
             </div >
         )
     }
@@ -183,19 +231,20 @@ const Users = () => {
 
     return (
         <div className='my-2'>
-
+            <Toast ref={toast} />
             <div className="card p-2 bg-white rounded-md my-2 shadow-xl">
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center mb-1'>
                     <div className='flex items-center gap-x-2'>
                         <h3 className='font-light'>USER LIST</h3>
-                        <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' />
+                        {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
+                        <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='gray' className='cursor-pointer' />
                     </div>
                     <span className="p-input-icon-left">
                         <i className="pi pi-search" />
                         <InputText placeholder="Search" />
                     </span>
                 </div>
-                <DataTable value={users} loading={loading} tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={users} loading={loading} tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
                     {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                     <Column body={fullNameBodyTemplate} header="Name" ></Column>
                     <Column field="designation" header="Designation" ></Column>
@@ -204,17 +253,24 @@ const Users = () => {
                 </DataTable>
             </div>
 
+            {/* add user dialog  */}
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
+                {
+                    loading &&
+                    <Loading />
+                }
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
                     <div className='mt-2 flex gap-x-4'>
                         <div className="w-full">
                             <InputText
                                 {...register("employeeId", { required: "Employee ID is required" })}
-                                placeholder="Employee ID*" className='w-full' />
+                                keyfilter="int" placeholder="Employee ID*" className='w-full' />
                             {errors.employeeId?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.employeeId.message}</span>}
                         </div>
                         <div className='w-full'>
-                            <Calendar value={date} onChange={(e) => setDate(e.value)} placeholder='Joining Date*' showIcon className='w-full' />
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
+
+                            <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' />
                             {/* {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.joiningDate.message}</span>} */}
                         </div>
                     </div>
@@ -272,8 +328,13 @@ const Users = () => {
 
 
             {/* user delete modal */}
-            <Dialog header="Delete Confirmation" visible={deleteUserDialog} onHide={() => setDeleteUserDialog(false)}
-                style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+            <Dialog header="Delete Confirmation" visible={deleteUserDialog} onHide={() => setDeleteUserDialog(false)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+
+                {
+                    loading &&
+                    <Loading />
+                }
+
                 <p className="m-0">
                     Do you want to delete this user?
                 </p>

@@ -22,7 +22,6 @@ const Sidebar = () => {
     const currentPath = usePathname();
 
     const menus = [
-        { name: 'Users', link: '/users' },
         { name: 'Department', link: '/department' },
         { name: 'Employee', link: '/employee' },
         { name: 'Activities', link: '/activities' },

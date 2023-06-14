@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <NextAuthSessionProvider>
           <div className='flex'>
             <Sidebar />
-            <div className='px-8 bg-gray-100 flex-grow overflow-y-auto'>
+            <div className='px-4 bg-gray-100 flex-grow overflow-y-auto'>
               {children}
             </div>
           </div>

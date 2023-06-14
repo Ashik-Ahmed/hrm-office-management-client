@@ -14,7 +14,7 @@ export const authOptions = {
                 const { email, password } = credentials;
 
                 try {
-                    const res = await fetch('http://localhost:5000/api/v1/user/login', {
+                    const res = await fetch('http://localhost:5000/api/v1/employee/login', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'
@@ -27,12 +27,12 @@ export const authOptions = {
 
                     // const user = Promise.resolve(res.json())
 
-                    const user = await res.json()
+                    const employee = await res.json()
 
-                    console.log(user);
-                    if (user) {
-                        console.log('userdata: ', user);
-                        return user.data.user
+                    console.log(employee);
+                    if (employee) {
+                        console.log('userdata: ', employee);
+                        return employee.data.employee
                     }
                     else {
                         return null
