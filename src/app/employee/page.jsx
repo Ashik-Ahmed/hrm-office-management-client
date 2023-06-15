@@ -9,15 +9,12 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
-import user from '../../../public/images/user.png'
-import { FiEdit } from 'react-icons/fi'
-import { AiFillPlusSquare } from 'react-icons/ai'
-import { RiDeleteBinLine } from 'react-icons/ri'
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import Loading from '../component/Loading/Loading';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import EmployeeTable from '../component/EmployeeTable/EmployeeTable';
 
 
 
@@ -34,23 +31,6 @@ const Users = () => {
     const [role, setRole] = useState()
     const [image, setImage] = useState()
 
-    const [globalFilterValue, setGlobalFilterValue] = useState('');
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        firstName: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        lastName: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        email: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    });
-
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        let _filters = { ...filters };
-
-        _filters['global'].value = value;
-
-        setFilters(_filters);
-        setGlobalFilterValue(value);
-    };
 
     const toast = useRef(null)
 
@@ -216,63 +196,11 @@ const Users = () => {
             })
     }
 
-    const fullNameBodyTemplate = (rowData) => {
-        return (
-            <div className="flex items-center gap-4">
-                <div>
-                    <Image src={rowData.photo || user} height={35} width={35} priority alt='user photo' />
-                </div>
-                <div>
-                    <span className='text-md font-semibold'>{rowData.firstName} {rowData.lastName}</span>
-                    <p className='text-xs'>{rowData.email}</p>
-                </div>
-            </div>
-        )
-    }
-
-    const roleBodyTemplate = (rowData) => {
-        return (
-            <div>
-                <p className={`${rowData.userRole == 'Super Admin' ? 'bg-violet-500' : (rowData.userRole == 'Admin' ? 'bg-sky-500' : (rowData.userRole == 'HR Admin' ? 'bg-blue-500' : (rowData.userRole == 'Accounts' ? 'bg-lime-500' : 'bg-gray-500')))} px-2 rounded-sm text-white text-center w-fit`}>{rowData.userRole}</p>
-            </div >
-        )
-    }
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className='flex gap-x-4'>
-                <FiEdit size={18} color='blue' className='cursor-pointer' />
-                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={18} color='red' className='cursor-pointer' />
-            </div>
-        )
-    }
-
-
     return (
         <div className='my-2'>
             <Toast ref={toast} />
-            <div className="card p-2 bg-white rounded-md my-2 shadow-xl">
-                <div className='flex justify-between items-center mb-1'>
-                    <div className='flex items-center gap-x-2'>
-                        <h3 className='font-light'>USER LIST</h3>
-                        {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
-                        <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='gray' className='cursor-pointer' />
-                    </div>
-                    <span className="p-input-icon-left">
-                        <i className="pi pi-search" />
-                        <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" />
-                    </span>
-                </div>
-                <DataTable value={users} loading={loading}
-                    filters={filters} filterDisplay="menu" globalFilterFields={['firstName', 'lastName', 'email']} emptyMessage="No Members found."
-                    tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
-                    {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
-                    <Column body={fullNameBodyTemplate} header="Name" ></Column>
-                    <Column field="designation" header="Designation" ></Column>
-                    <Column body={roleBodyTemplate} header="Role" ></Column>
-                    <Column body={actionBodyTemplate} header="Action" ></Column>
-                </DataTable>
-            </div>
+
+            <EmployeeTable users={users} setDeleteUserDialog={setDeleteUserDialog} setAddUserDialog={setAddUserDialog} />
 
             {/* add user dialog  */}
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>

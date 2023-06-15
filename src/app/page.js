@@ -19,6 +19,8 @@ export default function Home() {
     return <></>
   }
 
+  console.log(session);
+
   return (
     <div className="my-6 text-gray-700">
       <div className="">
