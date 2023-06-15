@@ -10,10 +10,14 @@ import user from '../../../../public/images/user.png'
 import { useState } from 'react';
 import { FilterMatchMode } from 'primereact/api';
 import { MdRemoveRedEye } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 
 const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUserDialog }) => {
 
     const [loading, setLoading] = useState(false)
+
+
+    const router = useRouter()
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
@@ -59,7 +63,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-4'>
-                <MdRemoveRedEye onClick={() => setViewUserDialog(rowData)} size={18} color='gray' className='cursor-pointer' />
+                <MdRemoveRedEye onClick={() => router.push(`/employee/${rowData._id}`)} size={18} color='gray' className='cursor-pointer' />
                 <FiEdit size={18} color='blue' className='cursor-pointer' />
                 <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={18} color='red' className='cursor-pointer' />
             </div>

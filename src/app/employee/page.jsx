@@ -8,12 +8,9 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { useForm } from 'react-hook-form';
-import Image from 'next/image';
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import Loading from '../component/Loading/Loading';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import EmployeeTable from '../component/EmployeeTable/EmployeeTable';
 
 
@@ -277,41 +274,6 @@ const Users = () => {
                 </form>
             </Dialog>
 
-
-            {/* View User Dialog  */}
-            <Dialog visible={viewUserDialog} onHide={() => setViewUserDialog(false)} style={{ width: '80vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-
-                <div className="flex gap-x-2 w-full">
-                    <div className='flex items-start gap-x-4 w-3/5 mr-8'>
-                        <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
-                            <Image src={viewUserDialog.photo} width={150} height={150} alt='user photo' className='rounded-md shadow-xl border' />
-                        </div>
-                        <div className='flex flex-col gap-8'>
-                            <div>
-                                <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
-                                <p>{viewUserDialog.designation}</p>
-                            </div>
-                            <div>
-                                <h5 className='font-semibold'>About</h5>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos a delectus quos vero accusamus consequatur suscipit laudantium consectetur totam adipisci!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='w-2/5 flex flex-col justify-between'>
-
-                        <div>
-                            <h5>Highter Education</h5>
-                            <p className='font-semibold'>Master in Science</p>
-                        </div>
-                        <div>
-                            <h5>Salary Range</h5>
-                            <p className='font-semibold'>$120,000 - 140,000</p>
-                        </div>
-
-                    </div>
-                </div>
-
-            </Dialog>
 
 
             {/* user delete modal */}
