@@ -9,8 +9,9 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import user from '../../../../public/images/user.png'
 import { useState } from 'react';
 import { FilterMatchMode } from 'primereact/api';
+import { MdRemoveRedEye } from 'react-icons/md';
 
-const EmployeeTable = ({ users, setDeleteUserDialog, setAddUserDialog }) => {
+const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUserDialog }) => {
 
     const [loading, setLoading] = useState(false)
 
@@ -58,6 +59,7 @@ const EmployeeTable = ({ users, setDeleteUserDialog, setAddUserDialog }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-4'>
+                <MdRemoveRedEye onClick={() => setViewUserDialog(rowData)} size={18} color='gray' className='cursor-pointer' />
                 <FiEdit size={18} color='blue' className='cursor-pointer' />
                 <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={18} color='red' className='cursor-pointer' />
             </div>

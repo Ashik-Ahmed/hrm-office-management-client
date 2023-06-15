@@ -25,6 +25,7 @@ const Users = () => {
     const [users, setUsers] = useState(null)
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
+    const [viewUserDialog, setViewUserDialog] = useState(false)
     const [editUserDialog, setEditUserDialog] = useState(false)
     const [deleteUserDialog, setDeleteUserDialog] = useState(false)
     const [date, setDate] = useState('')
@@ -200,7 +201,8 @@ const Users = () => {
         <div className='my-2'>
             <Toast ref={toast} />
 
-            <EmployeeTable users={users} setDeleteUserDialog={setDeleteUserDialog} setAddUserDialog={setAddUserDialog} />
+            {/* Employee Data Table  */}
+            <EmployeeTable users={users} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
@@ -273,6 +275,42 @@ const Users = () => {
                         <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-info p-button-sm" />
                     </div>
                 </form>
+            </Dialog>
+
+
+            {/* View User Dialog  */}
+            <Dialog visible={viewUserDialog} onHide={() => setViewUserDialog(false)} style={{ width: '80vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+
+                <div className="flex gap-x-2 w-full">
+                    <div className='flex items-start gap-x-4 w-3/5 mr-8'>
+                        <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
+                            <Image src={viewUserDialog.photo} width={150} height={150} alt='user photo' className='rounded-md shadow-xl border' />
+                        </div>
+                        <div className='flex flex-col gap-8'>
+                            <div>
+                                <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
+                                <p>{viewUserDialog.designation}</p>
+                            </div>
+                            <div>
+                                <h5 className='font-semibold'>About</h5>
+                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos a delectus quos vero accusamus consequatur suscipit laudantium consectetur totam adipisci!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='w-2/5 flex flex-col justify-between'>
+
+                        <div>
+                            <h5>Highter Education</h5>
+                            <p className='font-semibold'>Master in Science</p>
+                        </div>
+                        <div>
+                            <h5>Salary Range</h5>
+                            <p className='font-semibold'>$120,000 - 140,000</p>
+                        </div>
+
+                    </div>
+                </div>
+
             </Dialog>
 
 
