@@ -1,10 +1,21 @@
 'use client'
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import user from '../../../../public/images/user.png'
+import { useSession } from 'next-auth/react';
 
 const UserDetails = ({ params: { id } }) => {
+
+    const { data: session, status } = useSession()
+
+    console.log(session);
+
+    // const [user, setUser] = useState(null);
+
+    // useEffect(() => {
+
+    // }, [])
 
 
     return (
