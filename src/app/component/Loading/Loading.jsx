@@ -12,7 +12,7 @@ const Loading = () => {
         //     <div class="shadow"></div>
         //     <div class="shadow"></div>
         // </div>
-        <div className='absolute top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-gray-400 bg-opacity-70'>
+        <div className='relative top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-gray-400 bg-opacity-70'>
             <ProgressSpinner />
         </div>
     );
