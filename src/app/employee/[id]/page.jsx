@@ -7,9 +7,6 @@ import Loading from '@/app/component/Loading/Loading';
 
 const UserDetails = async ({ params: { id } }) => {
 
-    // const { data: user, status } = useSession()
-    // const { user } = await getServerSession(authOptions)
-
     const [user, setUser] = useState()
 
     useEffect(() => {
