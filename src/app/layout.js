@@ -7,7 +7,6 @@ import "primereact/resources/primereact.min.css";
 import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "./providers/sessionProvider";
 import Sidebar from "./component/Sidebar/Sidebar";
-import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +17,6 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 
-  const [sessionUser, setSessionUser] = useState('')
 
   return (
     <html lang="en">
