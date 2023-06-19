@@ -26,7 +26,11 @@ const Sidebar = () => {
     const menus = [
         { name: 'Department', link: '/department' },
         { name: 'Employee', link: '/employee' },
-        { name: 'Activities', link: '/activities' },
+        { name: 'Leave', link: '/leave' },
+        { name: 'Manage Leave', link: '/manage-leave' },
+        { name: 'Conveyance', link: '/conveyance' },
+        { name: 'Manage Conveyance', link: '/manage-conveyance' },
+        { name: 'Requisition', link: '/rquisition' },
         { name: 'Holidays', link: '/holidays' },
         { name: 'Events', link: '/events' },
         { name: 'Payroll', link: '/payroll' },
@@ -80,7 +84,7 @@ const Sidebar = () => {
                     </ul>
                 </div>
 
-                <div className='w-full'>
+                <div className='w-full h-[95vh] overflow-y-scroll scrollbar-none'>
                     <h2 className='text-2xl'>Infozillion</h2>
                     <div className='mt-8 text-sm'>
                         <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
