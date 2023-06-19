@@ -19,7 +19,7 @@ import EmployeeTable from '../component/EmployeeTable/EmployeeTable';
 
 const Users = () => {
 
-    const [users, setUsers] = useState(null)
+    const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
     const [viewUserDialog, setViewUserDialog] = useState(false)
@@ -42,7 +42,7 @@ const Users = () => {
         fetch('http://localhost:5000/api/v1/employee')
             .then(res => res.json())
             .then(data => {
-                setUsers(data.data.employees)
+                setEmployees(data.data.employees)
                 setLoading(false)
             })
     }
@@ -50,6 +50,10 @@ const Users = () => {
     useEffect(() => {
         fetchAllUsers()
     }, [])
+
+    if (!employees) {
+        return <Loading />
+    }
 
     const handlePhotoChange = (event) => {
         setImage(event.target.files[0]);
@@ -199,7 +203,7 @@ const Users = () => {
             <Toast ref={toast} />
 
             {/* Employee Data Table  */}
-            <EmployeeTable users={users} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
+            <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
             <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
