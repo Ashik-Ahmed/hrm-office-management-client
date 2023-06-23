@@ -18,7 +18,7 @@ const Leave = () => {
         <div>
             <h2>Leave History</h2>
 
-            <div className='w-1/2'>
+            <div className='w-1/2 shadow-xl'>
                 <DataTable value={leaves} size='small' tableStyle={{ minWidth: '50rem' }}>
                     <Column field="leave" header="Leave"></Column>
                     <Column field="taken" header="Taken"></Column>
