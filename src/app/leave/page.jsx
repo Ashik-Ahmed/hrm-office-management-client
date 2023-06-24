@@ -14,6 +14,14 @@ const Leave = () => {
         { id: "5", leave: "Maternity", taken: 3, available: 5 },
     ]
 
+    const leaveHistory = [
+        { id: "1", applied: "21-04-2023", total: "3" },
+        { id: "2", applied: "21-04-2023", total: "3" },
+        { id: "3", applied: "21-04-2023", total: "3" },
+        { id: "4", applied: "21-04-2023", total: "3" },
+        { id: "5", applied: "21-04-2023", total: "3" }
+    ]
+
     return (
         <div>
             <h2>Leave History</h2>
