@@ -33,6 +33,13 @@ const Leave = () => {
                     <Column field="available" header="Available"></Column>
                 </DataTable>
             </div>
+            <div className='w-1/2 shadow-xl'>
+                <DataTable value={leaves} size='small' tableStyle={{ minWidth: '50rem' }}>
+                    <Column field="leave" header="Leave"></Column>
+                    <Column field="taken" header="Taken"></Column>
+                    <Column field="available" header="Available"></Column>
+                </DataTable>
+            </div>
         </div>
     );
 };
