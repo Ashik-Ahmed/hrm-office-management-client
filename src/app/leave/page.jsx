@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const Leave = () => {
 
@@ -16,6 +17,9 @@ const Leave = () => {
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
     const [rejoinDate, setRejoinDate] = useState(null)
+
+
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const leaves = [
         { id: "1", leave: "Casual", total: 10, taken: 3, balance: 5 },
@@ -55,6 +59,10 @@ const Leave = () => {
         )
     }
 
+    const leaveApplication = () => {
+        console.log('application form');
+    }
+
     return (
         <div className='py-2'>
             <div className='w-1/2 shadow-xl'>
@@ -68,16 +76,21 @@ const Leave = () => {
 
             <div className='mt-4 shadow-xl'>
                 <Button onClick={() => setLeaveFormDialog(true)} label='Apply for Leave' className='p-button-sm' />
-                <Dialog header="Header" visible={leaveFormDialog} onHide={() => setLeaveFormDialog(false)}
+                <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => setLeaveFormDialog(false)}
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
-                        <form className='flex flex-col gap-2'>
+                        <form onSubmit={handleSubmit(leaveApplication)} className='flex flex-col gap-2'>
                             <Dropdown value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
                             <div className="flex gap-x-4">
-                                <span className="p-float-label min-w-1/3">
-                                    <Calendar inputId="from_date" value={fromDate} onChange={(e) => setFromDate(e.value)} />
-                                    <label htmlFor="from_date">From</label>
-                                </span>
+                                <div>
+                                    <span className="p-float-label min-w-1/3">
+                                        <Calendar
+                                            {...register("from_date", { required: "From date is required" })}
+                                            inputId="from_date" value={fromDate} onChange={(e) => setFromDate(e.value)} />
+                                        <label htmlFor="from_date">From</label>
+                                    </span>
+                                    {errors.from_date?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.from_date.message}</span>}
+                                </div>
                                 <span className="p-float-label min-w-1/3">
                                     <Calendar inputId="to_date" value={toDate} onChange={(e) => setToDate(e.value)} />
                                     <label htmlFor="to_date">To</label>
@@ -96,7 +109,7 @@ const Leave = () => {
                                 <label htmlFor="purpose">Purpose of Leave</label>
                             </span>
 
-                            <Button label='Submit' />
+                            <Button label='Submit' type='submit' />
                         </form>
                     </div>
                 </Dialog>
