@@ -59,8 +59,11 @@ const Leave = () => {
         )
     }
 
-    const leaveApplication = () => {
-        console.log('application form');
+    const leaveApplication = (data) => {
+        data.fromDate = fromDate.toLocaleDateString('en-GB')
+        data.toDate = toDate.toLocaleDateString('en-GB')
+        data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
+        console.log(data);
     }
 
     return (
@@ -80,34 +83,46 @@ const Leave = () => {
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
                         <form onSubmit={handleSubmit(leaveApplication)} className='flex flex-col gap-2'>
-                            <Dropdown value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
+                            <div>
+                                <Dropdown
+                                    {...register('leave_type', { required: "Leave type is required" })}
+                                    value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
+                                {errors.leave_type?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leave_type.message}</span>}
+                            </div>
                             <div className="flex gap-x-4">
                                 <div>
-                                    <span className="p-float-label min-w-1/3">
-                                        <Calendar
-                                            {...register("from_date", { required: "From date is required" })}
-                                            inputId="from_date" value={fromDate} onChange={(e) => setFromDate(e.value)} />
-                                        <label htmlFor="from_date">From</label>
-                                    </span>
-                                    {errors.from_date?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.from_date.message}</span>}
+                                    <Calendar
+                                        {...register("fromDate", { required: "From date is required" })}
+                                        value={fromDate} onSelect={(e) => {
+                                            // Manually trigger a change event
+                                            setFromDate(e.value);
+                                        }} showIcon placeholder='From date' />
+                                    {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
                                 </div>
-                                <span className="p-float-label min-w-1/3">
-                                    <Calendar inputId="to_date" value={toDate} onChange={(e) => setToDate(e.value)} />
-                                    <label htmlFor="to_date">To</label>
-                                </span>
-                                <span className="p-float-label min-w-1/3">
-                                    <InputText id="total_day" />
-                                    <label htmlFor="total_day">Total day</label>
-                                </span>
+                                <div>
+                                    <Calendar
+                                        {...register("toDate", { required: "To date is required" })}
+                                        value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date' />
+                                    {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
+                                </div>
+                                <div>
+                                    <InputText
+                                        {...register("total_day", { required: "From date is required" })}
+                                        id="total_day" placeholder='Total day' />
+                                    {errors.total_day?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.total_day.message}</span>}
+                                </div>
                             </div>
-                            <span className="p-float-label">
-                                <Calendar inputId="to_date" value={rejoinDate} onChange={(e) => setRejoinDate(e.value)} className='w-full' />
-                                <label htmlFor="to_date">Re-joining date</label>
-                            </span>
-                            <span className="p-float-label min-w-1/3">
-                                <InputText id="purpose" className='w-full' />
-                                <label htmlFor="purpose">Purpose of Leave</label>
-                            </span>
+
+                            <div>
+                                <Calendar
+                                    {...register("rejoinDate", { required: "Re-joining date is required" })}
+                                    inputId="rejoin_date" value={rejoinDate} onSelect={(e) => setRejoinDate(e.value)} showIcon placeholder='Re-joining date' className='w-full' />
+                                {errors.rejoinDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejoinDate.message}</span>}
+                            </div>
+
+                            <InputText
+                                {...register("purpose")}
+                                id="purpose" placeholder='Purpose of leave' className='w-full' />
 
                             <Button label='Submit' type='submit' />
                         </form>
