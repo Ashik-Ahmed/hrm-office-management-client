@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Loading from '../component/Loading/Loading';
@@ -32,7 +32,7 @@ const Users = () => {
 
     const toast = useRef(null)
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const userRole = ['Super Admin', 'Admin', 'HR Admin', 'Accounts', 'Employee']
 
@@ -206,7 +206,7 @@ const Users = () => {
             <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
-            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
+            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
                 {
                     loading &&
                     <Loading />
@@ -222,8 +222,21 @@ const Users = () => {
                         <div className='w-full'>
                             {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
 
-                            <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' />
-                            {/* {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.joiningDate.message}</span>} */}
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
+                            <Controller
+                                name="joiningDate"
+                                control={control}
+                                rules={{ required: "Joining date is required" }}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={date}
+                                        onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
+                                        placeholder='Joining date'
+                                        className='w-full'
+                                    />
+                                )}
+                            />
+                            {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500 block' role="alert">{errors.joiningDate.message}</span>}
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>

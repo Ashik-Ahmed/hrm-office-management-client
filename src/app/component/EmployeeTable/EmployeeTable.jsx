@@ -73,7 +73,6 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
 
 
     return (
-
         <div className="card p-2 bg-white rounded-md my-2 shadow-xl">
             <div className='flex justify-between items-center mb-1'>
                 <div className='flex items-center gap-x-2'>

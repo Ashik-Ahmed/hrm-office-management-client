@@ -9,6 +9,7 @@ import { TbReport } from 'react-icons/tb'
 import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
+import Link from "next/link";
 
 export default function Home() {
   const { data: session, status } = useSession({
@@ -28,10 +29,12 @@ export default function Home() {
       </div>
       <div className="flex gap-4 w-full my-8">
         <div className="bg-white p-[20px] rounded-xl shadow-xl w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
-            <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Users</p>
-          </div>
+          <Link href='/employee'>
+            <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">
+              <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
+              <p>Employees</p>
+            </div>
+          </Link>
         </div>
         <div className="bg-white p-[20px] rounded-xl  shadow-xl w-full flex justify-center items-center">
           <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">

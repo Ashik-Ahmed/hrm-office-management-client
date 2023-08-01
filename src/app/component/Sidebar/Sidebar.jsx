@@ -30,7 +30,7 @@ const Sidebar = () => {
         { name: 'Manage Leave', link: '/manage-leave' },
         { name: 'Conveyance', link: '/conveyance' },
         { name: 'Manage Conveyance', link: '/manage-conveyance' },
-        { name: 'Requisition', link: '/rquisition' },
+        { name: 'Requisition', link: '/requisition' },
         { name: 'Holidays', link: '/holidays' },
         { name: 'Events', link: '/events' },
         { name: 'Payroll', link: '/payroll' },
