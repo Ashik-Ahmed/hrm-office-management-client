@@ -206,7 +206,7 @@ const Users = () => {
             <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
-            <Dialog header="Add User" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
+            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => setAddUserDialog(false)}>
                 {
                     loading &&
                     <Loading />
@@ -273,7 +273,7 @@ const Users = () => {
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-info p-button-sm" />
+                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-sm" />
                     </div>
                 </form>
             </Dialog>

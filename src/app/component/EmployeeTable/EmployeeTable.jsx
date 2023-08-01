@@ -79,11 +79,11 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
                 <div className='flex items-center gap-x-2'>
                     <h3 className='font-light'>EMPLOYEE LIST</h3>
                     {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
-                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='gray' className='cursor-pointer' />
+                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
-                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" />
+                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='p-inputtext-sm' />
                 </span>
             </div>
             <DataTable value={users} loading={loading}

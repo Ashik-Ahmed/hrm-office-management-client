@@ -65,7 +65,6 @@ const Leave = () => {
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
         console.log(data);
     }
-
     return (
         <div className='py-2'>
             <div className='w-1/2 shadow-xl'>
