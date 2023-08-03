@@ -46,7 +46,7 @@ const Leave = () => {
     const leaveHistoryTableHeader = () => {
         return (
             <div>
-                <p>Leave History</p>
+                <p>Leave Status</p>
             </div>
         )
     }
@@ -106,9 +106,9 @@ const Leave = () => {
                                 </div>
                                 <div>
                                     <InputText
-                                        {...register("total_day", { required: "From date is required" })}
-                                        id="total_day" placeholder='Total day' />
-                                    {errors.total_day?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.total_day.message}</span>}
+                                        {...register("totalDay", { required: "From date is required" })}
+                                        id="totalDay" placeholder='Total day' />
+                                    {errors.totalDay?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.totalDay.message}</span>}
                                 </div>
                             </div>
 

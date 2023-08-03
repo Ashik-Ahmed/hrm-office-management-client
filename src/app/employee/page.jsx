@@ -34,7 +34,7 @@ const Users = () => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const userRole = ['Super Admin', 'Admin', 'HR Admin', 'Accounts', 'Employee']
+    const departemnt = ['Management', 'Regulatory Affairs', 'System Engineer (MNP)', 'Tech Support (MNP)', 'NOC (A2P)', 'System Support (A2P)', 'Human Resource', 'Accounts', 'Office Assistant']
 
 
     const fetchAllUsers = () => {
@@ -207,10 +207,7 @@ const Users = () => {
 
             {/* add user dialog  */}
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
-                {
-                    loading &&
-                    <Loading />
-                }
+
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
                     <div className='mt-2 flex gap-x-4'>
                         <div className="w-full">
@@ -231,7 +228,7 @@ const Users = () => {
                                     <Calendar
                                         value={date}
                                         onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
-                                        placeholder='Joining date'
+                                        placeholder='Joining date*'
                                         className='w-full'
                                     />
                                 )}
@@ -276,9 +273,9 @@ const Users = () => {
                         </div>
                         <div className='w-full'>
                             <Dropdown
-                                {...register("userRole", { required: "User role is required" })}
-                                value={role} onChange={(e) => setRole(e.value)} options={userRole} placeholder="Select Role Type*" className="w-full placeholder-opacity-20" />
-                            {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                                {...register("departemnt", { required: "Department is required" })}
+                                value={role} onChange={(e) => setRole(e.value)} options={departemnt} placeholder="Select Department*" className="w-full placeholder-opacity-20" />
+                            {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
                         </div>
                     </div>
                     <div className='mt-2'>
@@ -286,7 +283,7 @@ const Users = () => {
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-sm" />
+                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>

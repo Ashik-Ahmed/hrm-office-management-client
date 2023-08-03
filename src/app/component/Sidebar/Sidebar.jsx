@@ -31,6 +31,7 @@ const Sidebar = () => {
         { name: 'Conveyance', link: '/conveyance' },
         { name: 'Manage Conveyance', link: '/manage-conveyance' },
         { name: 'Requisition', link: '/requisition' },
+        { name: 'File Management', link: '/file-management' },
         { name: 'Holidays', link: '/holidays' },
         { name: 'Events', link: '/events' },
         { name: 'Payroll', link: '/payroll' },
