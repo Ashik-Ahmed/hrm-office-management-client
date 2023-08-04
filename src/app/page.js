@@ -10,6 +10,7 @@ import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
+import Loading from "./component/Loading/Loading";
 
 export default function Home() {
   const { data: session, status } = useSession({
@@ -17,7 +18,7 @@ export default function Home() {
   });
 
   if (status === "loading") {
-    return <></>
+    return <Loading />
   }
 
 

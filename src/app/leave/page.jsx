@@ -64,7 +64,29 @@ const Leave = () => {
         data.toDate = toDate.toLocaleDateString('en-GB')
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
         console.log(data);
+
+        fetch('http://localhost:5000/api/v1/leaveApplication', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json)
+            .then(data => {
+                console.log(data);
+            })
     }
+
+
+    const resetForm = () => {
+        setSelectedLeave(null);
+        setFromDate(null);
+        setToDate(null);
+        setRejoinDate(null);
+        reset()
+    }
+
     return (
         <div className='py-2'>
             <div className='w-1/2 shadow-xl'>
@@ -78,7 +100,7 @@ const Leave = () => {
 
             <div className='mt-4 shadow-xl'>
                 <Button onClick={() => setLeaveFormDialog(true)} label='Apply for Leave' className='p-button-sm' />
-                <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => setLeaveFormDialog(false)}
+                <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => { setLeaveFormDialog(false); resetForm() }}
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
                         <form onSubmit={handleSubmit(leaveApplication)} className='flex flex-col gap-2'>

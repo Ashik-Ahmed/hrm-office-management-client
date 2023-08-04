@@ -42,7 +42,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
         return (
             <div className="flex items-center gap-4">
                 <div>
-                    <Image src={rowData.photo || user} height={35} width={35} priority alt='user photo' />
+                    <Image src={rowData.photo || user} height={35} width={35} priority alt='user photo' className='rounded-full' />
                 </div>
                 <div>
                     <span className='text-md font-semibold'>{rowData.firstName} {rowData.lastName}</span>
