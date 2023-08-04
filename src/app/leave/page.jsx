@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 
 const Leave = () => {
 
+    const [loading, setLoading] = useState()
     const [leaveFormDialog, setLeaveFormDialog] = useState(false)
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [fromDate, setFromDate] = useState(null)
@@ -60,6 +61,7 @@ const Leave = () => {
     }
 
     const leaveApplication = (data) => {
+        setLoading(true);
         data.fromDate = fromDate.toLocaleDateString('en-GB')
         data.toDate = toDate.toLocaleDateString('en-GB')
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
@@ -75,11 +77,13 @@ const Leave = () => {
             .then(res => res.json)
             .then(data => {
                 console.log(data);
+                setLoading(false)
             })
     }
 
 
     const resetForm = () => {
+        setLoading(false)
         setSelectedLeave(null);
         setFromDate(null);
         setToDate(null);
@@ -145,7 +149,7 @@ const Leave = () => {
                                 {...register("purpose")}
                                 id="purpose" placeholder='Purpose of leave' className='w-full' />
 
-                            <Button label='Submit' type='submit' />
+                            <Button label='Submit' type='submit' loading={loading} />
                         </form>
                     </div>
                 </Dialog>
