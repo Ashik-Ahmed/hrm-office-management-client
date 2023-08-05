@@ -12,6 +12,7 @@ import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../component/Loading/Loading';
 import { Toast } from 'primereact/toast';
+import getAllLeaveApplications from '@/libs/leaves';
 
 const Leave = () => {
 
@@ -29,6 +30,8 @@ const Leave = () => {
 
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
+
+    const leaveHistory = getAllLeaveApplications(session?.user?._id)
 
     const leaves = [
         { id: "1", leave: "Casual", total: 10, taken: 3, balance: 5 },
