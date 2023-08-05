@@ -1,5 +1,6 @@
 'use client'
 
+import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -7,11 +8,18 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Loading from '../component/Loading/Loading';
+import { Toast } from 'primereact/toast';
 
 const Leave = () => {
 
+    const { data: session, status } = useSession({
+        required: true,
+    });
+
+    const toast = useRef()
     const [loading, setLoading] = useState()
     const [leaveFormDialog, setLeaveFormDialog] = useState(false)
     const [selectedLeave, setSelectedLeave] = useState(null);
@@ -62,6 +70,7 @@ const Leave = () => {
 
     const leaveApplication = (data) => {
         setLoading(true);
+        data.employeeId = session.user._id;
         data.fromDate = fromDate.toLocaleDateString('en-GB')
         data.toDate = toDate.toLocaleDateString('en-GB')
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
@@ -74,16 +83,23 @@ const Leave = () => {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json)
+            .then(res => res.json())
             .then(data => {
                 console.log(data);
-                setLoading(false)
+                if (data.status == "Success") {
+                    resetForm()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Application Successful', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
             })
     }
 
 
     const resetForm = () => {
         setLoading(false)
+        setLeaveFormDialog(false);
         setSelectedLeave(null);
         setFromDate(null);
         setToDate(null);
@@ -91,8 +107,14 @@ const Leave = () => {
         reset()
     }
 
+
+    if (!session) {
+        return <Loading />
+    }
+
     return (
         <div className='py-2'>
+            <Toast ref={toast} />
             <div className='w-1/2 shadow-xl'>
                 <DataTable value={leaves} header={leaveHistoryTableHeader} size='small'>
                     <Column field="leave" header="Leave Type"></Column>
@@ -104,13 +126,13 @@ const Leave = () => {
 
             <div className='mt-4 shadow-xl'>
                 <Button onClick={() => setLeaveFormDialog(true)} label='Apply for Leave' className='p-button-sm' />
-                <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => { setLeaveFormDialog(false); resetForm() }}
+                <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => { resetForm() }}
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
                         <form onSubmit={handleSubmit(leaveApplication)} className='flex flex-col gap-2'>
                             <div>
                                 <Dropdown
-                                    {...register('leave_type', { required: "Leave type is required" })}
+                                    {...register('leaveType', { required: "Leave type is required" })}
                                     value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
                                 {errors.leave_type?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leave_type.message}</span>}
                             </div>
