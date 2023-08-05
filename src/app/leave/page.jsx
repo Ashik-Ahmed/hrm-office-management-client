@@ -8,7 +8,7 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../component/Loading/Loading';
 import { Toast } from 'primereact/toast';
@@ -22,6 +22,7 @@ const Leave = () => {
 
     const toast = useRef()
     const [loading, setLoading] = useState()
+    const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null);
     const [leaveFormDialog, setLeaveFormDialog] = useState(false)
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [fromDate, setFromDate] = useState(null)
@@ -31,7 +32,16 @@ const Leave = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const leaveHistory = getAllLeaveApplications(session?.user?._id)
+    useEffect(() => {
+        // const leaveData = getAllLeaveApplications(session?.user?._id);
+
+        fetch(`http://localhost:5000/api/v1/leaveApplication/${session?.user._id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setLeaveApplicationHistory(data.data)
+            })
+    }, [session])
 
     const leaves = [
         { id: "1", leave: "Casual", total: 10, taken: 3, balance: 5 },
@@ -179,11 +189,13 @@ const Leave = () => {
                     </div>
                 </Dialog>
                 <div className='mt-1'>
-                    <DataTable value={applicationHistory} header={leaveApplicationTableHeader} size='small'>
+                    <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} size='small'>
                         <Column field="leaveType" header="Leave Type"></Column>
-                        <Column field="applied" header="Application Date"></Column>
-                        <Column field="total" header="Total"></Column>
-                        <Column field="applicationStatus" header="Status"></Column>
+                        <Column field="fromDate" header="From"></Column>
+                        <Column field="toDate" header="To"></Column>
+                        <Column field="rejoinDate" header="Re-joining Date"></Column>
+                        <Column field="totalDay" header="Total"></Column>
+                        <Column field="currentStatus" header="Current Status"></Column>
                     </DataTable>
                 </div>
             </div>
