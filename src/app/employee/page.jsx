@@ -43,6 +43,7 @@ const Users = () => {
             .then(res => res.json())
             .then(data => {
                 setEmployees(data.data.employees)
+                console.log(data.data.employees);
                 setLoading(false)
             })
     }
