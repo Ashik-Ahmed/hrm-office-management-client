@@ -43,26 +43,14 @@ const Leave = () => {
             })
     }, [session])
 
+    // const leaveApplications = await getAllLeaveApplications(session?.user?._id)
+
     const leaves = [
         { id: "1", leave: "Casual", total: 10, taken: 3, balance: 5 },
         { id: "2", leave: "Annual", total: 10, taken: 3, balance: 5 },
         { id: "3", leave: "Sick", total: 10, taken: 3, balance: 5 },
         { id: "4", leave: "Emergency", total: 10, taken: 3, balance: 5 },
         { id: "5", leave: "Maternity", total: 10, taken: 3, balance: 5 },
-    ]
-
-    const applicationHistory = [
-        { id: "1", leaveType: "Casual", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "2", leaveType: "Annual", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "3", leaveType: "Sick", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "4", leaveType: "Emergency", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "5", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "6", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "7", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "8", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "9", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "10", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
-        { id: "11", leaveType: "Maternity", applied: "21-04-2023", total: "3", applicationStatus: 'HR Approved' },
     ]
 
     const leaveHistoryTableHeader = () => {
@@ -80,6 +68,7 @@ const Leave = () => {
             </div>
         )
     }
+
 
     const leaveApplication = (data) => {
         setLoading(true);
@@ -108,7 +97,6 @@ const Leave = () => {
                 }
             })
     }
-
 
     const resetForm = () => {
         setLoading(false)
@@ -147,7 +135,7 @@ const Leave = () => {
                                 <Dropdown
                                     {...register('leaveType', { required: "Leave type is required" })}
                                     value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
-                                {errors.leave_type?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leave_type.message}</span>}
+                                {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
                             </div>
                             <div className="flex gap-x-4">
                                 <div>

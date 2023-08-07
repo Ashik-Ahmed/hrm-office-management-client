@@ -11,14 +11,13 @@ import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { useSession } from 'next-auth/react';
 import Loading from '../Loading/Loading';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const Sidebar = () => {
 
     const { data: session, status } = useSession({
         required: true,
     });
-
 
 
     const currentPath = usePathname();
