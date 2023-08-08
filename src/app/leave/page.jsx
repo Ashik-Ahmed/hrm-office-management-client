@@ -32,15 +32,19 @@ const Leave = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
-    useEffect(() => {
-        // const leaveData = getAllLeaveApplications(session?.user?._id);
-
+    const getLeaveApplications = () => {
         fetch(`http://localhost:5000/api/v1/leaveApplication/${session?.user._id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
                 setLeaveApplicationHistory(data.data)
             })
+    }
+
+    useEffect(() => {
+        // const leaveData = getAllLeaveApplications(session?.user?._id);
+        getLeaveApplications(session)
+
     }, [session])
 
     // const leaveApplications = await getAllLeaveApplications(session?.user?._id)
@@ -89,7 +93,8 @@ const Leave = () => {
             .then(data => {
                 console.log(data);
                 if (data.status == "Success") {
-                    resetForm()
+                    resetForm();
+                    getLeaveApplications()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Application Successful', life: 3000 });
                 }
                 else {
