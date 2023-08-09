@@ -62,10 +62,10 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <div className='flex gap-x-4'>
-                <MdRemoveRedEye onClick={() => router.push(`/employee/${rowData._id}`)} size={18} color='gray' className='cursor-pointer' />
-                <FiEdit size={18} color='blue' className='cursor-pointer' />
-                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={18} color='red' className='cursor-pointer' />
+            <div className='flex gap-x-1'>
+                <MdRemoveRedEye onClick={() => router.push(`/employee/${rowData._id}`)} size={35} color='gray' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+                <FiEdit size={35} color='blue' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={35} color='red' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
             </div>
         )
     }
