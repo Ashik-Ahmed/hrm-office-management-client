@@ -121,7 +121,7 @@ const Leave = () => {
     return (
         <div className='py-2'>
             <Toast ref={toast} />
-            <div className='w-1/2 shadow-xl'>
+            <div className='w-1/2 shadow-lg'>
                 <DataTable value={leaves} header={leaveHistoryTableHeader} size='small'>
                     <Column field="leave" header="Leave Type"></Column>
                     <Column field="total" header="Total"></Column>
@@ -181,7 +181,7 @@ const Leave = () => {
                         </form>
                     </div>
                 </Dialog>
-                <div className='mt-1'>
+                <div className='mt-1 shadow-lg'>
                     <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} size='small'>
                         <Column field="leaveType" header="Leave Type"></Column>
                         <Column field="fromDate" header="From"></Column>

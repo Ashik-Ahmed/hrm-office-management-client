@@ -1,15 +1,17 @@
 import { getAllPendingLeaveApplications } from '@/libs/leaves';
 import React from 'react';
+import PendingLeave from '../component/PendingLeave/PendingLeave';
 
 const ManageLeave = async () => {
 
-    const leaveApplicationHistory = await getAllPendingLeaveApplications()
+    const pendingLeaveApplications = await getAllPendingLeaveApplications()
 
-    console.log('pending applications', leaveApplicationHistory);
 
     return (
         <div>
-            Manage Leaves
+            <div className='mt-1 rounded-md shadow-lg'>
+                <PendingLeave pendingLeaveApplications={pendingLeaveApplications} />
+            </div>
         </div>
     );
 };
