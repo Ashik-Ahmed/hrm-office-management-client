@@ -274,7 +274,7 @@ const Users = () => {
                         </div>
                         <div className='w-full'>
                             <Dropdown
-                                {...register("departemnt", { required: "Department is required" })}
+                                {...register("department", { required: "Department is required" })}
                                 value={role} onChange={(e) => setRole(e.value)} options={departemnt} placeholder="Select Department*" className="w-full placeholder-opacity-20" />
                             {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
                         </div>

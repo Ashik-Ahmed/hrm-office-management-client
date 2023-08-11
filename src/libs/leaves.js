@@ -1,6 +1,6 @@
 
 
-const getAllLeaveApplications = async (employeeId) => {
+exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     const leaveApplications = await fetch(`http://localhost:5000/api/v1/leaveApplication/${employeeId}`, {
         cache: 'no-cache',
         next: {
@@ -15,4 +15,14 @@ const getAllLeaveApplications = async (employeeId) => {
     return leaveApplications?.data;
 }
 
-module.exports = getAllLeaveApplications;
+exports.getAllPendingLeaveApplications = async () => {
+    const pendingLeaveApplications = await fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
+        .then(res => res.json())
+
+    if (pendingLeaveApplications.status == "Success") {
+        return pendingLeaveApplications?.data;
+    }
+    else {
+        return "No data"
+    }
+}
