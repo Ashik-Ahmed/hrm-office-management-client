@@ -16,7 +16,9 @@ exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
 }
 
 exports.getAllPendingLeaveApplications = async () => {
-    const pendingLeaveApplications = await fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
+    const pendingLeaveApplications = await fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications', {
+        cache: "no-cache"
+    })
         .then(res => res.json())
 
     if (pendingLeaveApplications.status == "Success") {

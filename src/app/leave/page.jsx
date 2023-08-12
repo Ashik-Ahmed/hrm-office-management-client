@@ -76,7 +76,10 @@ const Leave = () => {
 
     const leaveApplication = (data) => {
         setLoading(true);
-        data.employeeId = session.user._id;
+        data.employee = {
+            name: session.user.name,
+            employeeId: session.user._id
+        };
         data.fromDate = fromDate.toLocaleDateString('en-GB')
         data.toDate = toDate.toLocaleDateString('en-GB')
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
