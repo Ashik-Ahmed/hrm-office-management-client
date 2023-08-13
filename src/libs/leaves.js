@@ -1,5 +1,4 @@
 
-
 exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     const leaveApplications = await fetch(`http://localhost:5000/api/v1/leaveApplication/${employeeId}`, {
         cache: 'no-cache',

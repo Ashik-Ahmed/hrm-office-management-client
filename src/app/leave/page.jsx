@@ -12,7 +12,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../component/Loading/Loading';
 import { Toast } from 'primereact/toast';
-import getAllLeaveApplications from '@/libs/leaves';
 
 const Leave = () => {
 

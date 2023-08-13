@@ -1,6 +1,6 @@
-import { getAllPendingLeaveApplications } from '@/libs/leaves';
 import React from 'react';
-import PendingLeave from '../component/PendingLeave/PendingLeave';
+import PendingLeaveTable from '../component/PendingLeaveTable/PendingLeaveTable';
+import { getAllPendingLeaveApplications } from '@/libs/leaves';
 
 const ManageLeave = async () => {
 
@@ -10,7 +10,7 @@ const ManageLeave = async () => {
     return (
         <div>
             <div className='mt-1 rounded-md shadow-lg'>
-                <PendingLeave pendingLeaveApplications={pendingLeaveApplications} />
+                <PendingLeaveTable pendingLeaveApplications={pendingLeaveApplications} />
             </div>
         </div>
     );

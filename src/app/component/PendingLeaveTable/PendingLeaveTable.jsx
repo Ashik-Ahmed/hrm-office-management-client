@@ -30,6 +30,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     return (
         <div>
             <DataTable value={pendingLeaveApplications} header={pendignLeaveTableHeader} size='small'>
+                <Column field='employee.name' header="Name"></Column>
                 <Column field="leaveType" header="Leave Type"></Column>
                 <Column field="fromDate" header="From"></Column>
                 <Column field="toDate" header="To"></Column>
