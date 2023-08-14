@@ -184,7 +184,7 @@ const Leave = () => {
                     </div>
                 </Dialog>
                 <div className='mt-1 shadow-lg'>
-                    <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} size='small'>
+                    <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} size='small' emptyMessage="No previous application">
                         <Column field="leaveType" header="Leave Type"></Column>
                         <Column field="fromDate" header="From"></Column>
                         <Column field="toDate" header="To"></Column>

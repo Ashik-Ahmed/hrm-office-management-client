@@ -29,7 +29,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
     return (
         <div>
-            <DataTable value={pendingLeaveApplications} header={pendignLeaveTableHeader} size='small'>
+            <DataTable value={pendingLeaveApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
                 <Column field='employee.name' header="Name"></Column>
                 <Column field="leaveType" header="Leave Type"></Column>
                 <Column field="fromDate" header="From"></Column>
