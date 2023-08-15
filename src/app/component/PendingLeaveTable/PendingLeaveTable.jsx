@@ -19,6 +19,14 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     const [approveDialog, setApproveDialog] = useState(null)
     const [rejectDialog, setRejectDialog] = useState(null)
 
+    const fetchPendingLeaveApplications = () => {
+        fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
+            .then(res => res.json())
+            .then(data => {
+                setPendingApplications(data.data)
+            })
+    }
+
     const approveLeaveApplicationStatus = (status) => {
         setLoading(true)
         const currentStatus = {
@@ -39,11 +47,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             .then(data => {
                 if (data.data.modifiedCount > 0) {
                     console.log("Successfullu Approved");
-                    fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
-                        .then(res => res.json())
-                        .then(data => {
-                            setPendingApplications(data.data)
-                        })
+                    fetchPendingLeaveApplications()
                 }
                 else {
                     console.log("Failed to update");
@@ -70,9 +74,12 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <MdRemoveRedEye onClick={() => setDetailsDialog(rowData)} size={35} color='gray' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+                {/* <MdRemoveRedEye onClick={() => setDetailsDialog(rowData)} size={35} color='navy' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
                 <AiOutlineCheckCircle onClick={() => setApproveDialog(rowData)} size={25} color='green' className='rounded-full cursor-pointer' />
-                <MdOutlineCancel onClick={() => { setRejectDialog(rowData); rejectLeaveApplication(rowData) }} size={25} color='red' className='rounded-full cursor-pointer' />
+                <MdOutlineCancel onClick={() => setRejectDialog(rowData)} disabled size={25} color='red' className='rounded-full cursor-pointer' /> */}
+                <Button onClick={() => setDetailsDialog(rowData)} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" />
+                <Button onClick={() => setApproveDialog(rowData)} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" />
+                <Button onClick={() => setRejectDialog(rowData)} icon="pi pi-times" rounded text raised severity="danger" aria-label="Cancel" />
             </div>
         )
     }
@@ -85,7 +92,6 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="fromDate" header="From"></Column>
                     <Column field="toDate" header="To"></Column>
-                    <Column field="rejoinDate" header="Re-joining Date"></Column>
                     <Column field="totalDay" header="Total"></Column>
                     <Column field="currentStatus.status" header="Current Status"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
