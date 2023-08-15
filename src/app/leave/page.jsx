@@ -32,12 +32,14 @@ const Leave = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const getLeaveApplications = () => {
+        setLoading(true)
         fetch(`http://localhost:5000/api/v1/employee/leaveHistory/${session?.user._id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
                 setLeaveApplicationHistory(data.data)
             })
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -180,7 +182,7 @@ const Leave = () => {
                     </div>
                 </Dialog>
                 <div className='mt-1 shadow-lg'>
-                    <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} size='small' emptyMessage="No previous application">
+                    <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} loading={loading} size='small' emptyMessage="No previous application">
                         <Column field="leaveType" header="Leave Type"></Column>
                         <Column field="fromDate" header="From"></Column>
                         <Column field="toDate" header="To"></Column>

@@ -1,5 +1,7 @@
 "use client"
 
+import { useSession } from 'next-auth/react';
+import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
@@ -8,10 +10,33 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
+    const { data: session, status } = useSession();
+    console.log(session);
 
     const [detailsDialog, setDetailsDialog] = useState(null);
     const [approveDialog, setApproveDialog] = useState(null)
     const [rejectDialog, setRejectDialog] = useState(null)
+
+    const approveLeaveApplicationStatus = (status) => {
+        const currentStatus = {
+            status: status,
+            updatedBy: session.user.name
+        }
+
+        console.log(currentStatus);
+
+        fetch(`http://localhost:5000/api/v1/leaveApplication/${approveDialog._id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(currentStatus)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+    }
 
 
     const rejectLeaveApplication = (leaveApplication) => {
@@ -64,23 +89,28 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             {/* Approve Application Dialog  */}
             <div>
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
-                    style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
                         <p>Name: {approveDialog?.employee?.name}</p>
+                        <p>Leave Type: {approveDialog?.leaveType}</p>
+                        <p>Total day: {approveDialog?.totalDay}</p>
+                    </div>
+                    <div className='flex gap-x-2 justify-end'>
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} label="Approve" icon="pi pi-check" className='p-button-sm' />
                     </div>
                 </Dialog>
-            </div>
+            </div >
 
             {/* Delete Application Dialog */}
-            <div>
+            < div >
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => setRejectDialog(false)}
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
                         <p>Name: {rejectDialog?.employee?.name}</p>
                     </div>
                 </Dialog>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
