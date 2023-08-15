@@ -79,9 +79,9 @@ const Leave = () => {
             name: session.user.name,
             employeeId: session.user._id
         };
-        data.fromDate = fromDate.toLocaleDateString('en-GB')
-        data.toDate = toDate.toLocaleDateString('en-GB')
-        data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
+        data.fromDate = fromDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
+        data.toDate = toDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
+        data.rejoinDate = rejoinDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         console.log(data);
 
         fetch('http://localhost:5000/api/v1/leaveApplication', {
@@ -147,16 +147,12 @@ const Leave = () => {
                             <div className="flex gap-x-4">
                                 <div>
                                     <Calendar
-                                        {...register("fromDate", { required: "From date is required" })}
-                                        value={fromDate} onSelect={(e) => {
-                                            // Manually trigger a change event
-                                            setFromDate(e.value);
-                                        }} showIcon placeholder='From date' />
+                                        {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); }} showIcon placeholder='From date' />
                                     {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
                                 </div>
                                 <div>
                                     <Calendar
-                                        {...register("toDate", { required: "To date is required" })}
+                                        {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy"
                                         value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date' />
                                     {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
                                 </div>
@@ -171,7 +167,7 @@ const Leave = () => {
                             <div>
                                 <Calendar
                                     {...register("rejoinDate", { required: "Re-joining date is required" })}
-                                    inputId="rejoin_date" value={rejoinDate} onSelect={(e) => setRejoinDate(e.value)} showIcon placeholder='Re-joining date' className='w-full' />
+                                    inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value); console.log(e.value); }} dateFormat="dd-mm-yy" showIcon placeholder='Re-joining date' className='w-full' />
                                 {errors.rejoinDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejoinDate.message}</span>}
                             </div>
 

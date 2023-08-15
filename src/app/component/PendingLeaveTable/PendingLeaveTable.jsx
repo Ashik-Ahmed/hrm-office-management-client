@@ -8,6 +8,7 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
+    console.log(pendingLeaveApplications);
 
     const [leaveDetails, setLeaveDetails] = useState(null);
 
