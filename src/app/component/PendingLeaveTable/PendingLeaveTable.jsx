@@ -46,7 +46,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                     <Column field="toDate" header="To"></Column>
                     <Column field="rejoinDate" header="Re-joining Date"></Column>
                     <Column field="totalDay" header="Total"></Column>
-                    <Column field="currentStatus" header="Current Status"></Column>
+                    <Column field="currentStatus.status" header="Current Status"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
                 </DataTable>
             </div>

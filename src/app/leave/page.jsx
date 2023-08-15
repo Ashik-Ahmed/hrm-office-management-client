@@ -32,7 +32,7 @@ const Leave = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const getLeaveApplications = () => {
-        fetch(`http://localhost:5000/api/v1/leaveApplication/${session?.user._id}`)
+        fetch(`http://localhost:5000/api/v1/employee/leaveHistory/${session?.user._id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -186,7 +186,7 @@ const Leave = () => {
                         <Column field="toDate" header="To"></Column>
                         <Column field="rejoinDate" header="Re-joining Date"></Column>
                         <Column field="totalDay" header="Total"></Column>
-                        <Column field="currentStatus" header="Current Status"></Column>
+                        <Column field="currentStatus.status" header="Current Status"></Column>
                     </DataTable>
                 </div>
             </div>
