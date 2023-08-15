@@ -1,5 +1,6 @@
 "use client"
 
+import { getAllPendingLeaveApplications } from '@/libs/leaves';
 import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -11,13 +12,15 @@ import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
     const { data: session, status } = useSession();
-    console.log(session);
 
+    const [loading, setLoading] = useState(false)
+    const [pendingApplications, setPendingApplications] = useState(pendingLeaveApplications)
     const [detailsDialog, setDetailsDialog] = useState(null);
     const [approveDialog, setApproveDialog] = useState(null)
     const [rejectDialog, setRejectDialog] = useState(null)
 
     const approveLeaveApplicationStatus = (status) => {
+        setLoading(true)
         const currentStatus = {
             status: status,
             updatedBy: session.user.name
@@ -34,7 +37,20 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
         })
             .then(res => res.json())
             .then(data => {
+                if (data.data.modifiedCount > 0) {
+                    console.log("Successfullu Approved");
+                    fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
+                        .then(res => res.json())
+                        .then(data => {
+                            setPendingApplications(data.data)
+                        })
+                }
+                else {
+                    console.log("Failed to update");
+                }
                 console.log(data);
+                setLoading(false)
+                setApproveDialog(false)
             })
     }
 
@@ -64,7 +80,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     return (
         <div>
             <div>
-                <DataTable value={pendingLeaveApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
+                <DataTable value={pendingApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="fromDate" header="From"></Column>
@@ -96,12 +112,12 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                         <p>Total day: {approveDialog?.totalDay}</p>
                     </div>
                     <div className='flex gap-x-2 justify-end'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} label="Approve" icon="pi pi-check" className='p-button-sm' />
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" icon="pi pi-check" className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
 
-            {/* Delete Application Dialog */}
+            {/* Reject Application Dialog */}
             < div >
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => setRejectDialog(false)}
                     style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>

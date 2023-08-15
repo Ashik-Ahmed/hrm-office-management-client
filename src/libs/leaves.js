@@ -16,7 +16,10 @@ exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
 
 exports.getAllPendingLeaveApplications = async () => {
     const pendingLeaveApplications = await fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications', {
-        cache: "no-cache"
+        cache: "no-cache",
+        next: {
+            tags: ["pendingLeaveApplications"]
+        }
     })
         .then(res => res.json())
 
