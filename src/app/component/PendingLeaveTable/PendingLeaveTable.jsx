@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
@@ -16,6 +17,8 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
     const { data: session, status } = useSession();
     const toast = useRef()
+
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [loading, setLoading] = useState(false)
     const [pendingApplications, setPendingApplications] = useState(pendingLeaveApplications)
@@ -65,8 +68,8 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     }
 
 
-    const rejectLeaveApplication = (leaveApplication) => {
-        console.log("Rejected Application of: ", leaveApplication.employee.name);
+    const rejectLeaveApplication = (data) => {
+        console.log("Rejected Application of: ", data);
     }
 
     const pendignLeaveTableHeader = () => {
@@ -135,16 +138,21 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => setRejectDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
-                    <form>
+                    <form onSubmit={handleSubmit(rejectLeaveApplication)}>
                         <div className='mb-2'>
                             <p>Employee: {rejectDialog?.employee?.name}</p>
                             <p>Leave Type: {rejectDialog?.leaveType}</p>
                             <p>Total Day: {rejectDialog?.totalDay}</p>
                         </div>
 
-                        <InputText placeholder='Specify reejction reason' />
-                        <div className='flex gap-x-2 justify-end'>
-                            <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
+                        <div className='flex flex-col'>
+                            <InputText
+                                {...register("rejectionReason", { required: "Rejection reason is required" })}
+                                placeholder='Specify rejection reason' />
+                            {errors.rejectionReason?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejectionReason.message}</span>}
+                        </div>
+                        <div className='flex justify-end mt-2'>
+                            <Button type='submit' disabled={!session} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
                         </div>
                     </form>
                 </Dialog>
