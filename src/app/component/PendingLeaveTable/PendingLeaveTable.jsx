@@ -16,6 +16,7 @@ import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 const PendingLeave = ({ pendingLeaveApplications }) => {
 
     const { data: session, status } = useSession();
+
     const toast = useRef()
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
@@ -55,7 +56,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 if (data.data.modifiedCount > 0) {
                     console.log("Successfullu Approved");
                     fetchPendingLeaveApplications()
-                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave aapproved', life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave approved', life: 3000 });
                 }
                 else {
                     console.log("Failed to update");
@@ -69,8 +70,38 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
 
     const rejectLeaveApplication = (data) => {
-        console.log("Rejected Application of: ", data);
+        const currentStatus = {
+            status: `Rejected by ${session.user.department}`,
+            rejectionReason: data.rejectionReason,
+            updatedBy: session.user.name
+        }
+
+        console.log(currentStatus);
+
+        fetch(`http://localhost:5000/api/v1/leaveApplication/${rejectDialog._id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(currentStatus)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.data.modifiedCount > 0) {
+                    console.log("Successfullu Rejected");
+                    fetchPendingLeaveApplications()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave rejected', life: 3000 });
+                }
+                else {
+                    console.log("Failed to update");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
+
+                setRejectDialog(false);
+                reset();
+            })
     }
+
 
     const pendignLeaveTableHeader = () => {
         return (
@@ -87,8 +118,16 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <AiOutlineCheckCircle onClick={() => setApproveDialog(rowData)} size={25} color='green' className='rounded-full cursor-pointer' />
                 <MdOutlineCancel onClick={() => setRejectDialog(rowData)} disabled size={25} color='red' className='rounded-full cursor-pointer' /> */}
                 <Button onClick={() => setDetailsDialog(rowData)} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" />
-                <Button onClick={() => setApproveDialog(rowData)} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" />
-                <Button onClick={() => setRejectDialog(rowData)} icon="pi pi-times" rounded text raised severity="danger" aria-label="Cancel" />
+                <Button onClick={() => setApproveDialog(rowData)} icon="pi pi-check"
+                    disabled={
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
+                    }
+                    rounded text raised severity='success' aria-label="Filter" />
+                <Button onClick={() => setRejectDialog(rowData)} icon="pi pi-times"
+                    disabled={
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
+                    }
+                    rounded text raised severity="danger" aria-label="Cancel" />
             </div>
         )
     }
@@ -135,7 +174,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
             {/* Reject Application Dialog */}
             < div >
-                <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => setRejectDialog(false)}
+                <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => { setRejectDialog(false); reset(); }}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                     <form onSubmit={handleSubmit(rejectLeaveApplication)}>
