@@ -6,12 +6,16 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
+
     const { data: session, status } = useSession();
+    const toast = useRef()
 
     const [loading, setLoading] = useState(false)
     const [pendingApplications, setPendingApplications] = useState(pendingLeaveApplications)
@@ -48,9 +52,11 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 if (data.data.modifiedCount > 0) {
                     console.log("Successfullu Approved");
                     fetchPendingLeaveApplications()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave aapproved', life: 3000 });
                 }
                 else {
                     console.log("Failed to update");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                 }
                 console.log(data);
                 setLoading(false)
@@ -86,6 +92,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <div>
                 <DataTable value={pendingApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
                     <Column field='employee.name' header="Name"></Column>
@@ -101,9 +108,9 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             {/* Application Details Dialog  */}
             <div>
                 <Dialog header="Leave Application Details" visible={detailsDialog} onHide={() => setDetailsDialog(false)}
-                    style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
-                        <p>Name: {detailsDialog?.employee?.name}</p>
+                        <p>Employee: {detailsDialog?.employee?.name}</p>
                     </div>
                 </Dialog>
             </div>
@@ -113,12 +120,12 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                     <div>
-                        <p>Name: {approveDialog?.employee?.name}</p>
+                        <p>Employee: {approveDialog?.employee?.name}</p>
                         <p>Leave Type: {approveDialog?.leaveType}</p>
                         <p>Total day: {approveDialog?.totalDay}</p>
                     </div>
                     <div className='flex gap-x-2 justify-end'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" icon="pi pi-check" className='p-button-sm' />
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" icon="pi pi-check" size='small' />
                     </div>
                 </Dialog>
             </div >
@@ -126,10 +133,20 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             {/* Reject Application Dialog */}
             < div >
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => setRejectDialog(false)}
-                    style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div>
-                        <p>Name: {rejectDialog?.employee?.name}</p>
-                    </div>
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+
+                    <form>
+                        <div className='mb-2'>
+                            <p>Employee: {rejectDialog?.employee?.name}</p>
+                            <p>Leave Type: {rejectDialog?.leaveType}</p>
+                            <p>Total Day: {rejectDialog?.totalDay}</p>
+                        </div>
+
+                        <InputText placeholder='Specify reejction reason' />
+                        <div className='flex gap-x-2 justify-end'>
+                            <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
+                        </div>
+                    </form>
                 </Dialog>
             </div >
         </div >
