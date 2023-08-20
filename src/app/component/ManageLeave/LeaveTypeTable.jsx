@@ -6,7 +6,8 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
@@ -15,6 +16,8 @@ const LeaveTypeTable = () => {
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
 
+    const toast = useRef(null)
+
     const [loading, setLoading] = useState(false)
     const [leaves, setLeaves] = useState(null);
     const [createLeaveDialog, setCreateLeaveDialog] = useState(false)
@@ -22,10 +25,33 @@ const LeaveTypeTable = () => {
     const handleCreateLeave = (data) => {
         data.createdBy = session.user.name;
         console.log(data);
+
+        fetch('http://localhost:5000/api/v1/leave', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status == "Success") {
+                    reset();
+                    setCreateLeaveDialog(false);
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave Created', life: 3000 });
+                }
+                else {
+                    reset();
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
+                }
+                console.log(data)
+            })
+
     }
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className='w-full shadow-lg bg-white p-2 rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>AVAILABLE LEAVES</h3>
