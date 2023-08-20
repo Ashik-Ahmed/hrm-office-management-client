@@ -66,7 +66,9 @@ const LeaveTypeTable = () => {
 
     const leaveTableActionBodyTemplate = (rowData) => {
         return (
-            <div>
+            <div className='flex gap-x-2'>
+                <Button icon='pi pi-file-edit' rounded text raised severity='success' />
+                <Button icon='pi pi-trash' rounded text raised severity='danger' />
             </div>
         )
     }
