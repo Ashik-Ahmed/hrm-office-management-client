@@ -122,6 +122,30 @@ const Leave = () => {
         return <Loading />
     }
 
+    const fromBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.fromDate.split("T")[0]}
+            </div>
+        )
+    }
+
+    const toBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.toDate.split("T")[0]}
+            </div>
+        )
+    }
+
+    const rejoinBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.rejoinDate.split("T")[0]}
+            </div>
+        )
+    }
+
     return (
         <div className='py-2'>
             <Toast ref={toast} />
@@ -184,9 +208,9 @@ const Leave = () => {
                 <div className='mt-1 shadow-lg'>
                     <DataTable value={leaveApplicationHistory} header={leaveApplicationTableHeader} loading={loading} size='small' emptyMessage="No previous application">
                         <Column field="leaveType" header="Leave Type"></Column>
-                        <Column field="fromDate" header="From"></Column>
-                        <Column field="toDate" header="To"></Column>
-                        <Column field="rejoinDate" header="Re-joining Date"></Column>
+                        <Column body={fromBodyTemplate} header="From"></Column>
+                        <Column body={toBodyTemplate} header="To"></Column>
+                        <Column body={rejoinBodyTemplate} header="Re-joining Date"></Column>
                         <Column field="totalDay" header="Total"></Column>
                         <Column field="currentStatus.status" header="Current Status"></Column>
                     </DataTable>

@@ -139,8 +139,6 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <DataTable value={pendingApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
-                    <Column field="fromDate" header="From"></Column>
-                    <Column field="toDate" header="To"></Column>
                     <Column field="totalDay" header="Total"></Column>
                     <Column field="currentStatus.status" header="Current Status"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
