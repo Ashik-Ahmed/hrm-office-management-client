@@ -20,7 +20,9 @@ const LeaveTypeTable = () => {
 
     const [loading, setLoading] = useState(false)
     const [leaves, setLeaves] = useState(null);
-    const [createLeaveDialog, setCreateLeaveDialog] = useState(false)
+    const [createLeaveDialog, setCreateLeaveDialog] = useState(false);
+    const [editLeaveDialog, setEditLeaveDialog] = useState(false);
+    const [deleteLeaveDialog, setDeleteLeaveDialog] = useState(false)
 
     // get all leaves from DB 
     const fetchLeaves = () => {
@@ -64,11 +66,15 @@ const LeaveTypeTable = () => {
 
     }
 
+    const handleEditLeave = (data) => {
+        console.log(data)
+    }
+
     const leaveTableActionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2'>
-                <Button icon='pi pi-file-edit' rounded text raised severity='success' />
-                <Button icon='pi pi-trash' rounded text raised severity='danger' />
+                <Button onClick={() => setEditLeaveDialog(rowData)} icon='pi pi-file-edit' rounded text raised severity='success' />
+                <Button onClick={() => setDeleteLeaveDialog(rowData)} icon='pi pi-trash' rounded text raised severity='danger' />
             </div>
         )
     }
@@ -110,6 +116,35 @@ const LeaveTypeTable = () => {
                         <InputText
                             {...register("description")}
                             type='text' placeholder="Description*" className='w-full' />
+                    </div>
+
+                    <div className='mt-4 text-right'>
+                        <Button type='submit' disabled={!session} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                    </div>
+                </form>
+            </Dialog>
+
+            {/* Edit Leave Dialog  */}
+            <Dialog header="Edit Leave Details" visible={editLeaveDialog} style={{ width: '50vw' }} onHide={() => { setEditLeaveDialog(false); reset() }}>
+
+                <form onSubmit={handleSubmit(handleEditLeave)} className='mt-2 flex flex-col gap-2'>
+
+                    <div className="w-full">
+                        <InputText
+                            {...register("leaveType", { required: "Leave Type is required" })}
+                            type='text' placeholder={editLeaveDialog.leaveType} className='w-full' />
+                        {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
+                    </div>
+                    <div className='w-full'>
+                        <InputText
+                            {...register("total", { required: "Total allocation value is required" })}
+                            keyfilter="int" placeholder={editLeaveDialog.total} className='w-full' />
+                        {errors.total?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.total.message}</span>}
+                    </div>
+                    <div className='w-full'>
+                        <InputText
+                            {...register("description")}
+                            type='text' placeholder={editLeaveDialog?.description || "N/A"} className='w-full' />
                     </div>
 
                     <div className='mt-4 text-right'>
