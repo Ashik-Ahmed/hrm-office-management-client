@@ -10,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { AiFillPlusSquare, AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
@@ -135,7 +135,10 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     return (
         <div>
             <Toast ref={toast} />
-            <div>
+            <div className='bg-white p-2 rounded-md'>
+                <div className='mb-2'>
+                    <h3 className='font-light'>PENDING APPLICATIONS</h3>
+                </div>
                 <DataTable value={pendingApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>

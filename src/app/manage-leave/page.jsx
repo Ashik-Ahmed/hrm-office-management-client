@@ -9,7 +9,7 @@ const ManageLeave = async () => {
 
 
     return (
-        <div>
+        <div className='mt-2'>
             <LeaveTypeTable />
             <div className='mt-4 rounded-md shadow-lg'>
                 <PendingLeaveTable pendingLeaveApplications={pendingLeaveApplications} />
