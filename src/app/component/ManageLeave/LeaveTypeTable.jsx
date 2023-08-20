@@ -7,7 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
@@ -22,6 +22,21 @@ const LeaveTypeTable = () => {
     const [leaves, setLeaves] = useState(null);
     const [createLeaveDialog, setCreateLeaveDialog] = useState(false)
 
+    // get all leaves from DB 
+    const fetchLeaves = () => {
+        fetch('http://localhost:5000/api/v1/leave')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setLeaves(data.data)
+            })
+    }
+
+    useEffect(() => {
+        fetchLeaves()
+    }, [])
+
+    // create a new leave 
     const handleCreateLeave = (data) => {
         data.createdBy = session.user.name;
         console.log(data);
@@ -49,6 +64,13 @@ const LeaveTypeTable = () => {
 
     }
 
+    const leaveTableActionBodyTemplate = (rowData) => {
+        return (
+            <div>
+            </div>
+        )
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -59,10 +81,10 @@ const LeaveTypeTable = () => {
                     <AiFillPlusSquare onClick={() => setCreateLeaveDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <DataTable value={leaves} size='small'>
-                    <Column field="leave" header="Leave Type"></Column>
+                    <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="total" header="Total"></Column>
-                    <Column field="taken" header="Taken"></Column>
-                    <Column field="balance" header="Balance"></Column>
+                    <Column field="description" header="Description"></Column>
+                    <Column body={leaveTableActionBodyTemplate} header="Action"></Column>
                 </DataTable>
             </div>
             {/* create leave dialog  */}
