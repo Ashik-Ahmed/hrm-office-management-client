@@ -4,24 +4,31 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, getLeaves, session }) => {
+const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, getLeaves, session }) => {
 
+    console.log(editLeaveDialog)
+    console.log(deleteLeaveDialog)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [loading, setLoading] = useState(false)
 
     const handleEditLeave = (dataValue) => {
-        console.log('dited')
-        console.log(dataValue)
-    }
+        for (const key in dataValue) {
+            if (!dataValue[key]) {
+                delete dataValue[key];
+            }
+            console.log(dataValue)
+        }
 
-    return (
-        <div>
+        const handleDeleteLeave = (data) => {
+            console.log(data)
+        }
+
+        return (
             <div>
-
                 {/* Edit Leave Dialog  */}
-                <Dialog header="Edit Leave Details" visible={editLeaveDialog} style={{ width: '50vw' }} onHide={() => { setEditLeaveDialog(false); reset() }}>
+                <Dialog header="Edit Leave Details" visible={editLeaveDialog} style={{ width: '50vw' }} onHide={() => { setEditLeaveDialog(false); reset() }} className='bg-red-500'>
 
                     <form onSubmit={handleSubmit(handleEditLeave)} className='mt-2 flex flex-col gap-2'>
 
@@ -46,9 +53,25 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                         </div>
                     </form>
                 </Dialog>
+
+                {/* Delete Leave Dialog  */}
+                <Dialog header="Confirm Rejection" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+
+                    <form onSubmit={handleSubmit(handleDeleteLeave)}>
+                        <div className='mb-2'>
+                            <p>Employee: {deleteLeaveDialog?.employee?.name}</p>
+                            <p>Leave Type: {deleteLeaveDialog?.leaveType}</p>
+                            <p>Total Day: {deleteLeaveDialog?.totalDay}</p>
+                        </div>
+                        <div className='flex justify-end mt-2'>
+                            <Button type='submit' disabled={!session} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
+                        </div>
+                    </form>
+                </Dialog>
             </div>
-        </div>
-    );
+        );
+    };
 };
 
 export default EditAndDeleteDialog;

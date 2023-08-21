@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditAndDeleteDialog from './EditAndDeleteDialog';
 
-const LeaveTypeTable = () => {
+const LeaveTypeTable = ({ leaves }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
@@ -20,24 +20,12 @@ const LeaveTypeTable = () => {
     const toast = useRef(null)
 
     const [loading, setLoading] = useState(false)
-    const [leaves, setLeaves] = useState(null);
+    // const [leaves, setLeaves] = useState(null);
     const [createLeaveDialog, setCreateLeaveDialog] = useState(false);
     const [editLeaveDialog, setEditLeaveDialog] = useState(false);
     const [deleteLeaveDialog, setDeleteLeaveDialog] = useState(false)
 
-    // get all leaves from DB 
-    const getLeaves = () => {
-        fetch('http://localhost:5000/api/v1/leave')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                setLeaves(data.data)
-            })
-    }
 
-    useEffect(() => {
-        getLeaves()
-    }, [])
 
     // create a new leave 
     const handleCreateLeave = (data) => {
@@ -123,7 +111,7 @@ const LeaveTypeTable = () => {
                 </form>
             </Dialog>
 
-            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} getLeaves={getLeaves} session={session} />
+            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} setDeleteLeaveDialog={setDeleteLeaveDialog} session={session} />
 
         </div>
     );

@@ -1,4 +1,12 @@
 
+exports.getAllLeaves = async () => {
+    const leaves = await fetch('http://localhost:5000/api/v1/leave', {
+        cache: "no-cache"
+    }).then(res => res.json())
+
+    return leaves?.data;
+}
+
 exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     const leaveApplications = await fetch(`http://localhost:5000/api/v1/leaveApplication/${employeeId}`, {
         cache: 'no-cache',
@@ -10,7 +18,7 @@ exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     // .then(data => {
     //     console.log(data);
     // })
-    console.log(leaveApplications.data);
+
     return leaveApplications?.data;
 }
 
