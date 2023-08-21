@@ -99,19 +99,29 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             })
     }
 
+    const buttonTooltipOptions = {
+        position: 'bottom',
+        mouseTrack: true,
+        mouseTrackTop: 25,
+        style: {
+            fontSize: '12px'
+            /* Add any other custom styles here */
+        },
+    };
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
                 {/* <MdRemoveRedEye onClick={() => setDetailsDialog(rowData)} size={35} color='navy' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
                 <AiOutlineCheckCircle onClick={() => setApproveDialog(rowData)} size={25} color='green' className='rounded-full cursor-pointer' />
                 <MdOutlineCancel onClick={() => setRejectDialog(rowData)} disabled size={25} color='red' className='rounded-full cursor-pointer' /> */}
-                <Button onClick={() => setDetailsDialog(rowData)} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" />
-                <Button onClick={() => setApproveDialog(rowData)} icon="pi pi-check"
+                <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" />
+                <Button onClick={() => setApproveDialog(rowData)} tooltip="Approve" tooltipOptions={buttonTooltipOptions} icon="pi pi-check"
                     disabled={
                         (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
                     }
                     rounded text raised severity='success' aria-label="Filter" />
-                <Button onClick={() => setRejectDialog(rowData)} icon="pi pi-times"
+                <Button onClick={() => setRejectDialog(rowData)} tooltip="Reject" tooltipOptions={buttonTooltipOptions} icon="pi pi-times"
                     disabled={
                         (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
                     }

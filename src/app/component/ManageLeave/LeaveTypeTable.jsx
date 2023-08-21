@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditAndDeleteDialog from './EditAndDeleteDialog';
 
-const LeaveTypeTable = ({ leaves }) => {
+const LeaveTypeTable = ({ availableLeaves }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
@@ -20,17 +20,25 @@ const LeaveTypeTable = ({ leaves }) => {
     const toast = useRef(null)
 
     const [loading, setLoading] = useState(false)
-    // const [leaves, setLeaves] = useState(null);
+    const [leaves, setLeaves] = useState(availableLeaves);
     const [createLeaveDialog, setCreateLeaveDialog] = useState(false);
     const [editLeaveDialog, setEditLeaveDialog] = useState(false);
     const [deleteLeaveDialog, setDeleteLeaveDialog] = useState(false)
 
 
+    const getAllLeaves = () => {
+        fetch('http://localhost:5000/api/v1/leave', {
+            cache: "no-cache"
+        }).then(res => res.json())
+            .then(data => {
+                setLeaves(data.data)
+            })
+    }
+
 
     // create a new leave 
     const handleCreateLeave = (data) => {
         data.createdBy = session.user.name;
-        console.log(data);
 
         fetch('http://localhost:5000/api/v1/leave', {
             method: "POST",
@@ -43,7 +51,7 @@ const LeaveTypeTable = ({ leaves }) => {
             .then(data => {
                 if (data.status == "Success") {
                     reset();
-                    getLeaves()
+                    getAllLeaves();
                     setCreateLeaveDialog(false);
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave Created', life: 3000 });
                 }
@@ -56,12 +64,21 @@ const LeaveTypeTable = ({ leaves }) => {
 
     }
 
+    const buttonTooltipOptions = {
+        position: 'bottom',
+        mouseTrack: true,
+        mouseTrackTop: 25,
+        style: {
+            fontSize: '12px',
+            /* Add any other custom styles here */
+        },
+    };
 
     const leaveTableActionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2'>
-                <Button onClick={() => setEditLeaveDialog(rowData)} icon='pi pi-file-edit' rounded text raised severity='success' />
-                <Button onClick={() => setDeleteLeaveDialog(rowData)} icon='pi pi-trash' rounded text raised severity='danger' />
+                <Button onClick={() => setEditLeaveDialog(rowData)} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' />
+                <Button onClick={() => setDeleteLeaveDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' />
             </div>
         )
     }
@@ -102,7 +119,7 @@ const LeaveTypeTable = ({ leaves }) => {
                     <div className='w-full'>
                         <InputText
                             {...register("description")}
-                            type='text' placeholder="Description*" className='w-full' />
+                            type='text' placeholder="Description" className='w-full' />
                     </div>
 
                     <div className='mt-4 text-right'>

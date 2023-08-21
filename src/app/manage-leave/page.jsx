@@ -8,13 +8,13 @@ const ManageLeave = async () => {
     const pendingLeaveApplications = await getAllPendingLeaveApplications();
 
     // get all leaves from DB 
-    const leaves = await getAllLeaves()
+    const availableLeaves = await getAllLeaves()
     // .then(res => res.json())
 
 
     return (
         <div className='my-2 '>
-            <LeaveTypeTable leaves={leaves} />
+            <LeaveTypeTable availableLeaves={availableLeaves} />
             <div className='mt-4 rounded-md shadow-lg'>
                 <PendingLeaveTable pendingLeaveApplications={pendingLeaveApplications} />
             </div>
