@@ -1,6 +1,5 @@
 "use client"
 
-import { getAllPendingLeaveApplications } from '@/libs/leaves';
 import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -10,8 +9,6 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AiFillPlusSquare, AiOutlineCheckCircle } from 'react-icons/ai';
-import { MdOutlineCancel, MdRemoveRedEye } from 'react-icons/md';
 
 const PendingLeave = ({ pendingLeaveApplications }) => {
 
@@ -102,15 +99,6 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             })
     }
 
-
-    const pendignLeaveTableHeader = () => {
-        return (
-            <div>
-                <p>Pending Leave Applications</p>
-            </div>
-        )
-    }
-
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
@@ -139,7 +127,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <div className='mb-2'>
                     <h3 className='font-light'>PENDING APPLICATIONS</h3>
                 </div>
-                <DataTable value={pendingApplications} header={pendignLeaveTableHeader} size='small' emptyMessage="No pending applications">
+                <DataTable value={pendingApplications} size='small' emptyMessage="No pending applications">
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>

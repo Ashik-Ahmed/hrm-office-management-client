@@ -10,6 +10,7 @@ import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
+import EditAndDeleteDialog from './EditAndDeleteDialog';
 
 const LeaveTypeTable = () => {
 
@@ -25,7 +26,7 @@ const LeaveTypeTable = () => {
     const [deleteLeaveDialog, setDeleteLeaveDialog] = useState(false)
 
     // get all leaves from DB 
-    const fetchLeaves = () => {
+    const getLeaves = () => {
         fetch('http://localhost:5000/api/v1/leave')
             .then(res => res.json())
             .then(data => {
@@ -35,7 +36,7 @@ const LeaveTypeTable = () => {
     }
 
     useEffect(() => {
-        fetchLeaves()
+        getLeaves()
     }, [])
 
     // create a new leave 
@@ -54,6 +55,7 @@ const LeaveTypeTable = () => {
             .then(data => {
                 if (data.status == "Success") {
                     reset();
+                    getLeaves()
                     setCreateLeaveDialog(false);
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave Created', life: 3000 });
                 }
@@ -66,9 +68,6 @@ const LeaveTypeTable = () => {
 
     }
 
-    const handleEditLeave = (data) => {
-        console.log(data)
-    }
 
     const leaveTableActionBodyTemplate = (rowData) => {
         return (
@@ -124,34 +123,8 @@ const LeaveTypeTable = () => {
                 </form>
             </Dialog>
 
-            {/* Edit Leave Dialog  */}
-            <Dialog header="Edit Leave Details" visible={editLeaveDialog} style={{ width: '50vw' }} onHide={() => { setEditLeaveDialog(false); reset() }}>
+            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} getLeaves={getLeaves} session={session} />
 
-                <form onSubmit={handleSubmit(handleEditLeave)} className='mt-2 flex flex-col gap-2'>
-
-                    <div className="w-full">
-                        <InputText
-                            {...register("leaveType", { required: "Leave Type is required" })}
-                            type='text' placeholder={editLeaveDialog.leaveType} className='w-full' />
-                        {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
-                    </div>
-                    <div className='w-full'>
-                        <InputText
-                            {...register("total", { required: "Total allocation value is required" })}
-                            keyfilter="int" placeholder={editLeaveDialog.total} className='w-full' />
-                        {errors.total?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.total.message}</span>}
-                    </div>
-                    <div className='w-full'>
-                        <InputText
-                            {...register("description")}
-                            type='text' placeholder={editLeaveDialog?.description || "N/A"} className='w-full' />
-                    </div>
-
-                    <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
-                    </div>
-                </form>
-            </Dialog>
         </div>
     );
 };
