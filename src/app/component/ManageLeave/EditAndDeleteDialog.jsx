@@ -13,12 +13,15 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
     const [loading, setLoading] = useState(false)
 
     const handleEditLeave = (updatedLeaveInfo) => {
+
+        setLoading(true)
+
+        // removing empty fields 
         for (const key in updatedLeaveInfo) {
             if (!updatedLeaveInfo[key]) {
                 delete updatedLeaveInfo[key];
             }
         }
-        console.log(updatedLeaveInfo)
 
         fetch(`http://localhost:5000/api/v1/leave/${editLeaveDialog._id}`, {
             method: "PATCH",
@@ -39,11 +42,28 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                 }
             })
         reset();
+        setLoading(false)
         setEditLeaveDialog(false);
     }
 
-    const handleDeleteLeave = (data) => {
-        console.log(data)
+    const handleDeleteLeave = (leaveData) => {
+        console.log(leaveData);
+        setLoading(true)
+        fetch(`http://localhost:5000/api/v1/leave/${leaveData._id}`, {
+            method: "DELETE",
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status == "Success") {
+                    getAllLeaves()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave deleted', life: 3000 })
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
+            })
+        setLoading(false)
+        setDeleteLeaveDialog(false)
     }
 
     return (
@@ -80,15 +100,15 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
             <Dialog header="Confirm Rejection" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
                 style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
-                <form onSubmit={handleSubmit(handleDeleteLeave)}>
+                <div>
                     <div className='mb-2'>
                         <p>Leave Type: {deleteLeaveDialog?.leaveType}</p>
-                        <p>Allocation: {deleteLeaveDialog?.total} days</p>
+                        <p>Days: {deleteLeaveDialog?.total} days</p>
                     </div>
                     <div className='flex justify-end mt-2'>
-                        <Button type='submit' disabled={!session} loading={loading} label="Delete" icon="pi pi-trash" severity='danger' size='small' />
+                        <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!session} loading={loading} label="Delete" icon="pi pi-trash" severity='danger' size='small' />
                     </div>
-                </form>
+                </div>
             </Dialog>
         </div>
     );
