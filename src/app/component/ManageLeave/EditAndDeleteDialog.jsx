@@ -7,13 +7,14 @@ import { useForm } from 'react-hook-form';
 
 const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, session, getAllLeaves }) => {
 
-    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+    const { register, control, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
+    // const { isDirty, isValid } = formState;
+
     const toast = useRef()
 
     const [loading, setLoading] = useState(false)
 
     const handleEditLeave = (updatedLeaveInfo) => {
-
         setLoading(true)
 
         // removing empty fields 
@@ -91,7 +92,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                        <Button type='submit' disabled={!session || !isDirty || !isValid} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>

@@ -16,7 +16,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
 
     const toast = useRef()
 
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    const { register, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
 
     const [loading, setLoading] = useState(false)
     const [pendingApplications, setPendingApplications] = useState(pendingLeaveApplications)
@@ -190,7 +190,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                             {errors.rejectionReason?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejectionReason.message}</span>}
                         </div>
                         <div className='flex justify-end mt-2'>
-                            <Button type='submit' disabled={!session} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
+                            <Button type='submit' disabled={!session || !isDirty || !isValid} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
                         </div>
                     </form>
                 </Dialog>

@@ -14,7 +14,7 @@ import EditAndDeleteDialog from './EditAndDeleteDialog';
 
 const LeaveTypeTable = ({ availableLeaves }) => {
 
-    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+    const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
 
     const toast = useRef(null)
