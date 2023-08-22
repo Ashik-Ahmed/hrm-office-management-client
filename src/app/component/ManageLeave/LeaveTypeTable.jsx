@@ -94,7 +94,7 @@ const LeaveTypeTable = ({ availableLeaves }) => {
                 </div>
                 <DataTable value={leaves} size='small'>
                     <Column field="leaveType" header="Leave Type"></Column>
-                    <Column field="total" header="Total"></Column>
+                    <Column field="total" header="Days"></Column>
                     <Column field="description" header="Description"></Column>
                     <Column body={leaveTableActionBodyTemplate} header="Action"></Column>
                 </DataTable>
@@ -128,7 +128,7 @@ const LeaveTypeTable = ({ availableLeaves }) => {
                 </form>
             </Dialog>
 
-            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} setDeleteLeaveDialog={setDeleteLeaveDialog} session={session} />
+            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} setDeleteLeaveDialog={setDeleteLeaveDialog} session={session} getAllLeaves={getAllLeaves} />
 
         </div>
     );

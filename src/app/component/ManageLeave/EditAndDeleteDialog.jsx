@@ -1,22 +1,45 @@
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, session }) => {
+const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, session, getAllLeaves }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+    const toast = useRef()
 
     const [loading, setLoading] = useState(false)
 
-    const handleEditLeave = (dataValue) => {
-        for (const key in dataValue) {
-            if (!dataValue[key]) {
-                delete dataValue[key];
+    const handleEditLeave = (updatedLeaveInfo) => {
+        for (const key in updatedLeaveInfo) {
+            if (!updatedLeaveInfo[key]) {
+                delete updatedLeaveInfo[key];
             }
         }
-        console.log(dataValue)
+        console.log(updatedLeaveInfo)
+
+        fetch(`http://localhost:5000/api/v1/leave/${editLeaveDialog._id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(updatedLeaveInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    getAllLeaves()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave updated', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
+            })
+        reset();
+        setEditLeaveDialog(false);
     }
 
     const handleDeleteLeave = (data) => {
@@ -25,6 +48,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
 
     return (
         <div>
+            <Toast ref={toast} />
             {/* Edit Leave Dialog  */}
             <Dialog header="Edit Leave Details" visible={editLeaveDialog} style={{ width: '50vw' }} onHide={() => { setEditLeaveDialog(false); reset() }} className='bg-red-500'>
 
