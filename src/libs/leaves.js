@@ -38,3 +38,14 @@ exports.getAllPendingLeaveApplications = async () => {
         return "No data"
     }
 }
+
+exports.getLeaveStatus = async (employeeId) => {
+    console.log(employeeId);
+    const leaveStatus = await fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`, {
+        cache: "no-cache"
+    })
+        .then(res => res.json())
+    console.log(leaveStatus);
+
+    return leaveStatus?.data
+}

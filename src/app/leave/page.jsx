@@ -1,7 +1,6 @@
 import React from 'react';
 import LeaveStatusTable from '../component/Leave/LeaveStatusTable';
 import LeaveApplicationsTable from '../component/Leave/LeaveApplicationsTable';
-import { getAllLeaveApplicationsByEmployeeId } from '@/libs/leaves';
 
 const Leave = async () => {
 
@@ -9,11 +8,6 @@ const Leave = async () => {
 
     // const leaveApplications = await getAllLeaveApplicationsByEmployeeId(employeeId)
 
-    const getLeaveApplications = async (employeeId) => {
-        const allLeaveAppications = await getAllLeaveApplicationsByEmployeeId(employeeId);
-
-        console.log(allLeaveAppications);
-    }
 
     const leaves = [
         { id: "1", leave: "Casual", total: 10, taken: 3, balance: 5 },
@@ -25,7 +19,7 @@ const Leave = async () => {
 
     return (
         <div className='py-2'>
-            <LeaveStatusTable leaves={leaves} />
+            <LeaveStatusTable />
 
             <div className='mt-4 shadow-xl'>
                 <LeaveApplicationsTable leaves={leaves} />

@@ -20,24 +20,34 @@ const LeaveApplicationsTable = ({ leaves }) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null)
+    const [leaveStatus, setLeaveStatus] = useState()
     const [leaveFormDialog, setLeaveFormDialog] = useState(false);
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
+    const [maxToDate, setMaxToDate] = useState()
     const [rejoinDate, setRejoinDate] = useState(null)
     const [loading, setLoading] = useState(false)
 
-    const getLeaveApplications = () => {
-        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${session?.user._id}`)
+    const getLeaveApplications = (employeeId) => {
+        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setLeaveApplicationHistory(data.data)
             })
     }
 
+    const getLeaveStatusData = (employeeId) => {
+        fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
+            .then(res => res.json())
+            .then(data => {
+                setLeaveStatus(data.data)
+            })
+    }
+
     useEffect(() => {
-        getLeaveApplications()
+        getLeaveApplications(session?.user._id);
+        getLeaveStatusData(session?.user._id)
     }, [session])
 
     const leaveApplication = (data) => {
@@ -82,6 +92,13 @@ const LeaveApplicationsTable = ({ leaves }) => {
         reset()
     }
 
+    const handleStartDateChange = (e) => {
+        const selectedStartDate = e.value;
+        const maxEndDate = new Date(selectedStartDate);
+        maxEndDate.setDate(selectedStartDate.getDate() + (selectedLeave.balance - 1)); // Maximum 2 days from start date
+        setMaxToDate(maxEndDate);
+    };
+
     const fromBodyTemplate = (rowData) => {
         return (
             <div>
@@ -117,25 +134,25 @@ const LeaveApplicationsTable = ({ leaves }) => {
                         <div>
                             <Dropdown
                                 {...register('leaveType', { required: "Leave type is required" })}
-                                value={selectedLeave} onChange={(e) => setSelectedLeave(e.value)} options={leaves} optionLabel="leave" placeholder="Select Leave Type" className='w-full' />
+                                value={selectedLeave} onChange={(e) => { setSelectedLeave(e.value); setFromDate(null); }} options={leaveStatus} optionLabel="leaveType" placeholder="Select Leave Type" className='w-full' />
                             {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
                         </div>
                         <div className="flex gap-x-4">
                             <div>
                                 <Calendar
-                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); }} showIcon placeholder='From date' />
+                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); }} onChange={handleStartDateChange} showIcon placeholder='From date' />
                                 {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
                             </div>
                             <div>
                                 <Calendar
-                                    {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy"
+                                    {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy" maxDate={maxToDate}
                                     value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date' />
                                 {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
                             </div>
                             <div>
                                 <InputText
                                     {...register("totalDay", { required: "From date is required" })}
-                                    id="totalDay" placeholder='Total day' />
+                                    max={selectedLeave?.balance} id="totalDay" placeholder='Total day' />
                                 {errors.totalDay?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.totalDay.message}</span>}
                             </div>
                         </div>

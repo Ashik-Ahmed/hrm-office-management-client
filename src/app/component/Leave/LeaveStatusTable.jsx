@@ -1,18 +1,19 @@
 'use client'
 
+import { getLeaveStatus } from '@/libs/leaves';
 import { useSession } from 'next-auth/react';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react';
 
-const LeaveStatusTable = ({ leaves }) => {
+const LeaveStatusTable = () => {
 
     const [leaveStatus, setLeaveStatus] = useState(null)
 
     const { data: session, status } = useSession();
 
-    const getLeaveStatus = () => {
-        fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${session?.user._id}`)
+    const getLeaveStatusData = (employeeId) => {
+        fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveStatus(data.data)
@@ -20,16 +21,8 @@ const LeaveStatusTable = ({ leaves }) => {
     }
 
     useEffect(() => {
-        getLeaveStatus()
+        getLeaveStatusData(session?.user._id)
     }, [session])
-
-    const balanceLeaveBodyTemplate = (rowData) => {
-        return (
-            <div>
-                {rowData.total - rowData.availed}
-            </div>
-        )
-    }
 
 
     return (
@@ -44,7 +37,7 @@ const LeaveStatusTable = ({ leaves }) => {
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="total" header="Total"></Column>
                     <Column field="availed" header="Availed"></Column>
-                    <Column body={balanceLeaveBodyTemplate} header="Balance"></Column>
+                    <Column field="balance" header="Balance"></Column>
                 </DataTable>
             </div>
         </div>
