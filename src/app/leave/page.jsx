@@ -1,5 +1,5 @@
 import React from 'react';
-import LeaveHistoryTable from '../component/Leave/LeaveHistoryTable';
+import LeaveStatusTable from '../component/Leave/LeaveStatusTable';
 import LeaveApplicationsTable from '../component/Leave/LeaveApplicationsTable';
 import { getAllLeaveApplicationsByEmployeeId } from '@/libs/leaves';
 
@@ -25,7 +25,7 @@ const Leave = async () => {
 
     return (
         <div className='py-2'>
-            <LeaveHistoryTable leaves={leaves} />
+            <LeaveStatusTable leaves={leaves} />
 
             <div className='mt-4 shadow-xl'>
                 <LeaveApplicationsTable leaves={leaves} />

@@ -28,7 +28,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
     const [loading, setLoading] = useState(false)
 
     const getLeaveApplications = () => {
-        fetch(`http://localhost:5000/api/v1/employee/leaveHistory/${session?.user._id}`)
+        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${session?.user._id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
