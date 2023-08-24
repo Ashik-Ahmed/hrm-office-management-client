@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react';
+import LeaveStatusGraph from './LeaveStatusGraph';
 
 const LeaveStatusTable = () => {
 
@@ -29,7 +30,7 @@ const LeaveStatusTable = () => {
 
 
     return (
-        <div>
+        <div className='flex gap-x-4'>
 
             <div className='w-1/2 shadow-lg p-2 bg-white rounded-md'>
 
@@ -42,6 +43,10 @@ const LeaveStatusTable = () => {
                     <Column field="availed" header="Availed"></Column>
                     <Column field="balance" header="Balance"></Column>
                 </DataTable>
+            </div>
+
+            <div className='bg-white w-1/2 rounded-md shadow-lg p-2'>
+                <LeaveStatusGraph leaveStatus={leaveStatus} />
             </div>
         </div>
     );

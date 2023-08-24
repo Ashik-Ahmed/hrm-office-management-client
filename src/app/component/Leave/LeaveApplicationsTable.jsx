@@ -45,6 +45,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
         fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data.data);
                 setLeaveStatus(data.data)
             })
     }
