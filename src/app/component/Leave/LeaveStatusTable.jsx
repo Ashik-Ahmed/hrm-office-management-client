@@ -1,6 +1,5 @@
 'use client'
 
-import { getLeaveStatus } from '@/libs/leaves';
 import { useSession } from 'next-auth/react';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';

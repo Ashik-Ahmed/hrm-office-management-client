@@ -24,15 +24,18 @@ const LeaveApplicationsTable = ({ leaves }) => {
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
+    const [totalDay, setTotalDay] = useState(null)
     const [maxToDate, setMaxToDate] = useState()
     const [rejoinDate, setRejoinDate] = useState(null)
     const [loading, setLoading] = useState(false)
 
     const getLeaveApplications = (employeeId) => {
         setLoading(true)
+        console.log(employeeId);
         fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setLeaveApplicationHistory(data.data)
             })
         setLoading(false)
@@ -74,7 +77,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     resetForm();
-                    getLeaveApplications()
+                    getLeaveApplications(session.user._id)
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Application Successful', life: 3000 });
                 }
                 else {
@@ -135,25 +138,24 @@ const LeaveApplicationsTable = ({ leaves }) => {
                         <div>
                             <Dropdown
                                 {...register('leaveType', { required: "Leave type is required" })}
-                                value={selectedLeave} onChange={(e) => { setSelectedLeave(e.value); setFromDate(null); }} options={leaveStatus} optionLabel="leaveType" placeholder="Select Leave Type" className='w-full' />
+                                value={selectedLeave} onChange={(e) => { setSelectedLeave(e.value); console.log(e.value); }} options={leaveStatus} optionLabel="leaveType" placeholder="Select Leave Type*" className='w-full' />
                             {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
                         </div>
                         <div className="flex gap-x-4">
                             <div>
                                 <Calendar
-                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); }} onChange={handleStartDateChange} showIcon placeholder='From date' />
+                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); handleStartDateChange(e) }} showIcon placeholder='From date*' />
                                 {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
                             </div>
                             <div>
                                 <Calendar
-                                    {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy" maxDate={maxToDate}
-                                    value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date' />
+                                    {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy" minDate={fromDate} maxDate={maxToDate}
+                                    value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date*' />
                                 {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
                             </div>
                             <div>
                                 <InputText
-                                    {...register("totalDay", { required: "From date is required" })}
-                                    max={selectedLeave?.balance} id="totalDay" placeholder='Total day' />
+                                    {...register("totalDay", { required: "Total day is required" })} placeholder={`${(toDate?.getDate() - fromDate?.getDate()) + 1 || "Total day*"}`} />
                                 {errors.totalDay?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.totalDay.message}</span>}
                             </div>
                         </div>
@@ -161,7 +163,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
                         <div>
                             <Calendar
                                 {...register("rejoinDate", { required: "Re-joining date is required" })}
-                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value); console.log(e.value); }} dateFormat="dd-mm-yy" showIcon placeholder='Re-joining date' className='w-full' />
+                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value); console.log(e.value); }} dateFormat="dd-mm-yy" showIcon placeholder='Re-joining date*' className='w-full' />
                             {errors.rejoinDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejoinDate.message}</span>}
                         </div>
 
