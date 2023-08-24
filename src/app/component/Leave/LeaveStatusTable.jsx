@@ -12,12 +12,16 @@ const LeaveStatusTable = () => {
 
     const { data: session, status } = useSession();
 
+    const [loading, setLoading] = useState(false)
+
     const getLeaveStatusData = (employeeId) => {
+        setLoading(true)
         fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveStatus(data.data)
             })
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -33,7 +37,7 @@ const LeaveStatusTable = () => {
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>LEAVE STATUS</h3>
                 </div>
-                <DataTable value={leaveStatus} size='small'>
+                <DataTable value={leaveStatus} loading={loading} size='small'>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="total" header="Total"></Column>
                     <Column field="availed" header="Availed"></Column>

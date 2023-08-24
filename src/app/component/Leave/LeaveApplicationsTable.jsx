@@ -14,9 +14,8 @@ import { useForm } from 'react-hook-form';
 
 const LeaveApplicationsTable = ({ leaves }) => {
 
-    const { data: session, status } = useSession();
-
     const toast = useRef()
+    const { data: session, status } = useSession();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null)
@@ -30,11 +29,13 @@ const LeaveApplicationsTable = ({ leaves }) => {
     const [loading, setLoading] = useState(false)
 
     const getLeaveApplications = (employeeId) => {
+        setLoading(true)
         fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveApplicationHistory(data.data)
             })
+        setLoading(false)
     }
 
     const getLeaveStatusData = (employeeId) => {
@@ -176,7 +177,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>LEAVE APPLICATIONS</h3>
                 </div>
-                <DataTable value={leaveApplicationHistory} size='small' emptyMessage="No previous application">
+                <DataTable value={leaveApplicationHistory} loading={loading} size='small' emptyMessage="No previous application">
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column body={fromBodyTemplate} header="From"></Column>
                     <Column body={toBodyTemplate} header="To"></Column>
