@@ -77,7 +77,8 @@ const LeaveApplicationsTable = ({ leaves }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     resetForm();
-                    getLeaveApplications(session.user._id)
+                    getLeaveApplications(session.user._id);
+                    getLeaveStatusData(session.user._id)
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Application Successful', life: 3000 });
                 }
                 else {
