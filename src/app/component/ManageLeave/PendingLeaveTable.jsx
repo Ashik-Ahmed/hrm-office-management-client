@@ -118,12 +118,12 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" />
                 <Button onClick={() => setApproveDialog(rowData)} tooltip="Approve" tooltipOptions={buttonTooltipOptions} icon="pi pi-check"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management")
                     }
                     rounded text raised severity='success' aria-label="Filter" />
                 <Button onClick={() => setRejectDialog(rowData)} tooltip="Reject" tooltipOptions={buttonTooltipOptions} icon="pi pi-times"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || rowData.currentStatus.status == "Approved by Management"
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management")
                     }
                     rounded text raised severity="danger" aria-label="Cancel" />
             </div>

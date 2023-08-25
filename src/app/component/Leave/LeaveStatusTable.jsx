@@ -44,10 +44,10 @@ const LeaveStatusTable = () => {
                     <Column field="balance" header="Balance"></Column>
                 </DataTable>
             </div>
-
+            {/* 
             <div className='bg-white w-1/2 rounded-md shadow-lg p-2'>
                 <LeaveStatusGraph leaveStatus={leaveStatus} />
-            </div>
+            </div> */}
         </div>
     );
 };

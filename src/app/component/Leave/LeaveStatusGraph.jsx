@@ -6,9 +6,11 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
 
+    const excludedValue = "Maternity"
+
     // Remove Maternity leave from the array 
     for (let i = 0; i < leaveStatus?.length; i++) {
-        if (leaveStatus[i] == "maternity") {
+        if (leaveStatus[i] === excludedValue) {
             leaveStatus.splice(i, 1);
         }
     }
@@ -29,13 +31,13 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
             datasets: [
                 {
                     type: 'bar',
-                    label: 'Dataset 1',
+                    label: 'Availed',
                     backgroundColor: documentStyle.getPropertyValue('--blue-500'),
                     data: availed
                 },
                 {
                     type: 'bar',
-                    label: 'Dataset 2',
+                    label: 'Balance',
                     backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
                     data: balance
                 }
