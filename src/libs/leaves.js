@@ -45,7 +45,6 @@ exports.getLeaveStatus = async (employeeId) => {
         cache: "no-cache"
     })
         .then(res => res.json())
-    console.log(leaveStatus);
 
     return leaveStatus?.data
 }

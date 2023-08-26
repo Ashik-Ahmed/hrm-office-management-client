@@ -31,11 +31,9 @@ const LeaveApplicationsTable = ({ leaves }) => {
 
     const getLeaveApplications = (employeeId) => {
         setLoading(true)
-        console.log(employeeId);
         fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setLeaveApplicationHistory(data.data)
             })
         setLoading(false)
@@ -45,7 +43,6 @@ const LeaveApplicationsTable = ({ leaves }) => {
         fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data.data);
                 setLeaveStatus(data.data)
             })
     }
@@ -75,7 +72,6 @@ const LeaveApplicationsTable = ({ leaves }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 if (data.status == "Success") {
                     resetForm();
                     getLeaveApplications(session.user._id);
