@@ -54,7 +54,7 @@ const LeaveStatusTable = () => {
                     <h3 className='font-light'>LEAVE STATUS</h3>
                     <div className='w-fit'>
                         {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
-                        <Dropdown options={years} onChange={(e) => { setFilterYear(e.value); }} value={filterYear} />
+                        <Dropdown options={years} onChange={(e) => { setFilterYear(e.value); }} value={filterYear} size='small' className='p-dropdown-sm' />
                     </div>
                 </div>
                 <DataTable value={leaveStatus} loading={loading} size='small'>

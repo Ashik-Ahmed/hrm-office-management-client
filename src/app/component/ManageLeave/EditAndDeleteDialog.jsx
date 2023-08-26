@@ -98,13 +98,13 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
             </Dialog>
 
             {/* Delete Leave Dialog  */}
-            <Dialog header="Confirm Rejection" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
+            <Dialog header="Confirm Delete" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
                 style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                 <div>
                     <div className='mb-2'>
-                        <p>Leave Type: {deleteLeaveDialog?.leaveType}</p>
-                        <p>Days: {deleteLeaveDialog?.total} days</p>
+                        <p><span className='font-semibold'>Leave Type:</span> <span className='text-xl font-semibold'>{deleteLeaveDialog?.leaveType}</span></p>
+                        <p><span className='font-semibold'>Total Days:</span> <span className="text-xl font-semibold">{deleteLeaveDialog?.total} days</span> </p>
                     </div>
                     <div className='flex justify-end mt-2'>
                         <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!session} loading={loading} label="Delete" icon="pi pi-trash" severity='danger' size='small' />

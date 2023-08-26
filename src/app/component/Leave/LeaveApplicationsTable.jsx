@@ -12,7 +12,7 @@ import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const LeaveApplicationsTable = ({ leaves }) => {
+const LeaveApplicationsTable = () => {
 
     const toast = useRef()
     const { data: session, status } = useSession();
@@ -136,7 +136,7 @@ const LeaveApplicationsTable = ({ leaves }) => {
                         <div>
                             <Dropdown
                                 {...register('leaveType', { required: "Leave type is required" })}
-                                value={selectedLeave} onChange={(e) => { setSelectedLeave(e.value); console.log(e.value); }} options={leaveStatus} optionLabel="leaveType" placeholder="Select Leave Type*" className='w-full' />
+                                value={selectedLeave} onChange={(e) => { setSelectedLeave(e.value) }} options={leaveStatus} optionLabel="leaveType" placeholder="Select Leave Type*" className='w-full' />
                             {errors.leaveType?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.leaveType.message}</span>}
                         </div>
                         <div className="flex gap-x-4">

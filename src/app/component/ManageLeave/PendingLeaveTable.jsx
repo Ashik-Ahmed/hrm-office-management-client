@@ -160,7 +160,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             <div>
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div>
+                    <div className=' text-lg'>
                         <p>Employee: {approveDialog?.employee?.name}</p>
                         <p>Leave Type: {approveDialog?.leaveType}</p>
                         <p>Total day: {approveDialog?.totalDay}</p>
@@ -177,7 +177,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                     <form onSubmit={handleSubmit(rejectLeaveApplication)}>
-                        <div className='mb-2'>
+                        <div className='mb-2 text-lg'>
                             <p>Employee: {rejectDialog?.employee?.name}</p>
                             <p>Leave Type: {rejectDialog?.leaveType}</p>
                             <p>Total Day: {rejectDialog?.totalDay}</p>
