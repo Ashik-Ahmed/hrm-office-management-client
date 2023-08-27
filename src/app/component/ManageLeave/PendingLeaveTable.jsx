@@ -150,8 +150,35 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             <div>
                 <Dialog header="Leave Application Details" visible={detailsDialog} onHide={() => setDetailsDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div>
-                        <p>Employee: {detailsDialog?.employee?.name}</p>
+                    <div className='text-lg'>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>Employee : </span>
+                            <span>{detailsDialog?.employee?.name}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>Leave Type : </span>
+                            <span>{detailsDialog?.leaveType}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>Total : </span>
+                            <span>{detailsDialog?.totalDay}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>From : </span>
+                            <span>{detailsDialog?.fromDate?.split("T")[0]}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>To : </span>
+                            <span>{detailsDialog?.toDate?.split("T")[0]}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>Rejoin Date : </span>
+                            <span>{detailsDialog?.rejoinDate?.split("T")[0]}</span>
+                        </div>
+                        <div className='flex justify-start'>
+                            <span className='w-1/3'>Purpose : </span>
+                            <span>{detailsDialog?.purpose}</span>
+                        </div>
                     </div>
                 </Dialog>
             </div>

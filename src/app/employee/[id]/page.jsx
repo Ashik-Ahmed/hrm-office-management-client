@@ -32,7 +32,7 @@ const UserDetails = async ({ params: { id } }) => {
             <div className="flex gap-x-2 w-full bg-white p-2 my-2 rounded-md shadow-xl">
                 <div className='flex items-start gap-x-4 w-3/5 mr-8'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
-                        <Image src={user?.photo || userPhoto} width={150} height={150} alt='user photo' className='rounded-md shadow-lg border' />
+                        <Image src={user?.image || userPhoto} width={150} height={150} alt='user photo' className='rounded-md shadow-lg border' />
                     </div>
                     <div className='flex flex-col gap-8'>
                         <div>

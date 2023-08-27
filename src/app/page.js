@@ -1,6 +1,4 @@
-"use client";
 
-import { useSession } from "next-auth/react";
 import { FiUsers } from 'react-icons/fi'
 import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
 import { BiCalendar } from 'react-icons/bi'
@@ -10,17 +8,11 @@ import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
-import Loading from "./component/Loading/Loading";
+import { getServerSession } from "next-auth";
 
-export default function Home() {
-  const { data: session, status } = useSession({
-    required: true,
-  });
-
-  if (status === "loading") {
-    return <Loading />
-  }
-
+export default async function Home() {
+  const session = await getServerSession()
+  console.log(session);
 
   return (
     <div className="my-6 text-gray-700">

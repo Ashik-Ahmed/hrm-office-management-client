@@ -85,7 +85,7 @@ const Users = () => {
                         console.log(data);
 
                         if (data.data.url) {
-                            userData.photo = data.data.url
+                            userData.image = data.data.url
                             fetch('http://localhost:5000/api/v1/employee', {
                                 method: 'POST',
                                 headers: {

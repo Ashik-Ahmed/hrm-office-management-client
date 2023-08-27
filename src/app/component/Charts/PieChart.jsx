@@ -1,3 +1,5 @@
+'use client'
+
 import { Chart } from 'primereact/chart';
 import React, { useEffect, useState } from 'react';
 
