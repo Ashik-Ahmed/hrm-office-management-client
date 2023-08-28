@@ -9,18 +9,17 @@ import { MdNotifications } from 'react-icons/md'
 import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
-import { useSession } from 'next-auth/react';
-import Loading from '../Loading/Loading';
 import { usePathname } from 'next/navigation';
+// import { getServerSession } from 'next-auth';
 
 const Sidebar = () => {
 
-    const { data: session, status } = useSession({
-        required: true,
-    });
+    // const session = await getServerSession()
 
 
     const currentPath = usePathname();
+    console.log(currentPath);
+
 
     const menus = [
         { name: 'Department', link: '/department' },
@@ -38,14 +37,6 @@ const Sidebar = () => {
         { name: 'Report', link: '/report' },
         { name: 'Guest', link: '/guest' },
     ]
-
-    if (status === "loading") {
-        return (
-            <div className="h-screen w-full flex justify-center items-center">
-                <Loading />
-            </div>
-        )
-    }
 
     return (
         <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700'>

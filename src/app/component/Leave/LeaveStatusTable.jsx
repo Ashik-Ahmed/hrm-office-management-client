@@ -27,7 +27,6 @@ const LeaveStatusTable = () => {
 
     const getLeaveStatusData = (employeeId) => {
         setLoading(true)
-        console.log("filter year value: ", filterYear);
         const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}?year=${filterYear}`
 
         console.log(url);

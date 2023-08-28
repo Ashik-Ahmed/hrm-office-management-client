@@ -1,6 +1,7 @@
 import React from 'react';
 import { getServerSession } from 'next-auth';
 import { getConveyanceByEmpployeeEmail } from '@/libs/conveyance';
+import Conveyance from '../component/Conveyance/Conveyance';
 
 
 const page = async () => {
@@ -9,9 +10,11 @@ const page = async () => {
 
     const conveyance = await getConveyanceByEmpployeeEmail(session.user.email)
 
+    console.log(conveyance);
+
     return (
         <div>
-
+            <Conveyance />
         </div>
     );
 };
