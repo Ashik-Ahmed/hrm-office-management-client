@@ -200,7 +200,7 @@ const Users = () => {
     }
 
     return (
-        <div className='my-2'>
+        <div>
             <Toast ref={toast} />
 
             {/* Employee Data Table  */}

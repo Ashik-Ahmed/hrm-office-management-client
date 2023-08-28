@@ -15,7 +15,7 @@ export default async function Home() {
   console.log(session);
 
   return (
-    <div className="my-6 text-gray-700">
+    <div className="text-gray-700">
       <div className="">
         <h2 className="text-2xl mb-2">Welcome, {session.user.name}</h2>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
@@ -60,7 +60,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="flex gap-x-4 mb-6">
+      <div className="flex gap-x-4">
         <div className="w-1/2 card bg-white rounded-xl p-2">
           <p className="text-gray-700 uppercase m-2">Revenue Calc.</p>
           <div className="">

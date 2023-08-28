@@ -1,20 +1,20 @@
 import React from 'react';
 import { getServerSession } from 'next-auth';
-import { getConveyanceByEmpployeeEmail } from '@/libs/conveyance';
 import Conveyance from '../component/Conveyance/Conveyance';
+import { getConveyanceByEmployeeEmail } from '@/libs/conveyance';
 
 
 const page = async () => {
     const session = await getServerSession()
     console.log(session);
 
-    const conveyance = await getConveyanceByEmpployeeEmail(session.user.email)
+    const conveyance = await getConveyanceByEmployeeEmail(session.user.email)
 
     console.log(conveyance);
 
     return (
         <div>
-            <Conveyance />
+            <Conveyance conveyance={conveyance} session={session} />
         </div>
     );
 };

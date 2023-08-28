@@ -1,4 +1,4 @@
-exports.getConveyanceByEmpployeeEmail = async (employeeEmail) => {
+exports.getConveyanceByEmployeeEmail = async (employeeEmail) => {
     const conveyance = await fetch(`http://localhost:5000/api/v1/conveyance/${employeeEmail}`, {
         cache: 'no-cache'
     })

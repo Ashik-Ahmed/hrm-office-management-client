@@ -18,7 +18,7 @@ const Sidebar = () => {
 
 
     const currentPath = usePathname();
-    console.log(currentPath);
+    // console.log(currentPath);
 
 
     const menus = [

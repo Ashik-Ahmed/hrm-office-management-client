@@ -5,7 +5,7 @@ import LeaveApplicationsTable from '../component/Leave/LeaveApplicationsTable';
 const Leave = async () => {
 
     return (
-        <div className='py-2'>
+        <div>
             <LeaveStatusTable />
 
             <div className='mt-4 shadow-xl'>
