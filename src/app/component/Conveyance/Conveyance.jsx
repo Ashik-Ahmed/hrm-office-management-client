@@ -12,9 +12,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
+import { Toast } from 'primereact/toast';
 
 const Conveyance = ({ conveyance, session }) => {
 
+    const toast = useRef(null)
     const isFirstRender = useRef(true);
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -29,7 +31,8 @@ const Conveyance = ({ conveyance, session }) => {
     const [attachment, setAttachment] = useState(null);
 
     const getConveyanceData = () => {
-        console.log("fetching data");
+        setLoading(true);
+
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         console.log(filterMonth, filterYear);
@@ -41,6 +44,8 @@ const Conveyance = ({ conveyance, session }) => {
                 console.log(data.data);
                 setConveyanceData(data?.data)
             })
+
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -80,13 +85,15 @@ const Conveyance = ({ conveyance, session }) => {
                 if (data.status == "Success") {
                     console.log("Conveyance created");
                     getConveyanceData()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Conveyance Submitted', life: 3000 });
                 }
                 else {
                     console.log("Failed");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again.', life: 3000 });
                 }
             })
 
-        // setAddConveyanceDialog(false)
+        setAddConveyanceDialog(false)
         reset();
     }
 
@@ -101,6 +108,7 @@ const Conveyance = ({ conveyance, session }) => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className='flex gap-x-2'>
                 <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value); }} value={selectedMonth} view="month" dateFormat="MM" size='small' className='p-dropdown-sm' />
                 <Calendar onChange={(e) => { setSelectedyear(e.value); console.log(e.value); }} value={selectedYear} view="year" dateFormat="yy" size='small' className='p-dropdown-sm' />
@@ -113,6 +121,7 @@ const Conveyance = ({ conveyance, session }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Total Amount</p>
                         <p className='text-3xl font-bold'>&#2547; {`${conveyanceData.totalAmount || "00"} `} </p>
+                        <p className='text-sm mt-2'>Total <span className='text-sky-500 group-hover:text-yellow-300 text-lg font-semibold'>{conveyanceData.totalConveyances}</span> trips found</p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
@@ -120,6 +129,7 @@ const Conveyance = ({ conveyance, session }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due</p>
                         <p className='text-3xl font-bold'>&#2547; {`${conveyanceData.totalDueAmount || "00"}`}</p>
+                        <p className='text-sm mt-2'>Total <span className='text-sky-500 group-hover:text-yellow-300 text-lg font-semibold'>{conveyanceData.pendingConveyances}</span> trips due</p>
                     </div>
                 </div>
             </div>
