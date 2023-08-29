@@ -3,7 +3,7 @@
 import { getConveyanceByEmployeeEmail } from '@/libs/conveyance';
 import { Calendar } from 'primereact/calendar';
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineLike } from 'react-icons/ai';
+import { CiMoneyBill } from 'react-icons/ci';
 import { TbReportMoney } from 'react-icons/tb';
 
 const Conveyance = ({ conveyance, session }) => {
@@ -50,17 +50,17 @@ const Conveyance = ({ conveyance, session }) => {
 
             <div className='mt-4 flex gap-x-2'>
                 <div onMouseEnter={() => setTotalIconColor('white')} onMouseLeave={() => setTotalIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-xl flex items-center group hover:bg-violet-400 duration-500">
-                    <TbReportMoney size={60} color={totalIconColor} className="" />
-                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer group-hover:text-white">
+                    <TbReportMoney size={60} color={totalIconColor} />
+                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Total Amount</p>
-                        <p className='text-2xl'>&#2547; {`${conveyanceData.totalAmount || "00"} `} </p>
+                        <p className='text-3xl font-bold'>&#2547; {`${conveyanceData.totalAmount || "00"} `} </p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-xl flex items-center group hover:bg-violet-400 duration-500">
-                    <TbReportMoney size={60} color={dueIconColor} className="" />
-                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer group-hover:text-white">
+                    <CiMoneyBill size={60} color={dueIconColor} />
+                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due</p>
-                        <p className='text-2xl'>&#2547; {`${conveyanceData.totalDueAmount || "00"}`}</p>
+                        <p className='text-3xl font-bold'>&#2547; {`${conveyanceData.totalDueAmount || "00"}`}</p>
                     </div>
                 </div>
             </div>
