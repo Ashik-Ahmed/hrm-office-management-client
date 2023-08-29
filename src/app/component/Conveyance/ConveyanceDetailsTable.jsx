@@ -14,6 +14,9 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
+    const [detailsDialog, setDetailsDialog] = useState(false)
+    const [editDialog, setEditDialog] = useState(false)
+    const [deleteDialog, setDeleteDialog] = useState(false)
     const [addConveyanceDialog, setAddConveyanceDialog] = useState(false)
     const [date, setDate] = useState(null);
     const [attachment, setAttachment] = useState(null);
@@ -97,9 +100,9 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 {
                     conveyanceData.conveyanceDetails.length > 0 ?
                         <DataTable value={conveyanceData.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
+                            <Column body={dateBodyTemplate} header="Date"></Column>
                             <Column field='from' header="From"></Column>
                             <Column field='destination' header="Destination"></Column>
-                            <Column body={dateBodyTemplate} header="Date"></Column>
                             <Column field="amount" header="Amount"></Column>
                             <Column field="paymentStatus" header="Payment Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>
