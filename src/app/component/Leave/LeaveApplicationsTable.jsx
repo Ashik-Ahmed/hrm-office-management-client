@@ -24,7 +24,6 @@ const LeaveApplicationsTable = () => {
     const [selectedLeave, setSelectedLeave] = useState(null);
     const [fromDate, setFromDate] = useState(null)
     const [toDate, setToDate] = useState(null)
-    const [totalDay, setTotalDay] = useState(null)
     const [maxToDate, setMaxToDate] = useState()
     const [rejoinDate, setRejoinDate] = useState(null)
     const [loading, setLoading] = useState(false)
