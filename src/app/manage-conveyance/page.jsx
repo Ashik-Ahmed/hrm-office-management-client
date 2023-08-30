@@ -1,11 +1,15 @@
 import React from 'react';
+import ManageConveyance from '../component/ManageConveyance/ManageConveyance';
 
-const ManageConveyance = () => {
+const page = () => {
+
+
+
     return (
         <div>
-            Manage Conveyance
+            {/* <ManageConveyance /> */}
         </div>
     );
 };
 
-export default ManageConveyance;
+export default page;
