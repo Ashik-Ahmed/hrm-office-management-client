@@ -6,6 +6,8 @@ import "primereact/resources/primereact.min.css";
 import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "./providers/sessionProvider";
 import Sidebar from "./component/Sidebar/Sidebar";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,8 +16,12 @@ export const metadata = {
   description: "HR Management Software for Infozillion",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const session = await getServerSession()
 
+  if (!session) {
+    return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+  }
 
   return (
     <html lang="en">

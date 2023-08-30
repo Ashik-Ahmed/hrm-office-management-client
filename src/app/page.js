@@ -1,4 +1,5 @@
 
+// import { useSession } from "next-auth/react";
 import { FiUsers } from 'react-icons/fi'
 import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
 import { BiCalendar } from 'react-icons/bi'
@@ -8,16 +9,29 @@ import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
+// import Loading from "./component/Loading/Loading";
 
 export default async function Home() {
+  // const { data: session, status } = useSession({
+  //   required: true,
+  // });
+
+  // if (status === "loading") {
+  //   return <Loading />
+  // }
+
   const session = await getServerSession()
-  console.log(session);
+
+  if (!session) {
+    return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+  }
 
   return (
-    <div className="text-gray-700">
+    <div className="my-6 text-gray-700">
       <div className="">
-        <h2 className="text-2xl mb-2">Welcome, {session.user.name}</h2>
+        <h2 className="text-2xl mb-2">Welcome, {session?.user.name}</h2>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
       <div className="flex gap-4 w-full my-8">
@@ -60,7 +74,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="flex gap-x-4">
+      <div className="flex gap-x-4 mb-6">
         <div className="w-1/2 card bg-white rounded-xl p-2">
           <p className="text-gray-700 uppercase m-2">Revenue Calc.</p>
           <div className="">

@@ -10,11 +10,15 @@ import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 // import { getServerSession } from 'next-auth';
 
 const Sidebar = () => {
 
     // const session = await getServerSession()
+    const { data: session } = useSession(
+        { require: true }
+    )
 
 
     const currentPath = usePathname();
