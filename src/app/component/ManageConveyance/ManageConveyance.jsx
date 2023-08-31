@@ -68,7 +68,7 @@ const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
                     <MdOutlinePendingActions size={55} color={dueIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
-                        <p>Due</p>
+                        <p>Due Bill</p>
                         <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeePendingAmount || "00"}`}</p>
                         <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeePendingConveyances || "0"}`}</span> trips</p>
                     </div>
