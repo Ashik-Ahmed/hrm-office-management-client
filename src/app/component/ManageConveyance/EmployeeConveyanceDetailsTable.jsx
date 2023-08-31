@@ -5,6 +5,7 @@ import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import Image from 'next/image';
+import Loading from '../Loading/Loading';
 
 const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
@@ -53,6 +54,12 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         )
     }
 
+    const detailsTableDateTemplate = (rowData) => {
+        return (
+            <div>{rowData.date.split("T")[0]}</div>
+        )
+    }
+
     return (
         <div>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
@@ -78,27 +85,46 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             </div>
 
             {/* Details Conveyance dialog  */}
-            <Dialog header="Conveyance Details" visible={selectedEmployee} style={{ width: '50vw' }} onHide={() => { setSelectedEmployee(false); }}>
-                <div className='flex justify-center gap-x-4'>
-                    <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
-                    <div>
-                        <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
-                        <p className='underline text-center font-bold'>Conveyance Bill</p>
-                        <p className='mt-2 text-center text-sm'>Date: {new Date().toISOString().split("T")[0]}</p>
-                    </div>
-                </div>
-                <div className='mt-4 flex flex-col justify-around'>
-                    <div className='flex justify-around'>
+            <Dialog header="Conveyance Details" visible={selectedEmployee} style={{ width: '80vw' }} onHide={() => { setSelectedEmployee(false); }}>
+                {
+                    loading ?
                         <div>
-                            <p>Employee: {selectedEmployee?.name}</p>
-                            <p>Designation:</p>
+                            <Loading />
                         </div>
+                        :
                         <div>
-                            <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
-                            <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
+                            <div className='flex justify-center gap-x-4'>
+                                <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
+                                <div>
+                                    <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
+                                    <p className='underline text-center font-bold'>Conveyance Bill</p>
+                                </div>
+                            </div>
+                            <div className='mt-4 flex flex-col justify-around'>
+                                <div className='flex justify-around'>
+                                    <div>
+                                        <p>Employee: {selectedEmployee?.name}</p>
+                                        <p>Date: {new Date().toISOString().split("T")[0]}</p>
+                                    </div>
+                                    <div>
+                                        <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
+                                        <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-4'>
+                                <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
+                                    {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
+                                    <Column body={detailsTableDateTemplate} header="Date"></Column>
+                                    <Column field='from' header="From"></Column>
+                                    <Column field='destination' header="Destination"></Column>
+                                    <Column field="amount" header="Amount"></Column>
+                                    <Column field="purpose" header="Purpose"></Column>
+                                    {/* <Column field="paymentStatus" header="Payment Status"></Column> */}
+                                </DataTable>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                }
             </Dialog>
         </div >
     );
