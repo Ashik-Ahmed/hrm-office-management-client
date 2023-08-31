@@ -1,18 +1,51 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Calendar } from 'primereact/calendar';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
+import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
 
 const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
 
+    const isFirstRender = useRef(true);
 
+    const [loading, setLoading] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState(new Date())
     const [selectedYear, setSelectedyear] = useState(new Date())
     const [monthlyEmployeeConveyance, setmonthlyEmployeeConveyance] = useState(monthlyEmployeeConveyanceData)
     const [totalIconColor, setTotalIconColor] = useState('gray')
     const [dueIconColor, setDueIconColor] = useState('gray')
+
+
+    const getConveyanceData = () => {
+        setLoading(true);
+
+        const filterMonth = new Date(selectedMonth).getMonth() + 1;
+        const filterYear = new Date(selectedYear).getFullYear();
+        console.log(filterMonth, filterYear);
+        const url = `http://localhost:5000/api/v1/conveyance/?month=${filterMonth}&year=${filterYear}`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.data);
+                setmonthlyEmployeeConveyance(data?.data)
+            })
+
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        // Do not fetch data on first render
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+        } else {
+            // Fetch data
+            getConveyanceData()
+        }
+    }, [selectedMonth, selectedYear])
+
 
     return (
         <div>
@@ -28,18 +61,22 @@ const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
                     <TbReportMoney size={60} color={totalIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Total Amount</p>
-                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyanceData.totalAmount || "00"} `} </p>
-                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{monthlyEmployeeConveyanceData.totalConveyances}</span> trips in total</p>
+                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeeTotalAmount || "00"} `} </p>
+                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeeTotalConveyances || "0"}`}</span> trips in total</p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
                     <MdOutlinePendingActions size={55} color={dueIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due</p>
-                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyanceData.totalDueAmount || "00"}`}</p>
-                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{monthlyEmployeeConveyanceData.pendingConveyances}</span> trips</p>
+                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeePendingAmount || "00"}`}</p>
+                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeePendingConveyances || "0"}`}</span> trips</p>
                     </div>
                 </div>
+            </div>
+
+            <div className='mt-4'>
+                <EmployeeConveyanceDetailsTable monthlyEmployeeConveyance={monthlyEmployeeConveyance?.employeeData} />
             </div>
         </div>
     );

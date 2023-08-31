@@ -57,6 +57,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
             })
 
         setAddConveyanceDialog(false)
+        setDate(null)
         reset();
     }
 
