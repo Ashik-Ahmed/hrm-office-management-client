@@ -6,12 +6,31 @@ import React, { useState } from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import Image from 'next/image';
 
-const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance }) => {
+const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
-    const [conveyanceDetailsDialog, setConveyanceDetailsDialog] = useState(false)
+    const [loading, setLoading] = useState(false)
+    // const [conveyanceDetailsDialog, setConveyanceDetailsDialog] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null)
+    // const [selectedMonth, setSelectedMonth] = useState(new Date())
+    // const [selectedYear, setSelectedyear] = useState(new Date())
+    const [conveyanceData, setConveyanceData] = useState(null)
 
     const getEmployeeConveyanceDetails = (email) => {
-        console.log(email);
+        setLoading(true);
+
+        const filterMonth = new Date(selectedMonth).getMonth() + 1;
+        const filterYear = new Date(selectedYear).getFullYear();
+        console.log(filterMonth, filterYear);
+        const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.data);
+                setConveyanceData(data?.data)
+            })
+
+        setLoading(false)
     }
 
     const buttonTooltipOptions = {
@@ -27,7 +46,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setConveyanceDetailsDialog(true) }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" />
+                <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setSelectedEmployee(rowData); }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" />
                 <Button tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
@@ -59,25 +78,29 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance }) => {
             </div>
 
             {/* Details Conveyance dialog  */}
-            <Dialog header="Conveyance Details" visible={conveyanceDetailsDialog} style={{ width: '50vw' }} onHide={() => { setConveyanceDetailsDialog(false); }}>
+            <Dialog header="Conveyance Details" visible={selectedEmployee} style={{ width: '50vw' }} onHide={() => { setSelectedEmployee(false); }}>
                 <div className='flex justify-center gap-x-4'>
-                    <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='border-2' />
+                    <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
                     <div>
                         <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
-                        <p className='mt-4 text-center font-bold'>Conveyance Bill</p>
+                        <p className='underline text-center font-bold'>Conveyance Bill</p>
+                        <p className='mt-2 text-center text-sm'>Date: {new Date().toISOString().split("T")[0]}</p>
                     </div>
                 </div>
-                <div className='mt-4 flex justify-around'>
-                    <div>
-                        <p>Employee:</p>
-                        <p>Designation:</p>
-                    </div>
-                    <div>
-                        Date: {new Date().toISOString().split("T")[0]}
+                <div className='mt-4 flex flex-col justify-around'>
+                    <div className='flex justify-around'>
+                        <div>
+                            <p>Employee: {selectedEmployee?.name}</p>
+                            <p>Designation:</p>
+                        </div>
+                        <div>
+                            <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
+                            <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
+                        </div>
                     </div>
                 </div>
             </Dialog>
-        </div>
+        </div >
     );
 };
 

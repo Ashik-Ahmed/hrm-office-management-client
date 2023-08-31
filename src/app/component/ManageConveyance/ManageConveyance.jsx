@@ -76,7 +76,7 @@ const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
             </div>
 
             <div className='mt-4'>
-                <EmployeeConveyanceDetailsTable monthlyEmployeeConveyance={monthlyEmployeeConveyance?.employeeData} />
+                <EmployeeConveyanceDetailsTable monthlyEmployeeConveyance={monthlyEmployeeConveyance?.employeeData} selectedMonth={selectedMonth} selectedYear={selectedYear} />
             </div>
         </div>
     );
