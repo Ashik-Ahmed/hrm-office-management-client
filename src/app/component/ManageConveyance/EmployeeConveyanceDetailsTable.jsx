@@ -85,7 +85,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             </div>
 
             {/* Details Conveyance dialog  */}
-            <Dialog header="Conveyance Details" visible={selectedEmployee} style={{ width: '80vw' }} onHide={() => { setSelectedEmployee(false); }}>
+            <Dialog visible={selectedEmployee} style={{ width: '80vw' }} onHide={() => { setSelectedEmployee(false); }}>
                 {
                     loading ?
                         <div>

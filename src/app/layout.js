@@ -25,6 +25,10 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="../../public/images/logo.png" />
+      </head>
+
       <body className={inter.className}>
         <NextAuthSessionProvider>
           <div className='flex'>
