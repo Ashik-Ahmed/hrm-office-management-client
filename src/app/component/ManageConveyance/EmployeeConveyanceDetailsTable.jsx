@@ -101,7 +101,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                                 </div>
                             </div>
                             <div className='mt-4 flex flex-col justify-around'>
-                                <div className='flex justify-around'>
+                                <div className='flex justify-around font-semibold'>
                                     <div>
                                         <p>Employee: {selectedEmployee?.name}</p>
                                         <p>Date: {new Date().toISOString().split("T")[0]}</p>
