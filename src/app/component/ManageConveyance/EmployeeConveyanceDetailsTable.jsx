@@ -113,6 +113,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                                 </div>
                             </div>
                             <div className='mt-4'>
+                                <Button onClick={() => window.print()} icon='pi pi-print' />
                                 <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
                                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                                     <Column body={detailsTableDateTemplate} header="Date"></Column>

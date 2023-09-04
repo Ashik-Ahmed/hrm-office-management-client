@@ -5,6 +5,7 @@ import { Calendar } from 'primereact/calendar';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
+import Loading from '../Loading/Loading';
 
 const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
 
@@ -45,6 +46,10 @@ const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
             getConveyanceData()
         }
     }, [selectedMonth, selectedYear])
+
+    if (loading) {
+        return <Loading />
+    }
 
 
     return (
