@@ -2,10 +2,13 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import Image from 'next/image';
 import Loading from '../Loading/Loading';
+import { PrintProvider, Print } from 'react-to-print';
+import PrintableConveyance from './PrintableConveyance';
+
 
 const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
@@ -60,8 +63,16 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         )
     }
 
+    const componentRef = useRef();
+
+    const handlePrint = () => {
+        if (componentRef.current) {
+            componentRef.current.handlePrint(); // Trigger the print
+        }
+    };
+
     return (
-        <div>
+        <div className='test-body'>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
@@ -85,46 +96,57 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             </div>
 
             {/* Details Conveyance dialog  */}
-            <Dialog visible={selectedEmployee} style={{ width: '80vw' }} onHide={() => { setSelectedEmployee(false); }}>
+            <Dialog visible={selectedEmployee} onHide={() => { setSelectedEmployee(null); }} modal fullScreen>
+
+                <PrintProvider>
+                    <Print
+                        trigger={() => <Button onClick={handlePrint} icon='pi pi-print' />}
+                        content={() => componentRef.current} // Ref to the printable content
+                    />
+                    <div ref={componentRef}>
+                        <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} />
+                    </div>
+                </PrintProvider>
+
                 {
-                    loading ?
-                        <div>
-                            <Loading />
-                        </div>
-                        :
-                        <div>
-                            <div className='flex justify-center gap-x-4'>
-                                <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
-                                <div>
-                                    <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
-                                    <p className='underline text-center font-bold'>Conveyance Bill</p>
-                                </div>
-                            </div>
-                            <div className='mt-4 flex flex-col justify-around'>
-                                <div className='flex justify-around font-semibold'>
-                                    <div>
-                                        <p>Employee: {selectedEmployee?.name}</p>
-                                        <p>Date: {new Date().toISOString().split("T")[0]}</p>
-                                    </div>
-                                    <div>
-                                        <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
-                                        <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='mt-4'>
-                                <Button onClick={() => window.print()} icon='pi pi-print' />
-                                <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
-                                    {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
-                                    <Column body={detailsTableDateTemplate} header="Date"></Column>
-                                    <Column field='from' header="From"></Column>
-                                    <Column field='destination' header="Destination"></Column>
-                                    <Column field="amount" header="Amount"></Column>
-                                    <Column field="purpose" header="Purpose"></Column>
-                                    {/* <Column field="paymentStatus" header="Payment Status"></Column> */}
-                                </DataTable>
-                            </div>
-                        </div>
+                    // loading ?
+                    //     <div>
+                    //         <Loading />
+                    //     </div>
+                    //     :
+                    // <div>
+                    //     <div className='flex justify-center gap-x-4'>
+                    //         <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
+                    //         <div>
+                    //             <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
+                    //             <p className='underline text-center font-bold'>Conveyance Bill</p>
+                    //         </div>
+                    //     </div>
+                    //     <div className='mt-4 flex flex-col justify-around'>
+                    //         <div className='flex justify-around font-semibold'>
+                    //             <div>
+                    //                 <p>Employee: {selectedEmployee?.name}</p>
+                    //                 <p>Date: {new Date().toISOString().split("T")[0]}</p>
+                    //             </div>
+                    //             <div>
+                    //                 <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
+                    //                 <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    //     <div className='mt-4'>
+                    //         <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' />
+                    //         <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
+                    //             {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
+                    //             <Column body={detailsTableDateTemplate} header="Date"></Column>
+                    //             <Column field='from' header="From"></Column>
+                    //             <Column field='destination' header="Destination"></Column>
+                    //             <Column field="amount" header="Amount"></Column>
+                    //             <Column field="purpose" header="Purpose"></Column>
+                    //             {/* <Column field="paymentStatus" header="Payment Status"></Column> */}
+                    //         </DataTable>
+                    //     </div>
+                    // </div>
                 }
             </Dialog>
         </div >
