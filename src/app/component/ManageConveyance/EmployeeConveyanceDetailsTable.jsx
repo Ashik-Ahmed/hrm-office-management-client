@@ -97,8 +97,9 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
             {/* Details Conveyance dialog  */}
             <Dialog visible={selectedEmployee} onHide={() => { setSelectedEmployee(null); }} modal fullScreen>
+                <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} />
 
-                <PrintProvider>
+                {/* <PrintProvider>
                     <Print
                         trigger={() => <Button onClick={handlePrint} icon='pi pi-print' />}
                         content={() => componentRef.current} // Ref to the printable content
@@ -106,7 +107,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                     <div ref={componentRef}>
                         <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} />
                     </div>
-                </PrintProvider>
+                </PrintProvider> */}
 
                 {
                     // loading ?
