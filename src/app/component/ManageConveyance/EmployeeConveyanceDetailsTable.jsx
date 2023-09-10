@@ -18,6 +18,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
     // const [selectedMonth, setSelectedMonth] = useState(new Date())
     // const [selectedYear, setSelectedyear] = useState(new Date())
     const [conveyanceData, setConveyanceData] = useState(null)
+    console.log(monthlyEmployeeConveyance);
 
     const getEmployeeConveyanceDetails = (email) => {
         setLoading(true);
