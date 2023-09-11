@@ -5,6 +5,50 @@ import { DataTable } from 'primereact/datatable';
 import React from 'react';
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
+    console.log(conveyanceData);
+    const cols = [
+        { field: 'date', header: 'Date' },
+        { field: 'from', header: 'From' },
+        { field: 'destination', header: 'Destination' },
+        { field: 'amount', header: 'Amount' },
+        { field: 'purpose', header: 'Purpose' },
+    ]
+
+    const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
+
+    const exportPdf = () => {
+        import('jspdf').then(jsPDF => {
+            import('jspdf-autotable').then(() => {
+                const doc = new jsPDF.default(0, 2);
+                doc.autoTable(exportColumns, conveyanceData.conveyanceDetails, {
+                    startY: doc.autoTable() + 70,
+
+                    didDrawPage: function (data) {
+
+                        // Header
+                        doc.setFontSize(20);
+                        doc.setTextColor(10);
+                        doc.text(`Proposed invitees for TTeSsssT`, 50, 22);
+
+                        // Footer
+                        var str = "Page " + doc.internal.getNumberOfPages();
+
+                        doc.setFontSize(10);
+
+                        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+                        var pageSize = doc.internal.pageSize;
+                        var pageHeight = pageSize.height
+                            ? pageSize.height
+                            : pageSize.getHeight();
+                        doc.text(str, data.settings.margin.left, pageHeight - 10);
+                    }
+                });
+                doc.save('shortlist.pdf');
+            })
+        })
+    }
+
+
 
     const detailsTableDateTemplate = (rowData) => {
         return (
@@ -34,7 +78,8 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                     </div>
                 </div>
                 <div className='mt-4'>
-                    <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' />
+                    {/* <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' /> */}
+                    <Button onClick={exportPdf} icon='pi pi-print' className='print-hidden' />
                     <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
                         {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                         <Column body={detailsTableDateTemplate} header="Date"></Column>
