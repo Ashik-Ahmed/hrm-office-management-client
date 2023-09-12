@@ -5,7 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import React from 'react';
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
-    console.log(conveyanceData);
+    console.log(selectedEmployee, conveyanceData);
     const cols = [
         { field: 'date', header: 'Date' },
         { field: 'from', header: 'From' },
@@ -20,15 +20,23 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
         import('jspdf').then(jsPDF => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 2);
+
+                // Header
+                doc.setFontSize(15);
+                doc.setTextColor(10);
+                doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                doc.setFontSize(12);
+                doc.text(`Conveyance Bill`, 130, 32);
+
+                doc.setFontSize(11);
+                doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
+                doc.text(`Total Bill: ${conveyanceData.totalDueAmount}`, 210, 45);
+
+
                 doc.autoTable(exportColumns, conveyanceData.conveyanceDetails, {
-                    startY: doc.autoTable() + 70,
+                    startY: 100,
 
                     didDrawPage: function (data) {
-
-                        // Header
-                        doc.setFontSize(20);
-                        doc.setTextColor(10);
-                        doc.text(`Proposed invitees for TTeSsssT`, 50, 22);
 
                         // Footer
                         var str = "Page " + doc.internal.getNumberOfPages();
@@ -43,7 +51,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
                     }
                 });
-                doc.save('shortlist.pdf');
+                doc.save('conveyance-details.pdf');
             })
         })
     }

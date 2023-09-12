@@ -97,7 +97,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             </div>
 
             {/* Details Conveyance dialog  */}
-            <Dialog visible={selectedEmployee} onHide={() => { setSelectedEmployee(null); }} modal fullScreen>
+            <Dialog visible={selectedEmployee} onHide={() => { setSelectedEmployee(null); }} style={{ width: '70vw' }}>
                 <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} />
 
                 {/* <PrintProvider>
