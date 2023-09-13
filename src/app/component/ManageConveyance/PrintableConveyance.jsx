@@ -17,7 +17,17 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
 
+    // extract only the date value from dateTime 
+    const customizedConveyanceDetails = conveyanceData?.conveyanceDetails.map(conveyance => {
+        const customizedDate = conveyance.date.split("T")[0]
+        return {
+            ...conveyance,
+            date: customizedDate
+        }
+    })
+
     const exportPdf = () => {
+        console.log(customizedConveyanceDetails);
         import('jspdf').then(jsPDF => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 2);
@@ -37,7 +47,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
 
 
 
-                doc.autoTable(exportColumns, conveyanceData.conveyanceDetails, {
+                doc.autoTable(exportColumns, customizedConveyanceDetails, {
                     startY: 70,
 
                     didDrawPage: function (data) {
