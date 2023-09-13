@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React from 'react';
+import itblLogo from '../../../../public/images/logo.png'
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
     console.log(selectedEmployee, conveyanceData);
@@ -31,10 +32,13 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                 doc.setFontSize(11);
                 doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
                 doc.text(`Total Bill: ${conveyanceData.totalDueAmount}`, 210, 45);
+                doc.text(`Date: ${new Date().toISOString().split("T")[0]}`, 40, 55);
+                doc.text(`Total trips: ${conveyanceData.pendingConveyances}`, 210, 55);
+
 
 
                 doc.autoTable(exportColumns, conveyanceData.conveyanceDetails, {
-                    startY: 100,
+                    startY: 70,
 
                     didDrawPage: function (data) {
 
@@ -67,7 +71,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
         <div>
             <div>
                 <div className='flex justify-center gap-x-4'>
-                    {/* <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' /> */}
+                    <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' />
                     <div>
                         <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
                         <p className='underline text-center font-bold'>Conveyance Bill</p>
