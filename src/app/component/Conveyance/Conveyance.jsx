@@ -62,7 +62,12 @@ const Conveyance = ({ conveyance, session }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Total Amount</p>
                         <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${conveyanceData?.totalAmount || "00"} `} </p>
-                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{conveyanceData?.totalConveyances}</span> trips in total</p>
+                        {
+                            conveyanceData?.totalConveyances > 0 ?
+                                <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{conveyanceData?.totalConveyances}</span> trips in total</p>
+                                :
+                                <p className='text-xs mt-2'>No conveyance submitted</p>
+                        }
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
@@ -70,7 +75,12 @@ const Conveyance = ({ conveyance, session }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due</p>
                         <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${conveyanceData?.totalDueAmount || "00"}`}</p>
-                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{conveyanceData?.pendingConveyances}</span> trips</p>
+                        {
+                            conveyanceData?.pendingConveyances > 0 ?
+                                <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{conveyanceData?.pendingConveyances}</span> trips</p>
+                                :
+                                <p className='text-xs mt-2'>No payment is due</p>
+                        }
                     </div>
                 </div>
             </div>

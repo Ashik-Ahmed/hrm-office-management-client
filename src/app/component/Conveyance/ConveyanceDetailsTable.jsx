@@ -130,7 +130,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                         </DataTable>
                         :
                         <div className='my-4 text-center'>
-                            <p className='bg-sky-400 text-white p-2 inline'>No Due Conveyance</p>
+                            <p className='bg-sky-400 text-white p-2 inline'>No Conveyance Found</p>
                         </div>
                 }
             </div>
