@@ -61,6 +61,24 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
         reset();
     }
 
+    const handleDeleteConveyance = () => {
+        console.log(deleteDialog);
+        fetch(`http://localhost:5000/api/v1/conveyance/${deleteDialog._id}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status == 'Success') {
+                    console.log('Deleted');
+                    getConveyanceData()
+                }
+                else {
+                    console.log(data);
+                }
+                setDeleteDialog(false)
+            })
+    }
+
     const buttonTooltipOptions = {
         position: 'bottom',
         mouseTrack: true,
@@ -85,7 +103,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
             <div className='flex gap-x-2 items-center'>
                 <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button disabled={rowData.paymentStatus !== "Pending"} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
-                <Button disabled={rowData.paymentStatus !== "Pending"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteDialog(rowData)} disabled={rowData.paymentStatus !== "Pending"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
             </div>
         )
     }
@@ -99,7 +117,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                     <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
-                    conveyanceData.conveyanceDetails.length > 0 ?
+                    conveyanceData?.conveyanceDetails?.length > 0 ?
                         <DataTable value={conveyanceData.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
                             <Column body={dateBodyTemplate} header="Date"></Column>
                             <Column field='from' header="From"></Column>
@@ -201,6 +219,18 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                         <p>Purpose: {detailsDialog.purpose}</p>
                         <p className='w-1/2 text-start'>Partner: {detailsDialog.partner}</p>
                     </div>
+                </div>
+            </Dialog>
+
+            {/* Delete Dialog  */}
+            <Dialog header="Delete Confirmation" visible={deleteDialog} style={{ width: '25vw' }} onHide={() => { setDeleteDialog(false); }}>
+                <p>Date: {deleteDialog.date?.split("T")[0]}</p>
+                <p>{deleteDialog.from} to {deleteDialog.destination}</p>
+                <p>Amount: {deleteDialog.amount}</p>
+                <p className='mt-2 text-center font-bold text-red-500'>Are you sure to delete?</p>
+                <div className='flex justify-end gap-x-2 mt-8'>
+                    <Button onClick={() => setDeleteDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={handleDeleteConveyance} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
         </div>
