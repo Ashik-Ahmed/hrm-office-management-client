@@ -8,6 +8,8 @@ import Image from 'next/image';
 import Loading from '../Loading/Loading';
 import { PrintProvider, Print } from 'react-to-print';
 import PrintableConveyance from './PrintableConveyance';
+import { exportToPDF } from '@/utils/exportToPDF';
+import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
 
 const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
@@ -18,23 +20,25 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
     // const [selectedMonth, setSelectedMonth] = useState(new Date())
     // const [selectedYear, setSelectedyear] = useState(new Date())
     const [conveyanceData, setConveyanceData] = useState(null)
-    console.log(monthlyEmployeeConveyance);
+    // console.log(monthlyEmployeeConveyance);
 
-    const getEmployeeConveyanceDetails = (email) => {
+    const getEmployeeConveyanceDetails = async (email) => {
         setLoading(true);
 
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
-        const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
+        // const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
 
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.data);
-                setConveyanceData(data?.data)
-            })
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         // console.log(data.data);
+        //         setConveyanceData(data?.data)
+        //     })
 
+        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear)
+        setConveyanceData(employeeConveyanceDetails)
         setLoading(false)
     }
 
@@ -48,9 +52,19 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         },
     };
 
+    const exportConveyanceData = async (rowData) => {
+        const filterMonth = new Date(selectedMonth).getMonth() + 1;
+        const filterYear = new Date(selectedYear).getFullYear();
+
+        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear)
+
+        exportToPDF(rowData, employeeConveyance)
+    }
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
+                <Button onClick={() => exportConveyanceData(rowData)} tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red' }} />
                 <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setSelectedEmployee(rowData); }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" />
                 <Button tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}

@@ -1,3 +1,15 @@
+exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year) => {
+    const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${month}&year=${year}`;
+
+    const conveyanceDetails = await fetch(url, {
+        cache: 'no-cache'
+    }).then(res => res.json())
+    console.log(conveyanceDetails.data);
+
+    return conveyanceDetails.data
+}
+
+
 exports.getConveyanceByEmployeeEmail = async (employeeEmail) => {
     const month = parseInt(new Date().getMonth() + 1)
     const year = parseInt(new Date().getFullYear())
@@ -5,7 +17,6 @@ exports.getConveyanceByEmployeeEmail = async (employeeEmail) => {
         cache: 'no-cache'
     })
         .then(res => res.json())
-
 
     return conveyance.data;
 }
