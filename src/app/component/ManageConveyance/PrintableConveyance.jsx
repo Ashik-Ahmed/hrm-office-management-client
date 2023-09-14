@@ -47,13 +47,15 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
 
 
 
-                doc.autoTable(exportColumns, customizedConveyanceDetails, {
+                doc.autoTable(exportColumns, customizedConveyanceDetails.sort(), {
                     startY: 70,
 
                     didDrawPage: function (data) {
 
                         // Footer
                         var str = "Page " + doc.internal.getNumberOfPages();
+                        var signatureLine = "__________________"
+                        var signature = "Ashik Ahmed"
 
                         doc.setFontSize(10);
 
@@ -63,8 +65,12 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                             ? pageSize.height
                             : pageSize.getHeight();
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
+                        doc.text(signatureLine, data.settings.margin.left, pageHeight - 40);
+                        doc.text(signature, data.settings.margin.left, pageHeight - 30);
                     }
                 });
+
+
                 doc.save('conveyance-details.pdf');
             })
         })
