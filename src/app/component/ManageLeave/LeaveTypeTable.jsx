@@ -77,8 +77,8 @@ const LeaveTypeTable = ({ availableLeaves }) => {
     const leaveTableActionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2'>
-                <Button onClick={() => setEditLeaveDialog(rowData)} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' />
-                <Button onClick={() => setDeleteLeaveDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' />
+                <Button onClick={() => setEditLeaveDialog(rowData)} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteLeaveDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
             </div>
         )
     }
@@ -123,7 +123,7 @@ const LeaveTypeTable = ({ availableLeaves }) => {
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                        <Button type='submit' disabled={!session} label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>
