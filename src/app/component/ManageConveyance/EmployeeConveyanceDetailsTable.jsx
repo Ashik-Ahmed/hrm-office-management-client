@@ -25,7 +25,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
-        console.log(filterMonth, filterYear);
+        // console.log(filterMonth, filterYear);
         const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
 
         fetch(url)
@@ -58,19 +58,6 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         )
     }
 
-    const detailsTableDateTemplate = (rowData) => {
-        return (
-            <div>{rowData.date.split("T")[0]}</div>
-        )
-    }
-
-    const componentRef = useRef();
-
-    const handlePrint = () => {
-        if (componentRef.current) {
-            componentRef.current.handlePrint(); // Trigger the print
-        }
-    };
 
     return (
         <div className='test-body'>
