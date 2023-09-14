@@ -167,7 +167,10 @@ const LeaveApplicationsTable = () => {
                         <InputText
                             {...register("purpose")}
                             id="purpose" placeholder='Purpose of leave' className='w-full' />
-                        <Button label='Submit' type='submit' loading={loading} />
+
+                        <div className='mt-4 text-right'>
+                            <Button label='Submit' type='submit' loading={loading} className='p-button-sm' />
+                        </div>
                     </form>
                 </div>
             </Dialog>

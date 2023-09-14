@@ -92,22 +92,23 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session || !isDirty || !isValid} label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                        <Button type='submit' disabled={!session || !isDirty || !isValid} label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>
 
             {/* Delete Leave Dialog  */}
-            <Dialog header="Confirm Delete" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
+            <Dialog header="Delete Confirmation" visible={deleteLeaveDialog} onHide={() => { setDeleteLeaveDialog(false); reset(); }}
                 style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                 <div>
                     <div className='mb-2'>
-                        <p><span className='font-semibold'>Leave Type:</span> <span className='text-xl font-semibold'>{deleteLeaveDialog?.leaveType}</span></p>
-                        <p><span className='font-semibold'>Total Days:</span> <span className="text-xl font-semibold">{deleteLeaveDialog?.total} days</span> </p>
+                        <p><span>Leave Type: {deleteLeaveDialog?.leaveType}</span></p>
+                        <p><span>Total Days: {deleteLeaveDialog?.total} days</span> </p>
                     </div>
-                    <div className='flex justify-end mt-2'>
-                        <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!session} loading={loading} label="Delete" icon="pi pi-trash" severity='danger' size='small' />
+                    <div className='flex justify-end gap-x-2 mt-8'>
+                        <Button onClick={() => setDeleteLeaveDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                        <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!session} loading={loading} label="Delete" severity='danger' size='small' />
                     </div>
                 </div>
             </Dialog>

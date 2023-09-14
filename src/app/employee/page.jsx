@@ -284,7 +284,7 @@ const Users = () => {
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>
@@ -300,11 +300,11 @@ const Users = () => {
                 }
 
                 <p className="m-0">
-                    Do you want to delete this user?
+                    Delete user: {deleteUserDialog.firstName} {deleteUserDialog.lastName} ?
                 </p>
-                <div className='flex justify-center gap-x-2 mt-8'>
-                    <Button onClick={() => setDeleteUserDialog(false)} label='No' className='p-button p-button-sm p-button-info' />
-                    <Button onClick={handleDeleteUser} label='Yes' className='p-button p-button-sm p-button-danger' />
+                <div className='flex gap-x-2 mt-8'>
+                    <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={handleDeleteUser} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
         </div>

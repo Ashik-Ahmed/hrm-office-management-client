@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { FilterMatchMode } from 'primereact/api';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
+import { Button } from 'primereact/button';
 
 const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUserDialog }) => {
 
@@ -60,13 +61,26 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
             </div >
         )
     }
+    const buttonTooltipOptions = {
+        position: 'bottom',
+        mouseTrack: true,
+        mouseTrackTop: 25,
+        style: {
+            fontSize: '12px',
+            /* Add any other custom styles here */
+        },
+    };
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <div className='flex gap-x-1'>
-                <MdRemoveRedEye onClick={() => router.push(`/employee/${rowData._id}`)} size={35} color='gray' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
-                <FiEdit size={35} color='blue' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
-                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={35} color='red' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+            <div className='flex gap-x-2'>
+                {/* <MdRemoveRedEye onClick={() => router.push(`/employee/${rowData._id}`)} size={35} color='gray' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+                 <FiEdit size={35} color='blue' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
+                <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={35} color='red' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' /> */}
+
+                <Button onClick={() => router.push(`/employee/${rowData._id}`)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon='pi pi-info' rounded text raised severity='info' />
+                <Button tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' />
+                <Button onClick={() => setDeleteUserDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' />
             </div>
         )
     }

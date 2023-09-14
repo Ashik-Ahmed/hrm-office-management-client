@@ -38,8 +38,8 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                 </div>
                 <div className='mt-4'>
                     {/* <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' /> */}
-                    <Button onClick={() => exportToPDF(selectedEmployee, conveyanceData)} icon='pi pi-print' className='print-hidden' />
-                    <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
+                    <Button label='Export' onClick={() => exportToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
+                    <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
                         {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                         <Column body={detailsTableDateTemplate} header="Date"></Column>
                         <Column field='from' header="From"></Column>

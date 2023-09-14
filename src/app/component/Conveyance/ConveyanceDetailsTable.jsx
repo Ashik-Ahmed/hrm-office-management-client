@@ -180,7 +180,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" icon="pi pi-check" className="p-button-sm" loading={loading} />
+                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>

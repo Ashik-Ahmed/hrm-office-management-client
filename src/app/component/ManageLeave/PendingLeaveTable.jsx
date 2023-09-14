@@ -150,7 +150,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             <div>
                 <Dialog header="Leave Application Details" visible={detailsDialog} onHide={() => setDetailsDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div className='text-lg'>
+                    <div>
                         <div className='flex justify-start'>
                             <span className='w-1/3'>Employee : </span>
                             <span>{detailsDialog?.employee?.name}</span>
@@ -187,13 +187,13 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
             <div>
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div className=' text-lg'>
+                    <div>
                         <p>Employee: {approveDialog?.employee?.name}</p>
                         <p>Leave Type: {approveDialog?.leaveType}</p>
                         <p>Total day: {approveDialog?.totalDay}</p>
                     </div>
-                    <div className='flex gap-x-2 justify-end'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" icon="pi pi-check" size='small' />
+                    <div className='flex gap-x-2 justify-end mt-4'>
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
@@ -204,7 +204,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                     <form onSubmit={handleSubmit(rejectLeaveApplication)}>
-                        <div className='mb-2 text-lg'>
+                        <div className='mb-2'>
                             <p>Employee: {rejectDialog?.employee?.name}</p>
                             <p>Leave Type: {rejectDialog?.leaveType}</p>
                             <p>Total Day: {rejectDialog?.totalDay}</p>
@@ -213,11 +213,11 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                         <div className='flex flex-col'>
                             <InputText
                                 {...register("rejectionReason", { required: "Rejection reason is required" })}
-                                placeholder='Specify rejection reason' />
+                                placeholder='Specify rejection reason' className='p-inputtext-sm' />
                             {errors.rejectionReason?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejectionReason.message}</span>}
                         </div>
                         <div className='flex justify-end mt-2'>
-                            <Button type='submit' disabled={!session || !isDirty || !isValid} loading={loading} label="Reject" icon="pi pi-times" severity='danger' size='small' />
+                            <Button type='submit' disabled={!session || !isDirty || !isValid} loading={loading} label="Reject" severity='danger' size='small' />
                         </div>
                     </form>
                 </Dialog>
