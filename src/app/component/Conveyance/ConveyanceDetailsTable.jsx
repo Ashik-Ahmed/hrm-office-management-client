@@ -83,7 +83,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <Button tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button disabled={rowData.paymentStatus !== "Pending"} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
                 <Button disabled={rowData.paymentStatus !== "Pending"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
             </div>
@@ -183,6 +183,25 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                         <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
+            </Dialog>
+
+            {/* Details Dialog  */}
+            <Dialog header="Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
+                <div>
+                    <p className='mb-2'>Date: {detailsDialog?.date?.split("T")[0]}</p>
+                    <div className='flex justify-between text-start'>
+                        <p className='w-1/2'>From: {detailsDialog.from}</p>
+                        <p className='w-1/2 text-start'>Destination: {detailsDialog.destination}</p>
+                    </div>
+                    <div className='flex justify-between'>
+                        <p>Amount: {detailsDialog.amount}</p>
+                        <p className='w-1/2 text-start'>Payment: {detailsDialog.paymentStatus}</p>
+                    </div>
+                    <div className='flex justify-between'>
+                        <p>Purpose: {detailsDialog.purpose}</p>
+                        <p className='w-1/2 text-start'>Partner: {detailsDialog.partner}</p>
+                    </div>
+                </div>
             </Dialog>
         </div>
     );
