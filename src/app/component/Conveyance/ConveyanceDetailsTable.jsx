@@ -71,9 +71,11 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 if (data.status == 'Success') {
                     console.log('Deleted');
                     getConveyanceData()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Conveyance Deleted', life: 3000 });
                 }
                 else {
                     console.log(data);
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
                 setDeleteDialog(false)
             })
