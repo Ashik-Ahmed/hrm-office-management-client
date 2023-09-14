@@ -302,7 +302,7 @@ const Users = () => {
                 <p className="m-0">
                     Delete user: {deleteUserDialog.firstName} {deleteUserDialog.lastName} ?
                 </p>
-                <div className='flex gap-x-2 mt-8'>
+                <div className='flex justify-end gap-x-2 mt-8'>
                     <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
                     <Button onClick={handleDeleteUser} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>

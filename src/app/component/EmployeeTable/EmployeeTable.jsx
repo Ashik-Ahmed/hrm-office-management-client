@@ -44,7 +44,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
         return (
             <div className="flex items-center gap-4">
                 <div>
-                    <Image src={rowData.image || user} height={35} width={35} priority alt='user photo' className='rounded-full' />
+                    <Image src={rowData.image || user} height={35} width={35} priority alt='user photo' className='rounded-full' style={{ width: '35px', height: '35px' }} />
                 </div>
                 <div>
                     <span className='text-md font-semibold'>{rowData.firstName} {rowData.lastName}</span>
@@ -78,9 +78,9 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
                  <FiEdit size={35} color='blue' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' />
                 <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={35} color='red' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' /> */}
 
-                <Button onClick={() => router.push(`/employee/${rowData._id}`)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon='pi pi-info' rounded text raised severity='info' />
-                <Button tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' />
-                <Button onClick={() => setDeleteUserDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' />
+                <Button onClick={() => router.push(`/employee/${rowData._id}`)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon='pi pi-info' rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
+                <Button tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteUserDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
             </div>
         )
     }
@@ -100,11 +100,11 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='p-inputtext-sm' />
                 </span>
             </div>
-            <DataTable value={users} loading={loading}
+            <DataTable value={users} loading={loading} size='small'
                 filters={filters} filterDisplay="menu" globalFilterFields={['firstName', 'lastName', 'email']} emptyMessage="No Members found."
                 tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
                 {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
-                <Column body={fullNameBodyTemplate} header="Name" ></Column>
+                <Column body={fullNameBodyTemplate} header="Employee" ></Column>
                 <Column field="designation" header="Designation" ></Column>
                 <Column body={roleBodyTemplate} header="Role" ></Column>
                 <Column body={actionBodyTemplate} header="Action" ></Column>
