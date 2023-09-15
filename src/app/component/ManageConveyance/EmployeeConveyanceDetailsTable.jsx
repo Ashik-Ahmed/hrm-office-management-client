@@ -59,6 +59,20 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         exportToPDF(rowData, employeeConveyance)
     }
 
+    const handleConveyanceBillPayment = () => {
+        console.log(conveyanceData);
+
+        const pendingConveyanceIds = []
+
+        for (const conveyance of conveyanceData.conveyanceDetails) {
+            if (conveyance.paymentStatus !== "Paid") {
+                pendingConveyanceIds.push(conveyance._id);
+            }
+        }
+
+        console.log(pendingConveyanceIds);
+    }
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
@@ -161,8 +175,8 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                 </div>
 
                 <div className='flex justify-end gap-x-2 mt-8'>
-                    <Button label='Cancel' className='p-button p-button-sm p-button-danger' />
-                    <Button label='Confirm' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={() => setMakePaymentDialog(false)} label='Cancel' className='p-button p-button-sm p-button-danger' />
+                    <Button onClick={() => handleConveyanceBillPayment()} disabled={!conveyanceData} label='Confirm' className='p-button p-button-sm p-button-info' />
                 </div>
             </Dialog>
         </div >
