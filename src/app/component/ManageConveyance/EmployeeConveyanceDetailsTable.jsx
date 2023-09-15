@@ -63,8 +63,8 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         return (
             <div className='flex gap-x-2 items-center'>
                 <Button onClick={() => exportConveyanceData(rowData)} tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} />
-                <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setSelectedEmployee(rowData); }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button onClick={() => getEmployeeConveyanceDetails(rowData.email)} loading={loading} tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setSelectedEmployee(rowData) }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setMakePaymentDialog(rowData) }} loading={loading} tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -152,10 +152,17 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             </Dialog>
 
             {/* Make payment dialog  */}
-            <Dialog visible={makePaymentDialog} onHide={() => { setMakePaymentDialog(null); }} style={{ width: '70vw' }}>
+            <Dialog header='Payment Confirmation' visible={makePaymentDialog} onHide={() => { setMakePaymentDialog(null); }} style={{ width: '25vw' }}>
+
+                <div>
+                    <p className='font-semibold underline mb-2'>Conveyance Bill</p>
+                    <p>Employee: {makePaymentDialog?.name}</p>
+                    <p>Amount: {makePaymentDialog?.pendingAmount} BDT</p>
+                </div>
+
                 <div className='flex justify-end gap-x-2 mt-8'>
-                    <Button label='Cancel' className='p-button p-button-sm p-button-info' />
-                    <Button label='Delete' className='p-button p-button-sm p-button-danger' />
+                    <Button label='Cancel' className='p-button p-button-sm p-button-danger' />
+                    <Button label='Confirm' className='p-button p-button-sm p-button-info' />
                 </div>
             </Dialog>
         </div >
