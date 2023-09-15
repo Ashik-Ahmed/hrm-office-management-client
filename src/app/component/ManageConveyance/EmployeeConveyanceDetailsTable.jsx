@@ -16,6 +16,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
     const [loading, setLoading] = useState(false)
     const [conveyanceDetailsDialog, setConveyanceDetailsDialog] = useState(false);
+    const [makePaymentDialog, setMakePaymentDialog] = useState(false)
     const [selectedEmployee, setSelectedEmployee] = useState(null)
     const [conveyanceData, setConveyanceData] = useState(null)
 
@@ -63,7 +64,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             <div className='flex gap-x-2 items-center'>
                 <Button onClick={() => exportConveyanceData(rowData)} tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} />
                 <Button onClick={() => { getEmployeeConveyanceDetails(rowData.email); setSelectedEmployee(rowData); }} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => getEmployeeConveyanceDetails(rowData.email)} loading={loading} tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -148,6 +149,14 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                     //     </div>
                     // </div>
                 }
+            </Dialog>
+
+            {/* Make payment dialog  */}
+            <Dialog visible={makePaymentDialog} onHide={() => { setMakePaymentDialog(null); }} style={{ width: '70vw' }}>
+                <div className='flex justify-end gap-x-2 mt-8'>
+                    <Button label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button label='Delete' className='p-button p-button-sm p-button-danger' />
+                </div>
             </Dialog>
         </div >
     );
