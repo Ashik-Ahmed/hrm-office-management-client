@@ -70,7 +70,24 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
             }
         }
 
-        console.log(pendingConveyanceIds);
+        fetch('http://localhost:5000/api/v1/conveyance/makePayment', {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(pendingConveyanceIds)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 'Success') {
+                    console.log('success');
+                }
+                else {
+                    console.log('failed');
+                }
+            })
+
     }
 
     const actionBodyTemplate = (rowData) => {
