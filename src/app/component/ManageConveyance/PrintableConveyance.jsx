@@ -31,8 +31,8 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                             <p>Date: {new Date().toISOString().split("T")[0]}</p>
                         </div>
                         <div>
-                            <p>Total Bill: {conveyanceData?.totalDueAmount}</p>
-                            <p>Total Trips: {conveyanceData?.pendingConveyances}</p>
+                            <p>Total Bill: {conveyanceData?.totalAmount}</p>
+                            <p>Total Trips: {conveyanceData?.totalConveyances}</p>
                         </div>
                     </div>
                 </div>

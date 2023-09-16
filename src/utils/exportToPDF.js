@@ -1,6 +1,5 @@
 exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => {
 
-    console.log('function called insde utils');
     const cols = [
         { field: 'date', header: 'Date' },
         { field: 'from', header: 'From' },
@@ -42,18 +41,35 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 2);
 
-                // Header
-                doc.setFontSize(15);
-                doc.setTextColor(10);
-                doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
-                doc.setFontSize(12);
-                doc.text(`Conveyance Bill`, 130, 32);
+                if (pendingConveyances) {
+                    // Header
+                    doc.setFontSize(15);
+                    doc.setTextColor(10);
+                    doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                    doc.setFontSize(12);
+                    doc.text(`Conveyance Bill`, 130, 32);
 
-                doc.setFontSize(11);
-                doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
-                doc.text(`Total bill: ${conveyanceData.totalDueAmount}`, 210, 45);
-                doc.text(`Date: ${new Date().toISOString().split("T")[0]}`, 40, 55);
-                doc.text(`Total trips: ${conveyanceData.pendingConveyances}`, 210, 55);
+                    doc.setFontSize(11);
+                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
+                    doc.text(`Total bill: ${conveyanceData.totalDueAmount}`, 210, 45);
+                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
+                    doc.text(`Total trips: ${conveyanceData.pendingConveyances}`, 210, 55);
+                }
+
+                if (!pendingConveyances) {
+                    // Header
+                    doc.setFontSize(15);
+                    doc.setTextColor(10);
+                    doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                    doc.setFontSize(12);
+                    doc.text(`Monthly Conveyance Details`, 110, 32);
+
+                    doc.setFontSize(11);
+                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
+                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 45);
+                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
+                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
+                }
 
 
 
