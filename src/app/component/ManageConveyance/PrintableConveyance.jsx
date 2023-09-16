@@ -45,6 +45,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                         <Column field='from' header="From"></Column>
                         <Column field='destination' header="Destination"></Column>
                         <Column field="amount" header="Amount"></Column>
+                        <Column field="paymentStatus" header="Payment"></Column>
                         <Column field="purpose" header="Purpose"></Column>
                         {/* <Column field="paymentStatus" header="Payment Status"></Column> */}
                     </DataTable>

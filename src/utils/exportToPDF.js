@@ -1,4 +1,4 @@
-exports.exportToPDF = (selectedEmployee, conveyanceData) => {
+exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => {
 
     console.log('function called insde utils');
     const cols = [
@@ -11,14 +11,29 @@ exports.exportToPDF = (selectedEmployee, conveyanceData) => {
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
 
-    // extract only the date value from dateTime 
-    const customizedConveyanceDetails = conveyanceData?.conveyanceDetails.map(conveyance => {
-        const customizedDate = conveyance.date.split("T")[0]
-        return {
-            ...conveyance,
-            date: customizedDate
-        }
-    })
+    let customizedConveyanceDetails;
+
+    if (pendingConveyances) {
+        // extract only the date value from dateTime 
+        customizedConveyanceDetails = pendingConveyances.map(conveyance => {
+            const customizedDate = conveyance.date.split("T")[0]
+            return {
+                ...conveyance,
+                date: customizedDate
+            }
+        })
+    }
+
+    if (!pendingConveyances) {
+        // extract only the date value from dateTime 
+        customizedConveyanceDetails = conveyanceData?.conveyanceDetails.map(conveyance => {
+            const customizedDate = conveyance.date.split("T")[0]
+            return {
+                ...conveyance,
+                date: customizedDate
+            }
+        })
+    }
 
 
     const exportPdf = () => {

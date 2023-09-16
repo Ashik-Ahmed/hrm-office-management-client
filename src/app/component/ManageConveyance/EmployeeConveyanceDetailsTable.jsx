@@ -56,7 +56,10 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
         const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear)
 
-        exportToPDF(rowData, employeeConveyance)
+        //extract the pending conveyances from all conveyances of the month
+        const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
+
+        exportToPDF(rowData, employeeConveyance, pendingConveyances)
     }
 
     const handleConveyanceBillPayment = () => {
