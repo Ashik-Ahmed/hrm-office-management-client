@@ -16,8 +16,6 @@ import { Button } from 'primereact/button';
 const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUserDialog }) => {
 
     const [loading, setLoading] = useState(false)
-    console.log(users);
-
 
     const router = useRouter()
 
@@ -102,7 +100,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUs
             </div>
             <DataTable value={users} loading={loading} size='small'
                 filters={filters} filterDisplay="menu" globalFilterFields={['firstName', 'lastName', 'email']} emptyMessage="No Members found."
-                tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="86vh">
+                tableStyle={{ minWidth: '50rem' }} responsiveLayout="scroll" scrollHeight="85vh">
                 {/* <Column body={photoBodyTemplate} header="Name" ></Column> */}
                 <Column body={fullNameBodyTemplate} header="Employee" ></Column>
                 <Column field="designation" header="Designation" ></Column>

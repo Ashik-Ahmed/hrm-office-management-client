@@ -30,7 +30,6 @@ export const authOptions = {
 
                     const employee = await res.json()
 
-                    console.log(employee);
                     if (employee) {
                         console.log('userdata: ', employee);
 
@@ -69,9 +68,15 @@ export const authOptions = {
             return { ...token, ...user }
         },
 
-        async session({ session, token, user }) {
+        async session({ session, token }) {
 
-            session.user = token
+            session.user = {
+                _id: token._id,
+                name: token.name,
+                email: token.email,
+                designation: token.designation,
+                image: token.image
+            }
 
             return session
         }
