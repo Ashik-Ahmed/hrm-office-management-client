@@ -74,48 +74,48 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
                 }
             </div>
             {/* add Conveyance dialog  */}
-            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '50vw' }} onHide={() => { setCreateRequisition(false); }}>
+            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); reset() }}>
 
-                <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2'>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("amount", { required: "Amount is required" })}
-                                keyfilter='int' placeholder="Amount*" className='w-full' />
-                            {errors.amount?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.amount.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("from", { required: "From location required" })}
-                                type='text' placeholder="From*" className='w-full' />
-                            {errors.from?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.from.message}</span>}
-                        </div>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("destination", { required: "Destination location required" })}
-                                type='text' placeholder="Destination*" className='w-full' />
-                            {errors.destination?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.destination.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("purpose")}
-                                placeholder="Purpose" className='w-full' />
-                            {errors.purpose?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purpose.message}</span>}
-                        </div>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("partner")}
-                                placeholder="Travel Partner" className='w-full' />
-                            {errors.partner?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.partner.message}</span>}
-                        </div>
+                <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
+
+                    <div className='w-full'>
+                        <InputText
+                            {...register("category", { required: "Category is required" })}
+                            placeholder="Category*" className='w-full' />
+                        {errors.category?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.category.message}</span>}
                     </div>
 
-                    <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
+
+                    <div className='w-full'>
+                        <InputText
+                            {...register("name", { required: "Name is required" })}
+                            type='text' placeholder="Name*" className='w-full' />
+                        {errors.name?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.name.message}</span>}
+                    </div>
+                    <div className='w-full'>
+                        <InputText
+                            {...register("model")}
+                            type='text' placeholder="Model" className='w-full' />
+                        {errors.model?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.model.message}</span>}
+                    </div>
+
+
+                    <div className='w-1/2'>
+                        <InputText
+                            {...register("quantity", { required: "Quantity is required" })}
+                            keyfilter='int' placeholder="Quantity*" className='w-full' />
+                        {errors.quantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.quantity.message}</span>}
+                    </div>
+                    <div className='w-1/2'>
+                        <InputText
+                            {...register("unitPrice", { required: "Unit price required" })}
+                            keyfilter='int' placeholder="Unit price*" className='w-full' />
+                        {errors.unitPrice?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.unitPrice.message}</span>}
+                    </div>
+
+
+                    <div className='text-right'>
+                        <Button type='submit' label="Add" loading={loading} />
                     </div>
                 </form>
             </Dialog>
