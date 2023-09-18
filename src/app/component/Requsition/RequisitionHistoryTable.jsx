@@ -7,12 +7,14 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
 import { useForm } from 'react-hook-form';
+import { Dropdown } from 'primereact/dropdown';
 
 const RequisitionHistoryTable = ({ requisitionHistory }) => {
 
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
     const [itemList, setItemList] = useState([])
+    const [department, setDepartment] = useState('')
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -76,10 +78,14 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
                 }
             </div>
             {/* add Conveyance dialog  */}
-            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); reset() }}>
-
+            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setDepartment(''); reset() }}>
+                <div>
+                    <Dropdown
+                        {...register('department')}
+                        value={department} onChange={(e) => setDepartment(e.value)} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
+                    {errors.department?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.department.message}</span>}
+                </div>
                 <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
-
                     <div className='w-full'>
                         <InputText
                             {...register("category", { required: "Category is required" })}
@@ -138,7 +144,7 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
                             </div>
                             <div className='mt-2 flex gap-x-2 justify-end'>
                                 <Button onClick={() => setItemList([])} label='Clear' severity='danger' />
-                                <Button label='Submit' />
+                                <Button label='Submit' disabled={!department} />
                             </div>
                         </div>
                         :
