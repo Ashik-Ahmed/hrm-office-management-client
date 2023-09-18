@@ -12,12 +12,14 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
 
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
-
+    const [itemList, setItemList] = useState([])
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const handleAddRequisition = () => {
-        console.log('create Requisition');
+    const handleAddRequisition = (data) => {
+
+        setItemList([data, ...itemList])
+        // reset();
     }
 
     const dateBodytemplate = (rowData) => {
@@ -115,11 +117,37 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
 
 
                     <div className='text-right'>
-                        <Button type='submit' label="Add" loading={loading} />
+                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} />
                     </div>
                 </form>
-            </Dialog>
-        </div>
+
+                {
+                    itemList?.length > 0 ?
+                        <div className='mt-4 overflow-y-scroll'>
+                            <div>
+                                <DataTable value={itemList} size='small' emptyMessage="No Requisition Found" responsiveLayout="scroll" scrollHeight="50vh">
+
+                                    <Column field='category' header="Category"></Column>
+                                    <Column field='name' header="Product"></Column>
+                                    {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
+                                    <Column field="model" header="Model"></Column>
+                                    <Column field="quantity" header="Quantity"></Column>
+                                    <Column field="unitPrice" header="Unit Price"></Column>
+                                    {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
+                                </DataTable>
+                            </div>
+                            <div className='mt-2 flex gap-x-2 justify-end'>
+                                <Button onClick={() => setItemList([])} label='Clear' severity='danger' />
+                                <Button label='Submit' />
+                            </div>
+                        </div>
+                        :
+                        <div className='my-4 text-center'>
+
+                        </div>
+                }
+            </Dialog >
+        </div >
     );
 };
 
