@@ -9,7 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { useForm } from 'react-hook-form';
 import { Dropdown } from 'primereact/dropdown';
 
-const RequisitionHistoryTable = ({ requisitionHistory }) => {
+const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -22,6 +22,17 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
 
         setItemList([data, ...itemList])
         // reset();
+    }
+
+    const handleSubmitRequisition = () => {
+        console.log('inside submit');
+        const requisitionData = {
+            submittedBy: user._id,
+            department,
+            itemList
+        }
+
+        console.log(requisitionData);
     }
 
     const dateBodytemplate = (rowData) => {
@@ -80,10 +91,7 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
             {/* add Conveyance dialog  */}
             <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setDepartment(''); reset() }}>
                 <div>
-                    <Dropdown
-                        {...register('department')}
-                        value={department} onChange={(e) => setDepartment(e.value)} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
-                    {errors.department?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.department.message}</span>}
+                    <Dropdown value={department} onChange={(e) => setDepartment(e.value)} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
                 </div>
                 <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
                     <div className='w-full'>
@@ -131,7 +139,7 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
                     itemList?.length > 0 ?
                         <div className='mt-4 overflow-y-scroll'>
                             <div>
-                                <DataTable value={itemList} size='small' emptyMessage="No Requisition Found" responsiveLayout="scroll" scrollHeight="50vh">
+                                <DataTable value={itemList} size='small' emptyMessage="No Requisition Found" responsiveLayout="scroll" scrollHeight="45vh">
 
                                     <Column field='category' header="Category"></Column>
                                     <Column field='name' header="Product"></Column>
@@ -144,7 +152,7 @@ const RequisitionHistoryTable = ({ requisitionHistory }) => {
                             </div>
                             <div className='mt-2 flex gap-x-2 justify-end'>
                                 <Button onClick={() => setItemList([])} label='Clear' severity='danger' />
-                                <Button label='Submit' disabled={!department} />
+                                <Button onClick={() => handleSubmitRequisition()} label='Submit' disabled={!department} />
                             </div>
                         </div>
                         :

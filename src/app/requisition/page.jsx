@@ -18,7 +18,7 @@ const Requisition = async () => {
 
     return (
         <div>
-            <RequisitionHistoryTable requisitionHistory={requisitionHistory} />
+            <RequisitionHistoryTable requisitionHistory={requisitionHistory} user={user} />
         </div>
     );
 };
