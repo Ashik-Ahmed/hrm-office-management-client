@@ -6,19 +6,27 @@ import RequisitionHistoryTable from '../component/Requsition/RequisitionHistoryT
 
 const Requisition = async () => {
     const { user } = await getServerSession(authOptions)
-    // console.log('user details:', user);
+    console.log('user details:', user);
+
+
     let requisitionHistory;
 
-    if (user) {
+    const getRequisitionHistory = async (user) => {
         console.log(user);
         requisitionHistory = await fetch(`http://localhost:5000/api/v1/requisition/${user._id}`)
             .then(res => res.json())
+        console.log(requisitionHistory);
     }
-    console.log(requisitionHistory);
+
+    if (user) {
+        getRequisitionHistory(user)
+    }
 
     return (
         <div>
-            <RequisitionHistoryTable requisitionHistory={requisitionHistory} user={user} />
+            {
+                requisitionHistory && <RequisitionHistoryTable requisitionHistory={requisitionHistory} user={user} />
+            }
         </div>
     );
 };
