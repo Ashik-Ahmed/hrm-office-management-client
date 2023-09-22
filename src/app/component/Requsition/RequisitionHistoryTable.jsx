@@ -28,14 +28,12 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     }
 
     const handleSubmitRequisition = () => {
-        console.log('inside submit');
         const requisitionData = {
             submittedBy: user._id,
             department,
             itemList
         }
 
-        console.log(requisitionData);
     }
 
     const dateBodytemplate = (rowData) => {
