@@ -4,10 +4,13 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog }) => {
+const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, getConveyanceData }) => {
+
+    const toast = useRef(null)
 
     const [loading, setLoading] = useState(false)
 
@@ -35,12 +38,22 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.status == 'Success') {
+                    getConveyanceData()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Conveyance Updated', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
+                }
             })
         setLoading(false)
+        reset()
+        setEditConveyanceDialog(false)
     }
 
     return (
         <div>
+            <Toast ref={toast} />
             {/* Edit Conveyance dialog  */}
             <Dialog header="Edit Conveyance" visible={editConveyanceDialog} style={{ width: '50vw' }} onHide={() => { setEditConveyanceDialog(false); reset() }}>
 

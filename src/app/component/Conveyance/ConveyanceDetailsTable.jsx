@@ -207,7 +207,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 </form>
             </Dialog>
 
-            <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} />
+            <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} getConveyanceData={getConveyanceData} />
 
             {/* Details Dialog  */}
             <Dialog header="Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
