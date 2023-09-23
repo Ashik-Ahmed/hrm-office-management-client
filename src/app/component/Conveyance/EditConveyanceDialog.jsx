@@ -16,6 +16,16 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog })
 
     const handleEditConveyance = (data) => {
         console.log(data);
+
+        const updatedData = {};
+
+        for (const property in data) {
+            if (data[property] !== "") {
+                updatedData[property] = data[property];
+            }
+        }
+
+        console.log(updatedData);
     }
 
     return (
@@ -35,31 +45,31 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog })
                         </div>
                         <div className='w-full'>
                             <InputText
-                                {...register("updatedAmount")}
+                                {...register("amount")}
                                 keyfilter='int' placeholder={`${editConveyanceDialog.amount || 'Amount*'}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
-                                {...register("updatedFrom")}
+                                {...register("from")}
                                 type='text' placeholder={`${editConveyanceDialog.from || "From*"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
                             <InputText
-                                {...register("updatwdDestination")}
+                                {...register("destination")}
                                 type='text' placeholder={`${editConveyanceDialog.destination || "Destination*"}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
-                                {...register("updatedPurpose")}
+                                {...register("purpose")}
                                 placeholder={`${editConveyanceDialog.purpose || "Purpose"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
                             <InputText
-                                {...register("updatedPartner")}
+                                {...register("partner")}
                                 placeholder={`${editConveyanceDialog.partner || "Travel Partner"}`} className='w-full' />
                         </div>
                     </div>
