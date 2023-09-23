@@ -15,6 +15,7 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog })
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const handleEditConveyance = (data) => {
+        setLoading(true)
         console.log(data);
 
         const updatedData = {};
@@ -24,8 +25,18 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog })
                 updatedData[property] = data[property];
             }
         }
-
-        console.log(updatedData);
+        fetch(`http://localhost:5000/api/v1/conveyance/${editConveyanceDialog._id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+        setLoading(false)
     }
 
     return (
