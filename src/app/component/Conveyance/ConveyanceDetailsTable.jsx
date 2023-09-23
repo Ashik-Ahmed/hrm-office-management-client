@@ -8,6 +8,7 @@ import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
+import EditConveyanceDialog from './EditConveyanceDialog';
 
 const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, loading }) => {
 
@@ -206,76 +207,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 </form>
             </Dialog>
 
-            {/* Edit Conveyance dialog  */}
-            <Dialog header="Edit Conveyance" visible={editConveyanceDialog} style={{ width: '50vw' }} onHide={() => { setEditConveyanceDialog(false); reset() }}>
-
-                <form onSubmit={handleSubmit(handleAddConveyance)} className='mt-2'>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
-
-                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
-                            <Controller
-                                name="date"
-                                control={control}
-                                rules={{ required: "Date is required" }}
-                                render={({ field }) => (
-                                    <Calendar
-                                        value={date}
-                                        onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
-                                        placeholder='Date*'
-                                        className='w-full'
-                                        dateFormat="dd-mm-yy"
-                                    />
-                                )}
-                            />
-                            {errors.date?.type === 'required' && <span className='text-xs text-red-500 block' role="alert">{errors.date.message}</span>}
-                        </div>
-
-                        <div className='w-full'>
-                            <InputText
-                                {...register("amount", { required: "Amount is required" })}
-                                keyfilter='int' placeholder="Amount*" className='w-full' />
-                            {errors.amount?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.amount.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("from", { required: "From location required" })}
-                                type='text' placeholder="From*" className='w-full' />
-                            {errors.from?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.from.message}</span>}
-                        </div>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("destination", { required: "Destination location required" })}
-                                type='text' placeholder="Destination*" className='w-full' />
-                            {errors.destination?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.destination.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("purpose")}
-                                placeholder="Purpose" className='w-full' />
-                            {errors.purpose?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purpose.message}</span>}
-                        </div>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("partner")}
-                                placeholder="Travel Partner" className='w-full' />
-                            {errors.partner?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.partner.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2'>
-                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
-                    </div>
-
-                    <div className='mt-4 text-right'>
-                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
-                    </div>
-                </form>
-            </Dialog>
+            <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} />
 
             {/* Details Dialog  */}
             <Dialog header="Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
