@@ -18,6 +18,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const [selectedYear, setSelectedyear] = useState(new Date())
     const [itemList, setItemList] = useState([])
     const [department, setDepartment] = useState('')
+    const [requisitionDetails, setRequisitionDetails] = useState(null)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -34,6 +35,30 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             itemList
         }
 
+        console.log(requisitionData);
+
+        fetch('http://localhost:5000/api/v1/requisition', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(requisitionData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+
+    }
+
+    const getRequisitionDetails = (requisitionId) => {
+        setLoading(true)
+        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`)
+            .then(res => res.json())
+            .then(data => {
+                setRequisitionDetails(data.data)
+                console.log(data.data);
+            })
     }
 
     const dateBodytemplate = (rowData) => {
@@ -57,7 +82,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
         return (
             <div className='flex gap-x-2 items-center'>
                 <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-edit" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
@@ -98,13 +123,13 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             {/* add Conveyance dialog  */}
             <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setDepartment(''); reset() }}>
                 <div>
-                    <Dropdown value={department} onChange={(e) => setDepartment(e.value)} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
+                    <Dropdown value={department} onChange={(e) => { setDepartment(e.value); setItemList([]) }} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
                 </div>
-                <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
+                <form onSubmit={handleSubmit(handleSubmitRequisition)} className='mt-2 flex gap-x-2'>
                     <div className='w-full'>
                         <InputText
                             {...register("category", { required: "Category is required" })}
-                            placeholder="Category*" className='w-full' />
+                            disabled={!department} placeholder="Category*" className='w-full' />
                         {errors.category?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.category.message}</span>}
                     </div>
 
@@ -112,13 +137,13 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                     <div className='w-full'>
                         <InputText
                             {...register("name", { required: "Name is required" })}
-                            type='text' placeholder="Name*" className='w-full' />
+                            disabled={!department} type='text' placeholder="Name*" className='w-full' />
                         {errors.name?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.name.message}</span>}
                     </div>
                     <div className='w-full'>
                         <InputText
                             {...register("model")}
-                            type='text' placeholder="Model" className='w-full' />
+                            disabled={!department} type='text' placeholder="Model" className='w-full' />
                         {errors.model?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.model.message}</span>}
                     </div>
 
@@ -126,19 +151,19 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                     <div className='w-1/2'>
                         <InputText
                             {...register("quantity", { required: "Quantity is required" })}
-                            keyfilter='int' placeholder="Quantity*" className='w-full' />
+                            disabled={!department} keyfilter='int' placeholder="Quantity*" className='w-full' />
                         {errors.quantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.quantity.message}</span>}
                     </div>
                     <div className='w-1/2'>
                         <InputText
                             {...register("unitPrice", { required: "Unit price required" })}
-                            keyfilter='int' placeholder="Unit price*" className='w-full' />
+                            disabled={!department} keyfilter='int' placeholder="Unit price*" className='w-full' />
                         {errors.unitPrice?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.unitPrice.message}</span>}
                     </div>
 
 
                     <div className='text-right'>
-                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} />
+                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} disabled={!department} />
                     </div>
                 </form>
 
@@ -167,6 +192,72 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
                         </div>
                 }
+            </Dialog >
+
+            {/* Details requisition dialog  */}
+            <Dialog visible={requisitionDetails} onHide={() => { setRequisitionDetails(null); }} style={{ width: '70vw' }}>
+                <div>
+                    <div className='flex justify-center gap-x-4'>
+                        {/* <Image src={itblLogo} width={100} height={20} alt='infozillion logo' className='w-28 h-16' /> */}
+                        <div>
+                            <h2 className='text-xl font-bold'>Infozillion Teletech BD LTD</h2>
+                            <p className='underline text-center font-bold'>Requisition</p>
+                        </div>
+                    </div>
+                    <div className='mt-4 flex flex-col justify-around'>
+                        <div className='flex justify-around font-semibold'>
+                            <table>
+                                <tr>
+                                    <td>Submitted by</td>
+                                    <td>: {requisitionDetails?.submittedBy.name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Designation</td>
+                                    <td>: {requisitionDetails?.submittedBy.designation}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>: {requisitionDetails?.createdAt.split("T")[0]}</td>
+                                </tr>
+                                <tr>
+                                    <td>Department</td>
+                                    <td>: {requisitionDetails?.department}</td>
+                                </tr>
+                            </table>
+
+                            <table>
+                                <tr>
+                                    <td>Proposed amount</td>
+                                    <td>: {requisitionDetails?.proposedAmount}</td>
+                                </tr>
+                                <tr>
+                                    <td>#Proposed items</td>
+                                    <td>: {requisitionDetails?.totalProposedItems}</td>
+                                </tr>
+                                <tr>
+                                    <td>Final amount</td>
+                                    <td>: {requisitionDetails?.finalAmount}</td>
+                                </tr>
+                                <tr>
+                                    <td>#Approved items</td>
+                                    <td>: {requisitionDetails?.totalApprovedItems}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div className='mt-4'>
+                        <Button label='Export' onClick={() => exportToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
+                        <DataTable value={requisitionDetails?.itemList} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
+                            {/* <Column body={detailsTableDateTemplate} header="Date"></Column> */}
+                            {/* <Column field='category' header="Category"></Column> */}
+                            <Column field='name' header="Product"></Column>
+                            <Column field="proposedQuantity" header="#Proposed Qty"></Column>
+                            <Column field="approvedQuantity" header="#Approved Qty"></Column>
+                            <Column field="unitPrice" header="Unit Price"></Column>
+                            <Column field="buyingPrice" header="Buying Price"></Column>
+                        </DataTable>
+                    </div>
+                </div>
             </Dialog >
         </div >
     );
