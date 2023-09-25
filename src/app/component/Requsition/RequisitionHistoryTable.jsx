@@ -9,6 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { useForm } from 'react-hook-form';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
+import { exportRequisition } from '@/utils/exportRequisition';
 
 const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     console.log(requisitionHistory);
@@ -246,7 +247,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                         </div>
                     </div>
                     <div className='mt-4'>
-                        <Button label='Export' onClick={() => exportToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
+                        <Button label='Export' onClick={() => exportRequisition(requisitionDetails)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
                         <DataTable value={requisitionDetails?.itemList} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
                             {/* <Column body={detailsTableDateTemplate} header="Date"></Column> */}
                             {/* <Column field='category' header="Category"></Column> */}
