@@ -1,11 +1,16 @@
 exports.exportRequisition = (requisitionDetails) => {
 
+    const totalBodyTemplate = () => {
+        return 'sdfiu'
+    }
+
     const cols = [
         { field: 'name', header: 'Product' },
         { field: 'proposedQuantity', header: '#Proposed Qty' },
         { field: 'approvedQuantity', header: '#Approved Qty' },
         { field: 'unitPrice', header: 'Unit Price' },
         { field: 'buyingPrice', header: 'Buying Price' },
+        { field: 'totalAmount', header: 'Total' },
     ]
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
@@ -30,8 +35,8 @@ exports.exportRequisition = (requisitionDetails) => {
 
                 doc.text(`Proposed amount: ${requisitionDetails?.proposedAmount}`, 200, 45);
                 doc.text(`#Proposed items: ${requisitionDetails?.totalProposedItems}`, 200, 55);
-                doc.text(`Purchase amount: ${requisitionDetails?.finalAmount}`, 200, 65);
-                doc.text(`#Purchase items: ${requisitionDetails?.totalApprovedItems}`, 200, 75);
+                doc.text(`Purchase amount: ${requisitionDetails?.finalAmount || "__________"}`, 200, 65);
+                doc.text(`#Purchase items: ${requisitionDetails?.totalApprovedItems || "__________"}`, 200, 75);
 
 
                 doc.autoTable(exportColumns, requisitionDetails.itemList.sort(), {

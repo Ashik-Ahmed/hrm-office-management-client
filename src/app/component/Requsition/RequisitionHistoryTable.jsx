@@ -11,8 +11,13 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { exportRequisition } from '@/utils/exportRequisition';
 import { getUserRequisitionHistory } from '@/libs/requisition';
+import { useRef } from 'react';
+import { Toast } from 'primereact/toast';
 
 const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
+
+    const toast = useRef()
+
     const [userRequisitionData, setUserRequisitionData] = useState(requisitionHistory)
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -28,7 +33,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const handleAddRequisition = (data) => {
 
         setItemList([data, ...itemList])
-        // reset();
+        reset();
     }
 
     const handleSubmitRequisition = () => {
@@ -48,9 +53,9 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             body: JSON.stringify(requisitionData)
         })
             .then(res => res.json())
-            .then(data => {
+            .then(async data => {
                 console.log(data);
-                getRequisitionHistory()
+                setUserRequisitionData(await getUserRequisitionHistory(user._id))
             })
 
     }
@@ -76,9 +81,11 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 if (data.status == "Success") {
                     console.log("Deleted Successfully");
                     setUserRequisitionData(await getUserRequisitionHistory(user._id))
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition deleted', life: 3000 });
                 }
                 else {
                     console.log("Failed to delete");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                 }
             })
         setDeleteRequisitionDialog(null)
@@ -115,6 +122,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className='flex gap-x-2'>
                 <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value); }} value={selectedMonth} view="month" yearNavigator={false} style={{ year: { display: "none" } }} className="p-calendar-hide-year"
                     dateFormat="MM" size='small' />
@@ -260,11 +268,11 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                                 </tr>
                                 <tr>
                                     <td>Purchase amount</td>
-                                    <td>: {requisitionDetails?.finalAmount}</td>
+                                    <td>: {requisitionDetails?.finalAmount || "________"}</td>
                                 </tr>
                                 <tr>
                                     <td>#Purchase items</td>
-                                    <td>: {requisitionDetails?.totalApprovedItems}</td>
+                                    <td>: {requisitionDetails?.totalApprovedItems || "________"}</td>
                                 </tr>
                             </table>
                         </div>
@@ -276,9 +284,10 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                             {/* <Column field='category' header="Category"></Column> */}
                             <Column field='name' header="Product"></Column>
                             <Column field="proposedQuantity" header="#Proposed Qty"></Column>
-                            <Column field="approvedQuantity" header="#Approved Qty"></Column>
+                            <Column field="approvedQuantity" header="#Purchase Qty"></Column>
                             <Column field="unitPrice" header="Unit Price"></Column>
                             <Column field="buyingPrice" header="Buying Price"></Column>
+                            <Column field="totalAmount" header="Total"></Column>
                         </DataTable>
                     </div>
                 </div>
