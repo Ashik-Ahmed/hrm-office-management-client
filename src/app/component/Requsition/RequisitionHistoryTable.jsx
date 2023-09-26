@@ -195,7 +195,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
 
                     <div className='text-right'>
-                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} disabled={!department} />
+                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' disabled={!department} />
                     </div>
                 </form>
 
