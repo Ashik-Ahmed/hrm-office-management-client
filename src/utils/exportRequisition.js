@@ -31,7 +31,7 @@ exports.exportRequisition = (requisitionDetails) => {
                 doc.text(`Proposed amount: ${requisitionDetails?.proposedAmount}`, 200, 45);
                 doc.text(`#Proposed items: ${requisitionDetails?.totalProposedItems}`, 200, 55);
                 doc.text(`Purchase amount: ${requisitionDetails?.finalAmount}`, 200, 65);
-                doc.text(`Purchase items: ${requisitionDetails?.totalApprovedItems}`, 200, 75);
+                doc.text(`#Purchase items: ${requisitionDetails?.totalApprovedItems}`, 200, 75);
 
 
                 doc.autoTable(exportColumns, requisitionDetails.itemList.sort(), {
@@ -51,14 +51,20 @@ exports.exportRequisition = (requisitionDetails) => {
                         var pageHeight = pageSize.height
                             ? pageSize.height
                             : pageSize.getHeight();
+                        var pageWidth = pageSize.width
+                            ? pageSize.width
+                            : pageSize.getWidth();
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
                         doc.text(signatureLine, data.settings.margin.left, pageHeight - 40);
                         doc.text(signature, data.settings.margin.left, pageHeight - 30);
+                        doc.text(signatureLine, pageWidth - 80, pageHeight - 40);
+                        doc.text('Samiur Rahman', pageWidth - 80, pageHeight - 30);
+                        doc.text('Director, Admin & Finance', pageWidth - 80, pageHeight - 24);
                     }
                 });
 
 
-                doc.save('requisition.pdf');
+                doc.save(`${requisitionDetails?.department} requisition ${requisitionDetails?.createdAt.split("T")[0]}.pdf`);
             })
         })
     }

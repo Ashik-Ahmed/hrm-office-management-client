@@ -10,9 +10,10 @@ import { useForm } from 'react-hook-form';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { exportRequisition } from '@/utils/exportRequisition';
+import { getUserRequisitionHistory } from '@/libs/requisition';
 
 const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
-    console.log(requisitionHistory);
+    const [userRequisitionData, setUserRequisitionData] = useState(requisitionHistory)
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState(new Date())
@@ -20,6 +21,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const [itemList, setItemList] = useState([])
     const [department, setDepartment] = useState('')
     const [requisitionDetails, setRequisitionDetails] = useState(null)
+    const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -48,6 +50,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                getRequisitionHistory()
             })
 
     }
@@ -60,6 +63,26 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 setRequisitionDetails(data.data)
                 console.log(data.data);
             })
+    }
+
+    const deleteRequisition = async (requisitionId) => {
+        console.log(requisitionId);
+        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+            method: "Delete"
+        })
+            .then(res => res.json())
+            .then(async data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    console.log("Deleted Successfully");
+                    setUserRequisitionData(await getUserRequisitionHistory(user._id))
+                }
+                else {
+                    console.log("Failed to delete");
+                }
+            })
+        setDeleteRequisitionDialog(null)
+
     }
 
     const dateBodytemplate = (rowData) => {
@@ -84,7 +107,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             <div className='flex gap-x-2 items-center'>
                 <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-edit" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Pay" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteRequisitionDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -104,8 +127,8 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                     <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
-                    requisitionHistory?.data?.length > 0 ?
-                        <DataTable value={requisitionHistory?.data} size='small' emptyMessage="No Requisition Found">
+                    userRequisitionData?.data?.length > 0 ?
+                        <DataTable value={userRequisitionData?.data} size='small' emptyMessage="No Requisition Found">
                             <Column body={dateBodytemplate} header="Date"></Column>
                             <Column field='department' header="Department"></Column>
                             <Column field='totalProposedItems' header="#Proposed item(s)"></Column>
@@ -121,12 +144,12 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                         </div>
                 }
             </div>
-            {/* add Conveyance dialog  */}
+            {/* Create requisition dialog  */}
             <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setDepartment(''); reset() }}>
                 <div>
-                    <Dropdown value={department} onChange={(e) => { setDepartment(e.value); setItemList([]) }} options={['Test 1', 'Test 2', 'Test 2']} placeholder="Department*" className='w-fit mb-2' />
+                    <Dropdown value={department} onChange={(e) => { setDepartment(e.value); setItemList([]) }} options={['Test 1', 'Test 2', 'Test 3']} placeholder="Department*" className='w-fit mb-2' />
                 </div>
-                <form onSubmit={handleSubmit(handleSubmitRequisition)} className='mt-2 flex gap-x-2'>
+                <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
                     <div className='w-full'>
                         <InputText
                             {...register("category", { required: "Category is required" })}
@@ -151,7 +174,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
                     <div className='w-1/2'>
                         <InputText
-                            {...register("quantity", { required: "Quantity is required" })}
+                            {...register("proposedQuantity", { required: "Quantity is required" })}
                             disabled={!department} keyfilter='int' placeholder="Quantity*" className='w-full' />
                         {errors.quantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.quantity.message}</span>}
                     </div>
@@ -236,11 +259,11 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                                     <td>: {requisitionDetails?.totalProposedItems}</td>
                                 </tr>
                                 <tr>
-                                    <td>Final amount</td>
+                                    <td>Purchase amount</td>
                                     <td>: {requisitionDetails?.finalAmount}</td>
                                 </tr>
                                 <tr>
-                                    <td>#Approved items</td>
+                                    <td>#Purchase items</td>
                                     <td>: {requisitionDetails?.totalApprovedItems}</td>
                                 </tr>
                             </table>
@@ -260,6 +283,18 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                     </div>
                 </div>
             </Dialog >
+            {/* Delete requisition dialog  */}
+            <Dialog header="Delete Confirmation" visible={deleteRequisitionDialog} onHide={() => setDeleteRequisitionDialog(null)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                <p className="m-0">
+                    Requisition for: {deleteRequisitionDialog?.department || 'N/A'} department
+                </p>
+                <p>Total amount: {deleteRequisitionDialog?.proposedAmount}</p>
+                <p className='font-bold text-red-400 text-center mt-4'>Are you sure to delete?</p>
+                <div className='flex justify-end gap-x-2 mt-8'>
+                    <Button onClick={() => setDeleteRequisitionDialog(null)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={() => deleteRequisition(deleteRequisitionDialog._id)} label='Delete' className='p-button p-button-sm p-button-danger' />
+                </div>
+            </Dialog>
         </div >
     );
 };
