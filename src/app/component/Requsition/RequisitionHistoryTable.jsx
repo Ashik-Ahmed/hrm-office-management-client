@@ -54,10 +54,18 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
         })
             .then(res => res.json())
             .then(async data => {
+
+                if (data.status == "Success") {
+                    setUserRequisitionData(await getUserRequisitionHistory(user._id))
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition Submitted', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
                 console.log(data);
-                setUserRequisitionData(await getUserRequisitionHistory(user._id))
             })
 
+        setCreateRequisition(null)
     }
 
     const getRequisitionDetails = (requisitionId) => {
@@ -283,6 +291,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                             {/* <Column body={detailsTableDateTemplate} header="Date"></Column> */}
                             {/* <Column field='category' header="Category"></Column> */}
                             <Column field='name' header="Product"></Column>
+                            <Column field='model' header="Details"></Column>
                             <Column field="proposedQuantity" header="#Proposed Qty"></Column>
                             <Column field="approvedQuantity" header="#Purchase Qty"></Column>
                             <Column field="unitPrice" header="Unit Price"></Column>
