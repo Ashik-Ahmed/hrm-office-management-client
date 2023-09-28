@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Column } from 'jspdf-autotable';
 import { DataTable } from 'primereact/datatable';
 import { AiFillPlusSquare } from 'react-icons/ai';
@@ -17,6 +17,7 @@ import { Toast } from 'primereact/toast';
 const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
     const toast = useRef()
+    const isFirstRender = useRef(true);
 
     const [userRequisitionData, setUserRequisitionData] = useState(requisitionHistory)
     const [createRequisition, setCreateRequisition] = useState(false)
@@ -29,6 +30,25 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
+    useEffect(() => {
+        // Do not fetch data on first render
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+        } else {
+            console.log('fetching data');
+            // Fetch data
+
+            const getUserRequisition = async () => {
+                const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+                console.log(data);
+
+                setUserRequisitionData(data)
+            }
+
+            getUserRequisition()
+        }
+    }, [selectedMonth, selectedYear])
 
     const handleAddRequisition = (data) => {
 
@@ -132,7 +152,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
         <div>
             <Toast ref={toast} />
             <div className='flex gap-x-2'>
-                <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value); }} value={selectedMonth} view="month" yearNavigator={false} style={{ year: { display: "none" } }} className="p-calendar-hide-year"
+                <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value.getMonth() + 1); }} value={selectedMonth} view="month" yearNavigator={false} style={{ year: { display: "none" } }} className="p-calendar-hide-year"
                     dateFormat="MM" size='small' />
                 <Calendar onChange={(e) => { setSelectedyear(e.value); console.log(e.value); }} value={selectedYear} view="year" dateFormat="yy" size='small' />
                 {/* <Dropdown options={years} onChange={(e) => { setFilterYear(e.value); }} value={filterYear} size='small' className='p-dropdown-sm' /> */}

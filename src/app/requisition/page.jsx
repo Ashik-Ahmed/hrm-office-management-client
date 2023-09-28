@@ -8,7 +8,9 @@ import { getUserRequisitionHistory } from '@/libs/requisition';
 const Requisition = async () => {
     const { user } = await getServerSession(authOptions)
 
-    const requisitionHistory = await getUserRequisitionHistory(user._id)
+    const selectedMonth = new Date().getMonth() + 1
+    const selectedYear = new Date().getFullYear()
+    const requisitionHistory = await getUserRequisitionHistory(user._id, selectedMonth, selectedYear)
     console.log('requ history: ', requisitionHistory);
 
     return (
