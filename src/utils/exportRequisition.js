@@ -6,11 +6,12 @@ exports.exportRequisition = (requisitionDetails) => {
 
     const cols = [
         { field: 'name', header: 'Product' },
+        { field: 'model', header: 'Details' },
         { field: 'proposedQuantity', header: '#Proposed Qty' },
-        { field: 'approvedQuantity', header: '#Approved Qty' },
+        // { field: 'approvedQuantity', header: '#Approved Qty' },
         { field: 'unitPrice', header: 'Unit Price' },
-        { field: 'buyingPrice', header: 'Buying Price' },
-        { field: 'totalAmount', header: 'Total' },
+        // { field: 'buyingPrice', header: 'Buying Price' },
+        { field: 'total', header: 'Total' },
     ]
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))

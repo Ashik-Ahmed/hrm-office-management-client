@@ -314,10 +314,10 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                             <Column field='name' header="Product"></Column>
                             <Column field='model' header="Details"></Column>
                             <Column field="proposedQuantity" header="#Proposed Qty"></Column>
-                            <Column field="approvedQuantity" header="#Purchase Qty"></Column>
+                            {/* <Column field="approvedQuantity" header="#Purchase Qty"></Column> */}
                             <Column field="unitPrice" header="Unit Price"></Column>
-                            <Column field="buyingPrice" header="Buying Price"></Column>
-                            <Column field="totalAmount" header="Total"></Column>
+                            {/* <Column field="buyingPrice" header="Buying Price"></Column> */}
+                            <Column field='total' header="Total"></Column>
                         </DataTable>
                     </div>
                 </div>
