@@ -76,7 +76,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             .then(async data => {
 
                 if (data.status == "Success") {
-                    setUserRequisitionData(await getUserRequisitionHistory(user._id))
+                    setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition Submitted', life: 3000 });
                 }
                 else {
@@ -84,7 +84,8 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 }
                 console.log(data);
             })
-
+        setItemList([])
+        setDepartment(null)
         setCreateRequisition(null)
     }
 
@@ -108,7 +109,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     console.log("Deleted Successfully");
-                    setUserRequisitionData(await getUserRequisitionHistory(user._id))
+                    setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition deleted', life: 3000 });
                 }
                 else {
@@ -151,7 +152,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     return (
         <div>
             <Toast ref={toast} />
-            <div className='flex gap-x-2'>
+            <div className='flex gap-x-2 mb-2'>
                 <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value.getMonth() + 1); }} value={selectedMonth} view="month" yearNavigator={false} style={{ year: { display: "none" } }} className="p-calendar-hide-year"
                     dateFormat="MM" size='small' />
                 <Calendar onChange={(e) => { setSelectedyear(e.value); console.log(e.value); }} value={selectedYear} view="year" dateFormat="yy" size='small' />
@@ -212,7 +213,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                         <InputText
                             {...register("proposedQuantity", { required: "Quantity is required" })}
                             disabled={!department} keyfilter='int' placeholder="Quantity*" className='w-full' />
-                        {errors.quantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.quantity.message}</span>}
+                        {errors.proposedQuantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.proposedQuantity.message}</span>}
                     </div>
                     <div className='w-1/2'>
                         <InputText
@@ -237,7 +238,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                                     <Column field='name' header="Product"></Column>
                                     {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
                                     <Column field="model" header="Model"></Column>
-                                    <Column field="quantity" header="Quantity"></Column>
+                                    <Column field="proposedQuantity" header="Quantity"></Column>
                                     <Column field="unitPrice" header="Unit Price"></Column>
                                     {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
                                 </DataTable>
