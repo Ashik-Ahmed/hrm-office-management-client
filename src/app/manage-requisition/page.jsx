@@ -1,3 +1,4 @@
+import { getMonthlyRequisitionData } from '@/libs/requisition';
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession } from 'next-auth';
 import React from 'react';
@@ -8,7 +9,9 @@ const page = async () => {
 
     const selectedMonth = new Date().getMonth() + 1
     const selectedYear = new Date().getFullYear()
-    const requisitionHistory = await getUserRequisitionHistory(user._id, selectedMonth, selectedYear)
+    console.log(selectedMonth, selectedYear);
+    const monthlyRequisitionData = await getMonthlyRequisitionData(selectedMonth, selectedYear)
+
 
     return (
         <div>
