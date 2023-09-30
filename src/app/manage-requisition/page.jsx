@@ -12,6 +12,7 @@ const page = async () => {
     console.log(selectedMonth, selectedYear);
     const monthlyRequisitionData = await getMonthlyRequisitionData(selectedMonth, selectedYear)
 
+    console.log(monthlyRequisitionData);
 
     return (
         <div>
