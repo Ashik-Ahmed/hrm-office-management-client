@@ -4,12 +4,16 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
+import { MdOutlinePendingActions } from 'react-icons/md';
+import { TbReportMoney } from 'react-icons/tb';
 
 const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
 
-    const [monthlyRequisition, setMonthlyRequisition] = useState(monthlyRequisitionData)
+    const [monthlyRequisition, setMonthlyRequisition] = useState(monthlyRequisitionData?.data)
     const [requisitionDetails, setRequisitionDetails] = useState(null)
     const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
+    const [totalIconColor, setTotalIconColor] = useState('gray')
+    const [dueIconColor, setDueIconColor] = useState('gray')
 
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
@@ -53,7 +57,26 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
 
     return (
         <div>
-            <DataTable value={monthlyRequisition?.data.requisitions} size='small' emptyMessage="No Requisition Found">
+            <div className='flex gap-x-2 mb-4'>
+                <div onMouseEnter={() => setTotalIconColor('white')} onMouseLeave={() => setTotalIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
+                    <TbReportMoney size={60} color={totalIconColor} />
+                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
+                        <p>Total Amount</p>
+                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"} `} </p>
+                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${"0"}`}</span> trips in total</p>
+                    </div>
+                </div>
+                <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
+                    <MdOutlinePendingActions size={55} color={dueIconColor} />
+                    <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
+                        <p>Due Bill</p>
+                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition.totalProposedAmount || "00"}`}</p>
+                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition.totalProposedAmount || "0"}`}</span> trips</p>
+                    </div>
+                </div>
+            </div>
+
+            <DataTable value={monthlyRequisition?.requisitions} size='small' emptyMessage="No Requisition Found">
                 <Column body={dateBodytemplate} header="Date"></Column>
                 <Column field='department' header="Department"></Column>
                 <Column field='totalProposedItems' header="#Proposed item(s)"></Column>
