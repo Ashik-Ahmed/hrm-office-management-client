@@ -5,9 +5,11 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
 
-const MonthlyRequisitionDataTable = () => {
+const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
 
+    const [monthlyRequisition, setMonthlyRequisition] = useState(monthlyRequisitionData)
     const [requisitionDetails, setRequisitionDetails] = useState(null)
+    const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
 
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
@@ -17,6 +19,25 @@ const MonthlyRequisitionDataTable = () => {
                 setRequisitionDetails(data.data)
                 console.log(data.data);
             })
+    }
+
+
+    const buttonTooltipOptions = {
+        position: 'bottom',
+        mouseTrack: true,
+        mouseTrackTop: 25,
+        style: {
+            fontSize: '12px'
+            /* Add any other custom styles here */
+        },
+    };
+
+    const dateBodytemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.createdAt.split("T")[0]}
+            </div>
+        )
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -32,7 +53,7 @@ const MonthlyRequisitionDataTable = () => {
 
     return (
         <div>
-            <DataTable value={userRequisitionData?.data} size='small' emptyMessage="No Requisition Found">
+            <DataTable value={monthlyRequisition?.data.requisitions} size='small' emptyMessage="No Requisition Found">
                 <Column body={dateBodytemplate} header="Date"></Column>
                 <Column field='department' header="Department"></Column>
                 <Column field='totalProposedItems' header="#Proposed item(s)"></Column>

@@ -2,6 +2,7 @@ import { getMonthlyRequisitionData } from '@/libs/requisition';
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession } from 'next-auth';
 import React from 'react';
+import MonthlyRequisitionDataTable from '../component/ManageRequisition/MonthlyRequisitionDataTable';
 
 const page = async () => {
 
@@ -16,7 +17,7 @@ const page = async () => {
 
     return (
         <div>
-            Manage Requisition
+            <MonthlyRequisitionDataTable monthlyRequisitionData={monthlyRequisitionData} />
         </div>
     );
 };

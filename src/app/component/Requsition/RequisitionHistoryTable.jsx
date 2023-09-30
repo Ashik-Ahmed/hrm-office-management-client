@@ -128,6 +128,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             </div>
         )
     }
+
     const buttonTooltipOptions = {
         position: 'bottom',
         mouseTrack: true,
