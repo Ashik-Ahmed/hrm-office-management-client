@@ -36,8 +36,8 @@ exports.exportRequisition = (requisitionDetails) => {
 
                 doc.text(`Proposed amount: ${requisitionDetails?.proposedAmount}`, 200, 45);
                 doc.text(`#Proposed items: ${requisitionDetails?.totalProposedItems}`, 200, 55);
-                doc.text(`Purchase amount: ${requisitionDetails?.finalAmount || "__________"}`, 200, 65);
-                doc.text(`#Purchase items: ${requisitionDetails?.totalApprovedItems || "__________"}`, 200, 75);
+                doc.text(`Purchase amount: ${requisitionDetails?.purchasedAmount || "__________"}`, 200, 65);
+                doc.text(`#Purchase items: ${requisitionDetails?.purchasedItems || "__________"}`, 200, 75);
 
 
                 doc.autoTable(exportColumns, requisitionDetails.itemList.sort(), {

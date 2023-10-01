@@ -12,6 +12,5 @@ exports.getMonthlyRequisitionData = async (selectedMonth, selectedYear) => {
         cache: 'no-cache'
     })
     const monthlyRequisitionData = await data.json()
-
     return monthlyRequisitionData;
 }

@@ -6,15 +6,23 @@ import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
+import { InputNumber } from 'primereact/inputnumber';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 
 const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
 
+    const toast = useRef()
     const isFirstRender = useRef(true);
 
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
     const [monthlyRequisition, setMonthlyRequisition] = useState(monthlyRequisitionData?.data)
+    const [completePurchase, setCompletePurchase] = useState(null)
     const [requisitionDetails, setRequisitionDetails] = useState(null)
     const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
     const [totalIconColor, setTotalIconColor] = useState('gray')
@@ -31,6 +39,35 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                 setRequisitionDetails(data.data)
                 console.log(data.data);
             })
+        setLoading(false)
+    }
+
+    const handleCompletePurchase = (data) => {
+        setLoading(true)
+        const requisitionId = completePurchase._id
+        console.log(requisitionId, data);
+        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(async data => {
+                if (data.status == "Success") {
+                    console.log('Successfully updated');
+                    const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+                    setMonthlyRequisition(requisitionData.data)
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition updated', life: 3000 });
+                }
+                else {
+                    console.log("Failed to update");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
+            })
+        setCompletePurchase(false)
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -74,7 +111,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-edit" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setCompletePurchase(rowData)} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setDeleteRequisitionDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
@@ -84,6 +121,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className='flex gap-x-2 mb-2'>
                 <Calendar onChange={(e) => { setSelectedMonth((e.value)); console.log(e.value.getMonth() + 1); }} value={selectedMonth} view="month" yearNavigator={false} style={{ year: { display: "none" } }} className="p-calendar-hide-year"
                     dateFormat="MM" size='small' />
@@ -94,9 +132,9 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                 <div onMouseEnter={() => setTotalIconColor('white')} onMouseLeave={() => setTotalIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
                     <TbReportMoney size={60} color={totalIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
-                        <p>Total Amount</p>
+                        <p>Proposed Amount</p>
                         <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"} `} </p>
-                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.requisitions.length || "0"}`}</span> requisitions this month</p>
+                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.requisitions?.length || "0"}`}</span> requisitions this month</p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
@@ -173,11 +211,11 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                                 </tr>
                                 <tr>
                                     <td>Purchase amount</td>
-                                    <td>: {requisitionDetails?.finalAmount || "________"}</td>
+                                    <td>: {requisitionDetails?.purchasedAmount || "________"}</td>
                                 </tr>
                                 <tr>
                                     <td>#Purchase items</td>
-                                    <td>: {requisitionDetails?.totalApprovedItems || "________"}</td>
+                                    <td>: {requisitionDetails?.purchasedItems || "________"}</td>
                                 </tr>
                             </table>
                         </div>
@@ -209,6 +247,27 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                     <Button onClick={() => setDeleteRequisitionDialog(null)} label='Cancel' className='p-button p-button-sm p-button-info' />
                     <Button onClick={() => deleteRequisition(deleteRequisitionDialog._id)} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
+            </Dialog>
+
+            {/* Complete purchase dialog  */}
+            <Dialog header="Purchase Confirmation" visible={completePurchase} onHide={() => { setCompletePurchase(null); reset(); setLoading(false) }} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                <form onSubmit={handleSubmit(handleCompletePurchase)} className='mt-2 flex flex-col gap-y-2'>
+                    <div className='w-full'>
+                        <InputText
+                            {...register("purchasedAmount", { required: "Amount is required" })}
+                            keyfilter='int' placeholder="Purchase amount*" className='w-full' />
+                        {errors.purchaseAmount?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchaseAmount.message}</span>}
+                    </div>
+
+
+                    <div className='w-full'>
+                        <InputText
+                            {...register("purchasedItems", { required: "Purchase items count is required" })}
+                            keyfilter='int' placeholder="Total items*" className='w-full' />
+                        {errors.purchaseItems?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchaseItems.message}</span>}
+                    </div>
+                    <Button type='submit' label='Submit' loading={loading} />
+                </form>
             </Dialog>
 
         </div>
