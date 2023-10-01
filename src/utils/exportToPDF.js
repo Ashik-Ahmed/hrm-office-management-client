@@ -80,8 +80,7 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
 
                         // Footer
                         var str = "Page " + doc.internal.getNumberOfPages();
-                        var signatureLine = "__________________"
-                        var signature = selectedEmployee.name
+
 
                         doc.setFontSize(10);
 
@@ -91,13 +90,19 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
                             ? pageSize.height
                             : pageSize.getHeight();
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
-                        doc.text(signatureLine, data.settings.margin.left, pageHeight - 40);
-                        doc.text(signature, data.settings.margin.left, pageHeight - 30);
                     }
                 });
+                var pageSize = doc.internal.pageSize;
+                var pageHeight = pageSize.height
+                    ? pageSize.height
+                    : pageSize.getHeight();
+                var signatureLine = "__________________"
+                var signature = selectedEmployee.name
+                doc.text(signatureLine, 20, pageHeight - 40);
+                doc.text(signature, 20, pageHeight - 30);
 
 
-                doc.save('conveyance-details.pdf');
+                doc.save(`${selectedEmployee.name} conveyance bill.pdf`);
             })
         })
 
