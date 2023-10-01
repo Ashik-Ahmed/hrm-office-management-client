@@ -161,7 +161,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
             </div>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>REQUISITION HISTORY</h3>
+                    <h3 className='font-light'>REQUISITION</h3>
                     <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
