@@ -65,9 +65,10 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                     console.log("Failed to update");
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                 }
+                setCompletePurchase(false)
+                setLoading(false)
+                reset()
             })
-        setCompletePurchase(false)
-        setLoading(false)
     }
 
     useEffect(() => {
@@ -111,9 +112,9 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <Button onClick={() => setCompletePurchase(rowData)} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setCompletePurchase(rowData)} disabled={rowData.status == "Completed"} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button onClick={() => setDeleteRequisitionDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteRequisitionDialog(rowData)} disabled={rowData.status == "Completed"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -141,7 +142,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                     <MdOutlinePendingActions size={55} color={dueIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Purchase Amount</p>
-                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"}`}</p>
+                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalPurchasedAmount || "00"}`}</p>
                         <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalProposedAmount || "0"}`}</span> trips</p>
                     </div>
                 </div>
@@ -155,7 +156,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                         <DataTable value={monthlyRequisition?.requisitions} size='small' emptyMessage="No Requisition Found">
                             <Column body={dateBodytemplate} header="Date"></Column>
                             <Column field='department' header="Department"></Column>
-                            <Column field='totalProposedItems' header="#Proposed item(s)"></Column>
+                            <Column field='proposedItems' header="#Proposed item(s)"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
                             <Column field="proposedAmount" header="Proposed Amount"></Column>
                             {/* <Column field="finalAmount" header="Final Amount"></Column> */}
@@ -256,7 +257,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                         <InputText
                             {...register("purchasedAmount", { required: "Amount is required" })}
                             keyfilter='int' placeholder="Purchase amount*" className='w-full' />
-                        {errors.purchaseAmount?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchaseAmount.message}</span>}
+                        {errors.purchasedAmount?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchasedAmount.message}</span>}
                     </div>
 
 
@@ -264,7 +265,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                         <InputText
                             {...register("purchasedItems", { required: "Purchase items count is required" })}
                             keyfilter='int' placeholder="Total items*" className='w-full' />
-                        {errors.purchaseItems?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchaseItems.message}</span>}
+                        {errors.purchasedItems?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.purchasedItems.message}</span>}
                     </div>
                     <Button type='submit' label='Submit' loading={loading} />
                 </form>
