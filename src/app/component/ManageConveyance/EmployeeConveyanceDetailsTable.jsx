@@ -40,15 +40,6 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
         setLoading(false)
     }
 
-    const buttonTooltipOptions = {
-        position: 'bottom',
-        mouseTrack: true,
-        mouseTrackTop: 25,
-        style: {
-            fontSize: '12px'
-            /* Add any other custom styles here */
-        },
-    };
 
     const exportConveyanceData = async (rowData) => {
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
@@ -93,6 +84,15 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
     }
 
+    const buttonTooltipOptions = {
+        position: 'bottom',
+        mouseTrack: true,
+        mouseTrackTop: 25,
+        style: {
+            fontSize: '12px'
+            /* Add any other custom styles here */
+        },
+    };
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>

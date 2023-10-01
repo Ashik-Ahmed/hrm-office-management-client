@@ -143,7 +143,7 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Purchase Amount</p>
                         <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalPurchasedAmount || "00"}`}</p>
-                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalProposedAmount || "0"}`}</span> trips</p>
+                        <p className='text-xs mt-2'>Total purchased <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalPurchasedItems || "0"}`}</span> items</p>
                     </div>
                 </div>
             </div>

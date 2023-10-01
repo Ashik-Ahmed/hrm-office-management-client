@@ -62,7 +62,7 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
                     doc.setTextColor(10);
                     doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
                     doc.setFontSize(12);
-                    doc.text(`Monthly Conveyance Details`, 110, 32);
+                    doc.text(`Monthly Conveyance Bill`, 112, 32);
 
                     doc.setFontSize(11);
                     doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
