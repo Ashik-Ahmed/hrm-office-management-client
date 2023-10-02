@@ -223,7 +223,7 @@ const Users = () => {
                     <div className='w-full'>
                         <Dropdown
                             {...register("department", { required: "Department is required" })}
-                            value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
+                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
                         {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
                     </div>
                     <div className='mt-2 flex gap-x-4'>

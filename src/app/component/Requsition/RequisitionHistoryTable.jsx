@@ -25,11 +25,24 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const [selectedMonth, setSelectedMonth] = useState(new Date())
     const [selectedYear, setSelectedyear] = useState(new Date())
     const [itemList, setItemList] = useState([])
-    const [department, setDepartment] = useState('')
     const [requisitionDetails, setRequisitionDetails] = useState(null)
     const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
+    const [department, sertDepartment] = useState([])
+    const [selectedDepartment, setSelectedDepartment] = useState(null)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
+    useEffect(() => {
+        const departments = async () => {
+            fetch(`http://localhost:5000/api/v1/department`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.data);
+                    sertDepartment(data.data)
+                })
+        }
+        departments()
+    }, [])
 
     useEffect(() => {
         // Do not fetch data on first render
@@ -59,7 +72,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
     const handleSubmitRequisition = () => {
         const requisitionData = {
             submittedBy: user._id,
-            department,
+            department: selectedDepartment.departmentName,
             itemList
         }
 
@@ -85,7 +98,7 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 console.log(data);
             })
         setItemList([])
-        setDepartment(null)
+        setSelectedDepartment(null)
         setCreateRequisition(null)
     }
 
@@ -183,49 +196,51 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 }
             </div>
             {/* Create requisition dialog  */}
-            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setDepartment(''); reset() }}>
+            <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setSelectedDepartment(''); reset() }}>
                 <div>
-                    <Dropdown value={department} onChange={(e) => { setDepartment(e.value); setItemList([]) }} options={['Test 1', 'Test 2', 'Test 3']} placeholder="Department*" className='w-fit mb-2' />
+                    <Dropdown value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); setItemList([]) }} options={department} optionLabel='departmentName' placeholder="Department*" className='w-fit mb-2' />
                 </div>
-                <form onSubmit={handleSubmit(handleAddRequisition)} className='mt-2 flex gap-x-2'>
-                    <div className='w-full'>
-                        <InputText
-                            {...register("category", { required: "Category is required" })}
-                            disabled={!department} placeholder="Category*" className='w-full' />
-                        {errors.category?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.category.message}</span>}
-                    </div>
+                <form onSubmit={handleSubmit(handleAddRequisition)}>
+                    <div className='flex gap-x-2'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("category", { required: "Category is required" })}
+                                disabled={!selectedDepartment} placeholder="Category*" className='w-full' />
+                            {errors.category?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.category.message}</span>}
+                        </div>
 
 
-                    <div className='w-full'>
-                        <InputText
-                            {...register("name", { required: "Name is required" })}
-                            disabled={!department} type='text' placeholder="Name*" className='w-full' />
-                        {errors.name?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.name.message}</span>}
-                    </div>
-                    <div className='w-full'>
-                        <InputText
-                            {...register("model")}
-                            disabled={!department} type='text' placeholder="Model" className='w-full' />
-                        {errors.model?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.model.message}</span>}
-                    </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("name", { required: "Name is required" })}
+                                disabled={!selectedDepartment} type='text' placeholder="Name*" className='w-full' />
+                            {errors.name?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.name.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("model")}
+                                disabled={!selectedDepartment} type='text' placeholder="Model" className='w-full' />
+                            {errors.model?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.model.message}</span>}
+                        </div>
 
 
-                    <div className='w-1/2'>
-                        <InputText
-                            {...register("proposedQuantity", { required: "Quantity is required" })}
-                            disabled={!department} keyfilter='int' placeholder="Quantity*" className='w-full' />
-                        {errors.proposedQuantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.proposedQuantity.message}</span>}
-                    </div>
-                    <div className='w-1/2'>
-                        <InputText
-                            {...register("unitPrice", { required: "Unit price required" })}
-                            disabled={!department} keyfilter='int' placeholder="Unit price*" className='w-full' />
-                        {errors.unitPrice?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.unitPrice.message}</span>}
-                    </div>
+                        <div className='w-1/2'>
+                            <InputText
+                                {...register("proposedQuantity", { required: "Quantity is required" })}
+                                disabled={!selectedDepartment} keyfilter='int' placeholder="Quantity*" className='w-full' />
+                            {errors.proposedQuantity?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.proposedQuantity.message}</span>}
+                        </div>
+                        <div className='w-1/2'>
+                            <InputText
+                                {...register("unitPrice", { required: "Unit price required" })}
+                                disabled={!selectedDepartment} keyfilter='int' placeholder="Unit price*" className='w-full' />
+                            {errors.unitPrice?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.unitPrice.message}</span>}
+                        </div>
 
 
-                    <div className='text-right'>
-                        <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} disabled={!department} />
+                        <div className='text-right'>
+                            <Button type='submit' label="Add" icon='pi pi-plus' severity='info' loading={loading} disabled={!department} />
+                        </div>
                     </div>
                 </form>
 
