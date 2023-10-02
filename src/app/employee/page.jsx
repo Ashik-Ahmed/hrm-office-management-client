@@ -71,7 +71,7 @@ const Users = () => {
 
     //add user form submission functionality
     const handleAddUser = async (data) => {
-
+        console.log('add user');
         setLoading(true);
 
         data.joiningDate = date?.toLocaleDateString("en-GB");
@@ -219,6 +219,13 @@ const Users = () => {
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
 
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
+
+                    <div className='w-full'>
+                        <Dropdown
+                            {...register("department", { required: "Department is required" })}
+                            value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
+                        {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
+                    </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className="w-full">
                             <InputText
@@ -283,15 +290,9 @@ const Users = () => {
                         </div>
                         <div className='w-full'>
                             <Dropdown
-                                {...register("department", { required: "Department is required" })}
-                                value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
-                            {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
-                        </div>
-                        <div className='w-full'>
-                            <Dropdown
-                                {...register("role", { required: "Role is required" })}
+                                {...register("userRole", { required: "Role is required" })}
                                 value={role} onChange={(e) => setRole(e.value)} options={departemnt} placeholder="Select User Role*" className="w-full placeholder-opacity-20" />
-                            {errors.role?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.role.message}</span>}
+                            {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
                         </div>
                     </div>
                     <div className='mt-2'>
