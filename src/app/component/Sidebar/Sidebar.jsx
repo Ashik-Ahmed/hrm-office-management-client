@@ -19,7 +19,7 @@ const Sidebar = () => {
     const { data: session } = useSession(
         { require: true }
     )
-
+    console.log(session);
 
     const currentPath = usePathname();
     // console.log(currentPath);

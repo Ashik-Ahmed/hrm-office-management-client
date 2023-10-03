@@ -23,6 +23,7 @@ export default async function Home() {
   // }
 
   const session = await getServerSession()
+  console.log(session.user);
 
   if (!session) {
     return redirect(new URL('/api/auth/signin', process.env.BASE_URL))

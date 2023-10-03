@@ -74,6 +74,8 @@ export const authOptions = {
                 _id: token._id,
                 name: token.name,
                 email: token.email,
+                department: token.department,
+                userRole: token.userRole,
                 designation: token.designation,
                 image: token.image
             }
