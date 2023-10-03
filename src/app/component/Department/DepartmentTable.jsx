@@ -35,7 +35,8 @@ const DepartmentTable = ({ departmentList }) => {
                 if (data.status == "Success") {
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Department Created', life: 3000 });
                     const departmentData = await getAllDepartments()
-                    setDepartments(departmentData)
+                    setDepartments(departmentData);
+                    reset();
                 }
                 else {
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
