@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import { RiSettings5Fill } from 'react-icons/ri'
 import { FaUser } from 'react-icons/fa'
@@ -11,6 +11,9 @@ import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { TieredMenu } from 'primereact/tieredmenu';
+import { Menu } from 'primereact/menu';
+import { Button } from 'primereact/button';
 // import { getServerSession } from 'next-auth';
 
 const Sidebar = () => {
@@ -43,6 +46,21 @@ const Sidebar = () => {
         { name: 'Guest', link: '/guest' },
     ]
 
+    const menuLeft = useRef(null);
+    const items = [
+        {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user-plus'
+        },
+        {
+            separator: true
+        },
+        {
+            label: 'Logout',
+            icon: 'pi pi-fw pi-power-off'
+        }
+    ];
+
     return (
         <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700'>
             <div className='flex mt-6'>
@@ -57,11 +75,20 @@ const Sidebar = () => {
                         <i className='pi pi-id-card cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-comments cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-folder cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
+                        <Menu model={items} popup ref={menuLeft} id="popup_menu_left" />
+                        <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
+                            <FaUser size={20} color='gray' className='cursor-pointer' />
+                        </i>
+                        {/* <i>
+                            <Button onClick={(event) => profileButton.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup text >
+                                <FaUser size={20} color='gray' className='cursor-pointer' />
+                            </Button>
+                        </i> */}
                     </ul>
                     <ul className='flex flex-col gap-6'>
                         {/* <i className='pi pi-comments hover:text-sky-400 duration-200' style={{ fontSize: '1.4rem' }}></i> */}
                         {/* <i className='pi pi-folder hover:text-sky-400 duration-200' style={{ fontSize: '1.4rem' }}></i> */}
-                        <div>
+                        {/* <div>
                             <span class="relative flex h-3 w-3 float-right -ml-1.5 -mt-1">
                                 <span class="custom-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75 -ml-0.5 -mt-0.5"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
@@ -74,9 +101,9 @@ const Sidebar = () => {
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-gray-500"></span>
                             </span>
                             <MdNotifications size={20} color='gray' />
-                        </div>
-                        <RiSettings5Fill size={20} color='gray' className='cursor-pointer custom-spin' />
-                        <FaUser size={20} color='gray' className='cursor-pointer' />
+                        </div> */}
+                        {/* <RiSettings5Fill size={20} color='gray' className='cursor-pointer custom-spin' /> */}
+
                     </ul>
                 </div>
 
