@@ -1,7 +1,7 @@
 
 exports.getAllLeaves = async () => {
     const leaves = await fetch('http://localhost:5000/api/v1/leave', {
-        cache: "no-cache"
+        next: { revalidate: 3 }
     }).then(res => res.json())
 
     return leaves?.data;
@@ -9,10 +9,7 @@ exports.getAllLeaves = async () => {
 
 exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     const leaveApplications = await fetch(`http://localhost:5000/api/v1/leaveApplication/${employeeId}`, {
-        cache: 'no-cache',
-        next: {
-            tags: ["leaveApplications"]
-        }
+        next: { revalidate: 3 }
     })
         .then(res => res.json())
     // .then(data => {
@@ -24,10 +21,7 @@ exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
 
 exports.getAllPendingLeaveApplications = async () => {
     const pendingLeaveApplications = await fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications', {
-        cache: "no-cache",
-        next: {
-            tags: ["pendingLeaveApplications"]
-        }
+        next: { revalidate: 3 }
     })
         .then(res => res.json())
 
@@ -42,7 +36,7 @@ exports.getAllPendingLeaveApplications = async () => {
 exports.getLeaveStatus = async (employeeId) => {
     console.log(employeeId);
     const leaveStatus = await fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`, {
-        cache: "no-cache"
+        next: { revalidate: 3 }
     })
         .then(res => res.json())
 
