@@ -30,7 +30,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="my-6 text-gray-700">
+    <div className="text-gray-700">
       <div className="">
         <h2 className="text-2xl mb-2">Welcome, {session?.user.name}</h2>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>

@@ -7,10 +7,10 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const PendingLeave = ({ pendingLeaveApplications }) => {
+const PendingLeave = () => {
 
     const { data: session, status } = useSession();
 
@@ -19,18 +19,24 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
     const { register, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
 
     const [loading, setLoading] = useState(false)
-    const [pendingApplications, setPendingApplications] = useState(pendingLeaveApplications)
+    const [pendingApplications, setPendingApplications] = useState([])
     const [detailsDialog, setDetailsDialog] = useState(null);
     const [approveDialog, setApproveDialog] = useState(null)
     const [rejectDialog, setRejectDialog] = useState(null)
 
     const fetchPendingLeaveApplications = () => {
+        setLoading(true)
         fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
             .then(res => res.json())
             .then(data => {
                 setPendingApplications(data.data)
             })
+        setLoading(false)
     }
+
+    useEffect(() => {
+        fetchPendingLeaveApplications()
+    }, [])
 
     const approveLeaveApplicationStatus = (status) => {
         setLoading(true)
@@ -137,7 +143,7 @@ const PendingLeave = ({ pendingLeaveApplications }) => {
                 <div className='mb-2'>
                     <h3 className='font-light'>PENDING APPLICATIONS</h3>
                 </div>
-                <DataTable value={pendingApplications} size='small' emptyMessage="No pending applications">
+                <DataTable value={pendingApplications} size='small' loading={loading}>
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>

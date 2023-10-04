@@ -14,7 +14,7 @@ const page = async () => {
 
     return (
         <div>
-            <Conveyance conveyance={conveyance} session={session} />
+            <Conveyance session={session} />
         </div>
     );
 };

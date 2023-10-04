@@ -9,8 +9,9 @@ import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditConveyanceDialog from './EditConveyanceDialog';
+import Loading from '../Loading/Loading';
 
-const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, loading }) => {
+const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, loadingState }) => {
 
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -22,13 +23,14 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
     const [editConveyanceDialog, setEditConveyanceDialog] = useState(false)
     const [date, setDate] = useState(null);
     const [attachment, setAttachment] = useState(null);
+    const [loading, setLoading] = useState(loadingState)
 
     const handlePhotoChange = (event) => {
         setAttachment(event.target.files[0]);
     };
 
     const handleAddConveyance = (data) => {
-
+        setLoading(true)
         data.date = data.date.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         // console.log(data.date);
         const employee = {
@@ -57,13 +59,14 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again.', life: 3000 });
                 }
             })
-
+        setLoading(false)
         setAddConveyanceDialog(false)
         setDate(null)
         reset();
     }
 
     const handleDeleteConveyance = () => {
+        setLoading(true)
         console.log(deleteDialog);
         fetch(`http://localhost:5000/api/v1/conveyance/${deleteDialog._id}`, {
             method: 'DELETE'
@@ -81,6 +84,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 }
                 setDeleteDialog(false)
             })
+        setLoading(false)
     }
 
     const buttonTooltipOptions = {
@@ -112,6 +116,10 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
         )
     }
 
+    if (!conveyanceData) {
+        return <Loading />
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -122,7 +130,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 </div>
                 {
                     conveyanceData?.conveyanceDetails?.length > 0 ?
-                        <DataTable value={conveyanceData.conveyanceDetails} size='small' emptyMessage="No Due Conveyance">
+                        <DataTable value={conveyanceData.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" loading={loading}>
                             <Column body={dateBodyTemplate} header="Date"></Column>
                             <Column field='from' header="From"></Column>
                             <Column field='destination' header="Destination"></Column>

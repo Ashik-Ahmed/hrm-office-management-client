@@ -13,13 +13,14 @@ import { exportRequisition } from '@/utils/exportRequisition';
 import { getUserRequisitionHistory } from '@/libs/requisition';
 import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
+import Loading from '../Loading/Loading';
 
-const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
+const RequisitionHistoryTable = ({ user }) => {
 
     const toast = useRef()
     const isFirstRender = useRef(true);
 
-    const [userRequisitionData, setUserRequisitionData] = useState(requisitionHistory)
+    const [userRequisitionData, setUserRequisitionData] = useState()
     const [createRequisition, setCreateRequisition] = useState(false)
     const [loading, setLoading] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState(new Date())
@@ -32,7 +33,17 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
+    const getUserRequisition = async () => {
+        const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+        console.log(data);
+
+        setUserRequisitionData(data)
+    }
+
     useEffect(() => {
+
+        getUserRequisition()
+
         const departments = async () => {
             fetch(`http://localhost:5000/api/v1/department`)
                 .then(res => res.json())
@@ -44,24 +55,24 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
         departments()
     }, [])
 
-    useEffect(() => {
-        // Do not fetch data on first render
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-        } else {
-            console.log('fetching data');
-            // Fetch data
+    // useEffect(() => {
+    //     // Do not fetch data on first render
+    //     if (isFirstRender.current) {
+    //         isFirstRender.current = false;
+    //     } else {
+    //         console.log('fetching data');
+    //         // Fetch data
 
-            const getUserRequisition = async () => {
-                const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
-                console.log(data);
+    //         const getUserRequisition = async () => {
+    //             const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+    //             console.log(data);
 
-                setUserRequisitionData(data)
-            }
+    //             setUserRequisitionData(data)
+    //         }
 
-            getUserRequisition()
-        }
-    }, [selectedMonth, selectedYear])
+    //         getUserRequisition()
+    //     }
+    // }, [selectedMonth, selectedYear])
 
     const handleAddRequisition = (data) => {
 
@@ -161,6 +172,10 @@ const RequisitionHistoryTable = ({ requisitionHistory, user }) => {
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
+    }
+
+    if (!userRequisitionData) {
+        return < Loading />
     }
 
     return (

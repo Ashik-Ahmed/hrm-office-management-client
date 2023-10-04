@@ -7,21 +7,32 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
+import Loading from '../Loading/Loading';
 
-const DepartmentTable = ({ departmentList }) => {
+const DepartmentTable = () => {
 
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const [departments, setDepartments] = useState(departmentList);
+    const [departments, setDepartments] = useState();
     const [createDepartmentDialog, setCreateDepartmentDialog] = useState(null)
     const [loading, setLoading] = useState(false)
 
+    const getDepartmentData = async () => {
+        setLoading(true)
+        const depts = await getAllDepartments();
+        setDepartments(depts);
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        getDepartmentData()
+    }, [])
+
     const handleCreateDepartment = async (data) => {
-        console.log(data);
         setLoading(true)
         fetch('http://localhost:5000/api/v1/department', {
             method: "POST",
@@ -66,6 +77,10 @@ const DepartmentTable = ({ departmentList }) => {
         )
     }
 
+    if (!departments) {
+        return <Loading />
+    }
+
 
     return (
         <div>
@@ -76,17 +91,17 @@ const DepartmentTable = ({ departmentList }) => {
                     <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
-                    departments ?
-                        <DataTable value={departments?.data} size='small' emptyMessage="No Requisition Found">
-                            <Column field='departmentName' header="Department"></Column>
-                            <Column field='description' header="Description"></Column>
-                            <Column field="employeeCount" header="#Employees"></Column>
-                            <Column body={actionBodyTemplate} header="Action"></Column>
-                        </DataTable>
-                        :
-                        <div className='my-4 text-center'>
-                            <p className='bg-sky-400 text-white p-2 inline'>No Department Found</p>
-                        </div>
+                    // departments ?
+                    <DataTable value={departments?.data} size='small' emptyMessage="No Department Found" loading={loading}>
+                        <Column field='departmentName' header="Department"></Column>
+                        <Column field='description' header="Description"></Column>
+                        <Column field="employeeCount" header="#Employees"></Column>
+                        <Column body={actionBodyTemplate} header="Action"></Column>
+                    </DataTable>
+                    // :
+                    // <div className='my-4 text-center'>
+                    //     <p className='bg-sky-400 text-white p-2 inline'>No Department Found</p>
+                    // </div>
                 }
             </div>
 

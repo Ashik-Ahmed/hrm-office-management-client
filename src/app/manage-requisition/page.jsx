@@ -8,16 +8,16 @@ const page = async () => {
 
     const { user } = await getServerSession(authOptions)
 
-    const selectedMonth = new Date().getMonth() + 1
-    const selectedYear = new Date().getFullYear()
-    console.log(selectedMonth, selectedYear);
-    const monthlyRequisitionData = await getMonthlyRequisitionData(selectedMonth, selectedYear)
+    // const selectedMonth = new Date().getMonth() + 1
+    // const selectedYear = new Date().getFullYear()
+    // console.log(selectedMonth, selectedYear);
+    // const monthlyRequisitionData = await getMonthlyRequisitionData(selectedMonth, selectedYear)
 
-    console.log(monthlyRequisitionData);
+    // console.log(monthlyRequisitionData);
 
     return (
         <div>
-            <MonthlyRequisitionDataTable monthlyRequisitionData={monthlyRequisitionData} />
+            <MonthlyRequisitionDataTable />
         </div>
     );
 };

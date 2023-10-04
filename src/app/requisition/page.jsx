@@ -8,13 +8,13 @@ import { getUserRequisitionHistory } from '@/libs/requisition';
 const Requisition = async () => {
     const { user } = await getServerSession(authOptions)
 
-    const selectedMonth = new Date().getMonth() + 1
-    const selectedYear = new Date().getFullYear()
-    const requisitionHistory = await getUserRequisitionHistory(user._id, selectedMonth, selectedYear)
+    // const selectedMonth = new Date().getMonth() + 1
+    // const selectedYear = new Date().getFullYear()
+    // const requisitionHistory = await getUserRequisitionHistory(user._id, selectedMonth, selectedYear)
 
     return (
         <div>
-            <RequisitionHistoryTable requisitionHistory={requisitionHistory} user={user} />
+            <RequisitionHistoryTable user={user} />
         </div >
     );
 };

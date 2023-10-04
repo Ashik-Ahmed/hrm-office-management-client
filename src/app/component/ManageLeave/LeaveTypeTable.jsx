@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditAndDeleteDialog from './EditAndDeleteDialog';
 
-const LeaveTypeTable = ({ availableLeaves }) => {
+const LeaveTypeTable = () => {
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
@@ -20,20 +20,26 @@ const LeaveTypeTable = ({ availableLeaves }) => {
     const toast = useRef(null)
 
     const [loading, setLoading] = useState(false)
-    const [leaves, setLeaves] = useState(availableLeaves);
+    const [leaves, setLeaves] = useState();
     const [createLeaveDialog, setCreateLeaveDialog] = useState(false);
     const [editLeaveDialog, setEditLeaveDialog] = useState(false);
     const [deleteLeaveDialog, setDeleteLeaveDialog] = useState(false)
 
 
     const getAllLeaves = () => {
+        setLoading(true)
         fetch('http://localhost:5000/api/v1/leave', {
             cache: "no-cache"
         }).then(res => res.json())
             .then(data => {
                 setLeaves(data.data)
             })
+        setLoading(false)
     }
+
+    useEffect(() => {
+        getAllLeaves()
+    }, [])
 
 
     // create a new leave 

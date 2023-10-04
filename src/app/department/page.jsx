@@ -4,11 +4,11 @@ import DepartmentTable from '../component/Department/DepartmentTable';
 
 const page = async () => {
 
-    const departmentList = await getAllDepartments();
+    // const departmentList = await getAllDepartments();
 
     return (
         <div>
-            <DepartmentTable departmentList={departmentList} />
+            <DepartmentTable />
         </div>
     );
 };

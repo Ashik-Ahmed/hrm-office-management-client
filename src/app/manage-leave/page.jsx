@@ -14,9 +14,9 @@ const ManageLeave = async () => {
 
     return (
         <div>
-            <LeaveTypeTable availableLeaves={availableLeaves} />
+            <LeaveTypeTable />
             <div className='mt-4 rounded-md shadow-lg'>
-                <PendingLeaveTable pendingLeaveApplications={pendingLeaveApplications} />
+                <PendingLeaveTable />
             </div>
         </div>
     );

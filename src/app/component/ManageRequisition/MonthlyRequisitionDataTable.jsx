@@ -13,15 +13,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
+import Loading from '../Loading/Loading';
 
-const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
+const MonthlyRequisitionDataTable = () => {
 
     const toast = useRef()
     const isFirstRender = useRef(true);
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const [monthlyRequisition, setMonthlyRequisition] = useState(monthlyRequisitionData?.data)
+    const [monthlyRequisition, setMonthlyRequisition] = useState()
     const [completePurchase, setCompletePurchase] = useState(null)
     const [requisitionDetails, setRequisitionDetails] = useState(null)
     const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
@@ -71,23 +72,33 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
             })
     }
 
+    const getRequisitions = async () => {
+        const data = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+        console.log(data);
+
+        setMonthlyRequisition(data.data)
+    }
+
     useEffect(() => {
+
+        getRequisitions()
+
         // Do not fetch data on first render
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-        } else {
-            console.log('fetching data');
-            // Fetch data
+        // if (isFirstRender.current) {
+        //     isFirstRender.current = false;
+        // } else {
+        //     console.log('fetching data');
+        //     // Fetch data
 
-            const getRequisitions = async () => {
-                const data = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
-                console.log(data);
+        //     const getRequisitions = async () => {
+        //         const data = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+        //         console.log(data);
 
-                setMonthlyRequisition(data.data)
-            }
+        //         setMonthlyRequisition(data.data)
+        //     }
 
-            getRequisitions()
-        }
+        //     getRequisitions()
+        // }
     }, [selectedMonth, selectedYear])
 
 
@@ -118,6 +129,10 @@ const MonthlyRequisitionDataTable = ({ monthlyRequisitionData }) => {
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
+    }
+
+    if (!monthlyRequisition) {
+        return <Loading />
     }
 
     return (

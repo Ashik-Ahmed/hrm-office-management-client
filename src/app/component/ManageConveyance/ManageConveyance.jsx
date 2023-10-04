@@ -7,14 +7,14 @@ import { TbReportMoney } from 'react-icons/tb';
 import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
 import Loading from '../Loading/Loading';
 
-const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
+const ManageConveyance = () => {
 
     const isFirstRender = useRef(true);
 
     const [loading, setLoading] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState(new Date())
     const [selectedYear, setSelectedyear] = useState(new Date())
-    const [monthlyEmployeeConveyance, setmonthlyEmployeeConveyance] = useState(monthlyEmployeeConveyanceData)
+    const [monthlyEmployeeConveyance, setmonthlyEmployeeConveyance] = useState()
     const [totalIconColor, setTotalIconColor] = useState('gray')
     const [dueIconColor, setDueIconColor] = useState('gray')
 
@@ -38,13 +38,15 @@ const ManageConveyance = ({ monthlyEmployeeConveyanceData }) => {
     }
 
     useEffect(() => {
-        // Do not fetch data on first render
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-        } else {
-            // Fetch data
-            getConveyanceData()
-        }
+        getConveyanceData()
+
+        // // Do not fetch data on first render
+        // if (isFirstRender.current) {
+        //     isFirstRender.current = false;
+        // } else {
+        //     // Fetch data
+        //     getConveyanceData()
+        // }
     }, [selectedMonth, selectedYear])
 
     if (loading) {

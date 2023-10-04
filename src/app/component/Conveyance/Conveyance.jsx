@@ -6,14 +6,14 @@ import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import ConveyanceDetailsTable from './ConveyanceDetailsTable';
 
-const Conveyance = ({ conveyance, session }) => {
+const Conveyance = ({ session }) => {
 
     const isFirstRender = useRef(true);
 
     const [loading, setLoading] = useState(false)
     const [selectedMonth, setSelectedMonth] = useState(new Date())
     const [selectedYear, setSelectedyear] = useState(new Date())
-    const [conveyanceData, setConveyanceData] = useState(conveyance)
+    const [conveyanceData, setConveyanceData] = useState()
     const [totalIconColor, setTotalIconColor] = useState('gray')
     const [dueIconColor, setDueIconColor] = useState('gray')
 
@@ -36,13 +36,15 @@ const Conveyance = ({ conveyance, session }) => {
     }
 
     useEffect(() => {
+
+        getConveyanceData()
         // Do not fetch data on first render
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-        } else {
-            // Fetch data
-            getConveyanceData()
-        }
+        // if (isFirstRender.current) {
+        //     isFirstRender.current = false;
+        // } else {
+        //     // Fetch data
+        //     getConveyanceData()
+        // }
     }, [selectedMonth, selectedYear])
 
 
@@ -86,7 +88,7 @@ const Conveyance = ({ conveyance, session }) => {
             </div>
 
             <div className='mt-4'>
-                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} session={session} loading={loading} />
+                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} session={session} loadingState={loading} />
             </div>
         </div>
     );
