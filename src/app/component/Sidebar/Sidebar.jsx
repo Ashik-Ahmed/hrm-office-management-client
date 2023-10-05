@@ -12,7 +12,6 @@ import './customcss.css'
 import { usePathname, useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { Menu } from 'primereact/menu';
-import Cookies from 'universal-cookie';
 
 
 // import { getServerSession } from 'next-auth';
@@ -29,7 +28,6 @@ const Sidebar = () => {
     // console.log(currentPath);
 
     const router = useRouter()
-    const cookie = new Cookies()
 
 
     const menus = [

@@ -32,7 +32,7 @@ const Users = () => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const departemnt = ['Management', 'Regulatory Affairs', 'System Engineer (MNP)', 'Tech Support (MNP)', 'NOC (A2P)', 'System Support (A2P)', 'Human Resource', 'Accounts', 'Office Assistant']
+    const userRoles = ['Admin', 'Employee']
 
 
     const fetchAllUsers = () => {
@@ -291,7 +291,7 @@ const Users = () => {
                         <div className='w-full'>
                             <Dropdown
                                 {...register("userRole", { required: "Role is required" })}
-                                value={role} onChange={(e) => setRole(e.value)} options={departemnt} placeholder="Select User Role*" className="w-full placeholder-opacity-20" />
+                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder="Select User Role*" className="w-full placeholder-opacity-20" />
                             {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
                         </div>
                     </div>
