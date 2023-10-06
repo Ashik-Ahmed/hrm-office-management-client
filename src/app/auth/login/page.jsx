@@ -1,6 +1,9 @@
+import Loading from '@/app/component/Loading/Loading';
 import React from 'react';
 
-const page = () => {
+const page = async () => {
+
+
     return (
         <div>
             Login page

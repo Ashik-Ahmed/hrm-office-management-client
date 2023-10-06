@@ -7,7 +7,7 @@ import Loading from '@/app/component/Loading/Loading';
 
 const UserDetails = async ({ params: { id } }) => {
 
-    const [user, setUser] = useState()
+    const [employee, setEmployee] = useState()
 
     useEffect(() => {
         const url = `http://localhost:5000/api/v1/employee/${id}`;
@@ -16,11 +16,11 @@ const UserDetails = async ({ params: { id } }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                setUser(data.data)
+                setEmployee(data.data)
             })
     }, [id])
 
-    if (!user) {
+    if (!employee) {
         return <Loading />
     }
 
@@ -32,14 +32,14 @@ const UserDetails = async ({ params: { id } }) => {
             <div className="flex gap-x-2 w-full bg-white p-2 my-2 rounded-md shadow-xl">
                 <div className='flex items-start gap-x-4 w-3/5 mr-8'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
-                        <Image src={user?.image || userPhoto} width={150} height={150} alt='user photo' className='rounded-md shadow-lg border' />
+                        <Image src={employee?.image || userPhoto} width={150} height={150} alt='user photo' className='rounded-md shadow-lg border' />
                     </div>
                     <div className='flex flex-col gap-8'>
                         <div>
                             {/* <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
                             <p>{viewUserDialog.designation}</p> */}
-                            <h3 className='text-xl font-bold'>{user?.firstName} {user?.lastName}</h3>
-                            <p>{user?.designation}</p>
+                            <h3 className='text-xl font-bold'>{employee?.firstName} {employee?.lastName}</h3>
+                            <p>{employee?.designation}</p>
                         </div>
                         <div>
                             <h5 className='font-semibold'>About</h5>
