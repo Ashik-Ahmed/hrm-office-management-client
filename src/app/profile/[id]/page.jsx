@@ -11,16 +11,17 @@ const Profile = ({ params: { id } }) => {
 
     const [employee, setEmployee] = useState(null)
 
+
     const getEmployeeData = async (empId) => {
         const empData = await getEmployeeById(empId);
-        console.log(empData);
-        return empData;
+        setEmployee(empData)
     }
 
     useEffect(() => {
-        setEmployee(getEmployeeData(id))
+        getEmployeeData(id)
     }, [id])
 
+    console.log(employee);
 
     if (!id) {
         return <Loading />
@@ -36,19 +37,27 @@ const Profile = ({ params: { id } }) => {
                     <div className='text-left py-4 mt-4'>
                         <div className='flex items-baseline justify-between'>
                             <p className='font-bold w-1/3'>Name</p>
-                            <span className='w-2/3'>: {employee?.name}</span>
+                            <span className='w-2/3'>: {employee?.firstName + ' ' + employee?.lastName}</span>
                         </div>
                         <div className='flex items-baseline justify-between mt-1'>
                             <p className='font-bold w-1/3'>Email</p>
                             <span className='w-2/3'>: {employee?.email || 'N/A'}</span>
                         </div>
                         <div className='flex items-baseline justify-between mt-1'>
-                            <p className='font-bold w-1/3'>Role</p>
-                            <span className='w-2/3'>: {employee?.role || 'N/A'}</span>
+                            <p className='font-bold w-1/3'>Department</p>
+                            <span className='w-2/3'>: {employee?.department || 'N/A'}</span>
                         </div>
                         <div className='flex items-baseline justify-between mt-1'>
-                            <p className='font-bold w-1/3'>Birthday</p>
-                            <span className='w-2/3'>: {employee?.birthday?.slice(0, 10) || 'N/A'}</span>
+                            <p className='font-bold w-1/3'>Designation</p>
+                            <span className='w-2/3'>: {employee?.designation || 'N/A'}</span>
+                        </div>
+                        <div className='flex items-baseline justify-between mt-1'>
+                            <p className='font-bold w-1/3'>Role</p>
+                            <span className='w-2/3'>: {employee?.userRole || 'N/A'}</span>
+                        </div>
+                        <div className='flex items-baseline justify-between mt-1'>
+                            <p className='font-bold w-1/3'>Joining date</p>
+                            <span className='w-2/3'>: {employee?.joiningDate || 'N/A'}</span>
                         </div>
                         <div className='flex items-baseline justify-between mt-1'>
                             <p className='font-bold w-1/3'>Phone</p>
