@@ -52,7 +52,10 @@ const Sidebar = () => {
     const items = [
         {
             label: 'Profile',
-            icon: 'pi pi-fw pi-user-plus'
+            icon: 'pi pi-fw pi-user-plus',
+            command: () => {
+                router.push(`/profile/${session.user._id}`)
+            }
         },
         {
             separator: true
