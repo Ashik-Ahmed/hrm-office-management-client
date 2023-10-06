@@ -3,5 +3,5 @@ exports.getEmployeeById = async (empId) => {
 
     const employeeInfo = data.json();
 
-    return employeeInfo;
+    return employeeInfo.data;
 }
