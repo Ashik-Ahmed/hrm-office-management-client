@@ -30,7 +30,7 @@ const Profile = ({ params: { id } }) => {
     const getDepartmentData = async () => {
         const dept = await getAllDepartments();
         console.log(dept);
-        setDepartment(dept)
+        setDepartment(dept.data)
     }
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const Profile = ({ params: { id } }) => {
         console.log(data);
     }
 
-    if (!id || !employee) {
+    if (!id || !employee || !department) {
         return <Loading />
     }
 
