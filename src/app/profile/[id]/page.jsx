@@ -2,7 +2,7 @@
 
 import Loading from '@/app/component/Loading/Loading';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import profilePhoto from '../../../../public/images/user.png'
 import { Button } from 'primereact/button'
 import { getEmployeeById } from '@/libs/employee';
@@ -11,9 +11,11 @@ import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { getAllDepartments } from '@/libs/department';
 import { useForm } from 'react-hook-form';
+import { Toast } from 'primereact/toast';
 
 const Profile = ({ params: { id } }) => {
 
+    const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [employee, setEmployee] = useState(null);
@@ -40,7 +42,38 @@ const Profile = ({ params: { id } }) => {
 
     const handleUpdateProfile = (data) => {
 
-        console.log(data);
+        const updatedData = {};
+
+        for (const property in data) {
+            if (data[property] !== "") {
+                updatedData[property] = data[property];
+            }
+        }
+        console.log(updatedData);
+
+        fetch(`http://localhost:5000/api/v1/employee/${id}`, {
+            method: 'PATCH',
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    console.log("Updated Successfully");
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
+                    getEmployeeData(id);
+                }
+                else {
+                    console.log("Failed to update");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
+                }
+            })
+        reset()
+        setUpdateForm(false)
+
     }
 
     if (!id || !employee || !department) {
@@ -49,6 +82,7 @@ const Profile = ({ params: { id } }) => {
 
     return (
         <div className='flex'>
+            <Toast ref={toast} />
             <div class="bg-white rounded w-1/3">
                 <div className='p-2 mx-auto text-center'>
                     <Image class="mx-auto rounded-md" width='160' height='160' src={employee?.image || profilePhoto} alt='User Photo' />
