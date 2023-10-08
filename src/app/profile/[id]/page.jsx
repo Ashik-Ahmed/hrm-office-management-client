@@ -10,8 +10,11 @@ import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { getAllDepartments } from '@/libs/department';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Toast } from 'primereact/toast';
+import { Dialog } from 'primereact/dialog';
+import { Password } from 'primereact/password';
+import UpdateProfile from '@/app/component/Profile/UpdateProfile';
 
 const Profile = ({ params: { id } }) => {
 
@@ -20,8 +23,10 @@ const Profile = ({ params: { id } }) => {
 
     const [employee, setEmployee] = useState(null);
     const [updateForm, setUpdateForm] = useState(false);
-    const [department, setDepartment] = useState([])
-    const [selectedDepartment, setSelectedDepartment] = useState('')
+    const [department, setDepartment] = useState([]);
+    const [changePassword, setChangePassword] = useState(false);
+    const [currentPassError, setCurrentPassError] = useState('')
+    const [newPassError, setNewPassError] = useState('')
 
 
     const getEmployeeData = async (empId) => {
@@ -40,41 +45,11 @@ const Profile = ({ params: { id } }) => {
         getDepartmentData();
     }, [id])
 
-    const handleUpdateProfile = (data) => {
-
-        const updatedData = {};
-
-        for (const property in data) {
-            if (data[property] !== "") {
-                updatedData[property] = data[property];
-            }
-        }
-        console.log(updatedData);
-
-        fetch(`http://localhost:5000/api/v1/employee/${id}`, {
-            method: 'PATCH',
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(updatedData)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.status == "Success") {
-                    console.log("Updated Successfully");
-                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
-                    getEmployeeData(id);
-                }
-                else {
-                    console.log("Failed to update");
-                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
-                }
-            })
-        reset()
-        setUpdateForm(false)
-
+    const handleChangePassword = (data) => {
+        console.log(data);
     }
+
+
 
     if (!id || !employee || !department) {
         return <Loading />
@@ -122,7 +97,7 @@ const Profile = ({ params: { id } }) => {
                             <span className='w-2/3'>: {employee?.mobile || 'N/A'}</span>
                         </div>
                         <div className='mt-2'>
-                            <p className='link inline text-red-500'>Change Password</p>
+                            <p onClick={() => setChangePassword(true)} className='cursor-pointer link inline text-red-500'>Change Password</p>
                         </div>
                     </div>
                     <div className='text-center my-2'>
@@ -131,79 +106,103 @@ const Profile = ({ params: { id } }) => {
                 </div>
             </div>
 
+            {/* change password */}
+            <Dialog header="Change Password" visible={changePassword} onHide={() => {
+                setChangePassword(false);
+                setCurrentPassError('');
+                setNewPassError('');
+                reset()
+            }} breakpoints={{ '960px': '75vw' }} style={{ width: '25vw' }} >
+                <form onSubmit={handleSubmit(handleChangePassword)} className='flex flex-col gap-2 justify-center items-center'>
+                    <div className=''>
+                        <div className='rounded-md mt-2 '>
+                            <div className='flex flex-col'>
+                                {/* <Password
+                                    {...register('currentPassword', { required: "Current Password is required" })}
+                                    toggleMask feedback={false} placeholder='Current Password' /> */}
+                                <Controller
+                                    name="currentPassword"
+                                    control={control}
+                                    defaultValue=""
+                                    rules={{ required: "Current Password is required" }}
+                                    render={({ field }) => (
+                                        <Password
+                                            {...field}
+                                            toggleMask
+                                            feedback={false}
+                                            placeholder='Current Password'
+                                        />
+                                    )}
+                                />
+                                {errors.currentPassword?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.currentPassword.message}</span>}
+                            </div>
+
+                            {/* <InputText type={currentPassView ? "text" : "password"} name='currentPassword' placeholder='Current Password' className='input  bg-gray-200 text-gray-700 w-full' required />
+                                <label onClick={() => setCurrentPassView(!currentPassView)} className='px-2 inline-block'>{currentPassView ? <HiEye /> : <HiEyeOff />}</label> */}
+                        </div>
+                        {
+                            currentPassError &&
+                            <div>
+                                <p className='text-xs text-red-500 text-left'>Current password is wrong</p>
+                            </div>
+                        }
+                    </div>
+                    <div className='rounded-md mt-2'>
+                        <div className='flex flex-col'>
+                            <Controller
+                                name="newPassword"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: "New Password is required" }}
+                                render={({ field }) => (
+                                    <Password
+                                        {...field}
+                                        toggleMask
+                                        feedback={false}
+                                        placeholder='New Password'
+                                    />
+                                )}
+                            />
+                            {/* <Password
+                                {...register('newPassword', { required: "New Password is required" })}
+                                toggleMask placeholder='New Password' /> */}
+                            {errors.newPassword?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.newPassword.message}</span>}
+                        </div>
+                        {/* <InputText type={newPassView ? "text" : "password"} name='newPassword' placeholder='New Password' className='input  bg-gray-200 text-gray-700 w-full' required />
+                        <label onClick={() => setNewPassView(!newPassView)} className='px-2 inline-block'>{newPassView ? <HiEye /> : <HiEyeOff />}</label> */}
+                    </div>
+                    <div className='rounded-md mt-2'>
+                        <div className='flex flex-col'>
+                            <Controller
+                                name="confirmPassword"
+                                control={control}
+                                defaultValue=""
+                                rules={{ required: "Re-enter the new password" }}
+                                render={({ field }) => (
+                                    <Password
+                                        {...field}
+                                        toggleMask
+                                        feedback={false}
+                                        placeholder='Re-type New Password'
+                                    />
+                                )}
+                            />
+                            {/* <Password
+                                {...register('confirmPassword', { required: "Re-enter the new password" })}
+                                toggleMask placeholder='Re-type New Password' /> */}
+                            {errors.confirmPassword?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.confirmPassword.message}</span>}
+                        </div>
+                        {/* <InputText type={confirmPassView ? "text" : "password"} name='confirmPassword' placeholder='Confirm New Password' className='input  bg-gray-200 text-gray-700 w-full' required />
+                            <label onClick={() => setConfirmPassView(!confirmPassView)} className='px-2 inline-block'>{confirmPassView ? <HiEye /> : <HiEyeOff />}</label> */}
+                    </div>
+                    <div className='mt-4'>
+                        <Button type='submit' label='Submit' className="p-button-info p-button-sm normal-case" />
+                    </div>
+                </form>
+            </Dialog>
+
             {
-                updateForm &&
-                <div className='w-2/3 bg-white rounded m-4 p-4 h-fit'>
-                    <p className='text-xl font-bold text-gray-800 inline p-1'>Update Profile</p>
-
-                    <form onSubmit={handleSubmit(handleUpdateProfile)}>
-                        <div className='mt-4'>
-                            <div className='flex gap-4 justify-between'>
-                                <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">First Name</span>
-                                    </label>
-                                    <InputText
-                                        {...register("firstName")}
-                                        type="text" placeholder={employee?.firstName || "Type here"} className="w-full max-w-xs  text-gray-700" />
-                                </div>
-                                <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">Last Name</span>
-                                    </label>
-                                    <InputText
-                                        {...register("lastName")}
-                                        type="text" placeholder={employee?.lastName || "Type here"} className="w-full max-w-xs  text-gray-700" />
-                                </div>
-                            </div>
-                            <div className='flex gap-4 justify-between mt-2'>
-                                <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">Department</span>
-                                    </label>
-                                    <Dropdown
-                                        {...register("department")}
-                                        value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value) }} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
-
-                                </div>
-                                <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">Designation</span>
-                                    </label>
-                                    <InputText
-                                        {...register("designation")}
-                                        type="text" placeholder={employee?.designation || "Type here"} className="w-full max-w-xs  text-gray-700" />
-                                </div>
-                            </div>
-                            <div className='flex gap-4 justify-between mt-2'>
-                                <div class="form-control w-full max-w-xs flex flex-col">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">Email</span>
-                                    </label>
-                                    <InputText
-                                        {...register("email")}
-                                        type="text" placeholder={employee?.email || "Type here"} keyfilter='int' className="w-full max-w-xs  text-gray-700" />
-                                </div>
-
-                                <div class="form-control w-full max-w-xs">
-                                    <label class="label">
-                                        <span class="label-text text-gray-700">Mobile</span>
-                                    </label>
-                                    <InputText
-                                        {...register("mobile")}
-                                        type="text" placeholder={employee?.mobile || "Type here"} keyfilter='int' className="w-full max-w-xs  text-gray-700" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex justify-end mt-4 gap-x-2'>
-                            {/* <button type='submit' className='btn btn-sm bg-primary hover:bg-secondary border-0 my-4'>Update</button> */}
-                            <Button label="Cancel" onClick={() => {
-                                setUpdateForm(false);
-                            }} className="p-button-danger p-button-sm normal-case" />
-                            <Button type='submit' label="Submit" className=' p-button-info p-button-sm btn-primary normal-case' />
-                        </div>
-                    </form>
-                </div>
+                updateForm && <UpdateProfile employee={employee} getEmployeeData={getEmployeeData} setUpdateForm={setUpdateForm} />
             }
         </div>
     );
