@@ -1,13 +1,14 @@
+'use client'
+
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
-import React, { useRef } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const UpdateProfile = ({ employee, getEmployeeData, setUpdateForm }) => {
+const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, toast }) => {
 
-
-    const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -23,7 +24,7 @@ const UpdateProfile = ({ employee, getEmployeeData, setUpdateForm }) => {
         }
         console.log(updatedData);
 
-        fetch(`http://localhost:5000/api/v1/employee/${id}`, {
+        fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
             method: 'PATCH',
             headers: {
                 "content-type": "application/json"
@@ -35,12 +36,12 @@ const UpdateProfile = ({ employee, getEmployeeData, setUpdateForm }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     console.log("Updated Successfully");
-                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
-                    getEmployeeData(id);
+                    toast?.current?.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
+                    getEmployeeData(employee._id);
                 }
                 else {
                     console.log("Failed to update");
-                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
+                    toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
                 }
             })
         reset()

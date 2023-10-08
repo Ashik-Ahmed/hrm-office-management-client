@@ -71,11 +71,14 @@ const Profile = ({ params: { id } }) => {
             .then(res => res.json())
             .then((data => {
                 if (data.status == "Success") {
-                    console.log("Password updated");
+                    setChangePassword(false)
+                    reset()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Password Updated', life: 3000 });
                 }
                 else {
                     console.log("Failed to update password");
                     console.log(data.error);
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data.error}`, life: 3000 });
                 }
             }))
 
@@ -143,7 +146,7 @@ const Profile = ({ params: { id } }) => {
                 setChangePassword(false);
                 setCurrentPassError('');
                 setNewPassError('');
-                reset()
+                reset();
             }} breakpoints={{ '960px': '75vw' }} style={{ width: '25vw' }} >
                 <form onSubmit={handleSubmit(handleChangePassword)} className='flex flex-col gap-2 justify-center items-center'>
                     <div className=''>
@@ -234,7 +237,7 @@ const Profile = ({ params: { id } }) => {
             </Dialog>
 
             {
-                updateForm && <UpdateProfile employee={employee} getEmployeeData={getEmployeeData} setUpdateForm={setUpdateForm} />
+                updateForm && <UpdateProfile employee={employee} department={department} getEmployeeData={getEmployeeData} setUpdateForm={setUpdateForm} toast={toast} />
             }
         </div>
     );
