@@ -12,8 +12,13 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [selectedDepartment, setSelectedDepartment] = useState('');
+    const [image, setImage] = useState('')
 
-    const handleUpdateProfile = (data) => {
+    const handlePhotoChange = (event) => {
+        setImage(event.target.files[0]);
+    };
+
+    const handleUpdateProfile = async (data) => {
 
         const updatedData = {};
 
@@ -24,33 +29,78 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
         }
         console.log(updatedData);
 
-        fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
-            method: 'PATCH',
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(updatedData)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.status == "Success") {
-                    console.log("Updated Successfully");
-                    toast?.current?.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
-                    getEmployeeData(employee._id);
-                }
-                else {
-                    console.log("Failed to update");
-                    toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
-                }
-            })
+        try {
+            if (image) {
+
+                const userPhoto = new FormData()
+                userPhoto.append('image', image)
+
+                await fetch('https://api.imgbb.com/1/upload?key=a0bd0c6e9b17f5f8fa7f35d20163bdf3', {
+                    method: 'POST',
+                    body: userPhoto
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.data.url) {
+                            updatedData.image = data.data.url;
+                            fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    "content-type": "application/json"
+                                },
+                                body: JSON.stringify(updatedData)
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    console.log(data);
+                                    if (data.status == "Success") {
+                                        console.log("Updated Successfully");
+                                        toast?.current?.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
+                                        getEmployeeData(employee._id);
+                                    }
+                                    else {
+                                        console.log("Failed to update");
+                                        toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
+                                    }
+                                })
+                        }
+                    })
+            }
+            else {
+                fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(updatedData)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.status == "Success") {
+                            console.log("Updated Successfully");
+                            toast?.current?.show({ severity: 'success', summary: 'Success', detail: 'Profile Updated', life: 3000 });
+                            getEmployeeData(employee._id);
+                        }
+                        else {
+                            console.log("Failed to update");
+                            toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again', life: 3000 });
+                        }
+                    })
+            }
+
+
+        } catch (error) {
+            console.error('Error occurred during image upload:', error);
+            toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Photo upload failed', life: 3000 });
+        }
         reset()
         setUpdateForm(false)
 
     }
 
     return (
-        <div className='w-2/3 bg-white rounded m-4 p-4 h-fit'>
+        <div className='w-2/3 bg-white rounded mx-4 p-4 h-fit'>
             <p className='text-xl font-bold text-gray-800 inline p-1'>Update Profile</p>
 
             <form onSubmit={handleSubmit(handleUpdateProfile)}>
@@ -110,6 +160,9 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
                                 {...register("mobile")}
                                 type="text" placeholder={employee?.mobile || "Type here"} keyfilter='int' className="w-full max-w-xs  text-gray-700" />
                         </div>
+                    </div>
+                    <div className='mt-2'>
+                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
                     </div>
                 </div>
                 <div className='flex justify-end mt-4 gap-x-2'>
