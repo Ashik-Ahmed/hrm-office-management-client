@@ -15,9 +15,13 @@ import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { Password } from 'primereact/password';
 import UpdateProfile from '@/app/component/Profile/UpdateProfile';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Profile = ({ params: { id } }) => {
 
+    const { data } = useSession()
+    const router = useRouter()
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -28,6 +32,15 @@ const Profile = ({ params: { id } }) => {
     const [currentPassError, setCurrentPassError] = useState('')
     const [newPassError, setNewPassError] = useState('')
 
+
+    if (data) {
+        // console.log(data.user.name);
+        if (data.user._id !== id) {
+            router.push('/')
+            // console.log(id);
+            // console.log(user._id);
+        }
+    }
 
     const getEmployeeData = async (empId) => {
         const empData = await getEmployeeById(empId);
@@ -47,6 +60,25 @@ const Profile = ({ params: { id } }) => {
 
     const handleChangePassword = (data) => {
         console.log(data);
+
+        fetch(`http://localhost:5000/api/v1/employee/updatePassword/${employee.email}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then((data => {
+                if (data.status == "Success") {
+                    console.log("Password updated");
+                }
+                else {
+                    console.log("Failed to update password");
+                    console.log(data.error);
+                }
+            }))
+
     }
 
 
