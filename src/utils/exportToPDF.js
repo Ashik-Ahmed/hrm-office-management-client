@@ -4,6 +4,7 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
         { field: 'date', header: 'Date' },
         { field: 'from', header: 'From' },
         { field: 'destination', header: 'Destination' },
+        { field: 'vehicle', header: 'Vehicle' },
         { field: 'amount', header: 'Amount' },
         { field: 'purpose', header: 'Purpose' },
     ]
