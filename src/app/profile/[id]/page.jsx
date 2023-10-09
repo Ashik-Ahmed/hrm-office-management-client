@@ -84,8 +84,6 @@ const Profile = ({ params: { id } }) => {
 
     }
 
-
-
     if (!id || !employee || !department) {
         return <Loading />
     }

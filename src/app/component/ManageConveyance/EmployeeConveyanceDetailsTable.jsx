@@ -12,7 +12,7 @@ import { exportToPDF } from '@/utils/exportToPDF';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
 
-const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
+const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
     const [loading, setLoading] = useState(false)
     const [conveyanceDetailsDialog, setConveyanceDetailsDialog] = useState(false);
@@ -76,11 +76,14 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
                 console.log(data);
                 if (data.status == 'Success') {
                     console.log('success');
+                    getConveyanceData()
                 }
                 else {
                     console.log('failed');
                 }
             })
+        setLoading(false)
+        setMakePaymentDialog(null)
 
     }
 
@@ -196,7 +199,7 @@ const EmployeeConveyanceDetailsTable = ({ monthlyEmployeeConveyance, selectedMon
 
                 <div className='flex justify-end gap-x-2 mt-8'>
                     <Button onClick={() => setMakePaymentDialog(false)} label='Cancel' className='p-button p-button-sm p-button-danger' />
-                    <Button onClick={() => handleConveyanceBillPayment()} disabled={!conveyanceData} label='Confirm' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={() => handleConveyanceBillPayment()} disabled={!conveyanceData} loading={loading} label='Confirm' className='p-button p-button-sm p-button-info' />
                 </div>
             </Dialog>
         </div >

@@ -44,6 +44,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                         <Column body={detailsTableDateTemplate} header="Date"></Column>
                         <Column field='from' header="From"></Column>
                         <Column field='destination' header="Destination"></Column>
+                        <Column field='vehicle' header="Vehicle"></Column>
                         <Column field="amount" header="Amount"></Column>
                         <Column field="paymentStatus" header="Payment"></Column>
                         <Column field="purpose" header="Purpose"></Column>

@@ -134,6 +134,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                             <Column body={dateBodyTemplate} header="Date"></Column>
                             <Column field='from' header="From"></Column>
                             <Column field='destination' header="Destination"></Column>
+                            <Column field='vehicle' header="Vehicle"></Column>
                             <Column field="amount" header="Amount"></Column>
                             <Column field="paymentStatus" header="Payment Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>
@@ -200,14 +201,28 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                         </div>
                         <div className='w-full'>
                             <InputText
+                                {...register("vehicle")}
+                                placeholder="Vehicle*" className='w-full' />
+                            {errors.vehicle?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.vehicle.message}</span>}
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
                                 {...register("partner")}
                                 placeholder="Travel Partner" className='w-full' />
                             {errors.partner?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.partner.message}</span>}
                         </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("note")}
+                                placeholder="Note" className='w-full' />
+                            {errors.note?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.note.message}</span>}
+                        </div>
                     </div>
-                    <div className='mt-2'>
+                    {/* <div className='mt-2'>
                         <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
-                    </div>
+                    </div> */}
 
                     <div className='mt-4 text-right'>
                         <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />

@@ -93,8 +93,20 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
                         </div>
                         <div className='w-full'>
                             <InputText
+                                {...register("vehicle")}
+                                placeholder={`${editConveyanceDialog.vehicle || "Vehicle Type"}`} className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
                                 {...register("partner")}
                                 placeholder={`${editConveyanceDialog.partner || "Travel Partner"}`} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("note")}
+                                placeholder={`${editConveyanceDialog.note || "Note"}`} className='w-full' />
                         </div>
                     </div>
                     {/* <div className='mt-2'>
