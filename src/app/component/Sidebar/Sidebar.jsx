@@ -39,13 +39,13 @@ const Sidebar = () => {
         { name: 'Manage Conveyance', link: '/manage-conveyance' },
         { name: 'Requisition', link: '/requisition' },
         { name: 'Manage Requisition', link: '/manage-requisition' },
+        { name: 'Guest Register', link: '/guest-register' },
         { name: 'File Management', link: '/file-management' },
         { name: 'Holidays', link: '/holidays' },
         { name: 'Events', link: '/events' },
         { name: 'Payroll', link: '/payroll' },
         { name: 'Accounts', link: '/accounts' },
         { name: 'Report', link: '/report' },
-        { name: 'Guest', link: '/guest' },
     ]
 
     const menuLeft = useRef(null);
