@@ -13,7 +13,7 @@ import { MdRemoveRedEye } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
 
-const EmployeeTable = ({ users, setAddUserDialog, setViewUserDialog, setDeleteUserDialog }) => {
+const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
 
     const [loading, setLoading] = useState(false)
 

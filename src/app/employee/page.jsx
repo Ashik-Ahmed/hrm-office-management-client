@@ -16,7 +16,6 @@ const Users = () => {
     const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
-    const [viewUserDialog, setViewUserDialog] = useState(false)
     const [editUserDialog, setEditUserDialog] = useState(false)
     const [deleteUserDialog, setDeleteUserDialog] = useState(false)
     const [department, sertDepartment] = useState([])
@@ -211,7 +210,7 @@ const Users = () => {
             <Toast ref={toast} />
 
             {/* Employee Data Table  */}
-            <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setViewUserDialog={setViewUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
+            <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
