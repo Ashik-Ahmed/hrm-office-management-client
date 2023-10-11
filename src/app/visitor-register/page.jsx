@@ -1,9 +1,10 @@
 import React from 'react';
+import VisitorRegister from '../component/Visitor/VisitorRegister';
 
 const page = () => {
     return (
         <div>
-            Guest
+            <VisitorRegister />
         </div>
     );
 };
