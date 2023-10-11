@@ -40,6 +40,7 @@ const Sidebar = () => {
         { name: 'Requisition', link: '/requisition' },
         { name: 'Manage Requisition', link: '/manage-requisition' },
         { name: 'Visitor Register', link: '/visitor-register' },
+        { name: 'Task Manager', link: '/task-manager' },
         { name: 'File Management', link: '/file-management' },
         { name: 'Holidays', link: '/holidays' },
         { name: 'Events', link: '/events' },
@@ -49,6 +50,7 @@ const Sidebar = () => {
     ]
 
     const menuLeft = useRef(null);
+
     const items = [
         {
             label: 'Profile',

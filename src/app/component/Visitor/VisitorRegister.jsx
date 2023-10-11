@@ -10,7 +10,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
 const VisitorRegister = () => {
@@ -22,6 +22,8 @@ const VisitorRegister = () => {
     const [selectedYear, setSelectedYear] = useState(new Date())
     const [monthlyVisitors, setMonthlyVisitors] = useState([])
     const [insertVisitor, setInsertVisitor] = useState(false)
+    const [entryTime, setEntryTime] = useState()
+    const [exitTime, setExitTime] = useState()
     const [loading, setLoading] = useState(false)
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -60,8 +62,18 @@ const VisitorRegister = () => {
     }, [selectedMonth, selectedYear])
 
     const handleInsertVisitor = (data) => {
+        // console.log(data);
+        // data.entryTime = data.entryTime.toLocaleString()
+        const entryHours = data.entryTime.getHours();
+        const entryMinutes = data.entryTime.getMinutes();
+        const exitHours = data.exitTime.getHours();
+        const exitMinutes = data.exitTime.getMinutes();
+
+        data.entryTime = `${entryHours}:${entryMinutes}:00`
+        data.exitTime = `${exitHours}:${exitMinutes}:00`
         console.log(data);
 
+        setLoading(true)
         fetch('http://localhost:5000/api/v1/visitor', {
             method: "POST",
             headers: {
@@ -76,6 +88,8 @@ const VisitorRegister = () => {
                     getMonthlyVisitorData()
                     setInsertVisitor(false);
                     reset();
+                    setEntryTime(null);
+                    setExitTime(null)
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Visitor recorded', life: 3000 });
                 }
                 else {
@@ -91,6 +105,12 @@ const VisitorRegister = () => {
             <div>{rowData.createdAt.split("T")[0]}</div>
         )
     })
+
+    const entryExitTime = (rowData) => {
+        return (
+            <div>{(rowData.entryTime || 'N/A') + ' - ' + (rowData.exitTime || 'N/A')}</div>
+        )
+    }
 
     return (
         <div>
@@ -121,12 +141,13 @@ const VisitorRegister = () => {
                     <Column field='name' header="Name"></Column>
                     <Column field='mobile' header="Mobile"></Column>
                     <Column field='company' header="From"></Column>
+                    <Column body={entryExitTime} header="Entry - Exit"></Column>
                     <Column field="purpose" header="Purpose"></Column>
                 </DataTable>
             </div>
 
             {/* insert visitor dialog  */}
-            <Dialog header="Add Employee" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset() }}>
+            <Dialog header="Add Employee" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset(); setEntryTime(null); setExitTime(null) }}>
 
                 <form onSubmit={handleSubmit(handleInsertVisitor)} className='mt-2'>
 
@@ -153,6 +174,33 @@ const VisitorRegister = () => {
                             <InputText
                                 {...register("designation")}
                                 type='text' placeholder="Designation" className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <Controller
+                                name="entryTime"
+                                control={control}
+                                rules={{ required: "Entry time is required" }}
+                                render={({ field, fieldState }) => (
+                                    <Calendar
+                                        {...field}
+                                        value={entryTime} onChange={(e) => { setEntryTime(e.value); field.onChange(e); }} timeOnly placeholder='Entry Time' className='w-full' />
+                                )}
+                            />
+                            {errors.entryTime?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.entryTime.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <Controller
+                                name="exitTime"
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <Calendar
+                                        {...field}
+                                        value={exitTime} onChange={(e) => { setExitTime(e.value); field.onChange(e); }} timeOnly placeholder='Exit Time' className='w-full' />
+                                )}
+                            />
+
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
