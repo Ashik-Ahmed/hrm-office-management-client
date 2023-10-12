@@ -124,7 +124,7 @@ const VisitorRegister = () => {
             <div className='mt-4 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center justify-between mb-1'>
                     <div className='flex items-center gap-x-2 mb-2'>
-                        <h3 className='font-light'>VISITOR REGISTER</h3>
+                        <h3 className='font-light'>VISITOR LIST</h3>
                         <AiFillPlusSquare onClick={() => setInsertVisitor(true)} size={20} color='#8C239E' className='cursor-pointer' />
                     </div>
                     <div>
@@ -147,7 +147,7 @@ const VisitorRegister = () => {
             </div>
 
             {/* insert visitor dialog  */}
-            <Dialog header="Add Employee" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset(); setEntryTime(null); setExitTime(null) }}>
+            <Dialog header="New Visitor" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset(); setEntryTime(null); setExitTime(null) }}>
 
                 <form onSubmit={handleSubmit(handleInsertVisitor)} className='mt-2'>
 
