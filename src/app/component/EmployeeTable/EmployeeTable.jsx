@@ -143,59 +143,41 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                             <Controller
                                 name="joiningDate"
                                 control={control}
-                                rules={{ required: "Joining date is required" }}
                                 render={({ field }) => (
                                     <Calendar
-                                        value={joiningDate}
+                                        value={editEmployee?.joiningDate}
                                         onChange={(e) => { setJoiningDate(e.value); field.onChange(e.value) }}
-                                        placeholder='Joining date*'
+                                        placeholder={editEmployee?.joiningDate}
                                         className='w-full'
+                                        disabled
                                     />
                                 )}
                             />
-                            {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500 block' role="alert">{errors.joiningDate.message}</span>}
+
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <InputText
-                                {...register("firstName", { required: "First Name is required" })}
-                                type='text' placeholder="First Name*" className='w-full' />
-                            {errors.firstName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.firstName.message}</span>}
+                            <InputText type='text' placeholder={editEmployee?.firstName} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            <InputText
-                                {...register("lastName", { required: "Last Name is required" })}
-                                type='text' placeholder="Last Name*" className='w-full' />
-                            {errors.lastName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.lastName.message}</span>}
+                            <InputText type='text' placeholder={editEmployee?.lastName} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <InputText
-                                {...register("email", { required: "Email is required" })}
-                                type='email' placeholder="Email*" className='w-full' />
-                            {errors.email?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.email.message}</span>}
+                            <InputText type='email' placeholder={editEmployee?.email} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            <InputText
-                                {...register("mobile", { required: "Mobile no. is required" })}
-                                type='text' placeholder="Mobile*" className='w-full' />
-                            {errors.mobile?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.mobile.message}</span>}
+                            <InputText type='text' placeholder={`${editEmployee?.mobile || 'Mobile Number'}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <InputText
-                                {...register("designation", { required: "Designation is required" })}
-                                type='text' placeholder="Designation*" className='w-full' />
-                            {errors.designation?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.designation.message}</span>}
+                            <InputText type='text' placeholder={`${editEmployee?.designation || "Designation"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            <Dropdown
-                                {...register("userRole", { required: "Role is required" })}
-                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={editEmployee?.userRole} className="w-full placeholder-opacity-20" />
-                            {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                            <Dropdown value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={editEmployee?.userRole} className="w-full placeholder-opacity-20" />
                         </div>
                     </div>
 
