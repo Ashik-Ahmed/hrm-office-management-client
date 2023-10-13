@@ -158,26 +158,38 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <InputText type='text' placeholder={editEmployee?.firstName} className='w-full' />
+                            <InputText
+                                {...register("firstName")}
+                                type='text' placeholder={editEmployee?.firstName} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            <InputText type='text' placeholder={editEmployee?.lastName} className='w-full' />
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText type='email' placeholder={editEmployee?.email} className='w-full' />
-                        </div>
-                        <div className='w-full'>
-                            <InputText type='text' placeholder={`${editEmployee?.mobile || 'Mobile Number'}`} className='w-full' />
+                            <InputText
+                                {...register("lastName")}
+                                type='text' placeholder={editEmployee?.lastName} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <InputText type='text' placeholder={`${editEmployee?.designation || "Designation"}`} className='w-full' />
+                            <InputText
+                                {...register("email")}
+                                type='email' placeholder={editEmployee?.email} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            <Dropdown value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={editEmployee?.userRole} className="w-full placeholder-opacity-20" />
+                            <InputText
+                                {...register("mobile")}
+                                type='text' placeholder={`${editEmployee?.mobile || 'Mobile Number'}`} className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("designation")}
+                                type='text' placeholder={`${editEmployee?.designation || "Designation"}`} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <Dropdown
+                                {...register("userRole")}
+                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={editEmployee?.userRole} className="w-full placeholder-opacity-20" />
                         </div>
                     </div>
 
