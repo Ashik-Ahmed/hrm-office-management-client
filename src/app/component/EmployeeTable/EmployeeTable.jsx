@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
-import React from 'react';
+import React, { useRef } from 'react';
 import { AiFillPlusSquare } from 'react-icons/ai'
 import { FiEdit } from 'react-icons/fi';
 import { RiDeleteBinLine } from 'react-icons/ri';
@@ -12,12 +12,24 @@ import { FilterMatchMode } from 'primereact/api';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
+import { Controller, useForm } from 'react-hook-form';
+import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
+import { Calendar } from 'primereact/calendar';
 
 const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
 
+    const toast = useRef(null)
+    const router = useRouter()
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
+    const [editEmployee, setEditEmployee] = useState();
+    const [role, setRole] = useState();
+    const [joiningDate, setJoiningDate] = useState()
     const [loading, setLoading] = useState(false)
 
-    const router = useRouter()
+    const userRoles = ['Admin', 'Employee']
+
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [filters, setFilters] = useState({
@@ -36,6 +48,10 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
         setFilters(_filters);
         setGlobalFilterValue(value);
     };
+
+    const handleEditEmployee = (data) => {
+        console.log(data);
+    }
 
 
     const fullNameBodyTemplate = (rowData) => {
@@ -77,7 +93,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                 <RiDeleteBinLine onClick={() => setDeleteUserDialog(rowData)} size={35} color='red' className='cursor-pointer rounded-full p-2 hover:bg-gray-300' /> */}
 
                 <Button onClick={() => router.push(`/employee/${rowData._id}`)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon='pi pi-info' rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setEditEmployee(rowData)} tooltip="Edit" tooltipOptions={buttonTooltipOptions} icon='pi pi-file-edit' rounded text raised severity='success' style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setDeleteUserDialog(rowData)} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
             </div>
         )
@@ -107,6 +123,87 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                 <Column body={roleBodyTemplate} header="Role" ></Column>
                 <Column body={actionBodyTemplate} header="Action" ></Column>
             </DataTable>
+
+            {/* edit user dialog  */}
+            <Dialog header="Edit Employee" visible={editEmployee} style={{ width: '50vw' }} onHide={() => { setEditEmployee(false); setJoiningDate(null); setRole(null); reset() }}>
+
+                <form onSubmit={handleSubmit(handleEditEmployee)} className='mt-2'>
+
+                    <div className='w-full'>
+                        <Dropdown value={editEmployee?.department} placeholder={editEmployee?.departemnt} disabled className="w-full placeholder-opacity-20" />
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className="w-full">
+                            <InputText placeholder={editEmployee?.employeeId} disabled className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
+
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
+                            <Controller
+                                name="joiningDate"
+                                control={control}
+                                rules={{ required: "Joining date is required" }}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={joiningDate}
+                                        onChange={(e) => { setJoiningDate(e.value); field.onChange(e.value) }}
+                                        placeholder='Joining date*'
+                                        className='w-full'
+                                    />
+                                )}
+                            />
+                            {errors.joiningDate?.type === 'required' && <span className='text-xs text-red-500 block' role="alert">{errors.joiningDate.message}</span>}
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("firstName", { required: "First Name is required" })}
+                                type='text' placeholder="First Name*" className='w-full' />
+                            {errors.firstName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.firstName.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("lastName", { required: "Last Name is required" })}
+                                type='text' placeholder="Last Name*" className='w-full' />
+                            {errors.lastName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.lastName.message}</span>}
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("email", { required: "Email is required" })}
+                                type='email' placeholder="Email*" className='w-full' />
+                            {errors.email?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.email.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("mobile", { required: "Mobile no. is required" })}
+                                type='text' placeholder="Mobile*" className='w-full' />
+                            {errors.mobile?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.mobile.message}</span>}
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("designation", { required: "Designation is required" })}
+                                type='text' placeholder="Designation*" className='w-full' />
+                            {errors.designation?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.designation.message}</span>}
+                        </div>
+                        <div className='w-full'>
+                            <Dropdown
+                                {...register("userRole", { required: "Role is required" })}
+                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={editEmployee?.userRole} className="w-full placeholder-opacity-20" />
+                            {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
+                        </div>
+                    </div>
+
+                    <div className='mt-4 text-right'>
+                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
+                    </div>
+                </form>
+            </Dialog>
         </div>
     );
 };
