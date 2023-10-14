@@ -16,6 +16,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
+import { Toast } from 'primereact/toast';
 
 const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
 
@@ -50,7 +51,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
     };
 
     const handleEditEmployee = (data) => {
-        console.log(data);
+        setLoading(true)
 
         const updatedData = {};
 
@@ -59,9 +60,29 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                 updatedData[field] = data[field]
             }
         }
-
-
-
+        console.log(editEmployee._id, updatedData);
+        fetch(`http://localhost:5000/api/v1/employee/${editEmployee._id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee Updated', life: 3000 });
+                    setEditEmployee(false);
+                    setJoiningDate(null);
+                    setRole(null);
+                    reset();
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
+                }
+            })
+        setLoading(false)
     }
 
 
@@ -114,6 +135,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
 
     return (
         <div className="card p-2 bg-white rounded-md shadow-xl">
+            <Toast ref={toast} />
             <div className='flex justify-between items-center mb-1'>
                 <div className='flex items-center gap-x-2'>
                     <h3 className='font-light'>EMPLOYEE LIST</h3>
