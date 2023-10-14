@@ -51,6 +51,17 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
 
     const handleEditEmployee = (data) => {
         console.log(data);
+
+        const updatedData = {};
+
+        for (const field in data) {
+            if (data[field]) {
+                updatedData[field] = data[field]
+            }
+        }
+
+
+
     }
 
 
