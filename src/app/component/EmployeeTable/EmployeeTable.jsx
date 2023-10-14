@@ -18,7 +18,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 
-const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
+const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDialog }) => {
 
     const toast = useRef(null)
     const router = useRouter()
@@ -73,6 +73,7 @@ const EmployeeTable = ({ users, setAddUserDialog, setDeleteUserDialog }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee Updated', life: 3000 });
+                    fetchAllUsers();
                     setEditEmployee(false);
                     setJoiningDate(null);
                     setRole(null);

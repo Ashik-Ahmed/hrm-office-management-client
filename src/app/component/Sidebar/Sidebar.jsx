@@ -94,7 +94,7 @@ const Sidebar = () => {
                         <i className='pi pi-folder cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <Menu model={items} popup ref={menuLeft} id="popup_menu_left" />
                         <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
-                            <FaUser size={20} color='gray' className='cursor-pointer' />
+                            <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
                         </i>
                         {/* <i>
                             <Button onClick={(event) => profileButton.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup text >

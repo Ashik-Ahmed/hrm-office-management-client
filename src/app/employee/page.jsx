@@ -210,7 +210,7 @@ const Users = () => {
             <Toast ref={toast} />
 
             {/* Employee Data Table  */}
-            <EmployeeTable users={employees} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
+            <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
 
             {/* add user dialog  */}
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
