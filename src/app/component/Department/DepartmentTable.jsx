@@ -94,8 +94,9 @@ const DepartmentTable = () => {
                     // departments ?
                     <DataTable value={departments?.data} size='small' emptyMessage="No Department Found" loading={loading}>
                         <Column field='departmentName' header="Department"></Column>
-                        <Column field='description' header="Description"></Column>
                         <Column field="employeeCount" header="#Employees"></Column>
+                        <Column field='status' header="Status"></Column>
+                        <Column field='description' header="Description"></Column>
                         <Column body={actionBodyTemplate} header="Action"></Column>
                     </DataTable>
                     // :
