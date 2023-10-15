@@ -70,8 +70,8 @@ const DepartmentTable = () => {
         return (
             <div className='flex gap-x-2 items-center'>
                 {/* <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} /> */}
-                <Button tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Disable" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button tooltip="Active" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' disabled={rowData.status == "Active"} rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
+                <Button tooltip="Disable" tooltipOptions={buttonTooltipOptions} icon="pi pi-times" disabled={rowData.status == "Inactive"} rounded text raised severity='danger' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
