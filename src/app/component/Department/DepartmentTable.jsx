@@ -20,6 +20,7 @@ const DepartmentTable = () => {
     const [departments, setDepartments] = useState();
     const [createDepartmentDialog, setCreateDepartmentDialog] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [disableDialog, setDisableDialog] = useState(null)
 
     const getDepartmentData = async () => {
         setLoading(true)
@@ -57,6 +58,10 @@ const DepartmentTable = () => {
             })
     }
 
+    const handleDisableDepartment = (deptId) => {
+        console.log(deptId);
+    }
+
     const buttonTooltipOptions = {
         position: 'bottom',
         mouseTrack: true,
@@ -71,7 +76,7 @@ const DepartmentTable = () => {
             <div className='flex gap-x-2 items-center'>
                 {/* <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} /> */}
                 <Button tooltip="Active" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' disabled={rowData.status == "Active"} rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
-                <Button tooltip="Disable" tooltipOptions={buttonTooltipOptions} icon="pi pi-times" disabled={rowData.status == "Inactive"} rounded text raised severity='danger' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDisableDialog(rowData)} tooltip="Disable" tooltipOptions={buttonTooltipOptions} icon="pi pi-times" disabled={rowData.status == "Inactive"} rounded text raised severity='danger' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -130,6 +135,20 @@ const DepartmentTable = () => {
                     </div>
                 </form>
             </Dialog>
+
+            {/* disable department dialog  */}
+            <div>
+                <Dialog header="Disable Confirmation" visible={disableDialog} onHide={() => setDisableDialog(false)}
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                    <div className='text-center'>
+                        <p className='font-semibold mb-2'>Department: {disableDialog?.departmentName}</p>
+                        <p className='text-red-400 font-semibold'>Are you sure to disable?</p>
+                    </div>
+                    <div className='flex gap-x-2 justify-end mt-4'>
+                        <Button onClick={() => handleDisableDepartment(disableDialog._id)} loading={loading} label="Disable" size='small' className='p-button-sm' />
+                    </div>
+                </Dialog>
+            </div >
         </div>
     );
 };
