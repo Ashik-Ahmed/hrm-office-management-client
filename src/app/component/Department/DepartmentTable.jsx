@@ -58,8 +58,29 @@ const DepartmentTable = () => {
             })
     }
 
-    const handleDisableDepartment = (deptId) => {
-        console.log(deptId);
+    const handleUpdateDepartment = (deptId, updatedData) => {
+        setLoading(true)
+
+        fetch(`http://localhost:5000/api/v1/department/${deptId}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status == "Success") {
+                    console.log("updated Successfully");
+                    getDepartmentData()
+                    setDisableDialog(false)
+                }
+                else {
+                    console.log("Failed");
+                }
+            })
+        setLoading(false)
+
     }
 
     const buttonTooltipOptions = {
@@ -145,7 +166,7 @@ const DepartmentTable = () => {
                         <p className='text-red-400 font-semibold'>Are you sure to disable?</p>
                     </div>
                     <div className='flex gap-x-2 justify-end mt-4'>
-                        <Button onClick={() => handleDisableDepartment(disableDialog._id)} loading={loading} label="Disable" size='small' className='p-button-sm' />
+                        <Button onClick={() => handleUpdateDepartment(disableDialog._id, { status: "Inactive" })} loading={loading} label="Disable" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
