@@ -49,7 +49,7 @@ const RequisitionHistoryTable = ({ user }) => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.data);
-                    sertDepartment(data.data)
+                    sertDepartment(data.data.filter((dept) => dept.status == "Active"))
                 })
         }
         departments()
