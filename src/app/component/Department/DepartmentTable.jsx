@@ -74,11 +74,13 @@ const DepartmentTable = () => {
                 if (data.status == "Success") {
                     console.log("updated Successfully");
                     getDepartmentData()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Department updated', life: 3000 });
                     setDisableDialog(false);
                     setEnableDialog(false)
                 }
                 else {
                     console.log("Failed");
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                 }
             })
         setLoading(false)
