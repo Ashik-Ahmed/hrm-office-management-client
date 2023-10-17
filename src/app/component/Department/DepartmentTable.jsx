@@ -20,7 +20,8 @@ const DepartmentTable = () => {
     const [departments, setDepartments] = useState();
     const [createDepartmentDialog, setCreateDepartmentDialog] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [disableDialog, setDisableDialog] = useState(null)
+    const [disableDialog, setDisableDialog] = useState(null);
+    const [enableDialog, setEnableDialog] = useState(false)
 
     const getDepartmentData = async () => {
         setLoading(true)
@@ -73,7 +74,8 @@ const DepartmentTable = () => {
                 if (data.status == "Success") {
                     console.log("updated Successfully");
                     getDepartmentData()
-                    setDisableDialog(false)
+                    setDisableDialog(false);
+                    setEnableDialog(false)
                 }
                 else {
                     console.log("Failed");
@@ -96,7 +98,7 @@ const DepartmentTable = () => {
         return (
             <div className='flex gap-x-2 items-center'>
                 {/* <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} /> */}
-                <Button tooltip="Active" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' disabled={rowData.status == "Active"} rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setEnableDialog(rowData)} tooltip="Active" tooltipOptions={buttonTooltipOptions} icon='pi pi-check' disabled={rowData.status == "Active"} rounded text raised severity='info' style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setDisableDialog(rowData)} tooltip="Disable" tooltipOptions={buttonTooltipOptions} icon="pi pi-times" disabled={rowData.status == "Inactive"} rounded text raised severity='danger' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
@@ -167,6 +169,21 @@ const DepartmentTable = () => {
                     </div>
                     <div className='flex gap-x-2 justify-end mt-4'>
                         <Button onClick={() => handleUpdateDepartment(disableDialog._id, { status: "Inactive" })} loading={loading} label="Disable" size='small' className='p-button-sm' />
+                    </div>
+                </Dialog>
+            </div >
+
+
+            {/* enable department dialog  */}
+            <div>
+                <Dialog header="Enable Department" visible={enableDialog} onHide={() => setEnableDialog(false)}
+                    style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                    <div className='text-center'>
+                        <p className='font-semibold mb-2'>Department: {enableDialog?.departmentName}</p>
+                        <p className='text-red-400 font-semibold'>Are you sure to enable?</p>
+                    </div>
+                    <div className='flex gap-x-2 justify-end mt-4'>
+                        <Button onClick={() => handleUpdateDepartment(enableDialog._id, { status: "Active" })} loading={loading} label="Enable" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
