@@ -41,12 +41,12 @@ const Sidebar = () => {
         { name: 'Manage Requisition', link: '/manage-requisition' },
         { name: 'Visitor Register', link: '/visitor-register' },
         { name: 'Task Manager', link: '/task-manager' },
-        { name: 'File Management', link: '/file-management' },
-        { name: 'Holidays', link: '/holidays' },
-        { name: 'Events', link: '/events' },
-        { name: 'Payroll', link: '/payroll' },
-        { name: 'Accounts', link: '/accounts' },
-        { name: 'Report', link: '/report' },
+        // { name: 'File Management', link: '/file-management' },
+        // { name: 'Holidays', link: '/holidays' },
+        // { name: 'Events', link: '/events' },
+        // { name: 'Payroll', link: '/payroll' },
+        // { name: 'Accounts', link: '/accounts' },
+        // { name: 'Report', link: '/report' },
     ]
 
     const menuLeft = useRef(null);

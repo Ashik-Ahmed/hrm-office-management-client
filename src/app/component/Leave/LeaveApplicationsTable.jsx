@@ -141,13 +141,13 @@ const LeaveApplicationsTable = () => {
                         <div className="flex gap-x-4">
                             <div>
                                 <Calendar
-                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); handleStartDateChange(e) }} showIcon placeholder='From date*' />
+                                    {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); handleStartDateChange(e) }} disabled={!selectedLeave} showIcon placeholder='From date*' />
                                 {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
                             </div>
                             <div>
                                 <Calendar
                                     {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy" minDate={fromDate} maxDate={maxToDate}
-                                    value={toDate} onSelect={(e) => setToDate(e.value)} showIcon placeholder='To date*' />
+                                    value={toDate} onSelect={(e) => setToDate(e.value)} disabled={!selectedLeave} showIcon placeholder='To date*' />
                                 {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
                             </div>
                             <div>
