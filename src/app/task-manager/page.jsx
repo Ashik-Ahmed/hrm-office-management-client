@@ -1,20 +1,17 @@
 import React from 'react';
-import RunningTasks from '../component/Task-Manager/RunningTasks';
-import CompletedTasks from '../component/Task-Manager/CompletedTasks';
 import { getAllTasks } from '@/libs/task';
 import { getServerSession } from 'next-auth';
+import TaskTable from '../component/Task-Manager/TaskTable';
 
 const TaskManager = async () => {
 
-    const session = await getServerSession()
-    console.log('session data: ', session);
-    const tasks = await getAllTasks()
+    const { user } = await getServerSession()
+    console.log('session data: ', user);
 
     return (
         <div>
             Task Manager
-            <RunningTasks />
-            <CompletedTasks />
+            <TaskTable user={user} />
         </div>
     );
 };
