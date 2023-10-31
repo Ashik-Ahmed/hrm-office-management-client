@@ -12,7 +12,8 @@ const TaskTable = ({ user }) => {
     const [tasks, setTasks] = useState();
     const [currentStatus, setCurrentStatus] = useState('Open')
     const [loading, setLoading] = useState(false)
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(0);
+    const [pageCount, setPageCount] = useState(2)
 
     const getAllTasks = () => {
         setLoading(true)
@@ -36,6 +37,12 @@ const TaskTable = ({ user }) => {
         getAllTasks()
     }, [currentStatus, page, user]);
 
+    const paginator = [];
+
+    for (let i = 1; i <= pageCount; i++) {
+        paginator.push(<span key={i} className='w-9 h-9 border-2 self-center'>{i}</span>)
+    }
+
     const startBodyTemplate = (rowData) => {
         return (
             <div>{rowData.createdAt.split("T")[0]}</div>
@@ -51,8 +58,8 @@ const TaskTable = ({ user }) => {
     }
 
     return (
-        <div>
-            <div className='mt-1 shadow-md p-2 bg-white rounded-md'>
+        <div className=' h-full'>
+            <div className='mt-1 shadow-md p-2 bg-white rounded-md w-full h-full'>
                 <div className='flex justify-between items-center mb-2'>
                     <div className='flex items-center gap-x-2'>
                         <h3 className='font-light'>TASK LIST</h3>
@@ -62,13 +69,21 @@ const TaskTable = ({ user }) => {
                         <Dropdown options={['Open', 'Closed']} onChange={(e) => { setCurrentStatus(e.value); }} value={currentStatus} size='small' className='p-dropdown-sm' />
                     </div>
                 </div>
-                <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
+                <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading} paginator rows={10}>
                     <Column body={headingBodyTemplate} header="Task Title"></Column>
                     <Column body={startBodyTemplate} header="Started"></Column>
                     <Column field='creator' header="Created By"></Column>
                     <Column field='assignee' header="Assignee"></Column>
                     {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
                 </DataTable>
+
+                <div className='flex gap-x-1 mx-auto justify-center items-center'>
+                    <span className='pi pi-angle-double-left p-2 border-2'></span>
+                    <span className='pi pi-angle-left p-2 border-2'></span>
+                    {paginator}
+                    <span className='pi pi-angle-right p-2 border-2'></span>
+                    <span className='pi pi-angle-double-right p-2 border-2'></span>
+                </div>
             </div>
         </div>
     );

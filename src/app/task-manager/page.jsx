@@ -8,8 +8,7 @@ const TaskManager = async () => {
     console.log('session data: ', user);
 
     return (
-        <div>
-            Task Manager
+        <div className='h-full'>
             <TaskTable user={user} />
         </div>
     );
