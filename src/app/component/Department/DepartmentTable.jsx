@@ -84,7 +84,6 @@ const DepartmentTable = () => {
                 }
             })
         setLoading(false)
-
     }
 
     const buttonTooltipOptions = {

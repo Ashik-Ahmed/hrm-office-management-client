@@ -1,8 +1,10 @@
 'use client'
 
+import Link from 'next/link';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react';
+import { AiFillPlusSquare } from 'react-icons/ai';
 
 const TaskTable = ({ user }) => {
 
@@ -39,17 +41,29 @@ const TaskTable = ({ user }) => {
         )
     }
 
+    const headingBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <Link href={`task-manager/${rowData._id}`} className='hover:underline'>{rowData.heading}</Link>
+            </div>
+        )
+    }
+
     return (
         <div>
-            <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
-                <Column body={startBodyTemplate} header="Started"></Column>
-                <Column field='from' header="From"></Column>
-                <Column field='destination' header="Destination"></Column>
-                <Column field='vehicle' header="Vehicle"></Column>
-                <Column field="amount" header="Amount"></Column>
-                <Column field="paymentStatus" header="Payment Status"></Column>
-                {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
-            </DataTable>
+            <div className='mt-1 shadow-md p-2 bg-white rounded-md'>
+                <div className='flex items-center gap-x-2 mb-2'>
+                    <h3 className='font-light'>TASK LIST</h3>
+                    <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                </div>
+                <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
+                    <Column body={startBodyTemplate} header="Started"></Column>
+                    <Column body={headingBodyTemplate} header="Task Title"></Column>
+                    <Column field='creator' header="Created By"></Column>
+                    <Column field='assignee' header="Assignee"></Column>
+                    {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
+                </DataTable>
+            </div>
         </div>
     );
 };
