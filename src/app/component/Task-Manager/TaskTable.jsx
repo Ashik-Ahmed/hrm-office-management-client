@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { Dropdown } from 'primereact/dropdown';
 import React, { useEffect, useState } from 'react';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
@@ -52,13 +53,18 @@ const TaskTable = ({ user }) => {
     return (
         <div>
             <div className='mt-1 shadow-md p-2 bg-white rounded-md'>
-                <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>TASK LIST</h3>
-                    <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                <div className='flex justify-between items-center mb-2'>
+                    <div className='flex items-center gap-x-2'>
+                        <h3 className='font-light'>TASK LIST</h3>
+                        <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    </div>
+                    <div>
+                        <Dropdown options={['Open', 'Closed']} onChange={(e) => { setCurrentStatus(e.value); }} value={currentStatus} size='small' className='p-dropdown-sm' />
+                    </div>
                 </div>
                 <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
-                    <Column body={startBodyTemplate} header="Started"></Column>
                     <Column body={headingBodyTemplate} header="Task Title"></Column>
+                    <Column body={startBodyTemplate} header="Started"></Column>
                     <Column field='creator' header="Created By"></Column>
                     <Column field='assignee' header="Assignee"></Column>
                     {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
