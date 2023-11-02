@@ -53,7 +53,7 @@ const RequisitionHistoryTable = ({ user }) => {
                 })
         }
         departments()
-    }, [])
+    }, [selectedMonth, selectedYear])
 
     // useEffect(() => {
     //     // Do not fetch data on first render

@@ -116,10 +116,6 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
         )
     }
 
-    if (!conveyanceData) {
-        return <Loading />
-    }
-
     return (
         <div>
             <Toast ref={toast} />

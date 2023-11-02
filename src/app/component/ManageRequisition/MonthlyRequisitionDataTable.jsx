@@ -131,9 +131,7 @@ const MonthlyRequisitionDataTable = () => {
         )
     }
 
-    if (!monthlyRequisition) {
-        return <Loading />
-    }
+
 
     return (
         <div>
