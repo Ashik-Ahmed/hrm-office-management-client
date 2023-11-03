@@ -81,12 +81,15 @@ const TaskTable = ({ user }) => {
                         breakLabel="..."
                         nextLabel=">"
                         onPageChange={handlePageChange}
-                        pageRangeDisplayed={5}
-                        pageCount={20}
+                        pageRangeDisplayed={10}
+                        pageCount={10}
                         previousLabel="<"
                         renderOnZeroPageCount={null}
-                        pageClassName='p-1 rounded-sm w-10'
+                        pageClassName='p-1 rounded-sm w-10 hover:bg-gray-200'
                         className='flex gap-x-1 items-center justify-center mx-auto text-center mt-2'
+                        activeClassName='bg-[#8C239E] text-white'
+                        previousClassName='p-1 w-10 hover:bg-gray-200'
+                        nextClassName='p-1 w-10 hover:bg-gray-200'
                     />
                 </div>
 
