@@ -6,6 +6,7 @@ import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import React, { useEffect, useState } from 'react';
 import { AiFillPlusSquare } from 'react-icons/ai';
+import ReactPaginate from 'react-paginate';
 
 const TaskTable = ({ user }) => {
 
@@ -37,11 +38,10 @@ const TaskTable = ({ user }) => {
         getAllTasks()
     }, [currentStatus, page, user]);
 
-    const paginator = [];
-
-    for (let i = 1; i <= pageCount; i++) {
-        paginator.push(<span key={i} className='w-9 h-9 border-2 self-center'>{i}</span>)
+    const handlePageChange = (page) => {
+        console.log(page.selected + 1);
     }
+
 
     const startBodyTemplate = (rowData) => {
         return (
@@ -69,21 +69,34 @@ const TaskTable = ({ user }) => {
                         <Dropdown options={['Open', 'Closed']} onChange={(e) => { setCurrentStatus(e.value); }} value={currentStatus} size='small' className='p-dropdown-sm' />
                     </div>
                 </div>
-                <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading} paginator rows={10}>
+                <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
                     <Column body={headingBodyTemplate} header="Task Title"></Column>
                     <Column body={startBodyTemplate} header="Started"></Column>
                     <Column field='creator' header="Created By"></Column>
                     <Column field='assignee' header="Assignee"></Column>
                     {/* <Column body={actionBodyTemplate} header="Action"></Column> */}
                 </DataTable>
+                <div>
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel=">"
+                        onPageChange={handlePageChange}
+                        pageRangeDisplayed={5}
+                        pageCount={20}
+                        previousLabel="<"
+                        renderOnZeroPageCount={null}
+                        pageClassName='p-1 rounded-sm w-10'
+                        className='flex gap-x-1 items-center justify-center mx-auto text-center mt-2'
+                    />
+                </div>
 
-                <div className='flex gap-x-1 mx-auto justify-center items-center'>
+                {/* <div className='flex gap-x-1 mx-auto justify-center items-center'>
                     <span className='pi pi-angle-double-left p-2 border-2'></span>
                     <span className='pi pi-angle-left p-2 border-2'></span>
                     {paginator}
                     <span className='pi pi-angle-right p-2 border-2'></span>
                     <span className='pi pi-angle-double-right p-2 border-2'></span>
-                </div>
+                </div> */}
             </div>
         </div>
     );
