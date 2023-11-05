@@ -7,13 +7,13 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
 
-const TaskTable = ({ user }) => {
-
+const TaskTable = ({ user, allDepartments }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -23,7 +23,7 @@ const TaskTable = ({ user }) => {
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
-    const [departments, setDepartments] = useState([]);
+    const [departments, setDepartments] = useState(allDepartments);
     const [employees, setEmployees] = useState([])
     const [selectedDepartment, setSelectedDepartment] = useState();
     const [selectedAssignee, setSelectedAssignee] = useState();
@@ -47,9 +47,26 @@ const TaskTable = ({ user }) => {
             })
     }
 
+    const getEmployeeByDepartment = (department) => {
+        const url = `http://localhost:5000/api/v1/employee/employee-by-dept?department=${department}`;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    setEmployees(data.data)
+                }
+            })
+    }
+
     useEffect(() => {
         getAllTasks()
     }, [currentStatus, page, user]);
+
+    useEffect(() => {
+        setEmployees([])
+        getEmployeeByDepartment(selectedDepartment?.departmentName)
+    }, [selectedDepartment])
 
     const handlePageChange = (page) => {
         console.log(page.selected);
@@ -120,26 +137,9 @@ const TaskTable = ({ user }) => {
                 </div> */}
             </div>
 
-            <Dialog header="Add Conveyance" visible={addtask} style={{ width: '50vw' }} onHide={() => { setAddTask(false); reset() }}>
+            <Dialog header="Add New Task" visible={addtask} style={{ width: '50vw' }} onHide={() => { setAddTask(false); reset(); setSelectedDepartment(''); setSelectedAssignee('') }}>
 
                 <form onSubmit={handleSubmit(handleAddNewTask)} className='mt-2'>
-                    <div className='mt-2 flex gap-x-4'>
-
-                        <div className='w-full'>
-                            <InputText
-                                {...register("heading", { required: "Heading is required" })}
-                                type='text' placeholder="Heading*" className='w-full' />
-                            {errors.heading?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.heading.message}</span>}
-                        </div>
-                    </div>
-                    <div className='mt-2 flex gap-x-4'>
-                        <div className='w-full'>
-                            <InputText
-                                {...register("description", { required: "Description is required" })}
-                                type='text' placeholder="Description*" className='w-full' />
-                            {errors.description?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.description.message}</span>}
-                        </div>
-                    </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div>
                             <Dropdown
@@ -154,6 +154,23 @@ const TaskTable = ({ user }) => {
                             {errors.assignee?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.assignee.message}</span>}
                         </div>
                     </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("heading", { required: "Heading is required" })}
+                                type='text' placeholder="Heading*" className='w-full' />
+                            {errors.heading?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.heading.message}</span>}
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputTextarea
+                                {...register("description", { required: "Description is required" })}
+                                type='text' placeholder="Description*" className='w-full' />
+                            {errors.description?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.description.message}</span>}
+                        </div>
+                    </div>
+
 
                     {/* <div className='mt-2'>
         <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
