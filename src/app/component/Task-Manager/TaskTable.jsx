@@ -69,7 +69,7 @@ const TaskTable = ({ user, allDepartments }) => {
     }, [selectedDepartment])
 
     const handlePageChange = (page) => {
-        console.log(page.selected);
+        // console.log(page.selected);
         setPage(page.selected);
     }
 
