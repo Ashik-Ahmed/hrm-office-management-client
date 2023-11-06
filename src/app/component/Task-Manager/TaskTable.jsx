@@ -84,8 +84,23 @@ const TaskTable = ({ user, allDepartments }) => {
         taskData.assignee = selectedAssignee._id;
         console.log(taskData);
 
-
-
+        fetch('http://localhost:5000/api/v1/task', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(taskData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status == "Success") {
+                    console.log('New task added successfully');
+                }
+                else {
+                    console.log('Task add Failed');
+                }
+            })
+        setAddTask(false)
     }
 
 
