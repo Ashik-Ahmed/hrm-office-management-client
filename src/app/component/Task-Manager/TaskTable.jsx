@@ -94,6 +94,7 @@ const TaskTable = ({ user, allDepartments }) => {
             .then(res => res.json())
             .then(data => {
                 if (data.status == "Success") {
+                    getAllTasks()
                     console.log('New task added successfully');
                 }
                 else {
