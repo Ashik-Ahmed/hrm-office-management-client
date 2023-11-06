@@ -74,7 +74,18 @@ const TaskTable = ({ user, allDepartments }) => {
     }
 
     const handleAddNewTask = (data) => {
+        if (!selectedAssignee) {
+            alert('Set Assignee First!');
+            return;
+        }
         console.log(data);
+        const taskData = data;
+        taskData.creator = user.email;
+        taskData.assignee = selectedAssignee._id;
+        console.log(taskData);
+
+
+
     }
 
 
@@ -144,13 +155,13 @@ const TaskTable = ({ user, allDepartments }) => {
                         <div>
                             <Dropdown
                                 {...register('department', { required: "Department is required" })}
-                                value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value) }} options={departments} optionLabel="departmentName" placeholder="Select Department*" className='w-full' />
+                                value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); setSelectedAssignee('') }} options={departments} optionLabel="departmentName" placeholder="Select Department*" className='w-full' />
                             {errors.department?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.department.message}</span>}
                         </div>
                         <div>
                             <Dropdown
                                 {...register('assignee', { required: "Assignee is required" })}
-                                value={selectedAssignee} onChange={(e) => { setSelectedAssignee(e.value) }} options={employees} optionLabel="name" placeholder="Select Assignee*" className='w-full' />
+                                value={selectedAssignee} onChange={(e) => { setSelectedAssignee(e.value); console.log(e.value._id); }} options={employees} optionLabel="name" placeholder="Select Assignee*" className='w-full' />
                             {errors.assignee?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.assignee.message}</span>}
                         </div>
                     </div>
