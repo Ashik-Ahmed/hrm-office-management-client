@@ -8,13 +8,15 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import React, { useEffect, useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import ReactPaginate from 'react-paginate';
 
 const TaskTable = ({ user, allDepartments }) => {
 
+    const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [tasks, setTasks] = useState();
@@ -96,9 +98,11 @@ const TaskTable = ({ user, allDepartments }) => {
                 if (data.status == "Success") {
                     getAllTasks()
                     console.log('New task added successfully');
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Task added', life: 3000 });
                 }
                 else {
                     console.log('Task add Failed');
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
             })
         setAddTask(false)
@@ -121,6 +125,7 @@ const TaskTable = ({ user, allDepartments }) => {
 
     return (
         <div className=' h-full'>
+            <Toast ref={toast} />
             <div className='mt-1 shadow-md p-2 bg-white rounded-md w-full h-full'>
                 <div className='flex justify-between items-center mb-2'>
                     <div className='flex items-center gap-x-2'>
