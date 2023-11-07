@@ -152,7 +152,7 @@ const TaskTable = ({ user, allDepartments }) => {
                         pageCount={pageCount}
                         previousLabel="<"
                         renderOnZeroPageCount={null}
-                        pageClassName='p-1 rounded-sm w-10 hover:bg-gray-200'
+                        pageClassName='p-1 w-10 rounded-sm hover:bg-gray-200'
                         className='flex gap-x-1 items-center justify-center mx-auto text-center mt-2'
                         activeClassName='bg-[#8C239E] text-white'
                         previousClassName='p-1 w-10 hover:bg-gray-200'
