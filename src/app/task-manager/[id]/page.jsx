@@ -4,13 +4,10 @@ import React from 'react';
 
 const page = async ({ params: { id } }) => {
 
-    const task = await getTaskById(id)
 
     return (
         <div>
-            Task id is {id}
-            Heading: {task.data.heading}
-            <Task />
+            <Task taskId={id} />
         </div>
     );
 };
