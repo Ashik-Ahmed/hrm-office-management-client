@@ -6,3 +6,11 @@ exports.getAllTasks = async (employeeEmail, query) => {
     console.log('tasks: ', tasks);
     return tasks;
 }
+
+exports.getTaskById = async (taskId) => {
+    const url = `http://localhost:5000/api/v1/task/${taskId}`;
+    const data = await fetch(url);
+    const taskDetails = await data.json()
+
+    return taskDetails;
+}
