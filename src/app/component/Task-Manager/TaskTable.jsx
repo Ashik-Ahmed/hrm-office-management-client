@@ -32,7 +32,7 @@ const TaskTable = ({ user, allDepartments }) => {
 
     const getAllTasks = () => {
         setLoading(true)
-        const url = `http://localhost:5000/api/v1/task/${user.email}?currentStatus=${currentStatus}&page=${page}`;
+        const url = `http://localhost:5000/api/v1/task/get-all-task/${user.email}?currentStatus=${currentStatus}&page=${page}`;
         console.log(url);
         fetch(url)
             .then(res => res.json())
