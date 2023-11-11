@@ -50,8 +50,10 @@ const Task = ({ taskId }) => {
                         :
                         <div className='text-center'>
                             <p className='text-xl mb-2'>No updates yet</p>
-                            <Button label='Add Update' className='p-button-sm'></Button>
                         </div>
+                }
+                {
+                    task?.currentStatus == "Open" && <Button label='Add Update' className='p-button-sm'></Button>
                 }
             </div>
         </div>
