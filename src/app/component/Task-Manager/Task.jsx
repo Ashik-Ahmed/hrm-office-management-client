@@ -1,11 +1,14 @@
 'use client'
 
 import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 
 const Task = ({ taskId }) => {
 
     const [task, setTask] = useState()
+    const [addUpdate, setAddUpdate] = useState(false)
 
     const getTask = (id) => {
         const url = `http://localhost:5000/api/v1/task/${id}`;
@@ -53,7 +56,17 @@ const Task = ({ taskId }) => {
                         </div>
                 }
                 {
-                    task?.currentStatus == "Open" && <Button label='Add Update' className='p-button-sm'></Button>
+                    (task?.currentStatus == "Open" || !addUpdate) && <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
+                }
+                {
+                    addUpdate &&
+                    <div>
+                        <InputTextarea type='text' placeholder="Write down updates here..." className='w-full' />
+                        <div className='flex justify-end gap-x-2'>
+                            <Button onClick={() => setAddUpdate(false)} label='Cancel' severity='danger' className='p-button-sm'></Button>
+                            <Button onClick={() => setAddUpdate(true)} label='Submit' severity='success' className='p-button-sm'></Button>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
