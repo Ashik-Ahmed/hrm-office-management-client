@@ -56,7 +56,7 @@ const Task = ({ taskId }) => {
                         </div>
                 }
                 {
-                    (task?.currentStatus == "Open" || !addUpdate) && <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
+                    (task?.currentStatus == "Open" && !addUpdate) && <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
                 }
                 {
                     addUpdate &&
