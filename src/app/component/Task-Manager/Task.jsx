@@ -4,8 +4,11 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-const Task = ({ taskId }) => {
+const Task = ({ taskId, user }) => {
+
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [task, setTask] = useState()
     const [addUpdate, setAddUpdate] = useState(false)
@@ -25,6 +28,11 @@ const Task = ({ taskId }) => {
     useEffect(() => {
         getTask(taskId)
     }, [taskId]);
+
+    const submitUpdate = (data) => {
+        data.user = user.name
+        console.log(data);
+    }
 
     return (
         <div>
@@ -61,11 +69,16 @@ const Task = ({ taskId }) => {
                 {
                     addUpdate &&
                     <div>
-                        <InputTextarea type='text' placeholder="Write down updates here..." className='w-full' />
-                        <div className='flex justify-end gap-x-2'>
-                            <Button onClick={() => setAddUpdate(false)} label='Cancel' severity='danger' className='p-button-sm'></Button>
-                            <Button onClick={() => setAddUpdate(true)} label='Submit' severity='success' className='p-button-sm'></Button>
-                        </div>
+                        <form onSubmit={handleSubmit(submitUpdate)}>
+                            <InputTextarea
+                                {...register("update", { required: "Required" })}
+                                type='text' placeholder="Write down updates here..." className='w-full' />
+                            {errors.update?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.update.message}</span>}
+                            <div className='flex justify-end gap-x-2'>
+                                <Button onClick={() => { setAddUpdate(false); reset() }} label='Cancel' severity='danger' className='p-button-sm'></Button>
+                                <Button type='submit' label='Submit' severity='success' className='p-button-sm'></Button>
+                            </div>
+                        </form>
                     </div>
                 }
             </div>

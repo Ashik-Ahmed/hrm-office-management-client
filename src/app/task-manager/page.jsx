@@ -6,7 +6,7 @@ import { getActiveDepartments } from '@/libs/department';
 const TaskManager = async () => {
 
     const { user } = await getServerSession()
-    console.log('session data: ', user);
+    // console.log('session data: ', user);
 
     const departments = await getActiveDepartments()
 
