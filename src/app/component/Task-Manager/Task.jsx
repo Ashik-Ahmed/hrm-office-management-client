@@ -31,7 +31,8 @@ const Task = ({ taskId, user }) => {
 
     const submitUpdate = (data) => {
         data.user = user.name
-        console.log(data);
+
+        data.time = new Date()
     }
 
     return (
