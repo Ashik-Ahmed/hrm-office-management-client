@@ -68,9 +68,15 @@ const Task = ({ taskId, user }) => {
             <div className='mt-4 p-2 w-full bg-white rounded-md'>
                 {
                     task?.updates.length > 0 ?
-                        <div>
 
-                        </div>
+                        task.updates.map((update) => {
+                            return (
+                                <div key={update._id}>
+                                    <p>{update.updateMessage}</p>
+                                </div>
+                            )
+                        })
+
                         :
                         <div className='text-center'>
                             <p className='text-xl mb-2'>No updates yet</p>
