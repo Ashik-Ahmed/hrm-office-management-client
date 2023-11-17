@@ -30,9 +30,21 @@ const Task = ({ taskId, user }) => {
     }, [taskId]);
 
     const submitUpdate = (data) => {
-        data.user = user.name
+        data.updatedBy = user.name
+        const updates = data
+        console.log(updates);
 
-        data.time = new Date()
+        fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(updates)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
     }
 
     return (
@@ -72,9 +84,9 @@ const Task = ({ taskId, user }) => {
                     <div>
                         <form onSubmit={handleSubmit(submitUpdate)}>
                             <InputTextarea
-                                {...register("update", { required: "Required" })}
+                                {...register("updateMessage", { required: "Required" })}
                                 type='text' placeholder="Write down updates here..." className='w-full' />
-                            {errors.update?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.update.message}</span>}
+                            {errors.updateMessage?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.updateMessage.message}</span>}
                             <div className='flex justify-end gap-x-2'>
                                 <Button onClick={() => { setAddUpdate(false); reset() }} label='Cancel' severity='danger' className='p-button-sm'></Button>
                                 <Button type='submit' label='Submit' severity='success' className='p-button-sm'></Button>
