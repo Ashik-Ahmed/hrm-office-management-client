@@ -89,11 +89,11 @@ const Task = ({ taskId, user }) => {
                         </div>
                 }
                 {
-                    (task?.currentStatus == "Open" && !addUpdate) && <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
+                    (task?.currentStatus == "Open" && !addUpdate) && <div className='my-2'><Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button></div>
                 }
                 {
                     addUpdate &&
-                    <div>
+                    <div className='my-2'>
                         <form onSubmit={handleSubmit(submitUpdate)}>
                             <InputTextarea
                                 {...register("updateMessage", { required: "Required" })}
