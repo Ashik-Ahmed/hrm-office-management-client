@@ -82,7 +82,8 @@ const Task = ({ taskId, user }) => {
                                     <div className='flex gap-x-2'>
                                         <div className='p-2 border-r-2 text-sm bg-violet-100'>
                                             <p>{update.updatedBy}</p>
-                                            <p>{update.updateTimestamp.split("T")[0]}</p>
+                                            {/* <p>{update.updateTimestamp.split("T")[0]}</p> */}
+                                            <p>{new Date(update.updateTimestamp).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
                                             <p>{new Date(update.updateTimestamp).toLocaleTimeString()}</p>
                                         </div>
                                         <p className='p-2'>{update.updateMessage}</p>
