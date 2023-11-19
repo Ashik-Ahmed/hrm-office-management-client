@@ -52,6 +52,8 @@ const Task = ({ taskId, user }) => {
             })
     }
 
+
+
     return (
         <div>
             <div className='p-2 bg-violet-200 rounded-md'>
@@ -81,7 +83,7 @@ const Task = ({ taskId, user }) => {
                                         <div className='p-2 border-r-2 text-sm bg-violet-100'>
                                             <p>{update.updatedBy}</p>
                                             <p>{update.updateTimestamp.split("T")[0]}</p>
-                                            <p>{update.updateTimestamp.split("T")[1]}</p>
+                                            <p>{new Date(update.updateTimestamp).toLocaleTimeString()}</p>
                                         </div>
                                         <p className='p-2'>{update.updateMessage}</p>
                                     </div>
