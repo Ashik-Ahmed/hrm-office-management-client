@@ -44,6 +44,11 @@ const Task = ({ taskId, user }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.status == "Success") {
+                    getTask(taskId);
+                    reset();
+                    setAddUpdate(false)
+                }
             })
     }
 
@@ -76,6 +81,7 @@ const Task = ({ taskId, user }) => {
                                         <div className='p-2 border-r-2 text-sm bg-violet-100'>
                                             <p>{update.updatedBy}</p>
                                             <p>{update.updateTimestamp.split("T")[0]}</p>
+                                            <p>{update.updateTimestamp.split("T")[1]}</p>
                                         </div>
                                         <p className='p-2'>{update.updateMessage}</p>
                                     </div>
