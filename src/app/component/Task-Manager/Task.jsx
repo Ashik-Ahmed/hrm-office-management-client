@@ -66,7 +66,7 @@ const Task = ({ taskId, user }) => {
                 </div>
                 <hr className='my-4' />
                 <div className='text-sm'>
-                    <p>Created on: <span>{task?.createdAt.split("T")[0]}</span></p>
+                    <p>Created on: <span>{new Date(task?.createdAt).toLocaleString()}</span></p>
                     <p>Department: <span>{task?.department}</span></p>
                     <p>Added by: <span>{task?.creator}</span></p>
                     <p>Assignee: <span>{task?.assignee}</span></p>
@@ -80,13 +80,13 @@ const Task = ({ taskId, user }) => {
                             return (
                                 <div key={update._id} className='mt-2 border border-1 shadow-md'>
                                     <div className='flex gap-x-2'>
-                                        <div className='p-2 border-r-2 text-sm bg-violet-100'>
+                                        <div className='p-2 border-r-2 text-xs bg-violet-100 w-40'>
                                             <p>{update.updatedBy}</p>
                                             {/* <p>{update.updateTimestamp.split("T")[0]}</p> */}
                                             <p>{new Date(update.updateTimestamp).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
                                             <p>{new Date(update.updateTimestamp).toLocaleTimeString()}</p>
                                         </div>
-                                        <p className='p-2'>{update.updateMessage}</p>
+                                        <p className='p-2 w-full'>{update.updateMessage}</p>
                                     </div>
                                 </div>
                             )
