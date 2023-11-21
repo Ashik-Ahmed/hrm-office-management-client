@@ -30,6 +30,25 @@ const Task = ({ taskId, user }) => {
         getTask(taskId)
     }, [taskId]);
 
+    const handleCloseTask = () => {
+        fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ currentStatus: 'Closed' })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    getTask(taskId);
+                    reset();
+                    setAddUpdate(false)
+                }
+            })
+    }
+
     const submitUpdate = (data) => {
         data.updatedBy = user.name
         const updates = data
@@ -101,7 +120,12 @@ const Task = ({ taskId, user }) => {
                         </div>
                 }
                 {
-                    (task?.currentStatus == "Open" && !addUpdate) && <div className='my-2'><Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button></div>
+                    (task?.currentStatus == "Open" && !addUpdate) &&
+
+                    <div className='my-2 flex gap-x-2 w-full justify-end'>
+                        <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
+                        <Button onClick={() => handleCloseTask()} label='Close Task' severity='danger' className='p-button-sm'></Button>
+                    </div>
                 }
                 {
                     addUpdate &&
