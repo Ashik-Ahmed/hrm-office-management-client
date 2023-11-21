@@ -6,6 +6,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../Loading/Loading';
+import { Dialog } from 'primereact/dialog';
 
 const Task = ({ taskId, user }) => {
 
@@ -13,6 +14,7 @@ const Task = ({ taskId, user }) => {
 
     const [task, setTask] = useState()
     const [addUpdate, setAddUpdate] = useState(false)
+    const [closeTaskDialog, setCloseTaskDialog] = useState(false)
 
     const getTask = (id) => {
         const url = `http://localhost:5000/api/v1/task/${id}`;
@@ -43,8 +45,6 @@ const Task = ({ taskId, user }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     getTask(taskId);
-                    reset();
-                    setAddUpdate(false)
                 }
             })
     }
@@ -124,7 +124,7 @@ const Task = ({ taskId, user }) => {
 
                     <div className='my-2 flex gap-x-2 w-full justify-end'>
                         <Button onClick={() => setAddUpdate(true)} label='Add Update' className='p-button-sm'></Button>
-                        <Button onClick={() => handleCloseTask()} label='Close Task' severity='danger' className='p-button-sm'></Button>
+                        <Button onClick={() => setCloseTaskDialog(true)} label='Close Task' severity='danger' className='p-button-sm'></Button>
                     </div>
                 }
                 {
@@ -143,6 +143,17 @@ const Task = ({ taskId, user }) => {
                     </div>
                 }
             </div>
+
+            <Dialog header="Close Task" visible={closeTaskDialog} onHide={() => setCloseTaskDialog(false)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+
+                <p className="m-0">
+                    Are you sure?
+                </p>
+                <div className='flex justify-end gap-x-2 mt-8'>
+                    <Button onClick={() => handleCloseTask()} label='Yes' className='p-button p-button-sm p-button-danger' />
+                    <Button onClick={() => setCloseTaskDialog(false)} label='No' className='p-button p-button-sm p-button-info' />
+                </div>
+            </Dialog>
         </div>
     );
 };
