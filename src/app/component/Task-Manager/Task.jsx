@@ -45,6 +45,7 @@ const Task = ({ taskId, user }) => {
                 console.log(data);
                 if (data.status == "Success") {
                     getTask(taskId);
+                    setCloseTaskDialog(false)
                 }
             })
     }
