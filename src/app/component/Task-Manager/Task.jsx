@@ -79,7 +79,7 @@ const Task = ({ taskId, user }) => {
 
     return (
         <div>
-            <div className='p-2 bg-violet-200 rounded-md'>
+            <div className='p-2 bg-white rounded-md'>
                 <div>
                     <div className='flex items-center justify-between'>
                         <h2 className='font-bold text-xl'>{task?.heading}</h2>
