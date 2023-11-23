@@ -34,10 +34,12 @@ const RequisitionHistoryTable = ({ user }) => {
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const getUserRequisition = async () => {
+        setLoading(true)
         const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
         console.log(data);
 
         setUserRequisitionData(data)
+        setLoading(false)
     }
 
     useEffect(() => {
