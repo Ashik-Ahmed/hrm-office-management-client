@@ -147,7 +147,9 @@ const MonthlyRequisitionDataTable = () => {
                     <TbReportMoney size={60} color={totalIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Proposed Amount</p>
-                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"} `} </p>
+                        {
+                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"} `} </p>
+                        }
                         <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.requisitions?.length || "0"}`}</span> requisitions this month</p>
                     </div>
                 </div>
@@ -155,7 +157,9 @@ const MonthlyRequisitionDataTable = () => {
                     <MdOutlinePendingActions size={55} color={dueIconColor} />
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Purchase Amount</p>
-                        <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalPurchasedAmount || "00"}`}</p>
+                        {
+                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalPurchasedAmount || "00"}`}</p>
+                        }
                         <p className='text-xs mt-2'>Total purchased <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalPurchasedItems || "0"}`}</span> items</p>
                     </div>
                 </div>
