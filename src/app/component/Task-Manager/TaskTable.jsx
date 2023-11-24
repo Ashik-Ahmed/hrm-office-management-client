@@ -119,14 +119,15 @@ const TaskTable = ({ user, allDepartments }) => {
         return (
             <div>
                 <Link href={`task-manager/${rowData._id}`} className='hover:underline'>{rowData.heading}</Link>
+                {/* <p>{rowData.heading}</p> */}
             </div>
         )
     }
 
     return (
-        <div className=' h-full'>
+        <div className=''>
             <Toast ref={toast} />
-            <div className='mt-1 shadow-md p-2 bg-white rounded-md w-full h-full'>
+            <div className='mt-1 shadow-md p-2 bg-white rounded-md w-full '>
                 <div className='flex justify-between items-center mb-2'>
                     <div className='flex items-center gap-x-2'>
                         <h3 className='font-light'>TASK LIST</h3>
