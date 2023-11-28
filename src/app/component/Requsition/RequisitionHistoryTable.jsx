@@ -47,11 +47,11 @@ const RequisitionHistoryTable = ({ user }) => {
         getUserRequisition()
 
         const departments = async () => {
-            fetch(`http://localhost:5000/api/v1/department`)
+            fetch(`http://localhost:5000/api/v1/department?status=Active`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.data);
-                    sertDepartment(data.data.filter((dept) => dept.status == "Active"))
+                    sertDepartment(data.data)
                 })
         }
         departments()
