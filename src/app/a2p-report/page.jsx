@@ -41,28 +41,36 @@ const page = () => {
         );
     };
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        console.log(selectedANSTypes);
+        console.log(selectedANSs);
+    }
+
     return (
         <div>
             Report of A2P Dipping
-            <div className='flex gap-x-2'>
-                <div className="card max-w-xs">
-                    <MultiSelect value={selectedANSTypes} options={['MNO', 'IPTSP']} onChange={(e) => setSelectedANSTypes(e.value)}
-                        placeholder="Select ANS Type" panelFooterTemplate={panelFooterTemplate} className="w-48 md:w-20rem" display="chip" />
+            <form onSubmit={handleFormSubmit}>
+                <div className='flex gap-x-2'>
+                    <div className="card max-w-xs">
+                        <MultiSelect value={selectedANSTypes} options={['MNO', 'IPTSP']} onChange={(e) => setSelectedANSTypes(e.value)}
+                            placeholder="Select ANS Type" panelFooterTemplate={panelFooterTemplate} className="w-48 md:w-20rem" display="chip" />
+                    </div>
+                    <div className="card max-w-xs">
+                        <MultiSelect value={selectedANSs} options={countries} onChange={(e) => setSelectedANSs(e.value)} optionLabel="name"
+                            placeholder="Select ANS" itemTemplate={countryTemplate} panelFooterTemplate={panelFooterTemplate} className="w-48 md:w-20rem" display="chip" />
+                    </div>
+                    <div>
+                        <Calendar
+                            dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value) }} showIcon placeholder='From date*' />
+                    </div>
+                    <div>
+                        <Calendar
+                            dateFormat="dd-mm-yy" value={toDate} onSelect={(e) => { setToDate(e.value) }} showIcon placeholder='To date*' />
+                    </div>
+                    <Button type='submit' label='Submit' />
                 </div>
-                <div className="card max-w-xs">
-                    <MultiSelect value={selectedANSs} options={countries} onChange={(e) => setSelectedANSs(e.value)} optionLabel="name"
-                        placeholder="Select ANS" itemTemplate={countryTemplate} panelFooterTemplate={panelFooterTemplate} className="w-48 md:w-20rem" display="chip" />
-                </div>
-                <div>
-                    <Calendar
-                        dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value) }} showIcon placeholder='From date*' />
-                </div>
-                <div>
-                    <Calendar
-                        dateFormat="dd-mm-yy" value={toDate} onSelect={(e) => { setToDate(e.value) }} showIcon placeholder='To date*' />
-                </div>
-                <Button label='Submit' />
-            </div>
+            </form>
         </div>
     );
 };
