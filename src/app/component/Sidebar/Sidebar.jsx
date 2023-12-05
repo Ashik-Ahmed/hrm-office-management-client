@@ -41,6 +41,7 @@ const Sidebar = () => {
         { name: 'Manage Requisition', link: '/manage-requisition' },
         { name: 'Visitor Register', link: '/visitor-register' },
         { name: 'Task Manager', link: '/task-manager' },
+        { name: 'A2P Report', link: '/a2p-report' },
         // { name: 'File Management', link: '/file-management' },
         // { name: 'Holidays', link: '/holidays' },
         // { name: 'Events', link: '/events' },
