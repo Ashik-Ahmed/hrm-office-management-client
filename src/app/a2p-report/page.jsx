@@ -1,11 +1,15 @@
 'use client'
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { MultiSelect } from 'primereact/multiselect';
 import React, { useEffect, useState } from 'react';
 
 const page = () => {
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(new Date());
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(false)
     const [selectedAggregators, setSelectedAggregators] = useState(null)
     const [selectedANSTypes, setSelectedANSTypes] = useState(null)
     const [selectedANSs, setSelectedANSs] = useState(null);
@@ -44,13 +48,16 @@ const page = () => {
     };
 
     const getA2PData = (e) => {
+        setLoading(true)
         e.preventDefault()
         const queryDate = date.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-')
         fetch(`http://localhost:5000/api/v1/postgres?date=${queryDate}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                setData(data.data)
             })
+        setLoading(false)
     }
 
     // useEffect(() => {
@@ -91,6 +98,19 @@ const page = () => {
                     <Button type='submit' label='Submit' />
                 </div>
             </form>
+
+            <div className='mt-4'>
+                <DataTable value={data} loading={loading} size='small' paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} emptyMessage="No previous application">
+                    <Column field="date" header="Date"></Column>
+                    <Column field="cli" header="CLIe"></Column>
+                    <Column field="client_id" header="Client Id"></Column>
+                    <Column field="dipping_count" header="Dipping Count"></Column>
+                    <Column field="message_type" header="Message Type"></Column>
+                    <Column field="operator" header="Operator"></Column>
+                    {/* <Column field="totalDay" header="Total"></Column>
+                    <Column field="currentStatus.status" header="Current Status"></Column> */}
+                </DataTable>
+            </div>
         </div>
     );
 };
