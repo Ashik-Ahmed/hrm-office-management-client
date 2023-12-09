@@ -100,7 +100,7 @@ const page = () => {
             </form>
 
             <div className='mt-4'>
-                <DataTable value={data} loading={loading} size='small' paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} emptyMessage="No previous application">
+                <DataTable value={data} loading={loading} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
                     <Column field="date" header="Date"></Column>
                     <Column field="cli" header="CLIe"></Column>
                     <Column field="client_id" header="Client Id"></Column>
