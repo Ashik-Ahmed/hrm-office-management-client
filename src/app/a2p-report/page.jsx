@@ -47,6 +47,14 @@ const page = () => {
         );
     };
 
+    const dateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.date.split("T")[0]}
+            </div>
+        )
+    }
+
     const getA2PData = (e) => {
         setLoading(true)
         e.preventDefault()
@@ -101,7 +109,7 @@ const page = () => {
 
             <div className='mt-4'>
                 <DataTable value={data} loading={loading} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
-                    <Column field="date" header="Date"></Column>
+                    <Column body={dateBodyTemplate} header="Date"></Column>
                     <Column field="cli" header="CLIe"></Column>
                     <Column field="client_id" header="Client Id"></Column>
                     <Column field="dipping_count" header="Dipping Count"></Column>
