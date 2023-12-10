@@ -3,6 +3,7 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
 import React, { useEffect, useState } from 'react';
 
@@ -15,6 +16,7 @@ const page = () => {
     const [selectedANSs, setSelectedANSs] = useState(null);
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
+    const [globalFilter, setGlobalFilter] = useState(null);
     const countries = [
         { name: 'Australia', code: 'AU' },
         { name: 'Brazil', code: 'BR' },
@@ -130,10 +132,14 @@ const page = () => {
 
             <div className='mt-4 p-2 bg-white'>
                 <div className='flex gap-x-2 justify-end'>
+                    <span className="p-input-icon-left">
+                        <i className="pi pi-search" />
+                        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                    </span>
                     <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" disabled={!data} rounded data-pr-tooltip="XLS" />
                     <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!data} rounded data-pr-tooltip="PDF" />
                 </div>
-                <DataTable value={data} loading={loading} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
+                <DataTable value={data} loading={loading} size='small' globalFilter={globalFilter} paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
                     <Column body={dateBodyTemplate} header="Date"></Column>
                     <Column field="client_id" header="Client Id"></Column>
                     <Column field="operator" header="Operator"></Column>
