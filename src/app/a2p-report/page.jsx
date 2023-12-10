@@ -68,14 +68,12 @@ const page = () => {
         setLoading(false)
     }
 
-    // useEffect(() => {
-    //     getA2PData()
-    // }, []);
+    const exportToExcel = () => {
+        console.log('to excel');
+    }
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault()
-        console.log(selectedANSTypes);
-        console.log(selectedANSs);
+    const exportToPDF = () => {
+        console.log('to pdf');
     }
 
     return (
@@ -107,13 +105,17 @@ const page = () => {
                 </div>
             </form>
 
-            <div className='mt-4'>
+            <div className='mt-4 p-2 bg-white'>
+                <div className='flex gap-x-2 justify-end'>
+                    <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" rounded data-pr-tooltip="XLS" />
+                    <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" rounded data-pr-tooltip="PDF" />
+                </div>
                 <DataTable value={data} loading={loading} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
                     <Column body={dateBodyTemplate} header="Date"></Column>
                     <Column field="client_id" header="Client Id"></Column>
                     <Column field="operator" header="Operator"></Column>
-                    <Column field="cli" header="CLIe"></Column>
-                    <Column field="dipping_count" header="Dipping Count"></Column>
+                    {/* <Column field="cli" header="CLIe"></Column> */}
+                    <Column field="sum" header="Dipping Count"></Column>
                     <Column field="message_type" header="Message Type"></Column>
                     {/* <Column field="totalDay" header="Total"></Column>
                     <Column field="currentStatus.status" header="Current Status"></Column> */}
