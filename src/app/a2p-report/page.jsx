@@ -131,15 +131,21 @@ const page = () => {
             </form>
 
             <div className='mt-4 p-2 bg-white'>
-                <div className='flex gap-x-2 justify-end'>
-                    <span className="p-input-icon-left">
-                        <i className="pi pi-search" />
-                        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
-                    </span>
-                    <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" disabled={!data} rounded data-pr-tooltip="XLS" />
-                    <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!data} rounded data-pr-tooltip="PDF" />
+
+                <div className='flex justify-between items-center mb-2'>
+                    <div>
+                        <h3 className='font-light'>A2P DIPPING REPORT</h3>
+                    </div>
+                    <div className='flex gap-x-2'>
+                        <span className="p-input-icon-left">
+                            <i className="pi pi-search" />
+                            <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." size='small' className='p-inputtext-sm' />
+                        </span>
+                        <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" disabled={!data} rounded data-pr-tooltip="XLS" />
+                        <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!data} rounded data-pr-tooltip="PDF" />
+                    </div>
                 </div>
-                <DataTable value={data} loading={loading} size='small' globalFilter={globalFilter} paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
+                <DataTable value={data} loading={loading} size='small' globalFilter={globalFilter} paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No dipping data">
                     <Column body={dateBodyTemplate} header="Date"></Column>
                     <Column field="client_id" header="Client Id"></Column>
                     <Column field="operator" header="Operator"></Column>
