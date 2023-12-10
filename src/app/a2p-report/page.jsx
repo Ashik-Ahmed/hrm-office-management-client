@@ -77,7 +77,7 @@ const page = () => {
                 type: 'array'
             });
 
-            saveAsExcelFile(excelBuffer, 'products');
+            saveAsExcelFile(excelBuffer, 'a2p_report');
         });
     }
 
@@ -130,8 +130,8 @@ const page = () => {
 
             <div className='mt-4 p-2 bg-white'>
                 <div className='flex gap-x-2 justify-end'>
-                    <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" rounded data-pr-tooltip="XLS" />
-                    <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" rounded data-pr-tooltip="PDF" />
+                    <Button onClick={exportToExcel} type="button" icon="pi pi-file-excel" severity="success" disabled={!data} rounded data-pr-tooltip="XLS" />
+                    <Button onClick={exportToPDF} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!data} rounded data-pr-tooltip="PDF" />
                 </div>
                 <DataTable value={data} loading={loading} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50, 100]} emptyMessage="No previous application">
                     <Column body={dateBodyTemplate} header="Date"></Column>
