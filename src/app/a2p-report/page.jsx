@@ -97,8 +97,26 @@ const page = () => {
         });
     };
 
+
+
+    const cols = [
+        { field: 'client_id', header: 'Client Id' },
+        { field: 'operator', header: 'Operator' },
+        { field: 'sum', header: 'Dipping Count' },
+        { field: 'message_type', header: 'Message Type' }
+    ];
+
+    const exportColumns = cols.map((col) => ({ title: col.header, dataKey: col.field }));
+
     const exportToPDF = () => {
-        console.log('to pdf');
+        import('jspdf').then((jsPDF) => {
+            import('jspdf-autotable').then(() => {
+                const doc = new jsPDF.default(0, 0);
+
+                doc.autoTable(exportColumns, data);
+                doc.save('a2p report.pdf');
+            });
+        });
     }
 
     return (
