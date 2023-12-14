@@ -1,12 +1,15 @@
 'use client'
 
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import userPhoto from '../../../../public/images/user.png'
 import Loading from '@/app/component/Loading/Loading';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
 const UserDetails = async ({ params: { id } }) => {
 
+    const toast = useRef()
     const [employee, setEmployee] = useState()
 
     useEffect(() => {
@@ -24,11 +27,26 @@ const UserDetails = async ({ params: { id } }) => {
         return <Loading />
     }
 
+    const sendResetPasswordEmail = () => {
+        fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 'Success') {
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Password reset email sent', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Something went wrong', life: 3000 });
+                }
+            })
+    }
+
 
 
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className="flex gap-x-2 w-full bg-white p-2 my-2 rounded-md shadow-xl">
                 <div className='flex items-start gap-x-4 w-3/5 mr-8'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
@@ -56,6 +74,10 @@ const UserDetails = async ({ params: { id } }) => {
                     <div>
                         <h5>Salary Range</h5>
                         <p className='font-semibold'>$120,000 - 140,000</p>
+                    </div>
+
+                    <div>
+                        <Button onClick={sendResetPasswordEmail} label='Reset employee Password' size='small' />
                     </div>
 
                 </div>
