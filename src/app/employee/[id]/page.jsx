@@ -36,7 +36,7 @@ const UserDetails = async ({ params: { id } }) => {
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Password reset email sent', life: 3000 });
                 }
                 else {
-                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Something went wrong', life: 3000 });
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
             })
     }
