@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
 import React, { useEffect, useState } from 'react';
 
-const page = () => {
+const A2PReport = () => {
     const [date, setDate] = useState(new Date());
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false)
@@ -178,4 +178,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default A2PReport;

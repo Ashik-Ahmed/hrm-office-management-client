@@ -79,7 +79,6 @@ const UserDetails = async ({ params: { id } }) => {
                     <div>
                         <Button onClick={sendResetPasswordEmail} label='Reset employee Password' size='small' />
                     </div>
-
                 </div>
             </div>
         </div>
