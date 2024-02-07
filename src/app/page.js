@@ -11,6 +11,7 @@ import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 // import Loading from "./component/Loading/Loading";
 
 export default async function Home() {
@@ -23,10 +24,12 @@ export default async function Home() {
   // }
 
   const session = await getServerSession()
-  console.log(session.user);
+  console.log("session user: ", session?.user);
 
   if (!session) {
-    return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+    // return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+    signIn(undefined, { callbackUrl: '/profile' })
+    // signIn(undefined, { callbackUrl: '/profile' })
   }
 
   return (

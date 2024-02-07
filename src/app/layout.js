@@ -8,6 +8,7 @@ import NextAuthSessionProvider from "./providers/sessionProvider";
 import Sidebar from "./component/Sidebar/Sidebar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }) {
 
   if (!session) {
     return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+    // signIn(undefined, { callbackUrl: '/profile' })
   }
 
   return (
