@@ -10,8 +10,8 @@ import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
 import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 // import Loading from "./component/Loading/Loading";
 
 export default async function Home() {
@@ -26,16 +26,18 @@ export default async function Home() {
   const session = await getServerSession()
   console.log("session user: ", session?.user);
 
-  if (!session) {
-    // return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
-    signIn(undefined, { callbackUrl: '/profile' })
-    // signIn(undefined, { callbackUrl: '/profile' })
-  }
+
+  // if (!session) {
+  //   return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+  //   // signIn(undefined, { callbackUrl: process.env.BASE_URL + '/profile' })
+  //   // return signIn('Credentials', { callbackUrl: '/dashboard' })
+
+  // }
 
   return (
     <div className="text-gray-700">
       <div className="">
-        <h2 className="text-2xl mb-2">Welcome, {session?.user.name}</h2>
+        <WelcomeMessage />
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
       <div className="flex gap-4 w-full my-8">

@@ -13,7 +13,7 @@ export const authOptions = {
             async authorize(credentials, req) {
                 // Perform database operations
                 const { email, password } = credentials;
-
+                console.log(email, password);
                 try {
                     const res = await fetch('http://localhost:5000/api/v1/employee/login', {
                         method: 'POST',
@@ -29,7 +29,7 @@ export const authOptions = {
                     // const user = Promise.resolve(res.json())
 
                     const employee = await res.json()
-
+                    console.log(employee);
                     if (employee) {
                         console.log('userdata: ', employee);
 
@@ -54,9 +54,10 @@ export const authOptions = {
             },
         }),
     ],
-    // pages: {
-    //     signIn: '/auth/login'
-    // },
+    pages: {
+        // signIn: '/auth/login'
+        callbackUrl: '/profile'
+    },
     secret: process.env.NEXTAUTH_SECRET,
     debug: false,
     session: {

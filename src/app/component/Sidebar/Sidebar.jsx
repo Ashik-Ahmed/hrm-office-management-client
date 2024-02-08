@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { RiSettings5Fill } from 'react-icons/ri'
 import { FaUser } from 'react-icons/fa'
@@ -10,19 +10,25 @@ import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { usePathname, useRouter } from 'next/navigation';
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { Menu } from 'primereact/menu';
+import Loading from '../Loading/Loading';
 
 
 // import { getServerSession } from 'next-auth';
 
 const Sidebar = () => {
+    const [isSidebarVisible, setSidebarVisible] = useState(true);
 
     // const session = await getServerSession()
-    const { data: session } = useSession(
-        { require: true }
+    const { session, status } = useSession(
+        {
+            require: true,
+            onUnauthenticated() {
+                signIn('Credentials', { callbackUrl: '/' })
+            }
+        }
     )
-    console.log(session);
 
     const currentPath = usePathname();
     // console.log(currentPath);
@@ -57,7 +63,7 @@ const Sidebar = () => {
             label: 'Profile',
             icon: 'pi pi-fw pi-user-plus',
             command: () => {
-                router.push(`/profile/${session.user._id}`)
+                router.push(`/profile/${session?.user?._id}`)
             }
         },
         {
@@ -67,20 +73,25 @@ const Sidebar = () => {
             label: 'Logout',
             icon: 'pi pi-fw pi-power-off',
             command: async () => {
-                console.log("Logout");
+                // console.log("Logout");
                 // cookie.remove('next-auth.session-token')
                 // cookie.remove('next-auth.csrf-token')
 
                 await signOut()
-
-                router.push('/api/auth/signin')
+                await signIn('Credentials', { callbackUrl: '/' })
+                // router.push('/api/auth/signin')
 
             }
         }
     ];
 
+    if (status === 'loading' || status === 'unauthenticated') {
+        return <></>
+    }
+
     return (
-        <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700'>
+
+        <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700 '>
             <div className='flex mt-6'>
                 <div className='flex flex-col px-4 justify-between'>
                     <ul className='flex flex-col gap-6 mt-2'>
