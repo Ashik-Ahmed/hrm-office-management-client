@@ -24,9 +24,6 @@ const Sidebar = () => {
     const { session, status } = useSession(
         {
             require: true,
-            onUnauthenticated() {
-                signIn('Credentials', { callbackUrl: '/' })
-            }
         }
     )
 

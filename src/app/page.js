@@ -1,4 +1,4 @@
-
+"use client";
 // import { useSession } from "next-auth/react";
 import { FiUsers } from 'react-icons/fi'
 import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
@@ -9,22 +9,25 @@ import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
-import { getServerSession } from 'next-auth'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
+import Loading from './component/Loading/Loading'
 // import Loading from "./component/Loading/Loading";
 
 export default async function Home() {
-  // const { data: session, status } = useSession({
-  //   required: true,
-  // });
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn('Credentials', { callbackUrl: '/' })
+    }
+  });
 
-  // if (status === "loading") {
-  //   return <Loading />
-  // }
+  if (status === "loading") {
+    return <Loading />
+  }
 
-  const session = await getServerSession()
-  console.log("session user: ", session?.user);
+  // const session = await getServerSession()
+  // console.log("session user: ", session?.user);
 
 
   // if (!session) {

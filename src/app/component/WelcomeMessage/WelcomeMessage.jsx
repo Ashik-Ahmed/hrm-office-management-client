@@ -7,9 +7,6 @@ const WelcomeMessage = () => {
     const { data: session, status } = useSession(
         {
             required: true,
-            onUnauthenticated() {
-                signIn('Credentials', { callbackUrl: '/' })
-            }
         }
     );
 
