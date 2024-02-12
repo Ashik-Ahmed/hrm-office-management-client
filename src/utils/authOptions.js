@@ -1,7 +1,6 @@
-import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-let userInfo;
+
 export const authOptions = {
     providers: [
         Credentials({
@@ -11,9 +10,10 @@ export const authOptions = {
                 password: { label: "Password" },
             },
             async authorize(credentials, req) {
+                // console.log("Hello from auth");
                 // Perform database operations
                 const { email, password } = credentials;
-                console.log(email, password);
+                // console.log(email, password);
                 try {
                     const res = await fetch('http://localhost:5000/api/v1/employee/login', {
                         method: 'POST',
@@ -28,12 +28,11 @@ export const authOptions = {
 
                     // const user = Promise.resolve(res.json())
 
-                    const employee = await res.json()
-                    console.log(employee);
-                    if (employee) {
-                        console.log('userdata: ', employee);
+                    const dbData = await res.json()
+                    // console.log(dbData);
+                    if (dbData?.status == "Success") {
 
-                        const dbEmployee = employee.data.employee;
+                        const dbEmployee = dbData.data.employee;
 
                         // const user = {
                         //     id: dbEmployee._id,
@@ -42,20 +41,20 @@ export const authOptions = {
                         //     employeeId: '25'
                         // }
 
-                        return dbEmployee;
+                        return dbData;
                     }
                     else {
-                        return null
+                        return dbData.error
                     }
                 } catch (error) {
-                    console.error(error);
-                    return null;
+                    // console.error(error);
+                    return error;
                 }
             },
         }),
     ],
     pages: {
-        // signIn: '/auth/login'
+        signIn: '/auth/login',
         callbackUrl: '/profile'
     },
     secret: process.env.NEXTAUTH_SECRET,

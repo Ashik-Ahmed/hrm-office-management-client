@@ -20,13 +20,12 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession()
-  if (!session) {
-    console.log("going to signin");
-    return redirect('/api/auth/signin')
-  }
+  // if (!session) {
+  //   console.log("going to signin");
+  //   return redirect('/auth/login')
+  // }
   // if (!session) {
   //   return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
-  //   signIn('Credentials', { callbackUrl: '/dashboard' })
   //   return <Loading />
   // }
 

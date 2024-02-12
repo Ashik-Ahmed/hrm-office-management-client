@@ -16,10 +16,10 @@ import Loading from './component/Loading/Loading'
 
 export default async function Home() {
   const { data: session, status } = useSession({
-    // required: true,
-    // onUnauthenticated() {
-    //   signIn('Credentials', { callbackUrl: '/dashboard' })
-    // }
+    required: true,
+    onUnauthenticated() {
+      signIn('Credentials', { callbackUrl: '/' })
+    }
   });
 
   // if (status === "loading") {
