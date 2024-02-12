@@ -4,11 +4,7 @@ import React from 'react';
 
 const WelcomeMessage = () => {
 
-    const { data: session, status } = useSession(
-        {
-            required: true,
-        }
-    );
+    const { data: session, status } = useSession();
 
     return (
         <div>

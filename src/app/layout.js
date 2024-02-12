@@ -8,8 +8,8 @@ import NextAuthSessionProvider from "./providers/sessionProvider";
 import Sidebar from "./component/Sidebar/Sidebar";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { signIn } from "next-auth/react";
 import Loading from "./component/Loading/Loading";
+import { signIn } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +20,15 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession()
-  console.log("session from layout: ", session);
   if (!session) {
-    // return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
-    // signIn('Credentials', { callbackUrl: '/dashboard' })
-    // return <Loading />
+    console.log("going to signin");
+    return redirect('/api/auth/signin')
   }
+  // if (!session) {
+  //   return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+  //   signIn('Credentials', { callbackUrl: '/dashboard' })
+  //   return <Loading />
+  // }
 
   return (
     <html lang="en">
