@@ -1,5 +1,6 @@
 "use client";
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -38,11 +39,11 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md w-full space-y-8 p-4 shadow-violet-400 shadow-xl bg-white rounded-xl">
                 <div>
                     {/* Include your company logo */}
-                    <img className="mx-auto h-12 w-auto" src="/path/to/your/logo.png" alt="Company Logo" />
+                    <Image src={require('../../../../public/images/logo.png')} alt="Logo" width={100} height={100} className='mx-auto' />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -135,9 +136,7 @@ const LoginPage = () => {
                             disabled={loading}
                         >
                             {loading ? (
-                                <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
+                                <span className='w-4 h-4 border border-white border-r-2 rounded-full animate-spin mr-2 my-auto'></span>
                             ) : null}
                             Sign in
                         </button>
