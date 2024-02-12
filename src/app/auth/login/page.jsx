@@ -9,6 +9,8 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
@@ -16,6 +18,7 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
 
         // Call the signIn function with your credentials
         const result = await signIn('credentials', {
@@ -31,6 +34,7 @@ const LoginPage = () => {
             setErrorMessage(result.error);
             console.error('Authentication failed:', result.error);
         }
+        setLoading(false)
     };
 
     return (
@@ -127,8 +131,14 @@ const LoginPage = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+                            disabled={loading}
                         >
+                            {loading ? (
+                                <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            ) : null}
                             Sign in
                         </button>
                     </div>
