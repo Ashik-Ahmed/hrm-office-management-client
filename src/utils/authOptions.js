@@ -29,10 +29,10 @@ export const authOptions = {
                     // const user = Promise.resolve(res.json())
 
                     const dbData = await res.json()
-                    console.log(dbData);
+                    // console.log(dbData);
                     if (dbData?.status == "Success") {
 
-                        console.log(dbData);
+                        // console.log(dbData);
                         const dbEmployee = dbData.data.employee;
 
                         // const user = {
@@ -45,11 +45,11 @@ export const authOptions = {
                         return dbEmployee;
                     }
                     else {
-                        console.log(dbData);
+                        // console.log(dbData);
                         return dbData
                     }
                 } catch (error) {
-                    console.error(error);
+                    // console.error(error);
                     return error;
                 }
             },
@@ -70,19 +70,20 @@ export const authOptions = {
     callbacks: {
         async jwt({ token, user }) {
             // Persist the OAuth access_token and or the user id to the token right after signin
+            // console.log("Token with role: ", token);
             return { ...token, ...user }
         },
 
         async session({ session, token }) {
 
             session.user = {
-                _id: token._id,
-                name: token.name,
-                email: token.email,
-                department: token.department,
-                userRole: token.userRole,
-                designation: token.designation,
-                image: token.image
+                _id: token?._id,
+                name: token?.name,
+                email: token?.email,
+                department: token?.department,
+                role: token?.role,
+                designation: token?.designation,
+                image: token?.image
             }
 
             return session

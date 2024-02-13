@@ -20,6 +20,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession()
+  console.log("session from layout: ", session);
   // if (!session) {
   //   console.log("going to signin");
   //   await signIn("credentials", { callbackUrl: "/dashboard" })
