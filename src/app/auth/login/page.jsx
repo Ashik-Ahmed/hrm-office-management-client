@@ -3,6 +3,8 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { IoIosEye, IoIosEyeOff } from "react-icons/io";
+
 
 const LoginPage = () => {
     const router = useRouter();
@@ -20,20 +22,20 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true)
-
+        console.log("From Handle-Submit: ", email, password);
         // Call the signIn function with your credentials
-        const result = await signIn('credentials', {
-            redirect: false, // Prevent automatic redirection
+        const result = await signIn('Credentials', {
+            // redirect: false, // Prevent automatic redirection
             email,
             password,
         });
-        console.log(result);
-        // If authentication is successful, redirect to the intended page
-        if (result?.status == "Success") {
-            router.push('/'); // Redirect to the desired page after successful login
-        } else {
+        console.log('SignIn Result:', result);
+        if (result?.error) {
             setErrorMessage(result.error);
             console.error('Authentication failed:', result.error);
+        } else {
+            console.log("login success");
+            // router.push('/dashboard'); // Redirect to the desired page after successful login
         }
         setLoading(false)
     };
@@ -87,23 +89,8 @@ const LoginPage = () => {
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                     onClick={handleTogglePassword}
                                 >
-                                    {showPassword ? (
-                                        <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM3 10a7 7 0 1114 0 7 7 0 01-14 0zm4 0a2 2 0 114 0 2 2 0 01-4 0z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    ) : (
-                                        <svg className="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zM3 7a7.963 7.963 0 013.373-6.471 1.5 1.5 0 11.826 2.915A4.982 4.982 0 001 10c0 2.757 2.243 5 5 5 2.204 0 4.028-1.781 4.928-4.029a1.5 1.5 0 012.915.826A7.963 7.963 0 0113 15v2h2a1 1 0 110 2h-2v2a1 1 0 01-2 0v-2H5a1 1 0 110-2h2v-2a1 1 0 011-1c.573 0 1.091.154 1.543.4a1.5 1.5 0 11.826 2.915A4.982 4.982 0 0011 18a1 1 0 110-2c-2.204 0-4.028-1.781-4.928-4.029A1.5 1.5 0 015 10c0-1.105.473-2.103 1.226-2.803A1.5 1.5 0 013 7z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    )}
+                                    {showPassword ? (<IoIosEyeOff />) : (<IoIosEye />)}
+
                                 </div>
                             </div>
                         </div>

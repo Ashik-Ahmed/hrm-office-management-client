@@ -18,13 +18,12 @@ import Loading from '../Loading/Loading';
 // import { getServerSession } from 'next-auth';
 
 const Sidebar = () => {
-    const [isSidebarVisible, setSidebarVisible] = useState(true);
 
     // const session = await getServerSession()
     const { session, status } = useSession(
-        {
-            require: true,
-        }
+        // {
+        //     require: true,
+        // }
     )
 
     const currentPath = usePathname();

@@ -22,12 +22,13 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession()
   // if (!session) {
   //   console.log("going to signin");
-  //   return redirect('/auth/login')
+  //   await signIn("credentials", { callbackUrl: "/dashboard" })
   // }
-  // if (!session) {
-  //   return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
-  //   return <Loading />
-  // }
+  if (!session) {
+
+    // return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
+    // return <Loading />
+  }
 
   return (
     <html lang="en">

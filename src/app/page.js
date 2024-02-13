@@ -17,18 +17,19 @@ import Loading from './component/Loading/Loading'
 export default async function Home() {
   const { data: session, status } = useSession({
     required: true,
-    onUnauthenticated() {
-      signIn('Credentials', { callbackUrl: '/' })
+    async onUnauthenticated() {
+      await signIn('Credentials', { callbackUrl: '/' })
     }
   });
 
-  // if (status === "loading") {
-  //   return <Loading />
-  // }
-
-  if (!session) {
-    return <></>
+  if (status === "loading") {
+    return <Loading />
   }
+
+  // if (!session) {
+  //   console.log(status);
+  //   return <></>
+  // }
 
   // const session = await getServerSession()
   // console.log("session user: ", session?.user);

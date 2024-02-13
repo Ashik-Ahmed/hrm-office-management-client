@@ -13,7 +13,7 @@ export const authOptions = {
                 // console.log("Hello from auth");
                 // Perform database operations
                 const { email, password } = credentials;
-                // console.log(email, password);
+                console.log(credentials);
                 try {
                     const res = await fetch('http://localhost:5000/api/v1/employee/login', {
                         method: 'POST',
@@ -29,9 +29,10 @@ export const authOptions = {
                     // const user = Promise.resolve(res.json())
 
                     const dbData = await res.json()
-                    // console.log(dbData);
+                    console.log(dbData);
                     if (dbData?.status == "Success") {
 
+                        console.log(dbData);
                         const dbEmployee = dbData.data.employee;
 
                         // const user = {
@@ -41,22 +42,23 @@ export const authOptions = {
                         //     employeeId: '25'
                         // }
 
-                        return dbData;
+                        return dbEmployee;
                     }
                     else {
-                        return dbData.error
+                        console.log(dbData);
+                        return dbData
                     }
                 } catch (error) {
-                    // console.error(error);
+                    console.error(error);
                     return error;
                 }
             },
         }),
     ],
-    pages: {
-        signIn: '/auth/login',
-        callbackUrl: '/profile'
-    },
+    // pages: {
+    //     signIn: '/auth/login',
+    //     callbackUrl: '/'
+    // },
     secret: process.env.NEXTAUTH_SECRET,
     debug: false,
     session: {
