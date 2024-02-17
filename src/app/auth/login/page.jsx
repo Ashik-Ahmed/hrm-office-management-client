@@ -1,5 +1,4 @@
 "use client";
-import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -23,20 +22,7 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true)
         console.log("From Handle-Submit: ", email, password);
-        // Call the signIn function with your credentials
-        const result = await signIn('Credentials', {
-            // redirect: false, // Prevent automatic redirection
-            email,
-            password,
-        });
-        console.log('SignIn Result:', result);
-        if (result?.error) {
-            setErrorMessage(result.error);
-            console.error('Authentication failed:', result.error);
-        } else {
-            console.log("login success");
-            // router.push('/dashboard'); // Redirect to the desired page after successful login
-        }
+
         setLoading(false)
     };
 

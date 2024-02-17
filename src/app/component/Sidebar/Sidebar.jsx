@@ -10,22 +10,11 @@ import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { usePathname, useRouter } from 'next/navigation';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { Menu } from 'primereact/menu';
 import Loading from '../Loading/Loading';
 
 
-// import { getServerSession } from 'next-auth';
-
 const Sidebar = () => {
-
-    // const session = await getServerSession()
-    const { session, status } = useSession(
-        // {
-        //     require: true,
-        // }
-    )
-
     const currentPath = usePathname();
     // console.log(currentPath);
 
@@ -59,7 +48,7 @@ const Sidebar = () => {
             label: 'Profile',
             icon: 'pi pi-fw pi-user-plus',
             command: () => {
-                router.push(`/profile/${session?.user?._id}`)
+                // router.push(`/profile/${session?.user?._id}`)
             }
         },
         {
@@ -73,17 +62,13 @@ const Sidebar = () => {
                 // cookie.remove('next-auth.session-token')
                 // cookie.remove('next-auth.csrf-token')
 
-                await signOut()
-                await signIn('Credentials', { callbackUrl: '/' })
+                // await signOut()
+                // await signIn('Credentials', { callbackUrl: '/' })
                 // router.push('/api/auth/signin')
 
             }
         }
     ];
-
-    if (status === 'loading' || status === 'unauthenticated') {
-        return <></>
-    }
 
     return (
 

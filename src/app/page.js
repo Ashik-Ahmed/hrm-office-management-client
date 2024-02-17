@@ -9,22 +9,12 @@ import StackedChart from "./component/Charts/StackedChart";
 import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
-import { signIn, useSession } from 'next-auth/react'
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 import Loading from './component/Loading/Loading'
 // import Loading from "./component/Loading/Loading";
 
 export default async function Home() {
-  const { data: session, status } = useSession({
-    required: true,
-    async onUnauthenticated() {
-      await signIn('Credentials', { callbackUrl: '/' })
-    }
-  });
 
-  if (status === "loading") {
-    return <Loading />
-  }
 
   // if (!session) {
   //   console.log(status);
