@@ -1,4 +1,5 @@
 "use client";
+import { loginAction } from '@/serverActions/loginActions';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -22,6 +23,9 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true)
         console.log("From Handle-Submit: ", email, password);
+
+        const res = await loginAction({ email, password })
+        setErrorMessage(res?.errorMessage);
 
         setLoading(false)
     };
