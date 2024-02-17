@@ -1,4 +1,3 @@
-"use client";
 // import { useSession } from "next-auth/react";
 import { FiUsers } from 'react-icons/fi'
 import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
@@ -10,27 +9,18 @@ import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
-import Loading from './component/Loading/Loading'
-// import Loading from "./component/Loading/Loading";
+import { auth } from './auth'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
 
+  const session = await auth();
 
-  // if (!session) {
-  //   console.log(status);
-  //   return <></>
-  // }
+  console.log("session from homepage: ", session);
 
-  // const session = await getServerSession()
-  // console.log("session user: ", session?.user);
-
-
-  // if (!session) {
-  //   return redirect(new URL('/api/auth/signin', process.env.BASE_URL))
-  //   // signIn(undefined, { callbackUrl: process.env.BASE_URL + '/profile' })
-  //   // return signIn('Credentials', { callbackUrl: '/dashboard' })
-
-  // }
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
 
   return (
     <div className="text-gray-700">
