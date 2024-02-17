@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "./component/Sidebar/Sidebar";
 import { redirect } from "next/navigation";
 import { auth } from "./auth";
+import NextAuthSessionProvider from "@/utils/sessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,12 +33,14 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body className={inter.className}>
-        <div className='flex'>
-          <Sidebar />
-          <div className='p-4 bg-gray-100 flex-grow overflow-y-auto'>
-            {children}
+        <NextAuthSessionProvider>
+          <div className='flex'>
+            <Sidebar />
+            <div className='p-4 bg-gray-100 flex-grow overflow-y-auto'>
+              {children}
+            </div>
           </div>
-        </div>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
