@@ -7,6 +7,7 @@ import { Inter } from "next/font/google";
 import Sidebar from "./component/Sidebar/Sidebar";
 import { redirect } from "next/navigation";
 import Loading from "./component/Loading/Loading";
+import { auth } from "./auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +17,10 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+
+  const session = await auth();
+
+  console.log(session);
 
   return (
     <html lang="en">
