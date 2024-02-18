@@ -9,12 +9,18 @@ import { MdNotifications } from 'react-icons/md'
 import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
-import { usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import { Menu } from 'primereact/menu';
 import Loading from '../Loading/Loading';
+import { signOut } from '@/app/auth';
+import { useSession } from 'next-auth/react';
 
 
 const Sidebar = () => {
+
+    const { data: session, status } = useSession()
+
+
     const currentPath = usePathname();
     // console.log(currentPath);
 
@@ -58,7 +64,7 @@ const Sidebar = () => {
             label: 'Logout',
             icon: 'pi pi-fw pi-power-off',
             command: async () => {
-                // console.log("Logout");
+                console.log("Logout");
                 // cookie.remove('next-auth.session-token')
                 // cookie.remove('next-auth.csrf-token')
 
@@ -66,9 +72,19 @@ const Sidebar = () => {
                 // await signIn('Credentials', { callbackUrl: '/' })
                 // router.push('/api/auth/signin')
 
+                redirect("/api/auth/signout");
+
             }
         }
     ];
+
+
+    // if (status === 'loading') {
+    //     return <Loading />
+    // }
+    if (!session) {
+        return <></>
+    }
 
     return (
 

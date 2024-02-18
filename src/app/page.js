@@ -9,14 +9,14 @@ import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
-import { auth } from './auth'
+import { auth, signOut } from './auth'
 import { redirect } from 'next/navigation'
 
 export default async function Home() {
 
   const session = await auth();
 
-  console.log("session from homepage: ", session);
+  // console.log("session from homepage: ", session);
 
   if (!session) {
     redirect("/api/auth/signin");
@@ -25,7 +25,10 @@ export default async function Home() {
   return (
     <div className="text-gray-700">
       <div className="">
-        <WelcomeMessage />
+        <WelcomeMessage session={session} />
+        <div>
+          <Link href='/api/auth/signout' className='bg-red-500 p-1 text-white rounded-md'>Signout</Link>
+        </div>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
       <div className="flex gap-4 w-full my-8">
