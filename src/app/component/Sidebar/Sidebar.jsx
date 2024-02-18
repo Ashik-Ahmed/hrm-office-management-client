@@ -54,7 +54,7 @@ const Sidebar = () => {
             label: 'Profile',
             icon: 'pi pi-fw pi-user-plus',
             command: () => {
-                // router.push(`/profile/${session?.user?._id}`)
+                router.push(`/profile/${session?.user?._id}`)
             }
         },
         {

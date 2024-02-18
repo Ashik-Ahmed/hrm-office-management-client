@@ -93,7 +93,7 @@ const Profile = ({ params: { id } }) => {
             <Toast ref={toast} />
             <div class="bg-white rounded w-1/3">
                 <div className='p-2 mx-auto text-center border-b-4'>
-                    <Image class="mx-auto rounded-md w-40 h-40 object-cover" width='120' height='120' src={employee?.image || profilePhoto} alt='User Photo' priority />
+                    <Image class="mx-auto rounded-md w-40 h-40 object-contain" width='120' height='120' src={employee?.image || profilePhoto} alt='User Photo' priority />
                 </div>
                 <div className='mt-0 pl-4 w-full'>
                     <div className='text-left py-4 mt-4'>
