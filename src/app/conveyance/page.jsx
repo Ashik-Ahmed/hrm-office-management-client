@@ -1,11 +1,11 @@
 import React from 'react';
-import { getServerSession } from 'next-auth';
 import Conveyance from '../component/Conveyance/Conveyance';
 import { getConveyanceByEmployeeEmail } from '@/libs/conveyance';
+import { auth } from '../auth';
 
 
 const page = async () => {
-    const session = await getServerSession()
+    const session = await auth()
     console.log(session);
 
     const conveyance = await getConveyanceByEmployeeEmail(session.user.email)

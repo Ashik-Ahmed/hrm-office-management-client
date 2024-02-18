@@ -1,11 +1,10 @@
+import { auth } from '@/app/auth';
 import Task from '@/app/component/Task-Manager/Task';
-import { getTaskById } from '@/libs/task';
-import { getServerSession } from 'next-auth';
 import React from 'react';
 
 const page = async ({ params: { id } }) => {
 
-    const { user } = await getServerSession()
+    const { user } = await auth();
 
     return (
         <div>

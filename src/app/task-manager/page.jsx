@@ -1,11 +1,11 @@
 import React from 'react';
-import { getServerSession } from 'next-auth';
 import TaskTable from '../component/Task-Manager/TaskTable';
 import { getActiveDepartments } from '@/libs/department';
+import { auth } from '../auth';
 
 const TaskManager = async () => {
 
-    const { user } = await getServerSession()
+    const { user } = await auth()
     // console.log('session data: ', user);
 
     const departments = await getActiveDepartments()
