@@ -1,12 +1,12 @@
-import { getServerSession } from 'next-auth/next';
+
 import React from 'react';
-import { authOptions } from '@/utils/authOptions';
 import RequisitionHistoryTable from '../component/Requsition/RequisitionHistoryTable';
-import { getUserRequisitionHistory } from '@/libs/requisition';
+import { auth } from '../auth';
 
 
 const Requisition = async () => {
-    const { user } = await getServerSession(authOptions)
+    const { user } = await auth();
+    console.log(user);
 
     // const selectedMonth = new Date().getMonth() + 1
     // const selectedYear = new Date().getFullYear()

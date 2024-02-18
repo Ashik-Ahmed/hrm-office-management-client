@@ -46,12 +46,14 @@ export const {
         jwt: async ({ token, user }) => {
             if (user) {
                 token.role = user.userRole;
+                token._id = user._id;
             }
             return token;
         },
         session: async ({ session, token }) => {
             if (session?.user) {
                 session.user.role = token.role;
+                session.user._id = token._id;
             }
             return session;
         }

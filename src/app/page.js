@@ -16,7 +16,7 @@ export default async function Home() {
 
   const session = await auth();
 
-  // console.log("session from homepage: ", session);
+  console.log("session from homepage: ", session);
 
   if (!session) {
     redirect("/api/auth/signin");
