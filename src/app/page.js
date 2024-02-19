@@ -27,7 +27,7 @@ export default async function Home() {
       <div className="">
         <WelcomeMessage session={session} />
         <div>
-          <Link href='/api/auth/signout' className='bg-red-500 p-1 text-white rounded-md'>Signout</Link>
+          {/* <Link href='/api/auth/signout' className='bg-red-500 p-1 text-white rounded-md'>Signout</Link> */}
         </div>
         <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>

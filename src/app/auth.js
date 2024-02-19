@@ -25,16 +25,16 @@ export const {
                     })
                     const data = await res.json();
 
-                    if (res.ok && data?.status === "Success") {
-                        return Promise.resolve(data.data.employee);
+                    if (data?.status == "Success") {
+                        return data.data.employee;
                     }
                     else {
-                        return Promise.resolve(null);
+                        return null;
                     }
 
                 } catch (error) {
                     console.log(error);
-                    return Promise.resolve(null);
+                    return error;
                 }
             }
         })
