@@ -122,7 +122,6 @@ const A2PReport = () => {
 
     return (
         <div>
-            Report of A2P Dipping
             <form onSubmit={getA2PData}>
                 <div className='flex gap-x-2'>
                     <div className="card max-w-xs">

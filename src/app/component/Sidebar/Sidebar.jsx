@@ -82,9 +82,9 @@ const Sidebar = () => {
     // if (status === 'loading') {
     //     return <Loading />
     // }
-    // if (!session) {
-    //     return <></>
-    // }
+    if (!session) {
+        return <></>
+    }
 
     return (
 
