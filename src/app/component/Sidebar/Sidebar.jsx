@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { RiSettings5Fill } from 'react-icons/ri'
 import { FaUser } from 'react-icons/fa'
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import { HiMail } from 'react-icons/hi'
 import { MdNotifications } from 'react-icons/md'
 import Image from 'next/image';
@@ -101,10 +102,16 @@ const Sidebar = () => {
                         <i className='pi pi-id-card cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-comments cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-folder cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
-                        <Menu model={items} popup ref={menuLeft} id="popup_menu_left" />
-                        <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
+                        {/* <Menu model={items} popup ref={menuLeft} id="popup_menu_left" /> */}
+                        {/* <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
                             <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
-                        </i>
+                        </i> */}
+                        <Link href={`/profile/${session?.user?._id}`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
+                        <Link href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link>
+                        {/* <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> */}
+                        {/* <Link href="/api/auth/signout"><RiLogoutCircleRLine size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> </Link> */}
+
+
                         {/* <i>
                             <Button onClick={(event) => profileButton.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup text >
                                 <FaUser size={20} color='gray' className='cursor-pointer' />
@@ -163,7 +170,7 @@ const Sidebar = () => {
                 </div>
             </div>
 
-        </div>
+        </div >
     );
 };
 
