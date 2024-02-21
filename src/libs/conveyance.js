@@ -4,7 +4,6 @@ exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year) => {
     const conveyanceDetails = await fetch(url, {
         next: { revalidate: 3 }
     }).then(res => res.json())
-    console.log(conveyanceDetails.data);
 
     return conveyanceDetails.data
 }

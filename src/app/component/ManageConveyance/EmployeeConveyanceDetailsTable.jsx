@@ -54,7 +54,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
     }
 
     const handleConveyanceBillPayment = () => {
-        console.log(conveyanceData);
+        console.log(makePaymentDialog);
 
         const pendingConveyanceIds = []
 
@@ -64,7 +64,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
             }
         }
 
-        fetch('http://localhost:5000/api/v1/conveyance/makePayment', {
+        fetch(`http://localhost:5000/api/v1/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'

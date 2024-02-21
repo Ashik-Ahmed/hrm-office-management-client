@@ -246,7 +246,7 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
 
                             <div className="bg-white p-4 rounded-md shadow-md hover:shadow-lg transition duration-300 cursor-pointer h-full">
                                 <Image
-                                    src={employee.image}
+                                    src={employee.image || user}
                                     alt={employee.name}
                                     className="w-full h-40 object-contain mb-2 rounded-md"
                                     width={200}
