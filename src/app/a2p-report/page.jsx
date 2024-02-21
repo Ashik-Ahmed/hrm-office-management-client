@@ -61,6 +61,7 @@ const A2PReport = () => {
         setLoading(true)
         e.preventDefault()
         const queryDate = date.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-')
+        console.log(date, queryDate);
         fetch(`http://localhost:5000/api/v1/postgres?date=${queryDate}`)
             .then(res => res.json())
             .then(data => {

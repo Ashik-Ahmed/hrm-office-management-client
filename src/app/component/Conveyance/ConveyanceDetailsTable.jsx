@@ -121,7 +121,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
             <Toast ref={toast} />
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>CONVEYANCE DETAILS</h3>
+                    <h3 className='font-light'>MY CONVEYANCE</h3>
                     <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
