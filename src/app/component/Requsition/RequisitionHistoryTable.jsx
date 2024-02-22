@@ -147,14 +147,6 @@ const RequisitionHistoryTable = ({ user }) => {
 
     }
 
-    const dateBodytemplate = (rowData) => {
-        return (
-            <div>
-                {rowData.createdAt.split("T")[0]}
-            </div>
-        )
-    }
-
     const buttonTooltipOptions = {
         position: 'bottom',
         mouseTrack: true,
@@ -165,12 +157,29 @@ const RequisitionHistoryTable = ({ user }) => {
         },
     };
 
+    const dateBodytemplate = (rowData) => {
+        return (
+            <div>
+                {rowData.createdAt.split("T")[0]}
+            </div>
+        )
+    }
+
+    const statusBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <p className={`p-1 rounded-md text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
+            </div >
+        )
+    }
+
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
                 {/* <Button tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-edit" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} /> */}
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button onClick={() => setDeleteRequisitionDialog(rowData)} disabled={rowData.status == "Completed"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setDeleteRequisitionDialog(rowData)} disabled={rowData.status !== "Pending"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -203,7 +212,7 @@ const RequisitionHistoryTable = ({ user }) => {
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
                             <Column field="proposedAmount" header="Proposed Amount"></Column>
                             {/* <Column field="finalAmount" header="Final Amount"></Column> */}
-                            <Column field="status" header="Status"></Column>
+                            <Column body={statusBodyTemplate} header="Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>
                         </DataTable>
                         :
@@ -330,11 +339,11 @@ const RequisitionHistoryTable = ({ user }) => {
                                 </tr>
                                 <tr>
                                     <td>Purchase amount</td>
-                                    <td>: {requisitionDetails?.finalAmount || "________"}</td>
+                                    <td>: {requisitionDetails?.purchasedAmount || "________"}</td>
                                 </tr>
                                 <tr>
                                     <td>#Purchase items</td>
-                                    <td>: {requisitionDetails?.totalApprovedItems || "________"}</td>
+                                    <td>: {requisitionDetails?.purchasedItems || "________"}</td>
                                 </tr>
                             </table>
                         </div>
