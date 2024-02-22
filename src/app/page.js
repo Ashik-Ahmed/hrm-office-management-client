@@ -26,12 +26,8 @@ export default async function Home() {
     <div className="text-gray-700">
       <div className="">
         <WelcomeMessage session={session} />
-        <div>
-          <Link href='/api/auth/signout' className='bg-red-500 p-1 text-white rounded-md'>Signout</Link>
-        </div>
-        <p className="text-sm">Measure How Fast You’re Growing Monthly Recurring Revenue. Learn More</p>
       </div>
-      <div className="flex gap-4 w-full my-8">
+      <div className="flex gap-4 w-full my-4">
         <div className="bg-white p-[20px] rounded-xl shadow-xl w-full flex justify-center items-center">
           <Link href='/employee'>
             <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[100px] h-[80px] text-center cursor-pointer">

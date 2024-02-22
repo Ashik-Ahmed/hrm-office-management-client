@@ -25,7 +25,7 @@ const MonthlyRequisitionDataTable = () => {
     const [monthlyRequisition, setMonthlyRequisition] = useState()
     const [completePurchase, setCompletePurchase] = useState(null)
     const [requisitionDetails, setRequisitionDetails] = useState(null)
-    const [deleteRequisitionDialog, setDeleteRequisitionDialog] = useState(null)
+    const [calcelRequisitionDialog, setCancelRequisitionDialog] = useState(null)
     const [totalIconColor, setTotalIconColor] = useState('gray')
     const [dueIconColor, setDueIconColor] = useState('gray')
     const [selectedMonth, setSelectedMonth] = useState(new Date())
@@ -69,6 +69,33 @@ const MonthlyRequisitionDataTable = () => {
                 setCompletePurchase(false)
                 setLoading(false)
                 reset()
+            })
+    }
+
+    const handleCancelRequisition = (requisitionId) => {
+        setLoading(true);
+        const url = `http://localhost:5000/api/v1/requisition/cancelRequisition/${requisitionId}`;
+        console.log(url);
+        fetch(url, {
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(async data => {
+                if (data.status == "Success") {
+                    console.log('Successfully canceled');
+                    const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+                    setMonthlyRequisition(requisitionData.data)
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition canceled', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                }
+                setCancelRequisitionDialog(false)
+                setLoading(false)
+                console.log(data);
             })
     }
 
@@ -125,7 +152,7 @@ const MonthlyRequisitionDataTable = () => {
             <div className='flex gap-x-2 items-center'>
                 <Button onClick={() => setCompletePurchase(rowData)} disabled={rowData.status == "Completed"} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
-                <Button onClick={() => setDeleteRequisitionDialog(rowData)} disabled={rowData.status == "Completed"} tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setCancelRequisitionDialog(rowData)} disabled={rowData.status == "Completed"} tooltip="Cancel" tooltipOptions={buttonTooltipOptions} icon='pi pi-times' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}
             </div>
         )
@@ -254,16 +281,17 @@ const MonthlyRequisitionDataTable = () => {
                     </div>
                 </div>
             </Dialog >
-            {/* Delete requisition dialog  */}
-            <Dialog header="Delete Confirmation" visible={deleteRequisitionDialog} onHide={() => setDeleteRequisitionDialog(null)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+            {/* Cancel requisition dialog  */}
+            <Dialog header="Cancel Confirmation" visible={calcelRequisitionDialog} onHide={() => setCancelRequisitionDialog(null)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                 <p className="m-0">
-                    Requisition for: {deleteRequisitionDialog?.department || 'N/A'} department
+                    Requisition for: {calcelRequisitionDialog?.department || 'N/A'} department
                 </p>
-                <p>Total amount: {deleteRequisitionDialog?.proposedAmount}</p>
-                <p className='font-bold text-red-400 text-center mt-4'>Are you sure to delete?</p>
+                <p className="m-0"> {calcelRequisitionDialog?._id}</p>
+                <p>Total amount: {calcelRequisitionDialog?.proposedAmount}</p>
+                <p className='font-bold text-red-400 text-center mt-4'>Are you sure to cancel?</p>
                 <div className='flex justify-end gap-x-2 mt-8'>
-                    <Button onClick={() => setDeleteRequisitionDialog(null)} label='Cancel' className='p-button p-button-sm p-button-info' />
-                    <Button onClick={() => deleteRequisition(deleteRequisitionDialog._id)} label='Delete' className='p-button p-button-sm p-button-danger' />
+                    <Button onClick={() => setCancelRequisitionDialog(null)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={() => handleCancelRequisition(calcelRequisitionDialog?._id)} label='Cancel' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
 

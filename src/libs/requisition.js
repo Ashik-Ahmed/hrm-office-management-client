@@ -12,5 +12,6 @@ exports.getMonthlyRequisitionData = async (selectedMonth, selectedYear) => {
         next: { revalidate: 3 }
     })
     const monthlyRequisitionData = await data.json()
+    console.log(monthlyRequisitionData);
     return monthlyRequisitionData;
 }

@@ -5,10 +5,13 @@ const WelcomeMessage = ({ session }) => {
 
     return (
         <div>
-            {
-                session?.user ? <h1 className="text-3xl font-bold">Welcome, {session?.user?.name}</h1> : <button onClick={() => signIn('Credentials', { callbackUrl: '/api/auth/signin' })}>Login</button>
-            }
+            <p className='text-fuchsia-700'>
+                {
+                    session?.user ? <h1 className="text-3xl font-bold">Hello, {session?.user?.name}</h1> : <button onClick={() => signIn('Credentials', { callbackUrl: '/api/auth/signin' })}>Login</button>
+                }
+            </p>
 
+            <p>Welcome to Infozillion office management system</p>
         </div>
     );
 };

@@ -139,7 +139,7 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
         // <div className="card p-2 bg-white rounded-md shadow-xl">
         //     <Toast ref={toast} />
         <div>
-            <div className='flex justify-between items-center mb-1 px-4 mx-auto'>
+            <div className='flex justify-between items-center mb-1 px-2 mx-auto'>
                 <div className='flex items-center gap-x-2'>
                     <h3 className='font-light'>EMPLOYEE LIST</h3>
                     {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
@@ -239,12 +239,12 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
         </div > 
         */}
 
-            <div className="container mx-auto p-4" >
+            <div className="container mx-auto p-2" >
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {users.map((employee) => (
                         <Link href={`/employee/${employee._id}`} key={employee._id}>
 
-                            <div className="bg-white p-4 rounded-md shadow-md hover:shadow-lg transition duration-300 cursor-pointer h-full">
+                            <div className="bg-white p-4 rounded-md shadow-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
                                 <Image
                                     src={employee.image || user}
                                     alt={employee.name}
