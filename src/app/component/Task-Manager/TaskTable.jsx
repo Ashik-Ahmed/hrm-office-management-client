@@ -84,7 +84,7 @@ const TaskTable = ({ user, allDepartments }) => {
         const taskData = data;
         taskData.creator = user.email;
         taskData.assignee = selectedAssignee._id;
-        console.log(taskData);
+        // console.log(taskData);
 
         fetch('http://localhost:5000/api/v1/task', {
             method: "POST",
@@ -169,6 +169,7 @@ const TaskTable = ({ user, allDepartments }) => {
                     <span className='pi pi-angle-double-right p-2 border-2'></span>
                 </div> */}
             </div>
+
 
             <Dialog header="Add New Task" visible={addtask} style={{ width: '50vw' }} onHide={() => { setAddTask(false); reset(); setSelectedDepartment(''); setSelectedAssignee('') }}>
 

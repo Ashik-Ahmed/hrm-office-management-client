@@ -27,10 +27,20 @@ const LeaveApplicationsTable = () => {
     const [maxToDate, setMaxToDate] = useState()
     const [rejoinDate, setRejoinDate] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+
+    // define dropdown years range
+    const years = [];
+    for (let year = selectedYear - 5; year <= selectedYear + 5; year++) {
+        years.push({
+            value: year,
+            label: year,
+        });
+    }
 
     const getLeaveApplications = (employeeId) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}`)
+        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}?year=${selectedYear}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveApplicationHistory(data.data)
@@ -176,8 +186,12 @@ const LeaveApplicationsTable = () => {
             </Dialog>
 
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
-                <div className='flex items-center gap-x-2 mb-2'>
+                <div className='flex justify-between items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>LEAVE APPLICATIONS</h3>
+                    <div className='w-fit'>
+                        {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
+                        <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+                    </div>
                 </div>
                 <DataTable value={leaveApplicationHistory} loading={loading} size='small' emptyMessage="No previous application">
                     <Column field="leaveType" header="Leave Type"></Column>

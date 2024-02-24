@@ -244,7 +244,7 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
                     {users.map((employee) => (
                         <Link href={`/employee/${employee._id}`} key={employee._id}>
 
-                            <div className="bg-white p-4 rounded-md shadow-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
+                            <div className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
                                 <Image
                                     src={employee.image || user}
                                     alt={employee.name}

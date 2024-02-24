@@ -13,11 +13,11 @@ const LeaveStatusTable = () => {
     const { data: session, status } = useSession();
 
     const [loading, setLoading] = useState(false)
-    const [filterYear, setFilterYear] = useState(new Date().getFullYear())
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
     // define dropdown years range
     const years = [];
-    for (let year = 2021; year <= 2030; year++) {
+    for (let year = selectedYear - 5; year <= selectedYear + 5; year++) {
         years.push({
             value: year,
             label: year,
@@ -27,7 +27,7 @@ const LeaveStatusTable = () => {
 
     const getLeaveStatusData = (employeeId) => {
         setLoading(true)
-        const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}?year=${filterYear}`
+        const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}?year=${selectedYear}`
 
         console.log(url);
 
@@ -41,7 +41,7 @@ const LeaveStatusTable = () => {
 
     useEffect(() => {
         getLeaveStatusData(session?.user._id)
-    }, [session, filterYear])
+    }, [session, selectedYear])
 
 
     return (
@@ -53,7 +53,7 @@ const LeaveStatusTable = () => {
                     <h3 className='font-light'>LEAVE STATUS</h3>
                     <div className='w-fit'>
                         {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
-                        <Dropdown options={years} onChange={(e) => { setFilterYear(e.value); }} value={filterYear} size='small' className='p-dropdown-sm' />
+                        <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
                     </div>
                 </div>
                 <DataTable value={leaveStatus} loading={loading} size='small'>
