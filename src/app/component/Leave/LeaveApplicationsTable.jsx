@@ -31,7 +31,7 @@ const LeaveApplicationsTable = () => {
 
     // define dropdown years range
     const years = [];
-    for (let year = selectedYear - 5; year <= selectedYear + 5; year++) {
+    for (let year = selectedYear - 5; year <= selectedYear; year++) {
         years.push({
             value: year,
             label: year,
