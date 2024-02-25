@@ -1,12 +1,36 @@
+"use client"
+
+import { useSession } from 'next-auth/react';
 import { Chart } from 'primereact/chart';
 import React, { useEffect, useState } from 'react';
 
-const LeaveStatusGraph = ({ leaveStatus }) => {
-    console.log(leaveStatus);
+const LeaveStatusGraph = () => {
+    const { data: session, status } = useSession();
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
+    const [leaveStatus, setLeaveStatus] = useState()
+    const [loading, setLoading] = useState(false)
 
     const excludedValue = "Maternity"
+
+    const getLeaveStatusData = (employeeId) => {
+        setLoading(true)
+        const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+
+                const leaveExceptMaternity = data?.data?.filter(leave => leave.leaveType !== "Maternity")
+                console.log(leaveExceptMaternity);
+                setLeaveStatus(leaveExceptMaternity)
+            })
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        getLeaveStatusData(session?.user._id)
+    }, [session])
 
     // Remove Maternity leave from the array 
     for (let i = 0; i < leaveStatus?.length; i++) {
@@ -18,7 +42,7 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
     const availed = leaveStatus?.map(leave => leave.availed);
     const balance = leaveStatus?.map(leave => leave.balance);
 
-    console.log(leaveTypes, availed, balance);
+    // console.log(leaveTypes, availed, balance);
 
     useEffect(() => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -32,17 +56,18 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
                 {
                     type: 'bar',
                     label: 'Availed',
-                    backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+                    backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
                     data: availed
                 },
                 {
                     type: 'bar',
                     label: 'Balance',
-                    backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
+                    backgroundColor: documentStyle.getPropertyValue('--blue-500'),
                     data: balance
                 }
             ]
         };
+
         const options = {
             maintainAspectRatio: false,
             aspectRatio: 1,
@@ -59,7 +84,7 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
             },
             scales: {
                 x: {
-                    stacked: true,
+                    // stacked: true,
                     ticks: {
                         color: textColorSecondary
                     },
@@ -68,7 +93,7 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
                     }
                 },
                 y: {
-                    stacked: true,
+                    // stacked: true,
                     ticks: {
                         color: textColorSecondary
                     },
@@ -81,11 +106,11 @@ const LeaveStatusGraph = ({ leaveStatus }) => {
 
         setChartData(data);
         setChartOptions(options);
-    }, []);
+    }, [leaveStatus]);
 
 
     return (
-        <div>
+        <div className='bg-white rounded-md p-2 shadow-md w-full'>
             <Chart type="bar" data={chartData} options={chartOptions} />
         </div>
     );

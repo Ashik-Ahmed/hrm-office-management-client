@@ -17,7 +17,7 @@ const LeaveStatusTable = () => {
 
     // define dropdown years range
     const years = [];
-    for (let year = selectedYear - 5; year <= selectedYear; year++) {
+    for (let year = new Date().getFullYear() - 5; year <= new Date().getFullYear() + 5; year++) {
         years.push({
             value: year,
             label: year,
@@ -45,28 +45,28 @@ const LeaveStatusTable = () => {
 
 
     return (
-        <div className='flex gap-x-4'>
-
-            <div className='w-1/2 shadow-lg p-2 bg-white rounded-md'>
-
-                <div className='flex justify-between items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>LEAVE STATUS</h3>
-                    <div className='w-fit'>
-                        {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
-                        <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+        <div className='w-full'>
+            <div className='flex gap-x-4'>
+                <div className='shadow-lg p-2 bg-white rounded-md w-full'>
+                    <div className='flex justify-between items-center gap-x-2 mb-2'>
+                        <h3 className='font-light'>LEAVE STATUS</h3>
+                        <div className='w-fit'>
+                            {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
+                            <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+                        </div>
                     </div>
+                    <DataTable value={leaveStatus} loading={loading} size='small'>
+                        <Column field="leaveType" header="Leave Type"></Column>
+                        <Column field="total" header="Total"></Column>
+                        <Column field="availed" header="Availed"></Column>
+                        <Column field="balance" header="Balance"></Column>
+                    </DataTable>
                 </div>
-                <DataTable value={leaveStatus} loading={loading} size='small'>
-                    <Column field="leaveType" header="Leave Type"></Column>
-                    <Column field="total" header="Total"></Column>
-                    <Column field="availed" header="Availed"></Column>
-                    <Column field="balance" header="Balance"></Column>
-                </DataTable>
+                {/* 
+<div className='bg-white w-1/2 rounded-md shadow-lg p-2'>
+    <LeaveStatusGraph leaveStatus={leaveStatus} />
+</div> */}
             </div>
-            {/* 
-            <div className='bg-white w-1/2 rounded-md shadow-lg p-2'>
-                <LeaveStatusGraph leaveStatus={leaveStatus} />
-            </div> */}
         </div>
     );
 };
