@@ -189,7 +189,7 @@ const MonthlyRequisitionDataTable = () => {
                         {
                             loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalProposedAmount || "00"} `} </p>
                         }
-                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.requisitions?.length || "0"}`}</span> requisitions this month</p>
+                        <p className='text-xs mt-2'> <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalRequisitions || "0"}`}</span> requisitions with <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{monthlyRequisition?.totalProposedItems || "0"}</span> items</p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
@@ -199,7 +199,7 @@ const MonthlyRequisitionDataTable = () => {
                         {
                             loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyRequisition?.totalPurchasedAmount || "00"}`}</p>
                         }
-                        <p className='text-xs mt-2'>Total purchased <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalPurchasedItems || "0"}`}</span> items</p>
+                        <p className='text-xs mt-2'><span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{monthlyRequisition?.numberOfCompletedRequisition || "0"}</span> requisions with <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyRequisition?.totalPurchasedItems || "0"}`}</span> items</p>
                     </div>
                 </div>
             </div>
