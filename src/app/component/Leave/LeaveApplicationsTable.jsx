@@ -162,7 +162,7 @@ const LeaveApplicationsTable = () => {
                             </div>
                             <div>
                                 <InputText
-                                    {...register("totalDay", { required: "Total day is required" })} placeholder={`${(toDate?.getDate() - fromDate?.getDate()) + 1 || "Total day*"}`} />
+                                    {...register("totalDay", { required: "Total day is required" })} placeholder={`${((toDate?.getTime() - fromDate?.getTime()) / (1000 * 3600 * 24)) + 1 || "Total day*"}`} />
                                 {errors.totalDay?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.totalDay.message}</span>}
                             </div>
                         </div>
@@ -170,7 +170,7 @@ const LeaveApplicationsTable = () => {
                         <div>
                             <Calendar
                                 {...register("rejoinDate", { required: "Re-joining date is required" })}
-                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value); console.log(e.value); }} dateFormat="dd-mm-yy" showIcon placeholder='Re-joining date*' className='w-full' />
+                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value) }} dateFormat="dd-mm-yy" disabled={!toDate} minDate={toDate + 1} showIcon placeholder='Re-joining date*' className='w-full' />
                             {errors.rejoinDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejoinDate.message}</span>}
                         </div>
 
