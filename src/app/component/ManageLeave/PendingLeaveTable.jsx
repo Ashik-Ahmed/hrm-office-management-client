@@ -166,7 +166,7 @@ const PendingLeave = () => {
                             <span>{detailsDialog?.leaveType}</span>
                         </div>
                         <div className='flex justify-start'>
-                            <span className='w-1/3'>Total : </span>
+                            <span className='w-1/3'>Total Day: </span>
                             <span>{detailsDialog?.totalDay}</span>
                         </div>
                         <div className='flex justify-start'>
@@ -178,7 +178,7 @@ const PendingLeave = () => {
                             <span>{detailsDialog?.toDate?.split("T")[0]}</span>
                         </div>
                         <div className='flex justify-start'>
-                            <span className='w-1/3'>Rejoin Date : </span>
+                            <span className='w-1/3'>Re-joining : </span>
                             <span>{detailsDialog?.rejoinDate?.split("T")[0]}</span>
                         </div>
                         <div className='flex justify-start'>
@@ -196,10 +196,10 @@ const PendingLeave = () => {
                     <div>
                         <p>Employee: {approveDialog?.employee?.name}</p>
                         <p>Leave Type: {approveDialog?.leaveType}</p>
-                        <p>Total day: {approveDialog?.totalDay}</p>
+                        <p>Total Day: {approveDialog?.totalDay}</p>
                     </div>
                     <div className='flex gap-x-2 justify-end mt-4'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session.user.department}`)} disabled={!session} loading={loading} label="Approve" size='small' className='p-button-sm' />
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session?.user?.department}`)} disabled={!session} loading={loading} label="Approve" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >

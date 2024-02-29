@@ -123,6 +123,7 @@ const RequisitionHistoryTable = ({ user }) => {
                 setRequisitionDetails(data.data)
                 console.log(data.data);
             })
+        setLoading(false);
     }
 
     const deleteRequisition = async (requisitionId) => {

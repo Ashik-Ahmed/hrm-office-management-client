@@ -229,9 +229,9 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
             <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} getConveyanceData={getConveyanceData} />
 
             {/* Details Dialog  */}
-            <Dialog header="Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
+            <Dialog header="Journey Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
                 <div>
-                    <p className='mb-2'>Date: {detailsDialog?.date?.split("T")[0]}</p>
+                    <p className='mb-2'>Journey Date: {detailsDialog?.date?.split("T")[0]}</p>
                     <div className='flex justify-between text-start'>
                         <p className='w-1/2'>From: {detailsDialog.from}</p>
                         <p className='w-1/2 text-start'>Destination: {detailsDialog.destination}</p>
