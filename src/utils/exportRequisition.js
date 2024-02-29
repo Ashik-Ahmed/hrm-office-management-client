@@ -58,8 +58,6 @@ exports.exportRequisition = (requisitionDetails) => {
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
                     }
                 });
-                var signatureLine = "__________________"
-                var signature = requisitionDetails?.submittedBy.name
                 var pageSize = doc.internal.pageSize;
                 var pageHeight = pageSize.height
                     ? pageSize.height
@@ -68,6 +66,8 @@ exports.exportRequisition = (requisitionDetails) => {
                     ? pageSize.width
                     : pageSize.getWidth();
 
+                var signatureLine = "__________________"
+                var signature = requisitionDetails?.submittedBy.name
                 doc.text(signatureLine, 20, pageHeight - 40);
                 doc.text(signature, 20, pageHeight - 30);
                 doc.text(signatureLine, pageWidth - 80, pageHeight - 40);

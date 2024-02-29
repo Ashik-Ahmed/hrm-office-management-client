@@ -97,10 +97,17 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
                 var pageHeight = pageSize.height
                     ? pageSize.height
                     : pageSize.getHeight();
+                var pageWidth = pageSize.width
+                    ? pageSize.width
+                    : pageSize.getWidth();
+
                 var signatureLine = "__________________"
                 var signature = selectedEmployee.name
                 doc.text(signatureLine, 20, pageHeight - 40);
                 doc.text(signature, 20, pageHeight - 30);
+                doc.text(signatureLine, pageWidth - 80, pageHeight - 40);
+                doc.text('Samiur Rahman', pageWidth - 80, pageHeight - 30);
+                doc.text('Director, Admin & Finance', pageWidth - 80, pageHeight - 24);
 
 
                 doc.save(`${selectedEmployee.name} conveyance bill.pdf`);
