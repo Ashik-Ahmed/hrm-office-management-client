@@ -48,7 +48,7 @@ const ManageLeaveApplicationsTable = () => {
 
     useEffect(() => {
         fetchLeaveApplications()
-    }, [])
+    }, [selectedYear])
 
     const approveLeaveApplicationStatus = (status) => {
         setLoading(true)
