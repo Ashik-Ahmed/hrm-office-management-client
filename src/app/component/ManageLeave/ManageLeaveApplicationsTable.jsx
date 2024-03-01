@@ -37,10 +37,11 @@ const ManageLeaveApplicationsTable = () => {
 
     const fetchLeaveApplications = () => {
         setLoading(true)
-        fetch('http://localhost:5000/api/v1/leaveApplication')
+        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveApplications(data.data)
+                console.log(data.data);
             })
         setLoading(false)
     }
@@ -126,6 +127,22 @@ const ManageLeaveApplicationsTable = () => {
         },
     };
 
+    const appliedOnBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {rowData?.createdAt.split("T")[0]}
+            </div>
+        )
+    }
+
+    const statusBodyTemplate = (rowData) => {
+        return (
+            <div>
+                <p className={`w-fit p-1 rounded-md text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved by HR" ? "bg-green-400" : (rowData?.currentStatus?.status == "Approved by Management" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status}</p>
+            </div>
+        )
+    }
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
@@ -159,10 +176,11 @@ const ManageLeaveApplicationsTable = () => {
                     </div>
                 </div>
                 <DataTable value={leaveApplications} size='small' loading={loading}>
+                    <Column body={appliedOnBodyTemplate} header="Applied on"></Column>
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>
-                    <Column field="currentStatus.status" header="Current Status"></Column>
+                    <Column body={statusBodyTemplate} header="Current Status"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
                 </DataTable>
             </div>
