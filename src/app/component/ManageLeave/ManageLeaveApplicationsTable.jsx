@@ -5,12 +5,13 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const PendingLeave = () => {
+const ManageLeaveApplicationsTable = () => {
 
     const { data: session, status } = useSession();
 
@@ -19,23 +20,33 @@ const PendingLeave = () => {
     const { register, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
 
     const [loading, setLoading] = useState(false)
-    const [pendingApplications, setPendingApplications] = useState([])
+    const [leaveApplications, setLeaveApplications] = useState([])
     const [detailsDialog, setDetailsDialog] = useState(null);
     const [approveDialog, setApproveDialog] = useState(null)
     const [rejectDialog, setRejectDialog] = useState(null)
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
-    const fetchPendingLeaveApplications = () => {
+    // define dropdown years range
+    const years = [];
+    for (let year = new Date().getFullYear() - 5; year <= new Date().getFullYear() + 5; year++) {
+        years.push({
+            value: year,
+            label: year,
+        });
+    }
+
+    const fetchLeaveApplications = () => {
         setLoading(true)
-        fetch('http://localhost:5000/api/v1/leaveApplication/pendingApplications')
+        fetch('http://localhost:5000/api/v1/leaveApplication')
             .then(res => res.json())
             .then(data => {
-                setPendingApplications(data.data)
+                setLeaveApplications(data.data)
             })
         setLoading(false)
     }
 
     useEffect(() => {
-        fetchPendingLeaveApplications()
+        fetchLeaveApplications()
     }, [])
 
     const approveLeaveApplicationStatus = (status) => {
@@ -58,7 +69,7 @@ const PendingLeave = () => {
             .then(data => {
                 if (data.data.modifiedCount > 0) {
                     console.log("Successfullu Approved");
-                    fetchPendingLeaveApplications()
+                    fetchLeaveApplications()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave approved', life: 3000 });
                 }
                 else {
@@ -92,7 +103,7 @@ const PendingLeave = () => {
             .then(data => {
                 if (data.data.modifiedCount > 0) {
                     console.log("Successfullu Rejected");
-                    fetchPendingLeaveApplications()
+                    fetchLeaveApplications()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave rejected', life: 3000 });
                 }
                 else {
@@ -140,10 +151,14 @@ const PendingLeave = () => {
         <div>
             <Toast ref={toast} />
             <div className='bg-white p-2 rounded-md'>
-                <div className='mb-2'>
-                    <h3 className='font-light'>PENDING APPLICATIONS</h3>
+                <div className='flex justify-between items-center gap-x-2 mb-2'>
+                    <h3 className='font-light'>LEAVE APPLICATIONS</h3>
+                    <div className='w-fit'>
+                        {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
+                        <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+                    </div>
                 </div>
-                <DataTable value={pendingApplications} size='small' loading={loading}>
+                <DataTable value={leaveApplications} size='small' loading={loading}>
                     <Column field='employee.name' header="Name"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>
@@ -232,4 +247,4 @@ const PendingLeave = () => {
     );
 };
 
-export default PendingLeave;
+export default ManageLeaveApplicationsTable;

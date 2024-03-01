@@ -1,7 +1,7 @@
 import React from 'react';
-import PendingLeaveTable from '../component/ManageLeave/PendingLeaveTable';
 import { getAllLeaves, getAllPendingLeaveApplications } from '@/libs/leaves';
 import LeaveTypeTable from '../component/ManageLeave/LeaveTypeTable';
+import ManageLeaveApplicationsTable from '../component/ManageLeave/ManageLeaveApplicationsTable';
 
 const ManageLeave = async () => {
 
@@ -16,7 +16,7 @@ const ManageLeave = async () => {
         <div>
             <LeaveTypeTable />
             <div className='mt-4 rounded-md shadow-lg'>
-                <PendingLeaveTable />
+                <ManageLeaveApplicationsTable />
             </div>
         </div>
     );
