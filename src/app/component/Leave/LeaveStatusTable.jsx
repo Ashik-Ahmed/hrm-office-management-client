@@ -29,7 +29,7 @@ const LeaveStatusTable = () => {
         setLoading(true)
         const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}?year=${selectedYear}`
 
-        console.log(url);
+        // console.log(url);
 
         fetch(url)
             .then(res => res.json())

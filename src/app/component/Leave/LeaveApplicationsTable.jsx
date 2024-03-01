@@ -43,6 +43,7 @@ const LeaveApplicationsTable = () => {
         fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}?year=${selectedYear}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data.data)
                 setLeaveApplicationHistory(data.data)
             })
         setLoading(false)
@@ -59,7 +60,7 @@ const LeaveApplicationsTable = () => {
     useEffect(() => {
         getLeaveApplications(session?.user._id);
         getLeaveStatusData(session?.user._id)
-    }, [session])
+    }, [session, selectedYear])
 
     const leaveApplication = (data) => {
         setLoading(true);
