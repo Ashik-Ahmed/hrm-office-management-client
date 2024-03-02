@@ -233,6 +233,9 @@ const ManageLeaveApplicationsTable = () => {
             <div>
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+                    <div className='flex justify-center'>
+                        <i className="pi pi-check text-9xl border border-green-500 p-1 rounded-full shadow-md text-green-500 "></i>
+                    </div>
                     <div>
                         <p>Employee: {approveDialog?.employee?.name}</p>
                         <p>Leave Type: {approveDialog?.leaveType}</p>
