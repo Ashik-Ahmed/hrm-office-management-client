@@ -48,6 +48,7 @@ export const {
             if (user) {
                 token.role = user.userRole;
                 token._id = user._id;
+                token.department = user.department
             }
             return token;
         },
@@ -55,6 +56,7 @@ export const {
             if (session?.user) {
                 session.user.role = token.role;
                 session.user._id = token._id;
+                session.user.department = token.department
             }
             return session;
         }

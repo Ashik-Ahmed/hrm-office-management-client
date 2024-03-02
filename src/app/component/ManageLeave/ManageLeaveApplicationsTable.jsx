@@ -55,7 +55,7 @@ const ManageLeaveApplicationsTable = () => {
         setLoading(true)
         const currentStatus = {
             status: status,
-            updatedBy: session.user.name
+            updatedBy: session?.user.name
         }
 
         console.log(currentStatus);
