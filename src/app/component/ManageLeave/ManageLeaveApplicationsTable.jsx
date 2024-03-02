@@ -251,7 +251,9 @@ const ManageLeaveApplicationsTable = () => {
             < div >
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => { setRejectDialog(false); reset(); }}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-
+                    <div className='flex justify-center'>
+                        <i className="pi pi-exclamation-triangle text-9xl border border-red-500 p-1 rounded-full shadow-md text-red-500 "></i>
+                    </div>
                     <form onSubmit={handleSubmit(rejectLeaveApplication)}>
                         <div className='mb-2'>
                             <p>Employee: {rejectDialog?.employee?.name}</p>
