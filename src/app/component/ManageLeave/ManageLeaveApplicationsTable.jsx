@@ -233,8 +233,8 @@ const ManageLeaveApplicationsTable = () => {
             <div>
                 <Dialog header="Approve Application" visible={approveDialog} onHide={() => setApproveDialog(false)}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div className='flex justify-center'>
-                        <i className="pi pi-check text-9xl border border-green-500 p-1 rounded-full shadow-md text-green-500 "></i>
+                    <div className='flex justify-center my-2'>
+                        <i className="pi pi-check-circle text-green-500" style={{ fontSize: '3rem' }}></i>
                     </div>
                     <div>
                         <p>Employee: {approveDialog?.employee?.name}</p>
@@ -251,8 +251,8 @@ const ManageLeaveApplicationsTable = () => {
             < div >
                 <Dialog header="Confirm Rejection" visible={rejectDialog} onHide={() => { setRejectDialog(false); reset(); }}
                     style={{ width: '30vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
-                    <div className='flex justify-center'>
-                        <i className="pi pi-exclamation-triangle text-9xl border border-red-500 p-1 rounded-full shadow-md text-red-500 "></i>
+                    <div className='flex justify-center my-2'>
+                        <i className="pi pi-exclamation-circle text-red-500" style={{ fontSize: '3rem' }}></i>
                     </div>
                     <form onSubmit={handleSubmit(rejectLeaveApplication)}>
                         <div className='mb-2'>
