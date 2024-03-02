@@ -23,7 +23,8 @@ const ManageLeaveApplicationsTable = () => {
     const [leaveApplications, setLeaveApplications] = useState([])
     const [detailsDialog, setDetailsDialog] = useState(null);
     const [approveDialog, setApproveDialog] = useState(null)
-    const [rejectDialog, setRejectDialog] = useState(null)
+    const [rejectDialog, setRejectDialog] = useState(null);
+    const [currentStatus, setCurrentStatus] = useState(null)
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
     // define dropdown years range
@@ -37,7 +38,7 @@ const ManageLeaveApplicationsTable = () => {
 
     const fetchLeaveApplications = () => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}`)
+        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`)
             .then(res => res.json())
             .then(data => {
                 setLeaveApplications(data.data)
@@ -48,7 +49,7 @@ const ManageLeaveApplicationsTable = () => {
 
     useEffect(() => {
         fetchLeaveApplications()
-    }, [selectedYear])
+    }, [selectedYear, currentStatus])
 
     const approveLeaveApplicationStatus = (status) => {
         setLoading(true)
@@ -170,9 +171,15 @@ const ManageLeaveApplicationsTable = () => {
             <div className='bg-white p-2 rounded-md'>
                 <div className='flex justify-between items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>LEAVE APPLICATIONS</h3>
-                    <div className='w-fit'>
-                        {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
-                        <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+                    <div className='flex gap-2'>
+                        <div className='w-fit'>
+                            {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
+                            <Dropdown options={["All", "Pending", "Approved", "Rejected"]} onChange={(e) => { setCurrentStatus(e.value); }} placeholder='Current Status' value={currentStatus} size='small' className='p-dropdown-sm' />
+                        </div>
+                        <div className='w-fit'>
+                            {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
+                            <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
+                        </div>
                     </div>
                 </div>
                 <DataTable value={leaveApplications} size='small' loading={loading}>

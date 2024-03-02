@@ -1,19 +1,11 @@
 'use client'
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import { RiSettings5Fill } from 'react-icons/ri'
-import { FaUser } from 'react-icons/fa'
-import { RiLogoutCircleRLine } from "react-icons/ri";
-import { HiMail } from 'react-icons/hi'
-import { MdNotifications } from 'react-icons/md'
 import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { redirect, usePathname, useRouter } from 'next/navigation';
-import { Menu } from 'primereact/menu';
-import Loading from '../Loading/Loading';
-import { signOut } from '@/app/auth';
 import { useSession } from 'next-auth/react';
 
 
@@ -79,13 +71,13 @@ const Sidebar = () => {
         }
     ];
 
-
-    // if (status === 'loading') {
-    //     return <Loading />
-    // }
     if (!session) {
         return <></>
     }
+
+    // if(status === "loading"){
+    //     return <></>
+    // }
 
     return (
 
