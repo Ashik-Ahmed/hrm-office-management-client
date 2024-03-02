@@ -182,9 +182,9 @@ const ManageLeaveApplicationsTable = () => {
                         </div>
                     </div>
                 </div>
-                <DataTable value={leaveApplications} size='small' loading={loading}>
-                    <Column body={appliedOnBodyTemplate} header="Applied on"></Column>
-                    <Column field='employee.name' header="Name"></Column>
+                <DataTable value={leaveApplications} size='small' removableSort sortMode="multiple" loading={loading}>
+                    <Column field="createdAt" header="Applied on" sortable></Column>
+                    <Column field='employee.name' header="Name" sortable></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>
                     <Column body={statusBodyTemplate} header="Current Status"></Column>
