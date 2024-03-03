@@ -153,7 +153,7 @@ const MonthlyRequisitionDataTable = () => {
 
     const statusBodyTemplate = (rowData) => {
         return (
-            <div>
+            <div className='w-fit'>
                 <p className={`p-1 rounded-md text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
             </div >
         )
@@ -209,12 +209,12 @@ const MonthlyRequisitionDataTable = () => {
                 </div>
                 {
                     monthlyRequisition ?
-                        <DataTable value={monthlyRequisition?.requisitions} size='small' emptyMessage="No Requisition Found">
-                            <Column body={dateBodytemplate} header="Date"></Column>
+                        <DataTable value={monthlyRequisition?.requisitions} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
+                            <Column field='createdAt' body={dateBodytemplate} header="Date" sortable></Column>
                             <Column field='department' header="Department"></Column>
                             <Column field='proposedItems' header="#Proposed item(s)"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
-                            <Column field="proposedAmount" header="Proposed Amount"></Column>
+                            <Column field="proposedAmount" header="Proposed Amount" sortable></Column>
                             {/* <Column field="finalAmount" header="Final Amount"></Column> */}
                             <Column body={statusBodyTemplate} header="Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>
