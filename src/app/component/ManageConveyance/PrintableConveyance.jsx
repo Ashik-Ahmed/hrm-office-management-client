@@ -4,7 +4,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React from 'react';
 import itblLogo from '../../../../public/images/logo.png'
-import { exportToPDF } from '@/utils/exportToPDF';
+import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
     console.log(selectedEmployee, conveyanceData);
@@ -38,7 +38,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                 </div>
                 <div className='mt-4'>
                     {/* <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' /> */}
-                    <Button label='Export' onClick={() => exportToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
+                    <Button label='Export' onClick={() => exportEmployeeConveyanceToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
                     <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
                         {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                         <Column body={detailsTableDateTemplate} header="Date"></Column>

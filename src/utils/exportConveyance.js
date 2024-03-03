@@ -1,4 +1,4 @@
-exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => {
+exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => {
 
     const cols = [
         { field: 'date', header: 'Date' },
@@ -117,4 +117,8 @@ exports.exportToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => 
     }
     exportPdf()
 
+}
+
+exports.exportMonthlyConveyanceReport = (conveyanceData) => {
+    console.log(conveyanceData);
 }

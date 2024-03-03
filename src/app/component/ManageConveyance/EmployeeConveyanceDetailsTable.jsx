@@ -2,20 +2,15 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import React, { useRef, useState } from 'react';
-import itblLogo from '../../../../public/images/logo.png'
-import Image from 'next/image';
-import Loading from '../Loading/Loading';
-import { PrintProvider, Print } from 'react-to-print';
+import React, { useState } from 'react';
 import PrintableConveyance from './PrintableConveyance';
-import { exportToPDF } from '@/utils/exportToPDF';
+import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
 
 const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
     const [loading, setLoading] = useState(false)
-    const [conveyanceDetailsDialog, setConveyanceDetailsDialog] = useState(false);
     const [makePaymentDialog, setMakePaymentDialog] = useState(false)
     const [selectedEmployee, setSelectedEmployee] = useState(null)
     const [conveyanceData, setConveyanceData] = useState(null)
@@ -50,7 +45,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         //extract the pending conveyances from all conveyances of the month
         const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
 
-        exportToPDF(rowData, employeeConveyance, pendingConveyances)
+        exportEmployeeConveyanceToPDF(rowData, employeeConveyance, pendingConveyances)
     }
 
     const handleConveyanceBillPayment = () => {
@@ -87,8 +82,8 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
 
     }
 
-    const exportMonthlyConveyanceReport = (conveyanceData) => {
-        console.log(conveyanceData);
+    const exportConveyanceReport = (conveyanceData) => {
+        exportMonthlyConveyanceReport(conveyanceData)
     }
 
     const buttonTooltipOptions = {
@@ -117,7 +112,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
-                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.length > 0} disabled={monthlyEmployeeConveyance?.length < 1} rounded text severity='danger' onClick={() => exportMonthlyConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
+                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.length > 0} disabled={monthlyEmployeeConveyance?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
                 </div>
                 {
                     monthlyEmployeeConveyance?.length > 0 ?
