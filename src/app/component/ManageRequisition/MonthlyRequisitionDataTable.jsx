@@ -135,7 +135,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     const exportToPdf = (monthlyRequisition) => {
         monthlyRequisition.generatedBy = user.name
         monthlyRequisition.reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`
-        console.log(monthlyRequisition);
+        // console.log(monthlyRequisition);
         exportRequisitionReport(monthlyRequisition)
     }
 
@@ -162,7 +162,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
-                <Button onClick={() => setCompletePurchase(rowData)} disabled={rowData.status == "Completed"} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setCompletePurchase(rowData)} disabled={rowData.status == "Completed" || rowData.status == "Cancelled"} tooltip="Comoplete purchase" tooltipOptions={buttonTooltipOptions} icon="pi pi-check" rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => getRequisitionDetails(rowData._id)} tooltip="Details" tooltipOptions={buttonTooltipOptions} icon="pi pi-list" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setCancelRequisitionDialog(rowData)} disabled={rowData.status !== "Pending"} tooltip="Cancel" tooltipOptions={buttonTooltipOptions} icon='pi pi-times' rounded text raised severity='danger' style={{ width: '35px', height: '35px' }} />
                 {/* <Button tooltip="Delete" tooltipOptions={buttonTooltipOptions} icon='pi pi-trash' rounded text raised severity='danger' /> */}

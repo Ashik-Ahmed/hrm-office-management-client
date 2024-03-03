@@ -87,6 +87,10 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
 
     }
 
+    const exportMonthlyConveyanceReport = (conveyanceData) => {
+        console.log(conveyanceData);
+    }
+
     const buttonTooltipOptions = {
         position: 'bottom',
         mouseTrack: true,
@@ -113,7 +117,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
-                    {/* <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={20} color='#8C239E' className='cursor-pointer' /> */}
+                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.length > 0} disabled={monthlyEmployeeConveyance?.length < 1} rounded text severity='danger' onClick={() => exportMonthlyConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
                 </div>
                 {
                     monthlyEmployeeConveyance?.length > 0 ?
