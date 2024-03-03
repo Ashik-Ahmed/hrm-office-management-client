@@ -1,6 +1,6 @@
 'use client'
 import { getMonthlyRequisitionData } from '@/libs/requisition';
-import { exportRequisition } from '@/utils/exportRequisition';
+import { exportRequisition, exportRequisitionReport } from '@/utils/exportRequisition';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -131,6 +131,11 @@ const MonthlyRequisitionDataTable = () => {
         // }
     }, [selectedMonth, selectedYear])
 
+    const exportToPdf = (monthlyRequisition) => {
+        console.log(monthlyRequisition);
+        exportRequisitionReport(monthlyRequisition)
+    }
+
 
     const buttonTooltipOptions = {
         position: 'bottom',
@@ -141,14 +146,6 @@ const MonthlyRequisitionDataTable = () => {
             /* Add any other custom styles here */
         },
     };
-
-    const dateBodytemplate = (rowData) => {
-        return (
-            <div>
-                {rowData.createdAt.split("T")[0]}
-            </div>
-        )
-    }
 
 
     const statusBodyTemplate = (rowData) => {
@@ -206,11 +203,12 @@ const MonthlyRequisitionDataTable = () => {
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>REQUISITION HISTORY</h3>
+                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyRequisition?.requisitions.length > 0} disabled={monthlyRequisition?.requisitions.length < 1} rounded text severity='danger' onClick={() => exportToPdf(monthlyRequisition)} data-pr-tooltip="PDF" />
                 </div>
                 {
                     monthlyRequisition ?
                         <DataTable value={monthlyRequisition?.requisitions} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
-                            <Column field='createdAt' body={dateBodytemplate} header="Date" sortable></Column>
+                            <Column field='createdAt' header="Date" sortable></Column>
                             <Column field='department' header="Department"></Column>
                             <Column field='proposedItems' header="#Proposed item(s)"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}

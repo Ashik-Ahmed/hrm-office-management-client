@@ -158,14 +158,6 @@ const RequisitionHistoryTable = ({ user }) => {
         },
     };
 
-    const dateBodytemplate = (rowData) => {
-        return (
-            <div>
-                {rowData.createdAt.split("T")[0]}
-            </div>
-        )
-    }
-
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
@@ -207,7 +199,7 @@ const RequisitionHistoryTable = ({ user }) => {
                 {
                     userRequisitionData?.data?.length > 0 ?
                         <DataTable value={userRequisitionData?.data} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
-                            <Column field='createdAt' body={dateBodytemplate} header="Date" sortable></Column>
+                            <Column field='createdAt' header="Date" sortable></Column>
                             <Column field='department' header="Department"></Column>
                             <Column field='totalProposedItems' header="#Proposed item(s)"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
