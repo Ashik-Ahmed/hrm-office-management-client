@@ -14,8 +14,9 @@ import { useForm } from 'react-hook-form';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import Loading from '../Loading/Loading';
+import { useSession } from 'next-auth/react';
 
-const MonthlyRequisitionDataTable = () => {
+const MonthlyRequisitionDataTable = ({ user }) => {
 
     const toast = useRef()
     const isFirstRender = useRef(true);
@@ -132,6 +133,8 @@ const MonthlyRequisitionDataTable = () => {
     }, [selectedMonth, selectedYear])
 
     const exportToPdf = (monthlyRequisition) => {
+        monthlyRequisition.generatedBy = user.name
+        monthlyRequisition.reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`
         console.log(monthlyRequisition);
         exportRequisitionReport(monthlyRequisition)
     }
