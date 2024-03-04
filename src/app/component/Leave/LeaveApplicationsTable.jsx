@@ -17,6 +17,7 @@ const LeaveApplicationsTable = () => {
     const toast = useRef()
     const { data: session, status } = useSession();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
+    console.log(session);
 
     const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null)
     const [leaveStatus, setLeaveStatus] = useState()
@@ -66,7 +67,8 @@ const LeaveApplicationsTable = () => {
         setLoading(true);
         data.employee = {
             name: session.user.name,
-            employeeId: session.user._id
+            employeeId: session.user._id,
+            email: session.user.email
         };
         data.fromDate = fromDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         data.toDate = toDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
