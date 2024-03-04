@@ -27,11 +27,11 @@ const LeaveApplicationsTable = () => {
     const [maxToDate, setMaxToDate] = useState()
     const [rejoinDate, setRejoinDate] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+    const [selectedYear, setSelectedYear] = useState(new Date()?.getFullYear())
 
     // define dropdown years range
     const years = [];
-    for (let year = new Date().getFullYear() - 5; year <= new Date().getFullYear() + 5; year++) {
+    for (let year = new Date()?.getFullYear() - 5; year <= new Date()?.getFullYear() + 5; year++) {
         years.push({
             value: year,
             label: year,
@@ -139,6 +139,8 @@ const LeaveApplicationsTable = () => {
         <div>
             <Toast ref={toast} />
             <Button onClick={() => setLeaveFormDialog(true)} label='Apply for Leave' className='p-button-sm' />
+
+            {/* Leave Application Form */}
             <Dialog header="Leave Application" visible={leaveFormDialog} onHide={() => { resetForm() }}
                 style={{ width: '50vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
                 <div>
@@ -153,13 +155,13 @@ const LeaveApplicationsTable = () => {
                             <div>
                                 <Calendar
                                     {...register("fromDate", { required: "From date is required" })} dateFormat="dd-mm-yy" value={fromDate} onSelect={(e) => { setFromDate(e.value); handleStartDateChange(e) }} disabled={!selectedLeave} showIcon placeholder='From date*' />
-                                {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.fromDate.message}</span>}
+                                {errors.fromDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors?.fromDate?.message}</span>}
                             </div>
                             <div>
                                 <Calendar
                                     {...register("toDate", { required: "To date is required" })} dateFormat="dd-mm-yy" minDate={fromDate} maxDate={maxToDate}
                                     value={toDate} onSelect={(e) => setToDate(e.value)} disabled={!selectedLeave} showIcon placeholder='To date*' />
-                                {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate.message}</span>}
+                                {errors.toDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.toDate?.message}</span>}
                             </div>
                             <div>
                                 <InputText
@@ -171,7 +173,7 @@ const LeaveApplicationsTable = () => {
                         <div>
                             <Calendar
                                 {...register("rejoinDate", { required: "Re-joining date is required" })}
-                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value) }} dateFormat="dd-mm-yy" disabled={!toDate} minDate={toDate + 1} showIcon placeholder='Re-joining date*' className='w-full' />
+                                inputId="rejoin_date" value={rejoinDate} onSelect={(e) => { setRejoinDate(e.value) }} dateFormat="dd-mm-yy" disabled={!toDate} minDate={toDate} showIcon placeholder='Re-joining date*' className='w-full' />
                             {errors.rejoinDate?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejoinDate.message}</span>}
                         </div>
 
@@ -186,6 +188,7 @@ const LeaveApplicationsTable = () => {
                 </div>
             </Dialog>
 
+            {/* Leave Application Table */}
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex justify-between items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>LEAVE APPLICATIONS</h3>
