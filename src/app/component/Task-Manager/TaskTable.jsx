@@ -80,7 +80,6 @@ const TaskTable = ({ user, allDepartments }) => {
             alert('Set Assignee First!');
             return;
         }
-        console.log(data);
         const taskData = data;
         taskData.creator = user.email;
         taskData.assignee = selectedAssignee._id;
@@ -97,11 +96,9 @@ const TaskTable = ({ user, allDepartments }) => {
             .then(data => {
                 if (data.status == "Success") {
                     getAllTasks()
-                    console.log('New task added successfully');
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Task added', life: 3000 });
                 }
                 else {
-                    console.log('Task add Failed');
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
             })
@@ -140,6 +137,7 @@ const TaskTable = ({ user, allDepartments }) => {
                 <DataTable value={tasks} size='small' emptyMessage="No tasks found" loading={loading}>
                     <Column body={headingBodyTemplate} header="Task Title"></Column>
                     <Column body={startBodyTemplate} header="Started"></Column>
+                    <Column field='department' header="Department"></Column>
                     <Column field='creator' header="Created By"></Column>
                     <Column field='assignee' header="Assignee"></Column>
                     {/* <Column body={actionBodyTemplate} header="Action"></Column> */}

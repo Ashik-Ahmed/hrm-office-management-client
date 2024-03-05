@@ -154,7 +154,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
-                <p className={`p-1 rounded-md text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
+                <p className={`p-1 rounded-md text-sm text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
             </div >
         )
     }
