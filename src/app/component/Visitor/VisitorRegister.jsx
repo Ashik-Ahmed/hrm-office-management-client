@@ -127,7 +127,8 @@ const VisitorRegister = () => {
                         <h3 className='font-light'>VISITOR LIST</h3>
                         <AiFillPlusSquare onClick={() => setInsertVisitor(true)} size={20} color='#8C239E' className='cursor-pointer' />
                     </div>
-                    <div>
+                    <div className='flex gap-2'>
+                        <Button type="button" icon="pi pi-file-pdf" severity="danger" disabled={!monthlyVisitors} rounded data-pr-tooltip="PDF" />
 
                         <span className="p-input-icon-left">
                             <i className="pi pi-search" />
