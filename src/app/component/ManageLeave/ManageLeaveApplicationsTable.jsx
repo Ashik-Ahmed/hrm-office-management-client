@@ -103,7 +103,7 @@ const ManageLeaveApplicationsTable = () => {
         })
             .then(res => res.json())
             .then(data => {
-                if (data.data.modifiedCount > 0) {
+                if (data.data?.modifiedCount > 0) {
                     console.log("Successfullu Rejected");
                     fetchLeaveApplications()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Leave rejected', life: 3000 });
@@ -139,7 +139,7 @@ const ManageLeaveApplicationsTable = () => {
     const statusBodyTemplate = (rowData) => {
         return (
             <div>
-                <p className={`w-fit p-1 rounded-md text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved by HR" ? "bg-green-400" : (rowData?.currentStatus?.status == "Approved by Management" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status}</p>
+                <p className={`w-fit p-1 rounded-md text-sm text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved by HR" ? "bg-green-400" : (rowData?.currentStatus?.status == "Approved by Management" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status}</p>
             </div>
         )
     }
@@ -153,12 +153,12 @@ const ManageLeaveApplicationsTable = () => {
                 <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setApproveDialog(rowData)} tooltip="Approve" tooltipOptions={buttonTooltipOptions} icon="pi pi-check"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management")
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
                     }
                     rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setRejectDialog(rowData)} tooltip="Reject" tooltipOptions={buttonTooltipOptions} icon="pi pi-times"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management")
+                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
                     }
                     rounded text raised severity="danger" aria-label="Cancel" style={{ width: '35px', height: '35px' }} />
             </div>
