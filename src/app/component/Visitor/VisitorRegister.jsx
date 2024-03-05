@@ -13,7 +13,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
-const VisitorRegister = () => {
+const VisitorRegister = ({ user }) => {
 
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -100,6 +100,18 @@ const VisitorRegister = () => {
         setLoading(false)
     }
 
+    const exportVisitorList = (visitorList) => {
+        const reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`;
+        const generatedBy = user.user.name
+
+        const visitorReport = {
+            reportMonth,
+            generatedBy,
+            visitorList
+        }
+        console.log(visitorReport);
+    }
+
     const dateBodyTemplate = (rowData => {
         return (
             <div>{rowData.createdAt.split("T")[0]}</div>
@@ -128,7 +140,7 @@ const VisitorRegister = () => {
                         <AiFillPlusSquare onClick={() => setInsertVisitor(true)} size={20} color='#8C239E' className='cursor-pointer' />
                     </div>
                     <div className='flex gap-2'>
-                        <Button type="button" icon="pi pi-file-pdf" severity="danger" disabled={!monthlyVisitors} rounded data-pr-tooltip="PDF" />
+                        <Button onClick={() => exportVisitorList(monthlyVisitors)} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!monthlyVisitors} rounded data-pr-tooltip="PDF" />
 
                         <span className="p-input-icon-left">
                             <i className="pi pi-search" />

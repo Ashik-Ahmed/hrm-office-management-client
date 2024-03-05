@@ -1,10 +1,12 @@
 import React from 'react';
 import VisitorRegister from '../component/Visitor/VisitorRegister';
+import { auth } from '../auth';
 
-const page = () => {
+const page = async () => {
+    const user = await auth();
     return (
         <div>
-            <VisitorRegister />
+            <VisitorRegister user={user} />
         </div>
     );
 };
