@@ -32,6 +32,7 @@ const VisitorRegister = ({ user }) => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         name: { value: null, matchMode: FilterMatchMode.CONTAINS },
         mobile: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        company: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
 
     const onGlobalFilterChange = (e) => {
@@ -144,7 +145,7 @@ const VisitorRegister = ({ user }) => {
                         </span>
                     </div>
                 </div>
-                <DataTable value={monthlyVisitors} size='small' loading={loading} filters={filters} filterDisplay="menu" globalFilterFields={['name', 'mobile']} emptyMessage="No Visitor Found">
+                <DataTable value={monthlyVisitors} size='small' loading={loading} filters={filters} filterDisplay="menu" globalFilterFields={['name', 'mobile', 'company']} emptyMessage="No Visitor Found">
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                     <Column field='createdAt' header="Date"></Column>
                     <Column field='name' header="Name"></Column>
