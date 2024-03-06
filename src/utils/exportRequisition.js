@@ -167,7 +167,7 @@ exports.exportRequisitionReport = (requisitionDetails) => {
                 doc.text('Director, Admin & Finance', pageWidth - 80, pageHeight - 24);
 
 
-                doc.save(`Requisition report.pdf`);
+                doc.save(`Requisition report ${requisitionDetails?.reportMonth}.pdf`);
             })
         })
     }

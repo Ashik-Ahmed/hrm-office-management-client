@@ -1,6 +1,7 @@
 'use client'
 
 import { getMonthlyVisitors } from '@/libs/visitor';
+import { exportVisitorReport } from '@/utils/exportVisitor';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -109,7 +110,8 @@ const VisitorRegister = ({ user }) => {
             generatedBy,
             visitorList
         }
-        console.log(visitorReport);
+
+        exportVisitorReport(visitorReport)
     }
 
     const dateBodyTemplate = (rowData => {
