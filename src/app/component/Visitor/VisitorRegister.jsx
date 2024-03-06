@@ -24,7 +24,7 @@ const VisitorRegister = ({ user }) => {
     const [monthlyVisitors, setMonthlyVisitors] = useState([])
     const [insertVisitor, setInsertVisitor] = useState(false)
     const [entryTime, setEntryTime] = useState()
-    const [exitTime, setExitTime] = useState()
+    // const [exitTime, setExitTime] = useState()
     const [loading, setLoading] = useState(false)
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -67,11 +67,11 @@ const VisitorRegister = ({ user }) => {
         // data.entryTime = data.entryTime.toLocaleString()
         const entryHours = data.entryTime.getHours();
         const entryMinutes = data.entryTime.getMinutes();
-        const exitHours = data.exitTime.getHours();
-        const exitMinutes = data.exitTime.getMinutes();
+        // const exitHours = data.exitTime.getHours();
+        // const exitMinutes = data.exitTime.getMinutes();
 
         data.entryTime = `${entryHours}:${entryMinutes}:00`
-        data.exitTime = `${exitHours}:${exitMinutes}:00`
+        // data.exitTime = `${exitHours}:${exitMinutes}:00`
         console.log(data);
 
         setLoading(true)
@@ -90,7 +90,7 @@ const VisitorRegister = ({ user }) => {
                     setInsertVisitor(false);
                     reset();
                     setEntryTime(null);
-                    setExitTime(null)
+                    // setExitTime(null)
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Visitor recorded', life: 3000 });
                 }
                 else {
@@ -114,17 +114,11 @@ const VisitorRegister = ({ user }) => {
         exportVisitorReport(visitorReport)
     }
 
-    const dateBodyTemplate = (rowData => {
-        return (
-            <div>{rowData.createdAt.split("T")[0]}</div>
-        )
-    })
-
-    const entryExitTime = (rowData) => {
-        return (
-            <div>{(rowData.entryTime || 'N/A') + ' - ' + (rowData.exitTime || 'N/A')}</div>
-        )
-    }
+    // const entryExitTime = (rowData) => {
+    //     return (
+    //         <div>{(rowData.entryTime || 'N/A') + ' - ' + (rowData.exitTime || 'N/A')}</div>
+    //     )
+    // }
 
     return (
         <div>
@@ -152,17 +146,17 @@ const VisitorRegister = ({ user }) => {
                 </div>
                 <DataTable value={monthlyVisitors} size='small' loading={loading} filters={filters} filterDisplay="menu" globalFilterFields={['name', 'mobile']} emptyMessage="No Visitor Found">
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
-                    <Column body={dateBodyTemplate} header="Date"></Column>
+                    <Column field='createdAt' header="Date"></Column>
                     <Column field='name' header="Name"></Column>
                     <Column field='mobile' header="Mobile"></Column>
                     <Column field='company' header="From"></Column>
-                    <Column body={entryExitTime} header="Entry - Exit"></Column>
+                    <Column field='entryTime' header="Enter Time"></Column>
                     <Column field="purpose" header="Purpose"></Column>
                 </DataTable>
             </div>
 
             {/* insert visitor dialog  */}
-            <Dialog header="New Visitor" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset(); setEntryTime(null); setExitTime(null) }}>
+            <Dialog header="New Visitor" visible={insertVisitor} style={{ width: '50vw' }} onHide={() => { setInsertVisitor(false); reset(); setEntryTime(null) }}>
 
                 <form onSubmit={handleSubmit(handleInsertVisitor)} className='mt-2'>
 
@@ -205,7 +199,7 @@ const VisitorRegister = ({ user }) => {
                             />
                             {errors.entryTime?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.entryTime.message}</span>}
                         </div>
-                        <div className='w-full'>
+                        {/* <div className='w-full'>
                             <Controller
                                 name="exitTime"
                                 control={control}
@@ -216,7 +210,7 @@ const VisitorRegister = ({ user }) => {
                                 )}
                             />
 
-                        </div>
+                        </div> */}
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>

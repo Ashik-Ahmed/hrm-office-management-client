@@ -1,13 +1,14 @@
 exports.exportVisitorReport = (visitorData) => {
     console.log(visitorData);
     const cols = [
-        { field: 'name', header: 'Product' },
-        { field: 'model', header: 'Details' },
-        { field: 'proposedQuantity', header: '#Proposed Qty' },
+        { field: 'createdAt', header: 'Date' },
+        { field: 'name', header: 'Name' },
+        { field: 'mobile', header: 'Mobile' },
+        { field: 'company', header: 'From' },
         // { field: 'approvedQuantity', header: '#Approved Qty' },
-        { field: 'unitPrice', header: 'Unit Price' },
-        // { field: 'buyingPrice', header: 'Buying Price' },
-        { field: 'total', header: 'Total' },
+        { field: 'designation', header: 'Designation' },
+        { field: 'entryTime', header: 'Entry Time' },
+        { field: 'purpose', header: 'Purpose' },
     ]
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
@@ -60,7 +61,7 @@ exports.exportVisitorReport = (visitorData) => {
                 // doc.text(signature, 40, pageHeight - 30);
 
 
-                // doc.save(`Visitor Report - ${visitorData?.reportMonth}.pdf`)
+                doc.save(`Visitor Report - ${visitorData?.reportMonth}.pdf`)
 
 
             })
