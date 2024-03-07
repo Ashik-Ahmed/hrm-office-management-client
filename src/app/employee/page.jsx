@@ -20,6 +20,7 @@ const Users = () => {
     const [deleteUserDialog, setDeleteUserDialog] = useState(false)
     const [department, sertDepartment] = useState([])
     const [selectedDepartment, setSelectedDepartment] = useState(null)
+    const [queryDepartment, setQueryDepartment] = useState('')
     const [date, setDate] = useState('')
     const [role, setRole] = useState()
     const [image, setImage] = useState()
@@ -32,30 +33,36 @@ const Users = () => {
     const userRoles = ['Admin', 'Employee']
 
 
-    const fetchAllUsers = (department) => {
+    const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/employee?department=${department}`)
+
+        const query = {
+            department: queryDepartment.departmentName
+        }
+        console.log(query);
+
+        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName}`)
             .then(res => res.json())
             .then(data => {
-                setEmployees(data.data.employees)
-                console.log(data.data.employees);
+                setEmployees(data?.data?.employees)
+                // console.log(data.data.employees);
                 setLoading(false)
             })
     }
 
     useEffect(() => {
-        fetchAllUsers("MNP")
+        fetchAllUsers(queryDepartment)
 
         const departments = async () => {
             fetch(`http://localhost:5000/api/v1/department?status=Active`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data.data);
-                    sertDepartment(data.data)
+                    // console.log(data.data);
+                    sertDepartment(data?.data)
                 })
         }
         departments()
-    }, [])
+    }, [queryDepartment])
 
     if (!employees) {
         return <Loading />
@@ -209,10 +216,10 @@ const Users = () => {
             <Toast ref={toast} />
 
             {/* Employee Data Table  */}
-            <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} />
+            <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} department={department} queryDepartment={queryDepartment} setQueryDepartment={setQueryDepartment} />
 
             {/* add user dialog  */}
-            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset() }}>
+            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset(); setSelectedDepartment('') }}>
 
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
 

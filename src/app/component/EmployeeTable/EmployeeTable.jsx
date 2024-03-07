@@ -19,7 +19,7 @@ import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Link from 'next/link';
 
-const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDialog }) => {
+const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDialog, department, queryDepartment, setQueryDepartment }) => {
 
     const toast = useRef(null)
     const router = useRouter()
@@ -133,7 +133,7 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
         )
     }
 
-
+    // console.log(department);
 
     return (
         // <div className="card p-2 bg-white rounded-md shadow-xl">
@@ -145,6 +145,9 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
                     {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
                     {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
                     <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                </div>
+                <div>
+                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
                 </div>
                 {/* <span className="p-input-icon-left">
                     <i className="pi pi-search" />
