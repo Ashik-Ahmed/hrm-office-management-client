@@ -255,6 +255,7 @@ const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDi
                                 />
                                 <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
                                 <p className="text-sm text-gray-500">{employee.designation}</p>
+                                <p>{employee.department}</p>
                             </div>
 
                         </Link >

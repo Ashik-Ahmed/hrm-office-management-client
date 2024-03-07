@@ -32,9 +32,9 @@ const Users = () => {
     const userRoles = ['Admin', 'Employee']
 
 
-    const fetchAllUsers = () => {
+    const fetchAllUsers = (department) => {
         setLoading(true)
-        fetch('http://localhost:5000/api/v1/employee')
+        fetch(`http://localhost:5000/api/v1/employee?department=${department}`)
             .then(res => res.json())
             .then(data => {
                 setEmployees(data.data.employees)
@@ -44,7 +44,7 @@ const Users = () => {
     }
 
     useEffect(() => {
-        fetchAllUsers()
+        fetchAllUsers("MNP")
 
         const departments = async () => {
             fetch(`http://localhost:5000/api/v1/department?status=Active`)
