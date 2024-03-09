@@ -36,12 +36,8 @@ const Users = () => {
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
 
-        const query = {
-            department: queryDepartment.departmentName
-        }
-        console.log(query);
 
-        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName}`)
+        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName || 'All'}`)
             .then(res => res.json())
             .then(data => {
                 setEmployees(data?.data?.employees)
