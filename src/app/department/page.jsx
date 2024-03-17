@@ -6,6 +6,7 @@ const page = async () => {
 
     // const departmentList = await getAllDepartments();
 
+
     return (
         <div>
             <DepartmentTable />

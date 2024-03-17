@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
+import Cookies from 'universal-cookie';
 
 
 const LoginPage = () => {
@@ -13,6 +14,8 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const cookies = new Cookies();
 
 
     const handleTogglePassword = () => {

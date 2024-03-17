@@ -8,7 +8,6 @@ export async function loginAction(loginCredentials) {
 
 
     const { email, password } = loginCredentials;
-    console.log("From Login Action: ", email, password);
     try {
         await signIn("credentials", {
             email,

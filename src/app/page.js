@@ -11,16 +11,19 @@ import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 import { auth, signOut } from './auth'
 import { redirect } from 'next/navigation'
+// import { cookies } from 'next/headers'
 
 export default async function Home() {
 
   const session = await auth();
-
   console.log("session from homepage: ", session);
+
 
   if (!session) {
     redirect("/api/auth/signin");
   }
+
+  // console.log(cookies().get("authjs.callback-url"));
 
   return (
     <div className="text-gray-700">

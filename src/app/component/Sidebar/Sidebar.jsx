@@ -6,6 +6,7 @@ import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
 import { redirect, usePathname, useRouter } from 'next/navigation';
+import Cookies from 'universal-cookie';
 import { useSession } from 'next-auth/react';
 
 
@@ -13,6 +14,17 @@ const Sidebar = () => {
 
     const { data: session, status } = useSession()
 
+    console.log("session", session);
+
+    const cookie = new Cookies()
+
+    if (session) {
+        cookie.set("TOKEN", session.user.accessToken, { path: "/" });
+    }
+
+    if (!session) {
+        cookie.remove("TOKEN", { path: "/" });
+    }
 
     const currentPath = usePathname();
     // console.log(currentPath);
@@ -65,6 +77,7 @@ const Sidebar = () => {
                 // await signIn('Credentials', { callbackUrl: '/' })
                 // router.push('/api/auth/signin')
 
+
                 redirect("/api/auth/signout");
 
             }
@@ -99,7 +112,7 @@ const Sidebar = () => {
                             <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
                         </i> */}
                         <Link href={`/profile/${session?.user?._id}`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
-                        <Link href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link>
+                        <Link onClick={() => cookie.remove("TOKEN", { path: "/" })} href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link>
                         {/* <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> */}
                         {/* <Link href="/api/auth/signout"><RiLogoutCircleRLine size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> </Link> */}
 

@@ -19,10 +19,11 @@ import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Link from 'next/link';
 
-const EmployeeTable = ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDialog, department, queryDepartment, setQueryDepartment }) => {
+const EmployeeTable = async ({ users, fetchAllUsers, setAddUserDialog, setDeleteUserDialog, department, queryDepartment, setQueryDepartment }) => {
     const toast = useRef(null)
     const router = useRouter()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
 
     const [editEmployee, setEditEmployee] = useState();
     const [role, setRole] = useState();
