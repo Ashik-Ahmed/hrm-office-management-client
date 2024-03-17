@@ -10,8 +10,11 @@ import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Loading from '../component/Loading/Loading';
 import EmployeeTable from '../component/EmployeeTable/EmployeeTable';
+import Cookies from 'universal-cookie';
 
 const Users = () => {
+
+    const cookie = new Cookies();
 
     const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -37,7 +40,11 @@ const Users = () => {
         setLoading(true)
 
 
-        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName || 'All'}`)
+        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName || 'All'}`, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setEmployees(data?.data?.employees)
@@ -50,7 +57,11 @@ const Users = () => {
         fetchAllUsers(queryDepartment)
 
         const departments = async () => {
-            fetch(`http://localhost:5000/api/v1/department?status=Active`)
+            fetch(`http://localhost:5000/api/v1/department?status=Active`, {
+                headers: {
+                    'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     // console.log(data.data);
@@ -97,7 +108,8 @@ const Users = () => {
                             fetch('http://localhost:5000/api/v1/employee', {
                                 method: 'POST',
                                 headers: {
-                                    'content-type': 'application/json'
+                                    'content-type': 'application/json',
+                                    'Authorization': `Bearer ${cookie.get('TOKEN')}`
                                 },
                                 body: JSON.stringify(userData)
                             })
@@ -135,7 +147,8 @@ const Users = () => {
                 fetch('http://localhost:5000/api/v1/employee', {
                     method: 'POST',
                     headers: {
-                        'content-type': 'application/json'
+                        'content-type': 'application/json',
+                        'Authorization': `Bearer ${cookie.get('TOKEN')}`
                     },
                     body: JSON.stringify(userData)
                 })
@@ -188,7 +201,10 @@ const Users = () => {
         // console.log('user delete', deleteUserDialog.firstName);
 
         fetch(`http://localhost:5000/api/v1/employee/${deleteUserDialog._id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
         })
             .then(res => res.json())
             .then(data => {
