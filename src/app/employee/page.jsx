@@ -41,7 +41,7 @@ const Users = () => {
             .then(res => res.json())
             .then(data => {
                 setEmployees(data?.data?.employees)
-                // console.log(data.data.employees);
+                console.log(data?.data?.employees);
                 setLoading(false)
             })
     }
@@ -60,9 +60,9 @@ const Users = () => {
         departments()
     }, [queryDepartment])
 
-    if (!employees) {
-        return <Loading />
-    }
+    // if (!employees) {
+    //     return <Loading />
+    // }
 
     const handlePhotoChange = (event) => {
         setImage(event.target.files[0]);

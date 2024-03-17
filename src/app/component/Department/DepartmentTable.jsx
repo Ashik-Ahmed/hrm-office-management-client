@@ -70,7 +70,8 @@ const DepartmentTable = () => {
         fetch(`http://localhost:5000/api/v1/department/${deptId}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(updatedData)
         })
