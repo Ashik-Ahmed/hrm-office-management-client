@@ -14,16 +14,12 @@ const Sidebar = () => {
 
     const { data: session, status } = useSession()
 
-    console.log("session", session);
+    // console.log("session", session);
 
     const cookie = new Cookies()
 
     if (session) {
         cookie.set("TOKEN", session.user.accessToken, { path: "/" });
-    }
-
-    if (!session) {
-        cookie.remove("TOKEN", { path: "/" });
     }
 
     const currentPath = usePathname();

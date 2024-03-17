@@ -11,8 +11,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import Loading from '../Loading/Loading';
+import Cookies from 'universal-cookie';
 
 const DepartmentTable = () => {
+
+    const cookie = new Cookies();
 
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -25,7 +28,7 @@ const DepartmentTable = () => {
 
     const getDepartmentData = async () => {
         setLoading(true)
-        const depts = await getAllDepartments();
+        const depts = await getAllDepartments(cookie.get('TOKEN'));
         setDepartments(depts);
         setLoading(false)
     }
@@ -39,7 +42,8 @@ const DepartmentTable = () => {
         fetch('http://localhost:5000/api/v1/department', {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(data)
         })
@@ -47,14 +51,15 @@ const DepartmentTable = () => {
             .then(async data => {
                 if (data.status == "Success") {
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Department Created', life: 3000 });
-                    const departmentData = await getAllDepartments()
-                    setDepartments(departmentData);
+                    await getDepartmentData();
+                    // const departmentData = await getDepartmentData();
+                    // setDepartments(departmentData);
                     reset();
                 }
                 else {
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                    setLoading(false)
                 }
-                setLoading(false)
                 setCreateDepartmentDialog(null)
             })
     }
