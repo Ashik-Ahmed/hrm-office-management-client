@@ -3,8 +3,12 @@
 import { useSession } from 'next-auth/react';
 import { Chart } from 'primereact/chart';
 import React, { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 
 const LeaveStatusGraph = () => {
+
+    const cookie = new Cookies();
+
     const { data: session, status } = useSession();
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
@@ -17,7 +21,11 @@ const LeaveStatusGraph = () => {
         setLoading(true)
         const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`
 
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
 

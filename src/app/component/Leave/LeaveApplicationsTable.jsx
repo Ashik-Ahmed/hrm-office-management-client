@@ -11,13 +11,16 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Cookies from 'universal-cookie';
 
 const LeaveApplicationsTable = () => {
+
+    const cookie = new Cookies();
 
     const toast = useRef()
     const { data: session, status } = useSession();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    console.log(session);
+    // console.log(session);
 
     const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null)
     const [leaveStatus, setLeaveStatus] = useState()
@@ -41,7 +44,11 @@ const LeaveApplicationsTable = () => {
 
     const getLeaveApplications = (employeeId) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}?year=${selectedYear}`)
+        fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}?year=${selectedYear}`, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data.data)
@@ -51,7 +58,11 @@ const LeaveApplicationsTable = () => {
     }
 
     const getLeaveStatusData = (employeeId) => {
-        fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`)
+        fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setLeaveStatus(data.data)
@@ -78,7 +89,8 @@ const LeaveApplicationsTable = () => {
         fetch('http://localhost:5000/api/v1/leaveApplication', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(data)
         })

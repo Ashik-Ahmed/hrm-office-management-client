@@ -44,7 +44,7 @@ const Users = () => {
         setLoading(true)
 
 
-        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment.departmentName || 'All'}`, {
+        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment?.departmentName || 'All'}`, {
             headers: {
                 'Authorization': `Bearer ${cookie.get('TOKEN')}`
             }
@@ -107,7 +107,7 @@ const Users = () => {
                     .then(data => {
                         console.log(data);
 
-                        if (data.data.url) {
+                        if (data?.data?.url) {
                             userData.image = data.data.url
                             fetch('http://localhost:5000/api/v1/employee', {
                                 method: 'POST',
