@@ -245,28 +245,30 @@ const EmployeeTable = async ({ users, fetchAllUsers, setAddUserDialog, setDelete
             <div className="container mx-auto p-2" >
                 {
                     users ?
-                        users?.map((employee) => (
-                            <div key={employee._id} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                <Link href={`/employee/${employee._id}`}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {
+                                users?.map((employee) => (
+                                    <Link href={`/employee/${employee._id}`} key={employee._id} >
 
-                                    <div className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
-                                        <Image
-                                            src={employee.image || user}
-                                            alt={employee.name}
-                                            className="w-full h-40 object-contain mb-2 rounded-md"
-                                            width={200}
-                                            height={200}
-                                            priority
-                                        />
-                                        <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
-                                        <p className="text-sm text-gray-500">{employee.designation}</p>
-                                        <p>{employee.department}</p>
-                                    </div>
+                                        <div className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
+                                            <Image
+                                                src={employee.image || user}
+                                                alt={employee.name}
+                                                className="w-full h-40 object-contain mb-2 rounded-md"
+                                                width={200}
+                                                height={200}
+                                                priority
+                                            />
+                                            <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
+                                            <p className="text-sm text-gray-500">{employee.designation}</p>
+                                            <p>{employee.department}</p>
+                                        </div>
 
-                                </Link >
+                                    </Link >
 
-                            </div >
-                        ))
+                                ))
+                            }
+                        </div >
                         :
                         <div className="bg-white p-4 rounded-md h-full mx-auto text-center">
                             <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
