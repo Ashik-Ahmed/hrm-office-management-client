@@ -6,8 +6,11 @@ import userPhoto from '../../../../public/images/user.png'
 import Loading from '@/app/component/Loading/Loading';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import Cookies from 'universal-cookie';
 
-const UserDetails = async ({ params: { id } }) => {
+const UserDetails = ({ params: { id } }) => {
+
+    const cookie = new Cookies();
 
     const toast = useRef()
     const [employee, setEmployee] = useState()
@@ -15,7 +18,11 @@ const UserDetails = async ({ params: { id } }) => {
     useEffect(() => {
         const url = `http://localhost:5000/api/v1/employee/${id}`;
 
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data)
