@@ -33,11 +33,15 @@ const TaskTable = ({ user, allDepartments }) => {
     const getAllTasks = () => {
         setLoading(true)
         const url = `http://localhost:5000/api/v1/task/get-all-task/${user.email}?currentStatus=${currentStatus}&page=${page}`;
-        console.log(url);
-        fetch(url)
+        // console.log(url);
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.status = "Success") {
                     setTasks(data.data?.tasks)
                     setPageCount(data.data?.totalPage)
@@ -51,7 +55,11 @@ const TaskTable = ({ user, allDepartments }) => {
 
     const getEmployeeByDepartment = (department) => {
         const url = `http://localhost:5000/api/v1/employee/employee-by-dept?department=${department}`;
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -88,7 +96,8 @@ const TaskTable = ({ user, allDepartments }) => {
         fetch('http://localhost:5000/api/v1/task', {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user.accessToken}`
             },
             body: JSON.stringify(taskData)
         })

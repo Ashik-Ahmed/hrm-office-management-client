@@ -9,7 +9,7 @@ import Loading from '../Loading/Loading';
 import { Dialog } from 'primereact/dialog';
 
 const Task = ({ taskId, user }) => {
-
+    console.log(user);
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
     const [task, setTask] = useState()
@@ -18,12 +18,16 @@ const Task = ({ taskId, user }) => {
 
     const getTask = (id) => {
         const url = `http://localhost:5000/api/v1/task/${id}`;
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 if (data.status == "Success") {
                     setTask(data.data)
-                    console.log(data);
+                    // console.log(data);
                 }
             })
     }
@@ -36,13 +40,14 @@ const Task = ({ taskId, user }) => {
         fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                'Authorization': `Bearer ${user.accessToken}`
             },
             body: JSON.stringify({ currentStatus: 'Closed' })
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.status == "Success") {
                     getTask(taskId);
                     setCloseTaskDialog(false)
@@ -58,13 +63,14 @@ const Task = ({ taskId, user }) => {
         fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                'Authorization': `Bearer ${user.accessToken}`
             },
             body: JSON.stringify(updates)
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.status == "Success") {
                     getTask(taskId);
                     reset();
