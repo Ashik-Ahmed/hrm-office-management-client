@@ -9,7 +9,7 @@ import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 import Cookies from 'universal-cookie';
 
 
-const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
+const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
     const cookie = new Cookies();
 
@@ -33,7 +33,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         //         setConveyanceData(data?.data)
         //     })
 
-        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear, cookie.get('TOKEN'))
+        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear, session?.user.accessToken)
         setConveyanceData(employeeConveyanceDetails)
         setLoading(false)
     }
@@ -43,7 +43,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
 
-        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, cookie.get('TOKEN'))
+        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, session?.user.accessToken)
 
         //extract the pending conveyances from all conveyances of the month
         const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
@@ -66,7 +66,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${session?.user.accessToken}`
             },
             body: JSON.stringify(pendingConveyanceIds)
         })
@@ -87,6 +87,9 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
     }
 
     const exportConveyanceReport = (conveyanceData) => {
+        conveyanceData.reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`;
+        conveyanceData.generatedBy = session?.user.name;
+
         exportMonthlyConveyanceReport(conveyanceData)
     }
 
@@ -116,11 +119,11 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
-                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.length > 0} disabled={monthlyEmployeeConveyance?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
+                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.employeeData?.length > 0} disabled={monthlyEmployeeConveyance?.employeeData?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
                 </div>
                 {
-                    monthlyEmployeeConveyance?.length > 0 ?
-                        <DataTable value={monthlyEmployeeConveyance} size='small' emptyMessage="No Due Conveyance">
+                    monthlyEmployeeConveyance?.employeeData?.length > 0 ?
+                        <DataTable value={monthlyEmployeeConveyance?.employeeData} size='small' emptyMessage="No Due Conveyance">
                             {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                             <Column field='name' header="Name"></Column>
                             <Column field='totalConveyances' header="Total Trips"></Column>

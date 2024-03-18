@@ -6,11 +6,8 @@ import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
 import Loading from '../Loading/Loading';
-import Cookies from 'universal-cookie';
 
-const ManageConveyance = () => {
-
-    const cookie = new Cookies();
+const ManageConveyance = ({ session }) => {
 
     const isFirstRender = useRef(true);
 
@@ -32,7 +29,7 @@ const ManageConveyance = () => {
 
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${session?.user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -78,7 +75,7 @@ const ManageConveyance = () => {
                         {
                             loading ? <p>Loading.......</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeeTotalAmount || "00"} `} </p>
                         }
-                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeeTotalConveyances || "0"}`}</span> trips in total</p>
+                        <p className='text-xs mt-2'>Found <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeeTotalConveyances || "0"} `}</span> trips in total</p>
                     </div>
                 </div>
                 <div onMouseEnter={() => setDueIconColor('white')} onMouseLeave={() => setDueIconColor('gray')} className="bg-white p-[20px] w-fit rounded-xl shadow-lg flex items-center group hover:bg-violet-400 duration-500">
@@ -86,15 +83,15 @@ const ManageConveyance = () => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due Bill</p>
                         {
-                            loading ? <p>Loading.......</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeePendingAmount || "00"}`}</p>
+                            loading ? <p>Loading.......</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${monthlyEmployeeConveyance?.allEmployeePendingAmount || "00"} `}</p>
                         }
-                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeePendingConveyances || "0"}`}</span> trips</p>
+                        <p className='text-xs mt-2'>Payment due for <span className='text-sky-500 group-hover:text-yellow-300 text-[15px] font-semibold'>{`${monthlyEmployeeConveyance?.allEmployeePendingConveyances || "0"} `}</span> trips</p>
                     </div>
                 </div>
             </div>
 
             <div className='mt-4'>
-                <EmployeeConveyanceDetailsTable getConveyanceData={getConveyanceData} monthlyEmployeeConveyance={monthlyEmployeeConveyance?.employeeData} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+                <EmployeeConveyanceDetailsTable session={session} getConveyanceData={getConveyanceData} monthlyEmployeeConveyance={monthlyEmployeeConveyance} selectedMonth={selectedMonth} selectedYear={selectedYear} />
             </div>
         </div>
     );
