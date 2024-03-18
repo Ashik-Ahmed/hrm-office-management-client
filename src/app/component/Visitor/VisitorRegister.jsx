@@ -51,8 +51,8 @@ const VisitorRegister = ({ user }) => {
         const month = new Date(selectedMonth).getMonth() + 1;
         const year = new Date(selectedYear).getFullYear();
         setLoading(true)
-        const visitors = await getMonthlyVisitors(month, year)
-        console.log(visitors.data);
+        const visitors = await getMonthlyVisitors(month, year, user?.user.accessToken)
+        // console.log(visitors.data);
         setMonthlyVisitors(visitors.data);
         setLoading(false)
     }
@@ -79,14 +79,14 @@ const VisitorRegister = ({ user }) => {
         fetch('http://localhost:5000/api/v1/visitor', {
             method: "POST",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user?.user.accessToken}`
             },
             body: JSON.stringify(data)
         })
             .then(res => res.json())
             .then(data => {
                 if (data.status == 'Success') {
-                    console.log("Successfully inserted into DB");
                     getMonthlyVisitorData()
                     setInsertVisitor(false);
                     reset();
@@ -95,7 +95,6 @@ const VisitorRegister = ({ user }) => {
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Visitor recorded', life: 3000 });
                 }
                 else {
-                    console.log(data);
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
             })

@@ -216,7 +216,7 @@ const RequisitionHistoryTable = ({ user }) => {
                             <Column field='department' header="Department"></Column>
                             <Column field='totalProposedItems' header="#Proposed Qty"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
-                            <Column field="proposedAmount" header="$Proposed" sortable></Column>
+                            <Column field="proposedAmount" header="Proposed Amnt" sortable></Column>
                             {/* <Column field="finalAmount" header="Final Amount"></Column> */}
                             <Column body={statusBodyTemplate} header="Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>

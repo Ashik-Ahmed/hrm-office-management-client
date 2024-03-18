@@ -113,7 +113,7 @@ exports.exportRequisitionReport = (requisitionDetails) => {
                 doc.setTextColor(10);
                 doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
                 doc.setFontSize(12);
-                doc.text(`Requisition Report`, 120, 32);
+                doc.text(`Requisition Report: ${requisitionDetails?.reportMonth}`, 120, 32);
 
                 doc.setFontSize(11);
                 doc.text(`Report Month: ${requisitionDetails?.reportMonth}`, 30, 45);

@@ -33,10 +33,21 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     const [selectedYear, setSelectedyear] = useState(new Date())
     const [loading, setLoading] = useState(false)
 
+    const getMonthlyRequisitionHiistory = async () => {
+        setLoading(true)
+        const monthlyRequisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear(), user.accessToken)
+        setMonthlyRequisition(monthlyRequisitionData.data)
+        setLoading(false)
+    }
+
     //get requisition details by id
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`)
+        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setRequisitionDetails(data.data)
@@ -53,7 +64,8 @@ const MonthlyRequisitionDataTable = ({ user }) => {
         fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
             method: "PATCH",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -61,8 +73,9 @@ const MonthlyRequisitionDataTable = ({ user }) => {
             .then(async data => {
                 if (data.status == "Success") {
                     console.log('Successfully updated');
-                    const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
-                    setMonthlyRequisition(requisitionData.data)
+                    // const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+                    // setMonthlyRequisition(requisitionData.data)
+                    getMonthlyRequisitionHiistory();
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition updated', life: 3000 });
                 }
                 else {
@@ -79,19 +92,21 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     const handleCancelRequisition = (requisitionId) => {
         setLoading(true);
         const url = `http://localhost:5000/api/v1/requisition/cancelRequisition/${requisitionId}`;
-        console.log(url);
+        // console.log(url);
         fetch(url, {
             method: "PATCH",
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
             .then(async data => {
                 if (data.status == "Success") {
                     console.log('Successfully canceled');
-                    const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
-                    setMonthlyRequisition(requisitionData.data)
+                    // const requisitionData = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+                    // setMonthlyRequisition(requisitionData.data)
+                    getMonthlyRequisitionHiistory();
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition canceled', life: 3000 });
                 }
                 else {
@@ -103,16 +118,16 @@ const MonthlyRequisitionDataTable = ({ user }) => {
             })
     }
 
-    const getRequisitions = async () => {
-        const data = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
-        console.log(data);
+    // const getRequisitions = async () => {
+    //     const data = await getMonthlyRequisitionData((selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+    //     console.log(data);
 
-        setMonthlyRequisition(data.data)
-    }
+    //     setMonthlyRequisition(data.data)
+    // }
 
     useEffect(() => {
 
-        getRequisitions()
+        getMonthlyRequisitionHiistory()
 
         // Do not fetch data on first render
         // if (isFirstRender.current) {
