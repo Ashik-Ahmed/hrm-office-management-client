@@ -22,10 +22,14 @@ const Conveyance = ({ session }) => {
 
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
-        console.log(filterMonth, filterYear);
+        // console.log(filterMonth, filterYear);
         const url = `http://localhost:5000/api/v1/conveyance/${session.user.email}?month=${filterMonth}&year=${filterYear}`;
 
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${session?.user?.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data.data);

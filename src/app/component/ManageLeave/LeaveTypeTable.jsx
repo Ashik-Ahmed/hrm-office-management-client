@@ -11,8 +11,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditAndDeleteDialog from './EditAndDeleteDialog';
+import Cookies from 'universal-cookie';
 
 const LeaveTypeTable = () => {
+
+    const cookie = new Cookies();
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const { data: session, status } = useSession();
@@ -29,7 +32,10 @@ const LeaveTypeTable = () => {
     const getAllLeaves = () => {
         setLoading(true)
         fetch('http://localhost:5000/api/v1/leave', {
-            cache: "no-cache"
+            cache: "no-cache",
+            headers: {
+                "Authorization": `Bearer ${cookie.get('TOKEN')}`
+            }
         }).then(res => res.json())
             .then(data => {
                 setLeaves(data.data)
@@ -49,7 +55,8 @@ const LeaveTypeTable = () => {
         fetch('http://localhost:5000/api/v1/leave', {
             method: "POST",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": `Bearer ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(data)
         })

@@ -4,8 +4,11 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Cookies from 'universal-cookie';
 
 const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, session, getAllLeaves }) => {
+
+    const cookie = new Cookies();
 
     const { register, control, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
     // const { isDirty, isValid } = formState;
@@ -27,7 +30,8 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
         fetch(`http://localhost:5000/api/v1/leave/${editLeaveDialog._id}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": `Bearer  ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(updatedLeaveInfo)
         })
@@ -52,6 +56,9 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
         setLoading(true)
         fetch(`http://localhost:5000/api/v1/leave/${leaveData._id}`, {
             method: "DELETE",
+            headers: {
+                "Authorization": `Bearer  ${cookie.get('TOKEN')}`
+            }
         })
             .then(res => res.json())
             .then(data => {

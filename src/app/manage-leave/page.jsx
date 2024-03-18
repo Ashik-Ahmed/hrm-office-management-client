@@ -5,10 +5,10 @@ import ManageLeaveApplicationsTable from '../component/ManageLeave/ManageLeaveAp
 
 const ManageLeave = async () => {
 
-    const pendingLeaveApplications = await getAllPendingLeaveApplications();
+    // const pendingLeaveApplications = await getAllPendingLeaveApplications();
 
     // get all leaves from DB 
-    const availableLeaves = await getAllLeaves()
+    // const availableLeaves = await getAllLeaves()
     // .then(res => res.json())
 
 

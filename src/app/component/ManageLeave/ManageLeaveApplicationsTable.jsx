@@ -36,9 +36,14 @@ const ManageLeaveApplicationsTable = () => {
         });
     }
 
+    console.log(session?.user?.accessToken);
     const fetchLeaveApplications = () => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`)
+        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`, {
+            headers: {
+                "Authorization": `Bearer ${session?.user?.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setLeaveApplications(data.data)
@@ -63,7 +68,8 @@ const ManageLeaveApplicationsTable = () => {
         fetch(`http://localhost:5000/api/v1/leaveApplication/${approveDialog._id}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": `Bearer ${session?.user?.accessToken}`
             },
             body: JSON.stringify(currentStatus)
         })
@@ -97,7 +103,8 @@ const ManageLeaveApplicationsTable = () => {
         fetch(`http://localhost:5000/api/v1/leaveApplication/${rejectDialog._id}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": `Bearer ${session?.user?.accessToken}`
             },
             body: JSON.stringify(currentStatus)
         })
