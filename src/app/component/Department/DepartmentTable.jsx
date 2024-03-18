@@ -112,9 +112,9 @@ const DepartmentTable = () => {
         )
     }
 
-    if (!departments) {
-        return <Loading />
-    }
+    // if (!departments) {
+    //     return <Loading />
+    // }
 
 
     return (
