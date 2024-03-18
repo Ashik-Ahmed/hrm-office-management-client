@@ -6,7 +6,7 @@ import { auth } from '../auth';
 
 const Requisition = async () => {
     const { user } = await auth();
-    console.log(user);
+    // console.log(user);
 
     // const selectedMonth = new Date().getMonth() + 1
     // const selectedYear = new Date().getFullYear()

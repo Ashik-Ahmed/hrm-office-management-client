@@ -35,7 +35,7 @@ const RequisitionHistoryTable = ({ user }) => {
 
     const getUserRequisition = async () => {
         setLoading(true)
-        const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear())
+        const data = await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear(), user?.accessToken)
         console.log(data);
 
         setUserRequisitionData(data)
@@ -47,7 +47,11 @@ const RequisitionHistoryTable = ({ user }) => {
         getUserRequisition()
 
         const departments = async () => {
-            fetch(`http://localhost:5000/api/v1/department?status=Active`)
+            fetch(`http://localhost:5000/api/v1/department?status=Active`, {
+                headers: {
+                    'Authorization': `Bearer ${user?.accessToken}`
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.data);
@@ -94,7 +98,8 @@ const RequisitionHistoryTable = ({ user }) => {
         fetch('http://localhost:5000/api/v1/requisition', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(requisitionData)
         })
@@ -102,7 +107,8 @@ const RequisitionHistoryTable = ({ user }) => {
             .then(async data => {
 
                 if (data.status == "Success") {
-                    setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
+                    // setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
+                    getUserRequisition()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition Submitted', life: 3000 });
                 }
                 else {
@@ -117,7 +123,11 @@ const RequisitionHistoryTable = ({ user }) => {
 
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`)
+        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setRequisitionDetails(data.data)
@@ -129,14 +139,18 @@ const RequisitionHistoryTable = ({ user }) => {
     const deleteRequisition = async (requisitionId) => {
         console.log(requisitionId);
         fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
-            method: "Delete"
+            method: "Delete",
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`
+            }
         })
             .then(res => res.json())
             .then(async data => {
                 console.log(data);
                 if (data.status == "Success") {
                     console.log("Deleted Successfully");
-                    setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
+                    // setUserRequisitionData(await getUserRequisitionHistory(user._id, (selectedMonth.getMonth() + 1), selectedYear.getFullYear()))
+                    getUserRequisition()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Requisition deleted', life: 3000 });
                 }
                 else {
@@ -145,7 +159,6 @@ const RequisitionHistoryTable = ({ user }) => {
                 }
             })
         setDeleteRequisitionDialog(null)
-
     }
 
     const buttonTooltipOptions = {
@@ -161,7 +174,7 @@ const RequisitionHistoryTable = ({ user }) => {
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
-                <p className={`p-1 rounded-md text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
+                <p className={`p-1 rounded-md text-sm text-white text-center ${rowData.status == "Pending" ? "bg-yellow-400" : (rowData.status == "Completed" ? "bg-green-400" : "bg-red-400")}`}>{rowData.status}</p>
             </div >
         )
     }
@@ -201,9 +214,9 @@ const RequisitionHistoryTable = ({ user }) => {
                         <DataTable value={userRequisitionData?.data} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
                             <Column field='createdAt' header="Date" sortable></Column>
                             <Column field='department' header="Department"></Column>
-                            <Column field='totalProposedItems' header="#Proposed item(s)"></Column>
+                            <Column field='totalProposedItems' header="#Proposed Qty"></Column>
                             {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
-                            <Column field="proposedAmount" header="Proposed Amount" sortable></Column>
+                            <Column field="proposedAmount" header="$Proposed" sortable></Column>
                             {/* <Column field="finalAmount" header="Final Amount"></Column> */}
                             <Column body={statusBodyTemplate} header="Status"></Column>
                             <Column body={actionBodyTemplate} header="Action"></Column>

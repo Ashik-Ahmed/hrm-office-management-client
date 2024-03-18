@@ -7,6 +7,7 @@ import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 import Cookies from 'universal-cookie';
+import Loading from '../Loading/Loading';
 
 
 const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
@@ -122,8 +123,9 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
                     <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.employeeData?.length > 0} disabled={monthlyEmployeeConveyance?.employeeData?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
                 </div>
                 {
+
                     monthlyEmployeeConveyance?.employeeData?.length > 0 ?
-                        <DataTable value={monthlyEmployeeConveyance?.employeeData} size='small' emptyMessage="No Due Conveyance">
+                        <DataTable value={monthlyEmployeeConveyance?.employeeData} size='small' emptyMessage="No Conveyance found" >
                             {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                             <Column field='name' header="Name"></Column>
                             <Column field='totalConveyances' header="Total Trips"></Column>
@@ -135,6 +137,7 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
                         <div className='my-4 text-center'>
                             <p className='bg-sky-400 text-white p-2 inline'>No Conveyance Found</p>
                         </div>
+
                 }
             </div>
 
