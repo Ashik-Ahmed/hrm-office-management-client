@@ -6,8 +6,11 @@ import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
 import Loading from '../Loading/Loading';
+import Cookies from 'universal-cookie';
 
 const ManageConveyance = () => {
+
+    const cookie = new Cookies();
 
     const isFirstRender = useRef(true);
 
@@ -27,7 +30,11 @@ const ManageConveyance = () => {
         console.log(filterMonth, filterYear);
         const url = `http://localhost:5000/api/v1/conveyance/?month=${filterMonth}&year=${filterYear}`;
 
-        fetch(url)
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data.data);

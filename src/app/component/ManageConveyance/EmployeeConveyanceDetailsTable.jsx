@@ -6,9 +6,12 @@ import React, { useState } from 'react';
 import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
+import Cookies from 'universal-cookie';
 
 
 const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
+
+    const cookie = new Cookies();
 
     const [loading, setLoading] = useState(false)
     const [makePaymentDialog, setMakePaymentDialog] = useState(false)
@@ -30,7 +33,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         //         setConveyanceData(data?.data)
         //     })
 
-        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear)
+        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear, cookie.get('TOKEN'))
         setConveyanceData(employeeConveyanceDetails)
         setLoading(false)
     }
@@ -40,7 +43,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
 
-        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear)
+        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, cookie.get('TOKEN'))
 
         //extract the pending conveyances from all conveyances of the month
         const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
@@ -49,7 +52,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
     }
 
     const handleConveyanceBillPayment = () => {
-        console.log(makePaymentDialog);
+        // console.log(makePaymentDialog);
 
         const pendingConveyanceIds = []
 
@@ -62,7 +65,8 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
         fetch(`http://localhost:5000/api/v1/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
             method: 'PATCH',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${cookie.get('TOKEN')}`
             },
             body: JSON.stringify(pendingConveyanceIds)
         })
@@ -71,7 +75,7 @@ const EmployeeConveyanceDetailsTable = ({ getConveyanceData, monthlyEmployeeConv
                 console.log(data);
                 if (data.status == 'Success') {
                     console.log('success');
-                    getConveyanceData()
+                    getConveyanceData();
                 }
                 else {
                     console.log('failed');

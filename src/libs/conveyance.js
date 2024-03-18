@@ -1,7 +1,10 @@
-exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year) => {
+exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year, accessToken) => {
     const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${month}&year=${year}`;
 
     const conveyanceDetails = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        },
         next: { revalidate: 3 }
     }).then(res => res.json())
 
