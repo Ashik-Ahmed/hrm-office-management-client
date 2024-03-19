@@ -14,9 +14,9 @@ const Sidebar = ({ session }) => {
 
     const cookie = new Cookies()
 
-    // if (session) {
-    //     cookie.set("TOKEN", session.user.accessToken, { path: "/" });
-    // }
+    if (session) {
+        cookie.set("TOKEN", session.user.accessToken, { path: "/" });
+    }
 
     const currentPath = usePathname();
     // console.log(currentPath);
