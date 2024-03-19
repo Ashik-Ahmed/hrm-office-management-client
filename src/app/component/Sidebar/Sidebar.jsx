@@ -10,17 +10,13 @@ import Cookies from 'universal-cookie';
 import { useSession } from 'next-auth/react';
 
 
-const Sidebar = () => {
-
-    const { data: session, status } = useSession()
-
-    // console.log("session", session);
+const Sidebar = ({ session }) => {
 
     const cookie = new Cookies()
 
-    if (session) {
-        cookie.set("TOKEN", session.user.accessToken, { path: "/" });
-    }
+    // if (session) {
+    //     cookie.set("TOKEN", session.user.accessToken, { path: "/" });
+    // }
 
     const currentPath = usePathname();
     // console.log(currentPath);
@@ -80,9 +76,9 @@ const Sidebar = () => {
         }
     ];
 
-    if (!session) {
-        return <></>
-    }
+    // if (!session) {
+    //     return <></>
+    // }
 
     // if(status === "loading"){
     //     return <></>
