@@ -30,7 +30,7 @@ export const {
 
                     if (data?.status == "Success") {
                         // return data.data.employee;
-                        console.log("db employee: ", data?.data?.employee.accessToken);
+                        // console.log("db employee: ", data?.data?.employee.accessToken);
                         const employee = data?.data?.employee;
                         return employee;
                     }
