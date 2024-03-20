@@ -43,7 +43,6 @@ const Users = () => {
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
 
-
         fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment?.departmentName || 'All'}`, {
             headers: {
                 'Authorization': `Bearer ${cookie.get('TOKEN')}`
@@ -52,7 +51,7 @@ const Users = () => {
             .then(res => res.json())
             .then(data => {
                 setEmployees(data?.data?.employees)
-                console.log(data?.data?.employees);
+                console.log(data);
                 setLoading(false)
             })
     }

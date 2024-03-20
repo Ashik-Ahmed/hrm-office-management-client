@@ -11,7 +11,6 @@ import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 import { auth } from './auth'
 import { redirect } from 'next/navigation'
-// import { cookies } from 'next/headers'
 
 export default async function Home() {
 

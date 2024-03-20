@@ -4,6 +4,19 @@ import { auth } from './app/auth';
 export async function middleware(request) {
 
     const session = await auth();
+
+    // if (!session && !request.nextUrl.pathname.includes('/login')) {
+    //     // redirect("/api/auth/signin");
+    //     console.log("not logged in", request.url);
+    //     return NextResponse.redirect(new URL('/', request.url));
+    // }
+
+    // if (!session) {
+    //     // redirect("/api/auth/signin");
+    //     console.log("not logged in", request.url);
+    //     return NextResponse.redirect(new URL('/', request.url));
+    // }
+
     // Clone the request headers and set a new header `x-hello-from-middleware1`
     const requestHeaders = new Headers(request.headers)
     // requestHeaders.set('x-hello-from-middleware1', 'hello')
@@ -17,13 +30,15 @@ export async function middleware(request) {
     })
 
     // Set a cookie on the response
-    response.cookies.set('TOKEN', session?.user?.accessToken, {
-        path: '/',
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 1 // 1 day in seconds
-    });
+    if (session) {
+        response.cookies.set('TOKEN', session?.user?.accessToken, {
+            path: '/',
+            // httpOnly: true,
+            // secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24 * 1 // 1 day in seconds
+        });
+    }
     // Set a new response header `x-hello-from-middleware2`
     // response.headers.set('x-hello-from-middleware2', 'hello')
     return response

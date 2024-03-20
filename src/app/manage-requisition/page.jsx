@@ -17,7 +17,7 @@ const page = async () => {
 
     return (
         <div>
-            <MonthlyRequisitionDataTable user={session.user} />
+            <MonthlyRequisitionDataTable user={session?.user} />
         </div>
     );
 };
