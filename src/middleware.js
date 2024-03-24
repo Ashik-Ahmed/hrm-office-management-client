@@ -5,11 +5,16 @@ export async function middleware(request) {
 
     const session = await auth();
 
-    // if (!session && !request.nextUrl.pathname.includes('/login')) {
-    //     // redirect("/api/auth/signin");
-    //     console.log("not logged in", request.url);
-    //     return NextResponse.redirect(new URL('/', request.url));
-    // }
+    console.log("session: ", session);
+
+    const pathname = request.nextUrl.pathname;
+    console.log("request url: ", request.url);
+
+    if (!session && !request.nextUrl.pathname.includes('/login')) {
+        // redirect("/api/auth/signin");
+        console.log("not logged in", request.url);
+        return NextResponse.redirect(new URL('/login', request.url));
+    }
 
     // if (!session) {
     //     // redirect("/api/auth/signin");
