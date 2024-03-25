@@ -7,7 +7,7 @@ import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, toast }) => {
+const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, toast, accessToken }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
@@ -46,7 +46,8 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
                             fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
                                 method: 'PATCH',
                                 headers: {
-                                    "content-type": "application/json"
+                                    "content-type": "application/json",
+                                    "Authorization": `Bearer ${accessToken}`
                                 },
                                 body: JSON.stringify(updatedData)
                             })
@@ -70,7 +71,8 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
                 fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
                     method: 'PATCH',
                     headers: {
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
                     },
                     body: JSON.stringify(updatedData)
                 })

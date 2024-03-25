@@ -10,9 +10,9 @@ import { Toast } from 'primereact/toast';
 import UpdateProfile from './UpdateProfile';
 import Loading from '../Loading/Loading';
 import { getAllDepartments } from '@/libs/department';
+import { getEmployeeById } from '@/libs/employee';
 
 const Profile = ({ user, departments, accessToken }) => {
-    console.log(user, departments, accessToken);
     // const router = useRouter()
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -34,10 +34,10 @@ const Profile = ({ user, departments, accessToken }) => {
     //     }
     // }
 
-    // const getEmployeeData = async (empId) => {
-    //     const empData = await getEmployeeById(empId);
-    //     setEmployee(empData)
-    // }
+    const getEmployeeData = async () => {
+        const empData = await getEmployeeById(employee?._id, accessToken);
+        setEmployee(empData)
+    }
 
     // const getDepartmentData = async () => {
     //     const dept = await getAllDepartments(user.accessToken);
@@ -50,9 +50,8 @@ const Profile = ({ user, departments, accessToken }) => {
     // }, [])
 
     const handleChangePassword = (data) => {
-        console.log(data);
 
-        fetch(`http://localhost:5000/api/v1/employee/updatePassword/${employee.email}`, {
+        fetch(`http://localhost:5000/api/v1/employee/updatePassword/${employee?.email}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -227,7 +226,7 @@ const Profile = ({ user, departments, accessToken }) => {
             </Dialog>
 
             {
-                updateForm && <UpdateProfile employee={employee} department={department} getEmployeeData={getEmployeeData} setUpdateForm={setUpdateForm} toast={toast} />
+                updateForm && <UpdateProfile employee={employee} department={department} getEmployeeData={getEmployeeData} setUpdateForm={setUpdateForm} toast={toast} accessToken={accessToken} />
             }
         </div>
     );
