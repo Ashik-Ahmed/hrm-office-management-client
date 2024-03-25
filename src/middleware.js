@@ -16,11 +16,11 @@ export async function middleware(request) {
     //     return NextResponse.redirect(new URL('/login', request.url));
     // }
 
-    // if (!session) {
-    //     // redirect("/api/auth/signin");
-    //     console.log("not logged in", request.url);
-    //     return NextResponse.redirect(new URL('/', request.url));
-    // }
+    if (!session) {
+        // redirect("/api/auth/signin");
+        console.log("not logged in", request.url);
+        return NextResponse.redirect(new URL('/api/auth/signin', request.url));
+    }
 
     // Clone the request headers and set a new header `x-hello-from-middleware1`
     const requestHeaders = new Headers(request.headers)

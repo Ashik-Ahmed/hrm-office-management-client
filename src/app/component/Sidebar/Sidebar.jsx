@@ -51,7 +51,7 @@ const Sidebar = ({ session }) => {
             label: 'Profile',
             icon: 'pi pi-fw pi-user-plus',
             command: () => {
-                router.push(`/profile/${session?.user?._id}`)
+                router.push(`/profile`)
             }
         },
         {
@@ -103,7 +103,7 @@ const Sidebar = ({ session }) => {
                         {/* <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
                             <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
                         </i> */}
-                        <Link href={`/profile/${session?.user?._id}`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
+                        <Link href={`/profile`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
                         <Link onClick={() => cookie.remove("TOKEN", { path: "/" })} href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link>
                         {/* <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> */}
                         {/* <Link href="/api/auth/signout"><RiLogoutCircleRLine size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> </Link> */}
