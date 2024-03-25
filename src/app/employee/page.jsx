@@ -9,12 +9,12 @@ import { Controller, useForm } from 'react-hook-form';
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Loading from '../component/Loading/Loading';
-import EmployeeTable from '../component/EmployeeTable/EmployeeTable';
 import Cookies from 'universal-cookie';
 import Link from 'next/link';
 import Image from 'next/image';
 import user from '../../../public/images/user.png'
 import { AiFillPlusSquare } from 'react-icons/ai';
+import { getAllDepartments } from '@/libs/department';
 
 const Users = () => {
 
@@ -39,6 +39,17 @@ const Users = () => {
 
     const userRoles = ['Admin', 'Employee']
 
+    const getDepartments = async () => {
+        const departments = await getAllDepartments(cookie.get('TOKEN'))
+
+        sertDepartment(departments?.data)
+        // department.push({ departmentName: 'All', })
+    }
+
+    useEffect(() => {
+        getDepartments();
+    }, [])
+
 
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
@@ -59,19 +70,22 @@ const Users = () => {
     useEffect(() => {
         fetchAllUsers(queryDepartment)
 
-        const departments = async () => {
-            fetch(`http://localhost:5000/api/v1/department?status=Active`, {
-                headers: {
-                    'Authorization': `Bearer ${cookie.get('TOKEN')}`
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    // console.log(data.data);
-                    sertDepartment(data?.data)
-                })
-        }
-        departments()
+
+        // const departments = async () => {
+        //     fetch(`http://localhost:5000/api/v1/department?status=Active`, {
+        //         headers: {
+        //             'Authorization': `Bearer ${cookie.get('TOKEN')}`
+        //         }
+        //     })
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             // console.log(data.data);
+        //             sertDepartment(data?.data)
+        //             console.log(department);
+        //             department.push({ label: 'All', value: 'All' })
+        //         })
+        // }
+        // departments()
     }, [queryDepartment])
 
     // if (!employees) {
