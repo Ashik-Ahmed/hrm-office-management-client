@@ -399,7 +399,6 @@ const Users = () => {
                                                 <p className="text-sm text-gray-500">{employee.designation}</p>
                                                 <p>{employee.department}</p>
                                             </div>
-
                                         </Link >
 
                                     ))
