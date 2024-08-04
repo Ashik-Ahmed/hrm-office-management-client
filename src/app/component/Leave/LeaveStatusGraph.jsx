@@ -1,15 +1,10 @@
 "use client"
 
-import { useSession } from 'next-auth/react';
 import { Chart } from 'primereact/chart';
 import React, { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
 
-const LeaveStatusGraph = () => {
+const LeaveStatusGraph = ({ user }) => {
 
-    const cookie = new Cookies();
-
-    const { data: session, status } = useSession();
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
     const [leaveStatus, setLeaveStatus] = useState()
@@ -23,7 +18,7 @@ const LeaveStatusGraph = () => {
 
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -37,8 +32,8 @@ const LeaveStatusGraph = () => {
     }
 
     useEffect(() => {
-        getLeaveStatusData(session?.user._id)
-    }, [session])
+        getLeaveStatusData(user._id)
+    }, [])
 
     // Remove Maternity leave from the array 
     for (let i = 0; i < leaveStatus?.length; i++) {

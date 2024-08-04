@@ -4,12 +4,10 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Cookies from 'universal-cookie';
 
-const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, session, getAllLeaves }) => {
+const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveDialog, setDeleteLeaveDialog, user, getAllLeaves }) => {
 
-    const cookie = new Cookies();
-
+    console.log("user from edit and delete dialog: ", user);
     const { register, control, formState: { errors, isDirty, isValid }, handleSubmit, reset } = useForm();
     // const { isDirty, isValid } = formState;
 
@@ -19,7 +17,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
 
     const handleEditLeave = (updatedLeaveInfo) => {
         setLoading(true)
-
+        console.log("access token: ", user?.accessToken);
         // removing empty fields 
         for (const key in updatedLeaveInfo) {
             if (!updatedLeaveInfo[key]) {
@@ -31,7 +29,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Bearer  ${cookie.get('TOKEN')}`
+                "Authorization": `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(updatedLeaveInfo)
         })
@@ -57,7 +55,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
         fetch(`http://localhost:5000/api/v1/leave/${leaveData._id}`, {
             method: "DELETE",
             headers: {
-                "Authorization": `Bearer  ${cookie.get('TOKEN')}`
+                "Authorization": `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -99,7 +97,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session || !isDirty || !isValid} label="Submit" className="p-button-sm" loading={loading} />
+                        <Button type='submit' disabled={!user || !isDirty || !isValid} label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>
@@ -115,7 +113,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
                     </div>
                     <div className='flex justify-end gap-x-2 mt-8'>
                         <Button onClick={() => setDeleteLeaveDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
-                        <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!session} loading={loading} label="Delete" severity='danger' size='small' />
+                        <Button onClick={() => handleDeleteLeave(deleteLeaveDialog)} disabled={!user} loading={loading} label="Delete" severity='danger' size='small' />
                     </div>
                 </div>
             </Dialog>

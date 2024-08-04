@@ -11,7 +11,9 @@ import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const ManageLeaveApplicationsTable = () => {
+const ManageLeaveApplicationsTable = ({ user }) => {
+
+    console.log(user);
 
     const { data: session, status } = useSession();
 
@@ -36,12 +38,11 @@ const ManageLeaveApplicationsTable = () => {
         });
     }
 
-    console.log(session?.user?.accessToken);
     const fetchLeaveApplications = () => {
         setLoading(true)
         fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`, {
             headers: {
-                "Authorization": `Bearer ${session?.user?.accessToken}`
+                "Authorization": `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -60,7 +61,7 @@ const ManageLeaveApplicationsTable = () => {
         setLoading(true)
         const currentStatus = {
             status: status,
-            updatedBy: session?.user.name
+            updatedBy: user.name
         }
 
         console.log(currentStatus);
@@ -69,7 +70,7 @@ const ManageLeaveApplicationsTable = () => {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Bearer ${session?.user?.accessToken}`
+                "Authorization": `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(currentStatus)
         })
@@ -93,9 +94,9 @@ const ManageLeaveApplicationsTable = () => {
 
     const rejectLeaveApplication = (data) => {
         const currentStatus = {
-            status: `Rejected by ${session.user.department}`,
+            status: `Rejected by ${user.department}`,
             rejectionReason: data.rejectionReason,
-            updatedBy: session.user.name
+            updatedBy: user.name
         }
 
         console.log(currentStatus);
@@ -104,7 +105,7 @@ const ManageLeaveApplicationsTable = () => {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Bearer ${session?.user?.accessToken}`
+                "Authorization": `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(currentStatus)
         })
@@ -160,12 +161,12 @@ const ManageLeaveApplicationsTable = () => {
                 <Button onClick={() => setDetailsDialog(rowData)} tooltip="View" tooltipOptions={buttonTooltipOptions} icon="pi pi-info" rounded text raised severity='info' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setApproveDialog(rowData)} tooltip="Approve" tooltipOptions={buttonTooltipOptions} icon="pi pi-check"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
+                        (rowData.currentStatus.status == `Approved by ${user?.department}` || rowData.currentStatus.status == `Rejected by ${user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
                     }
                     rounded text raised severity='success' aria-label="Filter" style={{ width: '35px', height: '35px' }} />
                 <Button onClick={() => setRejectDialog(rowData)} tooltip="Reject" tooltipOptions={buttonTooltipOptions} icon="pi pi-times"
                     disabled={
-                        (rowData.currentStatus.status == `Approved by ${session?.user?.department}` || rowData.currentStatus.status == `Rejected by ${session?.user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
+                        (rowData.currentStatus.status == `Approved by ${user?.department}` || rowData.currentStatus.status == `Rejected by ${user?.department}`) || (rowData.currentStatus.status == "Approved by Management" || rowData.currentStatus.status == "Rejected by Management") || (rowData.currentStatus.status == "Rejected by Human Resource")
                     }
                     rounded text raised severity="danger" aria-label="Cancel" style={{ width: '35px', height: '35px' }} />
             </div>
@@ -249,7 +250,7 @@ const ManageLeaveApplicationsTable = () => {
                         <p>Total Day: {approveDialog?.totalDay}</p>
                     </div>
                     <div className='flex gap-x-2 justify-end mt-4'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${session?.user?.department}`)} disabled={!session} loading={loading} label="Approve" size='small' className='p-button-sm' />
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${user?.department}`)} disabled={!user} loading={loading} label="Approve" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
@@ -275,7 +276,7 @@ const ManageLeaveApplicationsTable = () => {
                             {errors.rejectionReason?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.rejectionReason.message}</span>}
                         </div>
                         <div className='flex justify-end mt-2'>
-                            <Button type='submit' disabled={!session || !isDirty || !isValid} loading={loading} label="Reject" severity='danger' size='small' />
+                            <Button type='submit' disabled={!user || !isDirty || !isValid} loading={loading} label="Reject" severity='danger' size='small' />
                         </div>
                     </form>
                 </Dialog>

@@ -1,6 +1,5 @@
 'use client'
 
-import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -11,14 +10,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditAndDeleteDialog from './EditAndDeleteDialog';
-import Cookies from 'universal-cookie';
 
-const LeaveTypeTable = () => {
+const LeaveTypeTable = ({ user }) => {
 
-    const cookie = new Cookies();
 
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    const { data: session, status } = useSession();
 
     const toast = useRef(null)
 
@@ -34,11 +30,11 @@ const LeaveTypeTable = () => {
         fetch('http://localhost:5000/api/v1/leave', {
             cache: "no-cache",
             headers: {
-                "Authorization": `Bearer ${cookie.get('TOKEN')}`
+                "Authorization": `Bearer ${user?.accessToken}`
             }
         }).then(res => res.json())
             .then(data => {
-                setLeaves(data.data)
+                setLeaves(data?.data)
             })
         setLoading(false)
     }
@@ -50,13 +46,13 @@ const LeaveTypeTable = () => {
 
     // create a new leave 
     const handleCreateLeave = (data) => {
-        data.createdBy = session.user.name;
+        data.createdBy = user.name;
 
         fetch('http://localhost:5000/api/v1/leave', {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                "Authorization": `Bearer ${cookie.get('TOKEN')}`
+                "Authorization": `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -136,12 +132,12 @@ const LeaveTypeTable = () => {
                     </div>
 
                     <div className='mt-4 text-right'>
-                        <Button type='submit' disabled={!session} label="Submit" className="p-button-sm" loading={loading} />
+                        <Button type='submit' disabled={!user} label="Submit" className="p-button-sm" loading={loading} />
                     </div>
                 </form>
             </Dialog>
 
-            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} setDeleteLeaveDialog={setDeleteLeaveDialog} session={session} getAllLeaves={getAllLeaves} />
+            <EditAndDeleteDialog editLeaveDialog={editLeaveDialog} setEditLeaveDialog={setEditLeaveDialog} deleteLeaveDialog={deleteLeaveDialog} setDeleteLeaveDialog={setDeleteLeaveDialog} user={user} getAllLeaves={getAllLeaves} />
 
         </div>
     );

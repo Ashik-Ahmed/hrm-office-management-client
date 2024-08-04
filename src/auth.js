@@ -49,13 +49,14 @@ export const {
                     // console.log("login api response: ", data);
                     if (data?.status == "Success") {
                         // return data.data.employee;
-                        // console.log("db employee: ", data?.data);
+                        console.log("db employee: ", data?.data);
                         const employee = data?.data?.employee;
                         return {
                             ...employee,
                             role: employee.userRole || '', // ensure it's a plain object
                             user_id: employee._id || '',
                             photo: employee.image || '',
+                            department: employee.department || '',
                             accessToken: employee.accessToken || ''
                         };
                     }
@@ -81,6 +82,7 @@ export const {
                 token.role = user.role || '';
                 token._id = user.user_id || '';
                 token.photo = user.photo || '';
+                token.department = user.department || '';
                 token.accessToken = user.accessToken || '';
             }
             return token;
@@ -92,6 +94,7 @@ export const {
                 session.user.role = token.role || '';
                 session.user._id = token._id || '';
                 session.user.photo = token.photo || '';
+                session.user.department = token.department || '';
                 session.user.accessToken = token.accessToken || '';
             }
             // console.log("session is: ", session);

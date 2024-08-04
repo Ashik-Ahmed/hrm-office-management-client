@@ -2,8 +2,11 @@ import React from 'react';
 import { getAllLeaves, getAllPendingLeaveApplications } from '@/libs/leaves';
 import LeaveTypeTable from '../component/ManageLeave/LeaveTypeTable';
 import ManageLeaveApplicationsTable from '../component/ManageLeave/ManageLeaveApplicationsTable';
+import { auth } from '@/auth';
 
 const ManageLeave = async () => {
+
+    const { user } = await auth();
 
     // const pendingLeaveApplications = await getAllPendingLeaveApplications();
 
@@ -14,9 +17,9 @@ const ManageLeave = async () => {
 
     return (
         <div>
-            <LeaveTypeTable />
+            <LeaveTypeTable user={user} />
             <div className='mt-4 rounded-md shadow-lg'>
-                <ManageLeaveApplicationsTable />
+                <ManageLeaveApplicationsTable user={user} />
             </div>
         </div>
     );

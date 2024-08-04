@@ -5,11 +5,8 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'primereact/dropdown';
-import Cookies from 'universal-cookie';
 
-const LeaveStatusTable = () => {
-
-    const cookie = new Cookies();
+const LeaveStatusTable = ({ user }) => {
 
     const [leaveStatus, setLeaveStatus] = useState(null)
 
@@ -36,7 +33,7 @@ const LeaveStatusTable = () => {
 
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())

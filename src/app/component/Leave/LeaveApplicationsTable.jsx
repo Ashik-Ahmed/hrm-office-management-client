@@ -1,6 +1,5 @@
 'use client'
 
-import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -11,16 +10,13 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Cookies from 'universal-cookie';
 
-const LeaveApplicationsTable = () => {
-
-    const cookie = new Cookies();
+const LeaveApplicationsTable = ({ user }) => {
 
     const toast = useRef()
-    const { data: session, status } = useSession();
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    // console.log(session);
+    // console.log("session: ", session);
+    // console.log("user: ", user);
 
     const [leaveApplicationHistory, setLeaveApplicationHistory] = useState(null)
     const [leaveStatus, setLeaveStatus] = useState()
@@ -46,40 +42,42 @@ const LeaveApplicationsTable = () => {
         setLoading(true)
         fetch(`http://localhost:5000/api/v1/employee/leaveApplications/${employeeId}?year=${selectedYear}`, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data.data)
-                setLeaveApplicationHistory(data.data)
+                setLeaveApplicationHistory(data?.data)
             })
         setLoading(false)
     }
 
     const getLeaveStatusData = (employeeId) => {
+        setLoading(true)
         fetch(`http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
             .then(data => {
-                setLeaveStatus(data.data)
+                setLeaveStatus(data?.data)
             })
+        setLoading(false)
     }
 
     useEffect(() => {
-        getLeaveApplications(session?.user._id);
-        getLeaveStatusData(session?.user._id)
-    }, [session, selectedYear])
+        getLeaveApplications(user._id);
+        getLeaveStatusData(user._id)
+    }, [selectedYear])
 
     const leaveApplication = (data) => {
         setLoading(true);
         data.employee = {
-            name: session.user.name,
-            employeeId: session.user._id,
-            email: session.user.email
+            name: user.name,
+            employeeId: user._id,
+            email: user.email
         };
         data.fromDate = fromDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         data.toDate = toDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
@@ -90,7 +88,7 @@ const LeaveApplicationsTable = () => {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -98,8 +96,8 @@ const LeaveApplicationsTable = () => {
             .then(data => {
                 if (data.status == "Success") {
                     resetForm();
-                    getLeaveApplications(session.user._id);
-                    getLeaveStatusData(session.user._id)
+                    getLeaveApplications(user._id);
+                    getLeaveStatusData(user._id)
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Application Successful', life: 3000 });
                 }
                 else {
