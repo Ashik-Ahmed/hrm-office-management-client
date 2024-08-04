@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "@/utils/sessionProvider";
 import Sidebar from "./component/Sidebar/Sidebar";
 import { auth } from "@/auth";
+import DefaultLayout from "./component/Layout/DefaultLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,14 +27,15 @@ export default async function RootLayout({ children }) {
 
       <body className={inter.className}>
         <NextAuthSessionProvider>
-          <div className='flex'>
+          {/* <div className='flex'>
             {
               session && <Sidebar session={session} />
             }
             <div className='p-4 bg-gray-100 flex-grow overflow-y-auto'>
               {children}
             </div>
-          </div>
+          </div> */}
+          <DefaultLayout session={session}>{children}</DefaultLayout>
         </NextAuthSessionProvider>
       </body>
     </html>
