@@ -4,7 +4,6 @@ import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
 import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "@/utils/sessionProvider";
-import Sidebar from "./component/Sidebar/Sidebar";
 import { auth } from "@/auth";
 import DefaultLayout from "./component/Layout/DefaultLayout";
 

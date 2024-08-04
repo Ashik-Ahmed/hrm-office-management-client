@@ -33,7 +33,7 @@ export const {
                 // }
 
                 const { email, password } = credentials;
-                console.log("Inside authorize: ", email, password);
+                // console.log("Inside authorize: ", email, password);
                 try {
                     const res = await fetch(`http://localhost:5000/api/v1/employee/login`, {
                         method: 'POST',
@@ -46,10 +46,10 @@ export const {
                         })
                     })
                     const data = await res.json();
-                    console.log("login api response: ", data);
+                    // console.log("login api response: ", data);
                     if (data?.status == "Success") {
                         // return data.data.employee;
-                        console.log("db employee: ", data?.data);
+                        // console.log("db employee: ", data?.data);
                         const employee = data?.data?.employee;
                         return {
                             ...employee,
@@ -75,8 +75,8 @@ export const {
     // },
     callbacks: {
         jwt: async ({ token, user }) => {
-            console.log("inside jwt user: ", user);
-            console.log("inside jwt token: ", token);
+            // console.log("inside jwt user: ", user);
+            // console.log("inside jwt token: ", token);
             if (user) {
                 token.role = user.role || '';
                 token._id = user.user_id || '';

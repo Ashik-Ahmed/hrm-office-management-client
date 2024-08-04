@@ -6,11 +6,11 @@ import userPhoto from '../../../../public/images/user.png'
 import Loading from '@/app/component/Loading/Loading';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import Cookies from 'universal-cookie';
+import { useSession } from 'next-auth/react';
 
 const UserDetails = ({ params: { id } }) => {
 
-    const cookie = new Cookies();
+    const { data: session, status } = useSession();
 
     const toast = useRef()
     const [employee, setEmployee] = useState()
@@ -20,7 +20,7 @@ const UserDetails = ({ params: { id } }) => {
 
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${session?.user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -28,9 +28,9 @@ const UserDetails = ({ params: { id } }) => {
                 console.log(data)
                 setEmployee(data.data)
             })
-    }, [id])
+    }, [id, session])
 
-    if (!employee) {
+    if (!employee && !session?.user?.accessToken) {
         return <Loading />
     }
 

@@ -13,9 +13,7 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 import Loading from '../Loading/Loading';
 import Cookies from 'universal-cookie';
 
-const DepartmentTable = () => {
-
-    const cookie = new Cookies();
+const DepartmentTable = ({ accessToken }) => {
 
     const toast = useRef()
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -28,7 +26,7 @@ const DepartmentTable = () => {
 
     const getDepartmentData = async () => {
         setLoading(true)
-        const depts = await getAllDepartments(cookie.get('TOKEN'));
+        const depts = await getAllDepartments(accessToken);
         setDepartments(depts);
         setLoading(false)
     }
@@ -43,7 +41,7 @@ const DepartmentTable = () => {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -71,7 +69,7 @@ const DepartmentTable = () => {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(updatedData)
         })

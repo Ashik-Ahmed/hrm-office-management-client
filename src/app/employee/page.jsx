@@ -9,16 +9,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import Loading from '../component/Loading/Loading';
-import Cookies from 'universal-cookie';
 import Link from 'next/link';
 import Image from 'next/image';
 import user from '../../../public/images/user.png'
 import { AiFillPlusSquare } from 'react-icons/ai';
 import { getAllDepartments } from '@/libs/department';
+import { useSession } from 'next-auth/react';
 
 const Users = () => {
 
-    const cookie = new Cookies();
+    const { data: session, status } = useSession()
+    // console.log("session from employee", session?.user?.accessToken);
 
     const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -40,7 +41,7 @@ const Users = () => {
     const userRoles = ['Admin', 'Employee']
 
     const getDepartments = async () => {
-        const departments = await getAllDepartments(cookie.get('TOKEN'))
+        const departments = await getAllDepartments(session?.user?.accessToken)
 
         sertDepartment(departments?.data)
         // department.push({ departmentName: 'All', })
@@ -48,15 +49,15 @@ const Users = () => {
 
     useEffect(() => {
         getDepartments();
-    }, [])
+    }, [session])
 
 
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
-
+        console.log("Access Token: ", session?.user?.accessToken);
         fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment?.departmentName || 'All'}`, {
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${session?.user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -69,24 +70,7 @@ const Users = () => {
 
     useEffect(() => {
         fetchAllUsers(queryDepartment)
-
-
-        // const departments = async () => {
-        //     fetch(`http://localhost:5000/api/v1/department?status=Active`, {
-        //         headers: {
-        //             'Authorization': `Bearer ${cookie.get('TOKEN')}`
-        //         }
-        //     })
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             // console.log(data.data);
-        //             sertDepartment(data?.data)
-        //             console.log(department);
-        //             department.push({ label: 'All', value: 'All' })
-        //         })
-        // }
-        // departments()
-    }, [queryDepartment])
+    }, [queryDepartment, session])
 
     // if (!employees) {
     //     return <Loading />
@@ -126,7 +110,7 @@ const Users = () => {
                                 method: 'POST',
                                 headers: {
                                     'content-type': 'application/json',
-                                    'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                                    'Authorization': `Bearer ${session?.user?.accessToken}`
                                 },
                                 body: JSON.stringify(userData)
                             })
@@ -165,7 +149,7 @@ const Users = () => {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
-                        'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                        'Authorization': `Bearer ${session?.user?.accessToken}`
                     },
                     body: JSON.stringify(userData)
                 })
@@ -220,7 +204,7 @@ const Users = () => {
         fetch(`http://localhost:5000/api/v1/employee/${deleteUserDialog._id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${cookie.get('TOKEN')}`
+                'Authorization': `Bearer ${session?.user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -240,6 +224,10 @@ const Users = () => {
             })
     }
 
+    if (!session?.user?.accessToken) {
+        return <Loading />
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -255,7 +243,7 @@ const Users = () => {
                     <div className='w-full'>
                         <Dropdown
                             {...register("department", { required: "Department is required" })}
-                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' placeholder="Select Department*" className="w-full placeholder-opacity-20" />
+                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' showClear placeholder="Select Department*" className="w-full placeholder-opacity-20" />
                         {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
                     </div>
                     <div className='mt-2 flex gap-x-4'>
