@@ -1,14 +1,14 @@
 import React from 'react';
 import ManageConveyance from '../component/ManageConveyance/ManageConveyance';
-import { auth } from '../auth';
+import { auth } from '@/auth';
 
 const page = async () => {
 
-    const session = await auth();
+    const { user } = await auth();
 
     return (
         <div>
-            <ManageConveyance session={session} />
+            <ManageConveyance user={user} />
         </div>
     );
 };

@@ -11,7 +11,7 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 import EditConveyanceDialog from './EditConveyanceDialog';
 import Loading from '../Loading/Loading';
 
-const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, loadingState }) => {
+const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState }) => {
 
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -34,15 +34,16 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
         data.date = data.date.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         // console.log(data.date);
         const employee = {
-            name: session.user.name,
-            email: session.user.email
+            name: user.name,
+            email: user.email
         }
         data.employee = employee;
 
         fetch('http://localhost:5000/api/v1/conveyance', {
             method: "POST",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -69,7 +70,10 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
         setLoading(true)
         console.log(deleteDialog);
         fetch(`http://localhost:5000/api/v1/conveyance/${deleteDialog._id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`
+            }
         })
             .then(res => res.json())
             .then(data => {
@@ -226,7 +230,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, session, lo
                 </form>
             </Dialog>
 
-            <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} getConveyanceData={getConveyanceData} />
+            <EditConveyanceDialog editConveyanceDialog={editConveyanceDialog} setEditConveyanceDialog={setEditConveyanceDialog} getConveyanceData={getConveyanceData} user={user} />
 
             {/* Details Dialog  */}
             <Dialog header="Journey Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>

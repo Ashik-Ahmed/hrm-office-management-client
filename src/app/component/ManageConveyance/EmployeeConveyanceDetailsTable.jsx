@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie';
 import Loading from '../Loading/Loading';
 
 
-const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
+const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
 
     const cookie = new Cookies();
 
@@ -34,7 +34,7 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
         //         setConveyanceData(data?.data)
         //     })
 
-        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear, session?.user.accessToken)
+        const employeeConveyanceDetails = await getConveyanceDetailsByEmployeeEmail(email, filterMonth, filterYear, user.accessToken)
         setConveyanceData(employeeConveyanceDetails)
         setLoading(false)
     }
@@ -44,7 +44,7 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
 
-        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, session?.user.accessToken)
+        const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, user.accessToken)
 
         //extract the pending conveyances from all conveyances of the month
         const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
@@ -67,7 +67,7 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${session?.user.accessToken}`
+                'Authorization': `Bearer ${user.accessToken}`
             },
             body: JSON.stringify(pendingConveyanceIds)
         })
@@ -89,7 +89,7 @@ const EmployeeConveyanceDetailsTable = ({ session, getConveyanceData, monthlyEmp
 
     const exportConveyanceReport = (conveyanceData) => {
         conveyanceData.reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`;
-        conveyanceData.generatedBy = session?.user.name;
+        conveyanceData.generatedBy = user.name;
 
         exportMonthlyConveyanceReport(conveyanceData)
     }

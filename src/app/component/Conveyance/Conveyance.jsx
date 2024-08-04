@@ -6,7 +6,7 @@ import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import ConveyanceDetailsTable from './ConveyanceDetailsTable';
 
-const Conveyance = ({ session }) => {
+const Conveyance = ({ user }) => {
 
     const isFirstRender = useRef(true);
 
@@ -23,11 +23,11 @@ const Conveyance = ({ session }) => {
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
-        const url = `http://localhost:5000/api/v1/conveyance/${session.user.email}?month=${filterMonth}&year=${filterYear}`;
-
+        const url = `http://localhost:5000/api/v1/conveyance/${user?.email}?month=${filterMonth}&year=${filterYear}`;
+        console.log(url);
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${session?.user?.accessToken}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -96,7 +96,7 @@ const Conveyance = ({ session }) => {
             </div>
 
             <div className='mt-4'>
-                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} session={session} loadingState={loading} />
+                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} user={user} loadingState={loading} />
             </div>
         </div>
     );

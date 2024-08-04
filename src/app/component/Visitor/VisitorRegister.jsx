@@ -51,7 +51,7 @@ const VisitorRegister = ({ user }) => {
         const month = new Date(selectedMonth).getMonth() + 1;
         const year = new Date(selectedYear).getFullYear();
         setLoading(true)
-        const visitors = await getMonthlyVisitors(month, year, user?.user.accessToken)
+        const visitors = await getMonthlyVisitors(month, year, user?.accessToken)
         // console.log(visitors.data);
         setMonthlyVisitors(visitors.data);
         setLoading(false)
@@ -80,7 +80,7 @@ const VisitorRegister = ({ user }) => {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
-                'Authorization': `Bearer ${user?.user.accessToken}`
+                'Authorization': `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(data)
         })
@@ -103,7 +103,7 @@ const VisitorRegister = ({ user }) => {
 
     const exportVisitorList = (visitorList) => {
         const reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`;
-        const generatedBy = user.user.name
+        const generatedBy = user.name
 
         const visitorReport = {
             reportMonth,

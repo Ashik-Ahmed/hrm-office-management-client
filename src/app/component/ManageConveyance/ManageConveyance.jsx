@@ -7,7 +7,7 @@ import { TbReportMoney } from 'react-icons/tb';
 import EmployeeConveyanceDetailsTable from './EmployeeConveyanceDetailsTable';
 import Loading from '../Loading/Loading';
 
-const ManageConveyance = ({ session }) => {
+const ManageConveyance = ({ user }) => {
 
     const isFirstRender = useRef(true);
 
@@ -29,7 +29,7 @@ const ManageConveyance = ({ session }) => {
 
         fetch(url, {
             headers: {
-                'Authorization': `Bearer ${session?.user?.accessToken}`
+                'Authorization': `Bearer ${user?.accessToken}`
             }
         })
             .then(res => res.json())
@@ -91,7 +91,7 @@ const ManageConveyance = ({ session }) => {
             </div>
 
             <div className='mt-4'>
-                <EmployeeConveyanceDetailsTable session={session} getConveyanceData={getConveyanceData} monthlyEmployeeConveyance={monthlyEmployeeConveyance} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+                <EmployeeConveyanceDetailsTable user={user} getConveyanceData={getConveyanceData} monthlyEmployeeConveyance={monthlyEmployeeConveyance} selectedMonth={selectedMonth} selectedYear={selectedYear} />
             </div>
         </div>
     );

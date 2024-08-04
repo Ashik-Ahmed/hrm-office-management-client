@@ -8,7 +8,7 @@ import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, getConveyanceData }) => {
+const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, getConveyanceData, user }) => {
 
     const toast = useRef(null)
 
@@ -31,7 +31,8 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
         fetch(`http://localhost:5000/api/v1/conveyance/${editConveyanceDialog._id}`, {
             method: 'PATCH',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${user?.accessToken}`
             },
             body: JSON.stringify(updatedData)
         })

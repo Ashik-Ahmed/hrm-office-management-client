@@ -49,7 +49,7 @@ export const {
                     // console.log("login api response: ", data);
                     if (data?.status == "Success") {
                         // return data.data.employee;
-                        console.log("db employee: ", data?.data);
+                        // console.log("db employee: ", data?.data);
                         const employee = data?.data?.employee;
                         return {
                             ...employee,

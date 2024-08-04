@@ -1,8 +1,7 @@
 
 import React from 'react';
 import RequisitionHistoryTable from '../component/Requsition/RequisitionHistoryTable';
-import { auth } from '../auth';
-
+import { auth } from '@/auth';
 
 const Requisition = async () => {
     const { user } = await auth();
