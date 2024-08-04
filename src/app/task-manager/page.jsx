@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskTable from '../component/Task-Manager/TaskTable';
 import { getActiveDepartments } from '@/libs/department';
-import { auth } from '../auth';
+import { auth } from '@/auth';
 
 const TaskManager = async () => {
 

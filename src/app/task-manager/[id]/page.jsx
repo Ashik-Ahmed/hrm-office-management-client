@@ -1,5 +1,5 @@
-import { auth } from '@/app/auth';
 import Task from '@/app/component/Task-Manager/Task';
+import { auth } from '@/auth';
 import React from 'react';
 
 const page = async ({ params: { id } }) => {

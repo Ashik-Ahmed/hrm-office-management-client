@@ -8,6 +8,7 @@ import './customcss.css'
 import { redirect, usePathname, useRouter } from 'next/navigation';
 import Cookies from 'universal-cookie';
 import { useSession } from 'next-auth/react';
+import { doLogout } from '@/serverActions/authActions';
 
 
 const Sidebar = ({ session }) => {
@@ -61,7 +62,7 @@ const Sidebar = ({ session }) => {
             label: 'Logout',
             icon: 'pi pi-fw pi-power-off',
             command: async () => {
-                console.log("Logout");
+                await doLogout()
                 // cookie.remove('next-auth.session-token')
                 // cookie.remove('next-auth.csrf-token')
 
@@ -70,7 +71,7 @@ const Sidebar = ({ session }) => {
                 // router.push('/api/auth/signin')
 
 
-                redirect("/api/auth/signout");
+                // redirect("/api/auth/signout");
 
             }
         }

@@ -9,19 +9,12 @@ import PieChart from "./component/Charts/PieChart";
 import LineChart from "./component/Charts/LineChart";
 import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
-import { auth } from './auth'
 import { redirect } from 'next/navigation'
+import { auth } from '@/auth';
 
 export default async function Home() {
 
   const session = await auth();
-  // console.log("session from homepage: ", session);
-
-  if (!session) {
-    redirect("/api/auth/signin");
-  }
-
-
   return (
     <div className="text-gray-700">
       <div className="">

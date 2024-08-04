@@ -1,6 +1,4 @@
 "use client";
-import { loginAction } from '@/serverActions/loginActions';
-import { getCsrfToken } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -30,23 +28,13 @@ const Login = () => {
         setLoading(true)
         console.log("From Handle-Submit: ", email, password);
 
-        const res = await loginAction({ email, password })
+        // const res = await loginAction({ email, password })
         setErrorMessage(res?.errorMessage);
 
         setLoading(false)
     };
 
-    useEffect(() => {
-        // Fetch the CSRF token when the component mounts
-        const fetchCsrfToken = async () => {
-            const token = await getCsrfToken();
-            setCsrfToken(token);
-        };
 
-        fetchCsrfToken();
-    }, []);
-
-    console.log("CSRF token:- ", csrfToken);
     return (
         <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8 p-4 shadow-violet-400 shadow-xl bg-white rounded-xl">

@@ -4,9 +4,8 @@ import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
 import { Inter } from "next/font/google";
 import NextAuthSessionProvider from "@/utils/sessionProvider";
-import { auth } from "./auth";
 import Sidebar from "./component/Sidebar/Sidebar";
-import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +17,6 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 
   const session = await auth();
-
 
   return (
     <html lang="en">
