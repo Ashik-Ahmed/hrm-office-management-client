@@ -90,7 +90,7 @@ const Sidebar = ({ session }) => {
         <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700 '>
             <div className='flex mt-6'>
                 <div className='flex flex-col px-4 justify-between'>
-                    <ul className='flex flex-col gap-6 mt-2'>
+                    <ul className='flex flex-col justify-center items-center gap-6 mt-2'>
                         {/* <div className='bg-gray-600 hover:bg-gray-500 duration-200 cursor-pointer text-white p-3 -ml-1.5 flex rounded-full'>
                             <i className='pi pi-th-large' style={{ fontSize: '.75rem' }}></i>
                         </div> */}
@@ -105,7 +105,8 @@ const Sidebar = ({ session }) => {
                             <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
                         </i> */}
                         <Link href={`/profile`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
-                        <Link onClick={() => cookie.remove("TOKEN", { path: "/" })} href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link>
+                        {/* <Link onClick={() => cookie.remove("TOKEN", { path: "/" })} href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link> */}
+                        <button onClick={async () => await doLogout()}><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </button>
                         {/* <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> */}
                         {/* <Link href="/api/auth/signout"><RiLogoutCircleRLine size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> </Link> */}
 
