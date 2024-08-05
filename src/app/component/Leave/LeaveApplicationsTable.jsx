@@ -150,7 +150,7 @@ const LeaveApplicationsTable = ({ user }) => {
     const statusBodyTemplate = (rowData) => {
         return (
             <div>
-                <p className={`w-fit p-1 rounded-md text-sm text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved by HR" ? "bg-green-400" : (rowData?.currentStatus?.status == "Approved by Management" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status}</p>
+                <p className={`w-fit p-1 rounded-md text-sm text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : ((rowData?.currentStatus?.status == "Approved" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status} {rowData?.currentStatus?.actedDept && `by ${rowData?.currentStatus?.actedDept}`}</p>
             </div>
         )
     }
@@ -223,7 +223,7 @@ const LeaveApplicationsTable = ({ user }) => {
                     <Column body={toBodyTemplate} header="To"></Column>
                     <Column body={rejoinBodyTemplate} header="Re-joining Date"></Column>
                     <Column field="totalDay" header="Total"></Column>
-                    <Column field="currentStatus.status" body={statusBodyTemplate} header="Current Status"></Column>
+                    <Column body={statusBodyTemplate} header="Current Status"></Column>
                 </DataTable>
             </div>
         </div>

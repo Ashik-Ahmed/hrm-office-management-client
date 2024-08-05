@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { Toast } from 'primereact/toast';
 import UpdateProfile from './UpdateProfile';
 import Loading from '../Loading/Loading';
-import { getAllDepartments } from '@/libs/department';
+import profilePhoto from '../../../../public/images/user.png'
 import { getEmployeeById } from '@/libs/employee';
 
 const Profile = ({ user, departments, accessToken }) => {

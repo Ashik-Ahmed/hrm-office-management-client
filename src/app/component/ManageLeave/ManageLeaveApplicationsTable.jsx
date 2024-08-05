@@ -61,6 +61,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
         setLoading(true)
         const currentStatus = {
             status: status,
+            actedDept: user?.department,
             updatedBy: user.name
         }
 
@@ -94,8 +95,9 @@ const ManageLeaveApplicationsTable = ({ user }) => {
 
     const rejectLeaveApplication = (data) => {
         const currentStatus = {
-            status: `Rejected by ${user.department}`,
+            status: `Rejected`,
             rejectionReason: data.rejectionReason,
+            actedDept: user?.department,
             updatedBy: user.name
         }
 
@@ -147,7 +149,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
     const statusBodyTemplate = (rowData) => {
         return (
             <div>
-                <p className={`w-fit p-1 rounded-md text-sm text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved by HR" ? "bg-green-400" : (rowData?.currentStatus?.status == "Approved by Management" ? "bg-blue-500" : "bg-red-400"))}`}> {rowData?.currentStatus?.status}</p>
+                <p className={`w-fit p-1 rounded-md text-sm text-white text-center ${rowData?.currentStatus?.status == "Pending" ? "bg-yellow-400" : (rowData?.currentStatus?.status == "Approved" ? "bg-blue-500" : "bg-red-400")}`}> {rowData?.currentStatus?.status} {rowData?.currentStatus?.actedDept && `by ${rowData?.currentStatus?.actedDept}`}</p>
             </div>
         )
     }
@@ -250,7 +252,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
                         <p>Total Day: {approveDialog?.totalDay}</p>
                     </div>
                     <div className='flex gap-x-2 justify-end mt-4'>
-                        <Button onClick={() => approveLeaveApplicationStatus(`Approved by ${user?.department}`)} disabled={!user} loading={loading} label="Approve" size='small' className='p-button-sm' />
+                        <Button onClick={() => approveLeaveApplicationStatus(`Approved`)} disabled={!user} loading={loading} label="Approve" size='small' className='p-button-sm' />
                     </div>
                 </Dialog>
             </div >
