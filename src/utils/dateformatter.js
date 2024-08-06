@@ -1,3 +1,18 @@
+// Load and convert the image to base64
+export async function loadImageToBase64(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Failed to load image: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+};
+
 
 export async function getMonthName(monthNumber) {
     const months = [

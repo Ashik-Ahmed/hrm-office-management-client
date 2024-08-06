@@ -1,8 +1,6 @@
-exports.exportRequisition = (requisitionDetails) => {
+const { loadImageToBase64 } = require('./dateformatter')
 
-    const totalBodyTemplate = () => {
-        return 'sdfiu'
-    }
+exports.exportRequisition = (requisitionDetails) => {
 
     const cols = [
         { field: 'name', header: 'Product' },
@@ -18,30 +16,54 @@ exports.exportRequisition = (requisitionDetails) => {
 
     const exportToPDF = () => {
         import('jspdf').then(jsPDF => {
-            import('jspdf-autotable').then(() => {
+            import('jspdf-autotable').then(async () => {
                 const doc = new jsPDF.default(0, 2);
+
+                var pageSize = doc.internal.pageSize;
+                var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                var pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+
+                // Function to center text
+                const centerText = (text, yPosition, underline = false) => {
+                    const textWidth = doc.getTextWidth(text);
+                    const xPosition = (pageWidth - textWidth) / 2;
+                    doc.text(text, xPosition, yPosition);
+
+                    if (underline) {
+                        const lineYPosition = yPosition + 1; // Adjust the line position if needed
+                        doc.line(xPosition, lineYPosition, xPosition + textWidth, lineYPosition);
+                    }
+                };
 
                 // Header
                 doc.setFontSize(15);
                 doc.setTextColor(10);
-                doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                // doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
                 doc.setFontSize(12);
-                doc.text(`Requisition`, 130, 32);
+                centerText(`Requisition`, 42, true);
 
                 doc.setFontSize(11);
-                doc.text(`Submitted by: ${requisitionDetails?.submittedBy.name}`, 30, 45);
-                doc.text(`Designation: ${requisitionDetails?.submittedBy.designation}`, 30, 55);
-                doc.text(`Date: ${requisitionDetails?.createdAt.split("T")[0]}`, 30, 65);
-                doc.text(`Department: ${requisitionDetails?.department}`, 30, 75);
+                doc.text(`Submitted by: ${requisitionDetails?.submittedBy.name}`, 30, 55);
+                doc.text(`Designation: ${requisitionDetails?.submittedBy.designation}`, 30, 65);
+                doc.text(`Date: ${requisitionDetails?.createdAt.split("T")[0]}`, 30, 75);
+                doc.text(`Department: ${requisitionDetails?.department}`, 30, 85);
 
-                doc.text(`Proposed amount: ${requisitionDetails?.proposedAmount}`, 200, 45);
-                doc.text(`#Proposed items: ${requisitionDetails?.totalProposedItems}`, 200, 55);
-                doc.text(`Purchase amount: ${requisitionDetails?.purchasedAmount || "__________"}`, 200, 65);
-                doc.text(`#Purchase items: ${requisitionDetails?.purchasedItems || "__________"}`, 200, 75);
+                doc.text(`Proposed amount: ${requisitionDetails?.proposedAmount}`, 200, 55);
+                doc.text(`#Proposed items: ${requisitionDetails?.totalProposedItems}`, 200, 65);
+                doc.text(`Purchase amount: ${requisitionDetails?.purchasedAmount || "__________"}`, 200, 75);
+                doc.text(`#Purchase items: ${requisitionDetails?.purchasedItems || "__________"}`, 200, 85);
 
+
+                const logoBase64 = await loadImageToBase64('/images/logo-with-text.png');
+
+                const imgWidth = 85;
+                const imgHeight = 20;
+                const x = (pageWidth - imgWidth) / 2;
+                // Add logo at the top
+                doc.addImage(logoBase64, 'PNG', x, 10, imgWidth, imgHeight);
 
                 doc.autoTable(exportColumns, requisitionDetails.itemList.sort(), {
-                    startY: 85,
+                    startY: 95,
 
                     didDrawPage: function (data) {
 
@@ -108,12 +130,24 @@ exports.exportRequisitionReport = (requisitionDetails) => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 2);
 
+                // Function to center text
+                const centerText = (text, yPosition, underline = false) => {
+                    const textWidth = doc.getTextWidth(text);
+                    const xPosition = (pageWidth - textWidth) / 2;
+                    doc.text(text, xPosition, yPosition);
+
+                    if (underline) {
+                        const lineYPosition = yPosition + 1; // Adjust the line position if needed
+                        doc.line(xPosition, lineYPosition, xPosition + textWidth, lineYPosition);
+                    }
+                };
+
                 // Header
                 doc.setFontSize(15);
                 doc.setTextColor(10);
-                doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                centerText(`Infozillion Teletech BD LTD.`, 22, true);
                 doc.setFontSize(12);
-                doc.text(`Requisition Report: ${requisitionDetails?.reportMonth}`, 120, 32);
+                centerText(`Requisition Report: ${requisitionDetails?.reportMonth}`, 32, true);
 
                 doc.setFontSize(11);
                 doc.text(`Report Month: ${requisitionDetails?.reportMonth}`, 30, 45);

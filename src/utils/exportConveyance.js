@@ -1,20 +1,4 @@
-const { getMonthName } = require('./dateformatter');
-
-// Load and convert the image to base64
-const loadImageToBase64 = async (url) => {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`Failed to load image: ${response.statusText}`);
-    }
-    const blob = await response.blob();
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-    });
-};
-
+const { getMonthName, loadImageToBase64 } = require('./dateformatter');
 
 exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month, year, pendingConveyances) => {
     console.log("conveyanceData: ", conveyanceData);
