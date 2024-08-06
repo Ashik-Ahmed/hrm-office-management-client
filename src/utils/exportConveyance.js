@@ -1,5 +1,21 @@
 const { getMonthName } = require('./dateformatter');
 
+// Load and convert the image to base64
+const loadImageToBase64 = async (url) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Failed to load image: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+};
+
+
 exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month, year, pendingConveyances) => {
     console.log("conveyanceData: ", conveyanceData);
     const cols = [
@@ -45,42 +61,67 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
             import('jspdf-autotable').then(async () => {
                 const doc = new jsPDF.default(0, 2);
 
+
+                var pageSize = doc.internal.pageSize;
+
+                const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                // Function to center text
+                const centerText = (text, yPosition, underline = false) => {
+                    const textWidth = doc.getTextWidth(text);
+                    const xPosition = (pageWidth - textWidth) / 2;
+                    doc.text(text, xPosition, yPosition);
+
+                    if (underline) {
+                        const lineYPosition = yPosition + 1; // Adjust the line position if needed
+                        doc.line(xPosition, lineYPosition, xPosition + textWidth, lineYPosition);
+                    }
+                };
+
                 if (pendingConveyances) {
                     // Header
                     doc.setFontSize(15);
                     doc.setTextColor(10);
-                    doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                    // centerText(`Infozillion Teletech BD LTD.`, 22);
                     doc.setFontSize(12);
-                    doc.text(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 130, 32);
+                    centerText(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 42, true);
 
                     doc.setFontSize(11);
-                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
-                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
-                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 45);
-                    doc.text(`Total bill: ${conveyanceData.totalAmount}`, 210, 55);
-                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 65);
+                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 55);
+                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 65);
+                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
+                    doc.text(`Total bill: ${conveyanceData.totalAmount}`, 210, 65);
+                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 75);
                 }
 
                 else {
                     // Header
                     doc.setFontSize(15);
                     doc.setTextColor(10);
-                    doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
+                    // centerText(`Infozillion Teletech BD LTD.`, 22);
                     doc.setFontSize(12);
-                    doc.text(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 112, 32);
+                    centerText(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 42, true);
 
                     doc.setFontSize(11);
-                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
-                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
-                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 45);
-                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 55);
-                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 65);
+                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 55);
+                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 65);
+                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
+                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 65);
+                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 75);
                 }
 
 
+                const logoBase64 = await loadImageToBase64('/images/logo-with-text.png');
+
+                const imgWidth = 85;
+                const imgHeight = 20;
+                const x = (pageWidth - imgWidth) / 2;
+                // Add logo at the top
+                doc.addImage(logoBase64, 'PNG', x, 10, imgWidth, imgHeight);
 
                 doc.autoTable(exportColumns, customizedConveyanceDetails.sort(), {
-                    startY: 75,
+                    startY: 85,
 
                     didDrawPage: function (data) {
 
@@ -91,20 +132,15 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
                         doc.setFontSize(10);
 
                         // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-                        var pageSize = doc.internal.pageSize;
-                        var pageHeight = pageSize.height
-                            ? pageSize.height
-                            : pageSize.getHeight();
+                        // var pageSize = doc.internal.pageSize;
+                        // var pageHeight = pageSize.height
+                        //     ? pageSize.height
+                        //     : pageSize.getHeight();
+
                         doc.text(str, data.settings.margin.left, pageHeight - 10);
                     }
                 });
-                var pageSize = doc.internal.pageSize;
-                var pageHeight = pageSize.height
-                    ? pageSize.height
-                    : pageSize.getHeight();
-                var pageWidth = pageSize.width
-                    ? pageSize.width
-                    : pageSize.getWidth();
+
 
                 var signatureLine = "__________________"
                 var signature = selectedEmployee.name
