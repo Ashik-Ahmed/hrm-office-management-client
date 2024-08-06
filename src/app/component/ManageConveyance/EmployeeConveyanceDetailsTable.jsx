@@ -6,18 +6,16 @@ import React, { useState } from 'react';
 import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
-import Cookies from 'universal-cookie';
-import Loading from '../Loading/Loading';
+import { getMonthName } from '@/utils/dateformatter';
 
 
 const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
-
-    const cookie = new Cookies();
 
     const [loading, setLoading] = useState(false)
     const [makePaymentDialog, setMakePaymentDialog] = useState(false)
     const [selectedEmployee, setSelectedEmployee] = useState(null)
     const [conveyanceData, setConveyanceData] = useState(null)
+
 
     const getEmployeeConveyanceDetails = async (email) => {
         setLoading(true);
@@ -43,13 +41,17 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
     const exportConveyanceData = async (rowData) => {
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
-
+        console.log(filterMonth, filterYear);
         const employeeConveyance = await getConveyanceDetailsByEmployeeEmail(rowData.email, filterMonth, filterYear, user.accessToken)
 
         //extract the pending conveyances from all conveyances of the month
-        const pendingConveyances = conveyanceData?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
+        const pendingConveyances = employeeConveyance?.conveyanceDetails.filter(conveyance => conveyance.paymentStatus !== 'Paid')
 
-        exportEmployeeConveyanceToPDF(rowData, employeeConveyance, pendingConveyances)
+        console.log("pendingConveyances: ", pendingConveyances);
+
+        // console.log("rowData: ", rowData, "employeeConveyance: ", employeeConveyance, "pendingConveyances: ", pendingConveyances, "month: ", await getMonthName(filterMonth), "year: ", filterYear);
+
+        exportEmployeeConveyanceToPDF(rowData, employeeConveyance, filterMonth, filterYear, pendingConveyances,)
     }
 
     const handleConveyanceBillPayment = () => {
@@ -143,7 +145,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
 
             {/* Details Conveyance dialog  */}
             <Dialog visible={selectedEmployee} onHide={() => { setSelectedEmployee(null); }} style={{ width: '70vw' }}>
-                <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} />
+                <PrintableConveyance selectedEmployee={selectedEmployee} conveyanceData={conveyanceData} month={new Date(selectedMonth).getMonth() + 1} year={new Date(selectedYear).getFullYear()} />
 
                 {/* <PrintProvider>
                     <Print

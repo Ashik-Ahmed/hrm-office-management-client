@@ -1,11 +1,14 @@
-exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendingConveyances) => {
+const { getMonthName } = require('./dateformatter');
 
+exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month, year, pendingConveyances) => {
+    console.log("conveyanceData: ", conveyanceData);
     const cols = [
         { field: 'date', header: 'Date' },
         { field: 'from', header: 'From' },
         { field: 'destination', header: 'Destination' },
         { field: 'vehicle', header: 'Vehicle' },
         { field: 'amount', header: 'Amount' },
+        { field: 'paymentStatus', header: 'Payment' },
         { field: 'purpose', header: 'Purpose' },
     ]
 
@@ -15,7 +18,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendi
 
     if (pendingConveyances) {
         // extract only the date value from dateTime 
-        customizedConveyanceDetails = pendingConveyances.map(conveyance => {
+        customizedConveyanceDetails = pendingConveyances?.map(conveyance => {
             const customizedDate = conveyance.date.split("T")[0]
             return {
                 ...conveyance,
@@ -24,7 +27,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendi
         })
     }
 
-    if (!pendingConveyances) {
+    else {
         // extract only the date value from dateTime 
         customizedConveyanceDetails = conveyanceData?.conveyanceDetails.map(conveyance => {
             const customizedDate = conveyance.date.split("T")[0]
@@ -36,10 +39,10 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendi
     }
 
 
-    const exportPdf = () => {
+    const exportPdf = async () => {
         console.log(customizedConveyanceDetails);
         import('jspdf').then(jsPDF => {
-            import('jspdf-autotable').then(() => {
+            import('jspdf-autotable').then(async () => {
                 const doc = new jsPDF.default(0, 2);
 
                 if (pendingConveyances) {
@@ -48,34 +51,36 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, pendi
                     doc.setTextColor(10);
                     doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
                     doc.setFontSize(12);
-                    doc.text(`Conveyance Bill`, 130, 32);
+                    doc.text(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 130, 32);
 
                     doc.setFontSize(11);
                     doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
-                    doc.text(`Total bill: ${conveyanceData.totalDueAmount}`, 210, 45);
                     doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
-                    doc.text(`Total trips: ${conveyanceData.pendingConveyances}`, 210, 55);
+                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 45);
+                    doc.text(`Total bill: ${conveyanceData.totalAmount}`, 210, 55);
+                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 65);
                 }
 
-                if (!pendingConveyances) {
+                else {
                     // Header
                     doc.setFontSize(15);
                     doc.setTextColor(10);
                     doc.text(`Infozillion Teletech BD LTD.`, 102, 22);
                     doc.setFontSize(12);
-                    doc.text(`Monthly Conveyance Bill`, 112, 32);
+                    doc.text(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 112, 32);
 
                     doc.setFontSize(11);
                     doc.text(`Employee: ${selectedEmployee.name}`, 40, 45);
-                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 45);
                     doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 55);
-                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
+                    doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 45);
+                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 55);
+                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 210, 65);
                 }
 
 
 
                 doc.autoTable(exportColumns, customizedConveyanceDetails.sort(), {
-                    startY: 70,
+                    startY: 75,
 
                     didDrawPage: function (data) {
 

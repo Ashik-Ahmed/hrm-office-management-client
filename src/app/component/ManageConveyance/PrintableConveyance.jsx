@@ -6,9 +6,8 @@ import React from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
 
-const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
-    console.log(selectedEmployee, conveyanceData);
-
+const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) => {
+    console.log(month, year);
     const detailsTableDateTemplate = (rowData) => {
         return (
             <div>{rowData.date.split("T")[0]}</div>
@@ -36,9 +35,9 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData }) => {
                         </div>
                     </div>
                 </div>
-                <div className='mt-4'>
+                <div className='mt-4 shadow-md rounded-md'>
                     {/* <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' /> */}
-                    <Button label='Export' onClick={() => exportEmployeeConveyanceToPDF(selectedEmployee, conveyanceData)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
+                    <Button label='Export' onClick={() => exportEmployeeConveyanceToPDF(selectedEmployee, conveyanceData, month, year)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
                     <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
                         {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                         <Column body={detailsTableDateTemplate} header="Date"></Column>
