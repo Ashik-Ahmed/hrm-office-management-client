@@ -96,7 +96,7 @@ const Conveyance = ({ user }) => {
             </div>
 
             <div className='mt-4'>
-                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} user={user} loadingState={loading} />
+                <ConveyanceDetailsTable conveyanceData={conveyanceData} getConveyanceData={getConveyanceData} user={user} loadingState={loading} month={new Date(selectedMonth).getMonth() + 1} year={new Date(selectedYear).getFullYear()} />
             </div>
         </div>
     );

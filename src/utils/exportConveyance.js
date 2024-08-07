@@ -1,6 +1,6 @@
 const { getMonthName, loadImageToBase64 } = require('./dateformatter');
 
-exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month, year, pendingConveyances) => {
+exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, pendingConveyances) => {
     console.log("conveyanceData: ", conveyanceData);
     const cols = [
         { field: 'date', header: 'Date' },
@@ -72,7 +72,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
                     centerText(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 42, true);
 
                     doc.setFontSize(11);
-                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 55);
+                    doc.text(`Employee: ${employee.name}`, 40, 55);
                     doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
                     doc.text(`Total bill: ${conveyanceData.totalAmount}`, 210, 65);
@@ -88,7 +88,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
                     centerText(`Conveyance Bill : ${await getMonthName(month)}-${year}`, 42, true);
 
                     doc.setFontSize(11);
-                    doc.text(`Employee: ${selectedEmployee.name}`, 40, 55);
+                    doc.text(`Employee: ${employee.name}`, 40, 55);
                     doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 40, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 210, 55);
                     doc.text(`Total amount: ${conveyanceData.totalAmount}`, 210, 65);
@@ -127,7 +127,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
 
 
                 var signatureLine = "__________________"
-                var signature = selectedEmployee.name
+                var signature = employee.name
                 doc.text(signatureLine, 20, pageHeight - 40);
                 doc.text(signature, 20, pageHeight - 30);
                 doc.text(signatureLine, pageWidth - 80, pageHeight - 40);
@@ -135,7 +135,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
                 doc.text('Director, Admin & Finance', pageWidth - 80, pageHeight - 24);
 
 
-                doc.save(`${selectedEmployee.name} conveyance bill.pdf`);
+                doc.save(`${employee.name} conveyance bill.pdf`);
             })
         })
 
@@ -145,7 +145,7 @@ exports.exportEmployeeConveyanceToPDF = (selectedEmployee, conveyanceData, month
 }
 
 exports.exportMonthlyConveyanceReport = (conveyanceData) => {
-    console.log(conveyanceData);
+    // console.log(conveyanceData);
 
     const currentDate = new Date();
     const year = currentDate.getFullYear();

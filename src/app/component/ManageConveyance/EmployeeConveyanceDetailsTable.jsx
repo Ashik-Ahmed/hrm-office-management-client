@@ -51,7 +51,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
 
         // console.log("rowData: ", rowData, "employeeConveyance: ", employeeConveyance, "pendingConveyances: ", pendingConveyances, "month: ", await getMonthName(filterMonth), "year: ", filterYear);
 
-        exportEmployeeConveyanceToPDF(rowData, employeeConveyance, filterMonth, filterYear, pendingConveyances,)
+        exportEmployeeConveyanceToPDF(rowData, employeeConveyance, filterMonth, filterYear, pendingConveyances)
     }
 
     const handleConveyanceBillPayment = () => {

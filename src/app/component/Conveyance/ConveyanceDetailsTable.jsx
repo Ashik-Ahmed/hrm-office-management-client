@@ -9,9 +9,11 @@ import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import EditConveyanceDialog from './EditConveyanceDialog';
-import Loading from '../Loading/Loading';
+import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
 
-const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState }) => {
+const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState, month, year }) => {
+
+    console.log(conveyanceData);
 
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -126,6 +128,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>MY CONVEYANCE</h3>
+                    <Button onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} />
                     <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
