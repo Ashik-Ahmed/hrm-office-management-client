@@ -137,7 +137,7 @@ const TaskTable = ({ user, allDepartments }) => {
                 <div className='flex justify-between items-center mb-2'>
                     <div className='flex items-center gap-x-2'>
                         <h3 className='font-light'>TASK LIST</h3>
-                        <AiFillPlusSquare onClick={() => setAddTask(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                        <AiFillPlusSquare onClick={() => setAddTask(true)} size={25} color='#8C239E' className='cursor-pointer' />
                     </div>
                     <div>
                         <Dropdown options={['Open', 'Closed']} onChange={(e) => { setCurrentStatus(e.value); }} value={currentStatus} size='small' className='p-dropdown-sm' />

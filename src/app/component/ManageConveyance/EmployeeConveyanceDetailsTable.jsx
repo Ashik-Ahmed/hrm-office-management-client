@@ -7,6 +7,7 @@ import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 import { getMonthName } from '@/utils/dateformatter';
+import { AiFillFilePdf } from 'react-icons/ai';
 
 
 const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
@@ -122,7 +123,11 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
-                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.employeeData?.length > 0} disabled={monthlyEmployeeConveyance?.employeeData?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" />
+                    {/* <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.employeeData?.length > 0} disabled={monthlyEmployeeConveyance?.employeeData?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" /> */}
+                    {
+                        monthlyEmployeeConveyance?.employeeData?.length > 0 &&
+                        <AiFillFilePdf onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} size={25} className='cursor-pointer text-red-500' />
+                    }
                 </div>
                 {
 

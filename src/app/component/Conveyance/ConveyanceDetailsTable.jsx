@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { AiFillPlusSquare } from 'react-icons/ai';
+import { AiFillFilePdf, AiFillPlusSquare } from 'react-icons/ai';
 import EditConveyanceDialog from './EditConveyanceDialog';
 import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
 
@@ -128,8 +128,11 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>MY CONVEYANCE</h3>
-                    <Button onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" rounded text raised severity='info' aria-label="Filter" style={{ color: 'red', width: '35px', height: '35px' }} />
-                    <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    {/* <Button onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} size='small' tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" severity='danger' aria-label="Filter" style={{ color: 'white', width: '35px', height: '35px' }} />
+                    <Button onClick={() => setAddConveyanceDialog(true)} size='small' tooltip="Add New" tooltipOptions={buttonTooltipOptions} icon="pi pi-plus" severity='info' /> */}
+
+                    <AiFillFilePdf onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} size={25} className='cursor-pointer text-red-500' />
+                    <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
                     conveyanceData?.conveyanceDetails?.length > 0 ?

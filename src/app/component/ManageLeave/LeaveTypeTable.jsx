@@ -97,9 +97,9 @@ const LeaveTypeTable = ({ user }) => {
             <Toast ref={toast} />
             <div className='w-full shadow-lg bg-white p-2 rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>AVAILABLE LEAVES</h3>
+                    <h3 className='font-light'>LEAVE TYPES</h3>
                     {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
-                    <AiFillPlusSquare onClick={() => setCreateLeaveDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    <AiFillPlusSquare onClick={() => setCreateLeaveDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <DataTable value={leaves} size='small'>
                     <Column field="leaveType" header="Leave Type"></Column>

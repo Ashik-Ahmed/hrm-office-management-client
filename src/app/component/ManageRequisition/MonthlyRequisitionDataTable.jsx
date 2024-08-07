@@ -15,6 +15,7 @@ import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import Loading from '../Loading/Loading';
 import { useSession } from 'next-auth/react';
+import { AiFillFilePdf } from 'react-icons/ai';
 
 const MonthlyRequisitionDataTable = ({ user }) => {
 
@@ -221,7 +222,11 @@ const MonthlyRequisitionDataTable = ({ user }) => {
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>REQUISITION HISTORY</h3>
-                    <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyRequisition?.requisitions.length > 0} disabled={monthlyRequisition?.requisitions.length < 1} rounded text severity='danger' onClick={() => exportToPdf(monthlyRequisition)} data-pr-tooltip="PDF" />
+                    {/* <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyRequisition?.requisitions.length > 0} disabled={monthlyRequisition?.requisitions.length < 1} rounded text severity='danger' onClick={() => exportToPdf(monthlyRequisition)} data-pr-tooltip="PDF" /> */}
+                    {
+                        monthlyRequisition?.requisitions?.length > 0 &&
+                        <AiFillFilePdf onClick={() => exportToPdf(monthlyRequisition)} size={25} className='cursor-pointer text-red-500' />
+                    }
                 </div>
                 {
                     monthlyRequisition ?

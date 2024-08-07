@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Column } from 'jspdf-autotable';
 import { DataTable } from 'primereact/datatable';
-import { AiFillPlusSquare } from 'react-icons/ai';
+import { AiFillFilePdf, AiFillPlusSquare } from 'react-icons/ai';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
@@ -207,7 +207,7 @@ const RequisitionHistoryTable = ({ user }) => {
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>REQUISITION</h3>
-                    <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
                     userRequisitionData?.data?.length > 0 ?

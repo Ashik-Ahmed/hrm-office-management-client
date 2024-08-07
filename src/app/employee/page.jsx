@@ -351,7 +351,7 @@ const Users = () => {
                     <h3 className='font-light'>EMPLOYEE LIST</h3>
                     {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
                     {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
-                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <div>
                     <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />

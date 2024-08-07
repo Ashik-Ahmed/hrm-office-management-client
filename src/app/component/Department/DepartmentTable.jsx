@@ -121,7 +121,7 @@ const DepartmentTable = ({ accessToken }) => {
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>DEPARTMENT LIST</h3>
-                    <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                    <AiFillPlusSquare onClick={() => setCreateDepartmentDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
                     // departments ?

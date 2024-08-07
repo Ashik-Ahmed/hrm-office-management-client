@@ -12,7 +12,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { AiFillPlusSquare } from 'react-icons/ai';
+import { AiFillFilePdf, AiFillPlusSquare } from 'react-icons/ai';
 
 const VisitorRegister = ({ user }) => {
 
@@ -132,10 +132,14 @@ const VisitorRegister = ({ user }) => {
                 <div className='flex items-center justify-between mb-1'>
                     <div className='flex items-center gap-x-2 mb-2'>
                         <h3 className='font-light'>VISITOR LIST</h3>
-                        <AiFillPlusSquare onClick={() => setInsertVisitor(true)} size={20} color='#8C239E' className='cursor-pointer' />
+                        {/* <Button onClick={() => exportVisitorList(monthlyVisitors)} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!monthlyVisitors} rounded data-pr-tooltip="PDF" /> */}
+                        {
+                            monthlyVisitors?.length > 0 &&
+                            <AiFillFilePdf onClick={() => exportVisitorList(monthlyVisitors)} size={25} className='cursor-pointer text-red-500' />
+                        }
+                        <AiFillPlusSquare onClick={() => setInsertVisitor(true)} size={25} color='#8C239E' className='cursor-pointer' />
                     </div>
                     <div className='flex gap-2'>
-                        <Button onClick={() => exportVisitorList(monthlyVisitors)} type="button" icon="pi pi-file-pdf" severity="danger" disabled={!monthlyVisitors} rounded data-pr-tooltip="PDF" />
 
                         <span className="p-input-icon-left">
                             <i className="pi pi-search" />
