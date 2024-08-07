@@ -184,7 +184,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
                     <div className='flex gap-2'>
                         <div className='w-fit'>
                             {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}
-                            <Dropdown options={["All", "Pending", "Approved", "Rejected"]} onChange={(e) => { setCurrentStatus(e.value); }} placeholder='Current Status' value={currentStatus} size='small' className='p-dropdown-sm' />
+                            <Dropdown options={["All", "Pending", "Approved", "Rejected"]} onChange={(e) => { setCurrentStatus(e.value); }} showClear placeholder='Current Status' value={currentStatus} size='small' className='p-dropdown-sm' />
                         </div>
                         <div className='w-fit'>
                             {/* <Calendar value={filterYear} onChange={(e) => { setFilterYear(e.value); }} view="year" dateFormat="yy" className='w-fit' /> */}

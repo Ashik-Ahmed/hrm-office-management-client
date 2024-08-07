@@ -122,7 +122,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
         <div className='test-body'>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>EMPLOYEE CONVEYANCE</h3>
+                    <h3 className='font-light'>CONVEYANCE REPORT</h3>
                     {/* <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyEmployeeConveyance?.employeeData?.length > 0} disabled={monthlyEmployeeConveyance?.employeeData?.length < 1} rounded text severity='danger' onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} data-pr-tooltip="PDF" /> */}
                     {
                         monthlyEmployeeConveyance?.employeeData?.length > 0 &&

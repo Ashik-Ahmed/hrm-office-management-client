@@ -354,7 +354,7 @@ const Users = () => {
                     <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <div>
-                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
+                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} showClear options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
                 </div>
                 {/* <span className="p-input-icon-left">
                     <i className="pi pi-search" />

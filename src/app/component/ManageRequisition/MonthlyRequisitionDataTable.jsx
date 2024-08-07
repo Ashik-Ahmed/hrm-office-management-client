@@ -221,7 +221,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
             </div>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>REQUISITION HISTORY</h3>
+                    <h3 className='font-light'>REQUISITION REPORT</h3>
                     {/* <Button className='mr-10' type="button" icon="pi pi-file-pdf" visible={monthlyRequisition?.requisitions.length > 0} disabled={monthlyRequisition?.requisitions.length < 1} rounded text severity='danger' onClick={() => exportToPdf(monthlyRequisition)} data-pr-tooltip="PDF" /> */}
                     {
                         monthlyRequisition?.requisitions?.length > 0 &&
