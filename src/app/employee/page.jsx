@@ -19,7 +19,8 @@ import { useSession } from 'next-auth/react';
 const Users = () => {
 
     const { data: session, status } = useSession()
-    // console.log("session from employee", session?.user?.accessToken);
+    console.log("status from employee", status);
+    console.log("session from employee", session);
 
     const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -48,7 +49,9 @@ const Users = () => {
     }
 
     useEffect(() => {
-        getDepartments();
+        if (session) {
+            getDepartments();
+        }
     }, [session])
 
 
@@ -69,12 +72,11 @@ const Users = () => {
     }
 
     useEffect(() => {
-        fetchAllUsers(queryDepartment)
-    }, [queryDepartment, session])
+        if (session) {
+            fetchAllUsers(queryDepartment)
+        }
+    }, [session, queryDepartment])
 
-    // if (!employees) {
-    //     return <Loading />
-    // }
 
     const handlePhotoChange = (event) => {
         setImage(event.target.files[0]);
@@ -224,7 +226,7 @@ const Users = () => {
             })
     }
 
-    if (!session?.user?.accessToken) {
+    if (status === 'loading') {
         return <Loading />
     }
 

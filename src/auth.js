@@ -61,10 +61,11 @@ export const {
                         };
                     }
                     else {
-                        throw new Error(data?.message || 'Login failed'); //send the error
+                        // console.log("Throwing new error: ", data);
+                        throw new Error(data?.error || 'Login failed'); //send the error
                     }
                 } catch (error) {
-                    console.log("login api error is: ", error);
+                    // console.log("login api error is: ", error);
                     throw new Error(error.message || 'Internal Server Error');
                 }
             }

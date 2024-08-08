@@ -81,7 +81,7 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <div
-                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer bg-purple-600"
                                     onClick={handleTogglePassword}
                                 >
                                     {showPassword ? (<IoIosEyeOff />) : (<IoIosEye />)}

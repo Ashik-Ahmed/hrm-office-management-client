@@ -13,7 +13,7 @@ import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
 
 const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState, month, year }) => {
 
-    console.log(conveyanceData);
+    console.log(user);
 
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();

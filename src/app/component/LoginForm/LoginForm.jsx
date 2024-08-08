@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { doCredentialLogin } from '@/serverActions/authActions';
 import Image from 'next/image'
-import logo from '../../../../public/images/logo.png'
+import logo from '../../../../public/images/logo-with-text.png'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 
@@ -24,15 +24,15 @@ const LoginForm = () => {
 
         try {
             const formData = new FormData(e.currentTarget)
-            console.log("formData: ", formData.get('email'), formData.get('password'));
+            // console.log("formData: ", formData.get('email'), formData.get('password'));
             const response = await doCredentialLogin(formData);
 
-            if (!!response?.error) {
-                console.log("Login error: ", response?.error);
-                setLoginError(response?.error?.message || "Something went wrong")
+            if (response?.error) {
+                // console.log("Login Failed from LoginForm component: ", response);
+                // setLoginError(response?.error)
+                setLoginError("Wrong Credentials")
             }
             else {
-                console.log("redirecting...");
                 router.push('/')
                 // router.refresh()
                 // redirect('/')
@@ -41,7 +41,7 @@ const LoginForm = () => {
                 // }, 800); // Small delay to ensure the navigation is complete
             }
         } catch (error) {
-            console.log("Login error: ", error);
+            // console.log("Login error from LoginForm component: ", error);
             setLoginError("Wrong Credentials")
             // setLoginError(error.message)
             // throw new Error(error.message)
@@ -69,14 +69,14 @@ const LoginForm = () => {
                                 <label htmlFor="email">Email address</label>
                                 <div className="p-inputgroup flex  rounded border border-bodydark focus:ring-purple-500 focus:border-purple-500">
                                     <InputText name="email" id="email" type="email" placeholder="Email address" required className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-purple-500 hover:border-purple-500 focus:outline-none custom-input" />
-                                    <span size='small' className="p-inputgroup-addon bg-primary text-white"> <i className="pi pi-envelope"></i> </span>
+                                    <span size='small' className="p-inputgroup-addon bg-purple-600 text-white"> <i className="pi pi-envelope"></i> </span>
                                 </div>
                             </div>
                             <div>
                                 <label htmlFor="password">Password</label>
                                 <div className="p-inputgroup flex rounded border border-bodydark focus:ring-purple-500 focus:border-purple-500">
                                     <InputText name="password" id="password" type={passwordVisibility ? 'text' : 'password'} placeholder="Password" required className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-primary focus:border-primary" />
-                                    <span onClick={() => setPasswordVisibility(!passwordVisibility)} size='small' className="p-inputgroup-addon cursor-pointer bg-primary text-white">  {passwordVisibility ? <i className="pi pi-eye-slash"></i> : <i className="pi pi-eye"></i>}</span>
+                                    <span onClick={() => setPasswordVisibility(!passwordVisibility)} size='small' className="p-inputgroup-addon cursor-pointer bg-purple-600 text-white">  {passwordVisibility ? <i className="pi pi-eye-slash"></i> : <i className="pi pi-eye"></i>}</span>
                                 </div>
                             </div>
                             {/* <div className="relative">
