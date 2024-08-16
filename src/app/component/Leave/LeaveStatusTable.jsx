@@ -10,8 +10,6 @@ const LeaveStatusTable = ({ user }) => {
 
     const [leaveStatus, setLeaveStatus] = useState(null)
 
-    const { data: session, status } = useSession();
-
     const [loading, setLoading] = useState(false)
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
@@ -44,8 +42,8 @@ const LeaveStatusTable = ({ user }) => {
     }
 
     useEffect(() => {
-        getLeaveStatusData(session?.user._id)
-    }, [session, selectedYear])
+        getLeaveStatusData(user._id)
+    }, [selectedYear])
 
 
     return (
