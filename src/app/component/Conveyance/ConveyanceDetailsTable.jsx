@@ -131,7 +131,9 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
                     {/* <Button onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} size='small' tooltip="Export" tooltipOptions={buttonTooltipOptions} icon="pi pi-file-pdf" severity='danger' aria-label="Filter" style={{ color: 'white', width: '35px', height: '35px' }} />
                     <Button onClick={() => setAddConveyanceDialog(true)} size='small' tooltip="Add New" tooltipOptions={buttonTooltipOptions} icon="pi pi-plus" severity='info' /> */}
 
-                    <AiFillFilePdf onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} size={25} className='cursor-pointer text-red-500' />
+                    {
+                        conveyanceData?.conveyanceDetails?.length > 0 && <AiFillFilePdf onClick={() => exportEmployeeConveyanceToPDF(user, conveyanceData, month, year)} size={25} className='cursor-pointer text-red-500' />
+                    }
                     <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 {
