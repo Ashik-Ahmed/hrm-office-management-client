@@ -241,8 +241,9 @@ const MonthlyRequisitionDataTable = ({ user }) => {
                             <Column body={actionBodyTemplate} header="Action"></Column>
                         </DataTable>
                         :
-                        <div className='my-4 text-center'>
-                            <p className='bg-sky-400 text-white p-2 inline'>No Requisition Found</p>
+                        <div className="bg-yellow-300 p-4 rounded-md h-full mx-auto text-center">
+                            <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
+                            <p className='text-2xl text-white'>No Requisition Found</p>
                         </div>
                 }
             </div>
