@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Loading from '../Loading/Loading';
 import { Dialog } from 'primereact/dialog';
+import { customDateFormat } from '@/utils/dateformatter';
 
 const Task = ({ taskId, user }) => {
     console.log(user);
@@ -27,7 +28,7 @@ const Task = ({ taskId, user }) => {
             .then(data => {
                 if (data.status == "Success") {
                     setTask(data.data)
-                    // console.log(data);
+                    console.log(data);
                 }
             })
     }
@@ -95,7 +96,7 @@ const Task = ({ taskId, user }) => {
                 </div>
                 <hr className='my-4' />
                 <div className='text-sm'>
-                    <p>Created on: <span>{new Date(task?.createdAt).toLocaleString()}</span></p>
+                    <p>Created on: <span>{customDateFormat(task?.createdAt)}</span></p>
                     <p>Department: <span>{task?.department}</span></p>
                     <p>Added by: <span>{task?.creator}</span></p>
                     <p>Assignee: <span>{task?.assignee}</span></p>
@@ -111,9 +112,8 @@ const Task = ({ taskId, user }) => {
                                     <div className='flex gap-x-2'>
                                         <div className='p-2 border-r-2 text-xs bg-violet-100 w-40'>
                                             <p>{update.updatedBy}</p>
-                                            {/* <p>{update.updateTimestamp.split("T")[0]}</p> */}
-                                            <p>{new Date(update.updateTimestamp).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
-                                            <p>{new Date(update.updateTimestamp).toLocaleTimeString()}</p>
+                                            <p>{customDateFormat(update.updateTimestamp).split(",")[0]}</p>
+                                            <p>{customDateFormat(update.updateTimestamp).split(",")[1]}</p>
                                         </div>
                                         <p className='p-2 w-full'>{update.updateMessage}</p>
                                     </div>

@@ -1,4 +1,3 @@
-// Load and convert the image to base64
 export async function loadImageToBase64(url) {
     const response = await fetch(url);
     if (!response.ok) {
@@ -27,4 +26,29 @@ export async function getMonthName(monthNumber) {
 
     // Return the month name
     return months[monthNumber - 1];
+}
+
+export function customDateFormat(utcTimeStr) {
+    // Convert to Date object
+    const utcDate = new Date(utcTimeStr);
+
+    // Convert to Bangladesh local time (UTC+6)
+    const options = {
+        timeZone: "Asia/Dhaka",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    };
+
+    // Format the date and time
+    const bangladeshTime = new Intl.DateTimeFormat("en-GB", options).format(utcDate);
+
+    // Adjust the format to match the desired output
+    const formattedTime = bangladeshTime.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$1-$2-$3");
+
+    return formattedTime;
+
 }
