@@ -136,23 +136,16 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
                     }
                     <AiFillPlusSquare onClick={() => setAddConveyanceDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
-                {
-                    conveyanceData?.conveyanceDetails?.length > 0 ?
-                        <DataTable value={conveyanceData.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" loading={loading}>
-                            <Column body={dateBodyTemplate} header="Date"></Column>
-                            <Column field='from' header="From"></Column>
-                            <Column field='destination' header="Destination"></Column>
-                            <Column field='vehicle' header="Vehicle"></Column>
-                            <Column field="amount" header="Amount"></Column>
-                            <Column field="paymentStatus" header="Payment Status"></Column>
-                            <Column body={actionBodyTemplate} header="Action"></Column>
-                        </DataTable>
-                        :
-                        <div className="bg-yellow-300 p-4 rounded-md h-full mx-auto text-center">
-                            <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                            <p className='text-2xl text-white'>No Conveyance Found</p>
-                        </div>
-                }
+
+                <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No conveyance found" loading={loading}>
+                    <Column body={dateBodyTemplate} header="Date"></Column>
+                    <Column field='from' header="From"></Column>
+                    <Column field='destination' header="Destination"></Column>
+                    <Column field='vehicle' header="Vehicle"></Column>
+                    <Column field="amount" header="Amount"></Column>
+                    <Column field="paymentStatus" header="Payment Status"></Column>
+                    <Column body={actionBodyTemplate} header="Action"></Column>
+                </DataTable>
             </div>
             {/* add Conveyance dialog  */}
             <Dialog header="Add Conveyance" visible={addConveyanceDialog} style={{ width: '50vw' }} onHide={() => { setAddConveyanceDialog(false); setDate(null); reset() }}>

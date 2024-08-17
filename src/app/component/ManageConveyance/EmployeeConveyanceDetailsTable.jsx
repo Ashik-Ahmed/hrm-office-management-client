@@ -129,24 +129,14 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
                         <AiFillFilePdf onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} size={25} className='cursor-pointer text-red-500' />
                     }
                 </div>
-                {
-
-                    monthlyEmployeeConveyance?.employeeData?.length > 0 ?
-                        <DataTable value={monthlyEmployeeConveyance?.employeeData} size='small' emptyMessage="No Conveyance found" >
-                            {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
-                            <Column field='name' header="Name"></Column>
-                            <Column field='totalConveyances' header="Total Trips"></Column>
-                            <Column field='totalAmount' header="Total Amount"></Column>
-                            <Column field="pendingAmount" header="Due Amount"></Column>
-                            <Column body={actionBodyTemplate} header="Action"></Column>
-                        </DataTable>
-                        :
-                        <div className="bg-yellow-300 p-4 rounded-md h-full mx-auto text-center">
-                            <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                            <p className='text-2xl text-white'>No Conveyance Found</p>
-                        </div>
-
-                }
+                <DataTable value={monthlyEmployeeConveyance?.employeeData} size='small' emptyMessage="No Conveyance found" loading={loading} >
+                    {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
+                    <Column field='name' header="Name"></Column>
+                    <Column field='totalConveyances' header="Total Trips"></Column>
+                    <Column field='totalAmount' header="Total Amount"></Column>
+                    <Column field="pendingAmount" header="Due Amount"></Column>
+                    <Column body={actionBodyTemplate} header="Action"></Column>
+                </DataTable>
             </div>
 
             {/* Details Conveyance dialog  */}

@@ -228,24 +228,16 @@ const MonthlyRequisitionDataTable = ({ user }) => {
                         <AiFillFilePdf onClick={() => exportToPdf(monthlyRequisition)} size={25} className='cursor-pointer text-red-500' />
                     }
                 </div>
-                {
-                    monthlyRequisition ?
-                        <DataTable value={monthlyRequisition?.requisitions} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
-                            <Column field='createdAt' header="Date" sortable></Column>
-                            <Column field='department' header="Department"></Column>
-                            <Column field='proposedItems' header="#Proposed item(s)"></Column>
-                            {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
-                            <Column field="proposedAmount" header="Proposed Amount" sortable></Column>
-                            {/* <Column field="finalAmount" header="Final Amount"></Column> */}
-                            <Column body={statusBodyTemplate} header="Status"></Column>
-                            <Column body={actionBodyTemplate} header="Action"></Column>
-                        </DataTable>
-                        :
-                        <div className="bg-yellow-300 p-4 rounded-md h-full mx-auto text-center">
-                            <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                            <p className='text-2xl text-white'>No Requisition Found</p>
-                        </div>
-                }
+                <DataTable value={monthlyRequisition?.requisitions} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found" loading={loading}>
+                    <Column field='createdAt' header="Date" sortable></Column>
+                    <Column field='department' header="Department"></Column>
+                    <Column field='proposedItems' header="#Proposed item(s)"></Column>
+                    {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
+                    <Column field="proposedAmount" header="Proposed Amount" sortable></Column>
+                    {/* <Column field="finalAmount" header="Final Amount"></Column> */}
+                    <Column body={statusBodyTemplate} header="Status"></Column>
+                    <Column body={actionBodyTemplate} header="Action"></Column>
+                </DataTable>
             </div>
 
             {/* Details requisition dialog  */}

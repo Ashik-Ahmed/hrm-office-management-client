@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import Loading from '../Loading/Loading';
-import { userPhoto } from '../../../../public/images/user.png'
+import userPhoto from '../../../../public/images/user.png'
 
 const EmployeeDetails = ({ id, user }) => {
     console.log(user);

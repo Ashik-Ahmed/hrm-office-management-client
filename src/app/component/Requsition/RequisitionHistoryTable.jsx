@@ -209,27 +209,16 @@ const RequisitionHistoryTable = ({ user }) => {
                     <h3 className='font-light'>REQUISITION</h3>
                     <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
-                {
-                    userRequisitionData?.data?.length > 0 ?
-                        <DataTable value={userRequisitionData?.data} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found">
-                            <Column field='createdAt' header="Date" sortable></Column>
-                            <Column field='department' header="Department"></Column>
-                            <Column field='totalProposedItems' header="#Proposed Qty"></Column>
-                            {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
-                            <Column field="proposedAmount" header="Proposed Amnt" sortable></Column>
-                            {/* <Column field="finalAmount" header="Final Amount"></Column> */}
-                            <Column body={statusBodyTemplate} header="Status"></Column>
-                            <Column body={actionBodyTemplate} header="Action"></Column>
-                        </DataTable>
-                        :
-                        // <div className='my-4 text-center'>
-                        //     <p className='bg-sky-400 text-white p-2 inline'>No Requisition Found</p>
-                        // </div>
-                        <div className="bg-yellow-300 p-4 rounded-md h-full mx-auto text-center">
-                            <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                            <p className='text-2xl text-white'>No Requisition Found</p>
-                        </div>
-                }
+                <DataTable value={userRequisitionData?.data} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found" loading={loading}>
+                    <Column field='createdAt' header="Date" sortable></Column>
+                    <Column field='department' header="Department"></Column>
+                    <Column field='totalProposedItems' header="#Proposed Qty"></Column>
+                    {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
+                    <Column field="proposedAmount" header="Proposed Amnt" sortable></Column>
+                    {/* <Column field="finalAmount" header="Final Amount"></Column> */}
+                    <Column body={statusBodyTemplate} header="Status"></Column>
+                    <Column body={actionBodyTemplate} header="Action"></Column>
+                </DataTable>
             </div>
             {/* Create requisition dialog  */}
             <Dialog header="New Requisition" visible={createRequisition} style={{ width: '80vw' }} onHide={() => { setCreateRequisition(false); setSelectedDepartment(''); reset() }}>
