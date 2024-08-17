@@ -5,12 +5,13 @@ import { DataTable } from 'primereact/datatable';
 import React from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
+import { customDateFormat } from '@/utils/dateformatter';
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) => {
     console.log(month, year);
     const detailsTableDateTemplate = (rowData) => {
         return (
-            <div>{rowData.date.split("T")[0]}</div>
+            <div>{customDateFormat(rowData.date).split(",")[0]}</div>
         )
     }
     return (

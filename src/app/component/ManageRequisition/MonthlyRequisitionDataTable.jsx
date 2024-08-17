@@ -16,6 +16,7 @@ import { TbReportMoney } from 'react-icons/tb';
 import Loading from '../Loading/Loading';
 import { useSession } from 'next-auth/react';
 import { AiFillFilePdf } from 'react-icons/ai';
+import { customDateFormat } from '@/utils/dateformatter';
 
 const MonthlyRequisitionDataTable = ({ user }) => {
 
@@ -166,6 +167,13 @@ const MonthlyRequisitionDataTable = ({ user }) => {
         },
     };
 
+    const dateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {customDateFormat(rowData.createdAt).split(",")[0]}
+            </div>
+        )
+    }
 
     const statusBodyTemplate = (rowData) => {
         return (
@@ -229,7 +237,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
                     }
                 </div>
                 <DataTable value={monthlyRequisition?.requisitions} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found" loading={loading}>
-                    <Column field='createdAt' header="Date" sortable></Column>
+                    <Column body={dateBodyTemplate} header="Date" sortable></Column>
                     <Column field='department' header="Department"></Column>
                     <Column field='proposedItems' header="#Proposed item(s)"></Column>
                     {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
@@ -263,7 +271,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
                                 </tr>
                                 <tr>
                                     <td>Date</td>
-                                    <td>: {requisitionDetails?.createdAt.split("T")[0]}</td>
+                                    <td>: {requisitionDetails?.createdAt && customDateFormat(requisitionDetails?.createdAt).split(",")[0]}</td>
                                 </tr>
                                 <tr>
                                     <td>Department</td>

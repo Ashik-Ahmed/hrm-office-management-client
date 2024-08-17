@@ -1,5 +1,6 @@
 'use client'
 
+import { customDateFormat } from '@/utils/dateformatter';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -126,7 +127,7 @@ const LeaveApplicationsTable = ({ user }) => {
     const fromBodyTemplate = (rowData) => {
         return (
             <div>
-                {rowData.fromDate.split("T")[0]}
+                {customDateFormat(rowData.fromDate).split(",")[0]}
             </div>
         )
     }
@@ -134,7 +135,7 @@ const LeaveApplicationsTable = ({ user }) => {
     const toBodyTemplate = (rowData) => {
         return (
             <div>
-                {rowData.toDate.split("T")[0]}
+                {customDateFormat(rowData.toDate).split(",")[0]}
             </div>
         )
     }
@@ -142,7 +143,7 @@ const LeaveApplicationsTable = ({ user }) => {
     const rejoinBodyTemplate = (rowData) => {
         return (
             <div>
-                {rowData.rejoinDate.split("T")[0]}
+                {customDateFormat(rowData.rejoinDate).split(",")[0]}
             </div>
         )
     }

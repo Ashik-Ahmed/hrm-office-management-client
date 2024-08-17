@@ -1,5 +1,6 @@
 "use client"
 
+import { customDateFormat } from '@/utils/dateformatter';
 import { useSession } from 'next-auth/react';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -141,7 +142,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
     const appliedOnBodyTemplate = (rowData) => {
         return (
             <div>
-                {rowData?.createdAt.split("T")[0]}
+                {customDateFormat(rowData?.createdAt).split(",")[0]}
             </div>
         )
     }
@@ -221,15 +222,15 @@ const ManageLeaveApplicationsTable = ({ user }) => {
                         </div>
                         <div className='flex justify-start'>
                             <span className='w-1/3'>From : </span>
-                            <span>{detailsDialog?.fromDate?.split("T")[0]}</span>
+                            {detailsDialog?.fromDate && <span>{customDateFormat(detailsDialog?.fromDate).split(",")[0]}</span>}
                         </div>
                         <div className='flex justify-start'>
                             <span className='w-1/3'>To : </span>
-                            <span>{detailsDialog?.toDate?.split("T")[0]}</span>
+                            {detailsDialog?.toDate && <span>{customDateFormat(detailsDialog?.toDate).split(",")[0]}</span>}
                         </div>
                         <div className='flex justify-start'>
                             <span className='w-1/3'>Re-joining : </span>
-                            <span>{detailsDialog?.rejoinDate?.split("T")[0]}</span>
+                            {detailsDialog?.rejoinDate && <span>{customDateFormat(detailsDialog?.rejoinDate).split(",")[0]}</span>}
                         </div>
                         <div className='flex justify-start'>
                             <span className='w-1/3'>Purpose : </span>

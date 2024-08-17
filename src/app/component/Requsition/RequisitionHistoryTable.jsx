@@ -14,6 +14,7 @@ import { getUserRequisitionHistory } from '@/libs/requisition';
 import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import Loading from '../Loading/Loading';
+import { customDateFormat } from '@/utils/dateformatter';
 
 const RequisitionHistoryTable = ({ user }) => {
 
@@ -171,6 +172,14 @@ const RequisitionHistoryTable = ({ user }) => {
         },
     };
 
+    const dateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {customDateFormat(rowData?.createdAt).split(",")[0]}
+            </div>
+        )
+    }
+
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
@@ -210,7 +219,7 @@ const RequisitionHistoryTable = ({ user }) => {
                     <AiFillPlusSquare onClick={() => setCreateRequisition(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <DataTable value={userRequisitionData?.data} size='small' removableSort sortMode='multiple' emptyMessage="No Requisition Found" loading={loading}>
-                    <Column field='createdAt' header="Date" sortable></Column>
+                    <Column body={dateBodyTemplate} header="Date" sortable></Column>
                     <Column field='department' header="Department"></Column>
                     <Column field='totalProposedItems' header="#Proposed Qty"></Column>
                     {/* <Column field="totalApprovedItems" header="#Approved item(s)"></Column> */}
@@ -319,7 +328,7 @@ const RequisitionHistoryTable = ({ user }) => {
                                 </tr>
                                 <tr>
                                     <td>Date</td>
-                                    <td>: {requisitionDetails?.createdAt.split("T")[0]}</td>
+                                    <td>: {requisitionDetails?.createdAt && customDateFormat(requisitionDetails?.createdAt).split(",")[0]}</td>
                                 </tr>
                                 <tr>
                                     <td>Department</td>

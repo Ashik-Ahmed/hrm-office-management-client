@@ -44,10 +44,10 @@ export function customDateFormat(utcTimeStr) {
     };
 
     // Format the date and time
-    const bangladeshTime = new Intl.DateTimeFormat("en-GB", options).format(utcDate);
+    const bangladeshTime = new Intl.DateTimeFormat("en-GB", options)?.format(utcDate);
 
     // Adjust the format to match the desired output
-    const formattedTime = bangladeshTime.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$1-$2-$3");
+    const formattedTime = bangladeshTime?.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$1-$2-$3");
 
     return formattedTime;
 

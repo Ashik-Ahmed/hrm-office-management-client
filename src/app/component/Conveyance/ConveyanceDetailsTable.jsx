@@ -10,6 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { AiFillFilePdf, AiFillPlusSquare } from 'react-icons/ai';
 import EditConveyanceDialog from './EditConveyanceDialog';
 import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
+import { customDateFormat } from '@/utils/dateformatter';
 
 const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState, month, year }) => {
 
@@ -107,7 +108,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
     const dateBodyTemplate = (rowData) => {
         return (
             <div>
-                {rowData.date.split("T")[0]}
+                {customDateFormat(rowData.date).split(",")[0]}
             </div>
         )
     }
@@ -237,7 +238,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
             {/* Details Dialog  */}
             <Dialog header="Journey Details" visible={detailsDialog} style={{ width: '50vw' }} onHide={() => { setDetailsDialog(false); }}>
                 <div>
-                    <p className='mb-2'>Journey Date: {detailsDialog?.date?.split("T")[0]}</p>
+                    <p className='mb-2'>Journey Date: {detailsDialog?.date && customDateFormat(detailsDialog?.date).split(",")[0]}</p>
                     <div className='flex justify-between text-start'>
                         <p className='w-1/2'>From: {detailsDialog.from}</p>
                         <p className='w-1/2 text-start'>Destination: {detailsDialog.destination}</p>
@@ -248,7 +249,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
                     </div>
                     <div className='flex justify-between'>
                         <p>Purpose: {detailsDialog.purpose}</p>
-                        <p className='w-1/2 text-start'>Partner: {detailsDialog.partner}</p>
+                        <p className='w-1/2 text-start'>Partner: {detailsDialog.partner || '--'}</p>
                     </div>
                 </div>
             </Dialog>

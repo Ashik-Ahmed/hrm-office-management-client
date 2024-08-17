@@ -1,5 +1,6 @@
 'use client'
 
+import { customDateFormat } from '@/utils/dateformatter';
 import Link from 'next/link';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -117,7 +118,7 @@ const TaskTable = ({ user, allDepartments }) => {
 
     const startBodyTemplate = (rowData) => {
         return (
-            <div>{rowData.createdAt.split("T")[0]}</div>
+            <div>{customDateFormat(rowData.createdAt).split(",")[0]}</div>
         )
     }
 

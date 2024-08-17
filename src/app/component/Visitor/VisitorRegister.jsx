@@ -1,6 +1,7 @@
 'use client'
 
 import { getMonthlyVisitors } from '@/libs/visitor';
+import { customDateFormat } from '@/utils/dateformatter';
 import { exportVisitorReport } from '@/utils/exportVisitor';
 import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
@@ -120,6 +121,12 @@ const VisitorRegister = ({ user }) => {
     //     )
     // }
 
+    const dateBodyTemplate = (rowData) => {
+        return (
+            <div>{customDateFormat(rowData.createdAt).split(",")[0]}</div>
+        )
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -149,7 +156,7 @@ const VisitorRegister = ({ user }) => {
                 </div>
                 <DataTable value={monthlyVisitors} size='small' loading={loading} filters={filters} filterDisplay="menu" globalFilterFields={['name', 'mobile', 'company']} emptyMessage="No Visitor Found">
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
-                    <Column field='createdAt' header="Date"></Column>
+                    <Column body={dateBodyTemplate} header="Date"></Column>
                     <Column field='name' header="Name"></Column>
                     <Column field='mobile' header="Mobile"></Column>
                     <Column field='company' header="From"></Column>
