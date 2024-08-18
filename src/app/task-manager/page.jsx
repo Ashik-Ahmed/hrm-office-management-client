@@ -6,7 +6,7 @@ import { auth } from '@/auth';
 const TaskManager = async () => {
 
     const { user } = await auth()
-    console.log('session data: ', user);
+    // console.log('session data: ', user);
 
     const departments = await getActiveDepartments(user?.accessToken)
 
