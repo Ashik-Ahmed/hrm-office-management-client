@@ -10,6 +10,8 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { useForm } from 'react-hook-form';
 import { Checkbox } from 'primereact/checkbox';
+import { Toast } from 'primereact/toast';
+import EditRoleDialog from './EditRoleDialog';
 
 const ManageRoles = ({ user }) => {
 
@@ -22,6 +24,7 @@ const ManageRoles = ({ user }) => {
     const [pages, setPages] = useState([])
     const [loading, setLoading] = useState(false)
     const [addRoleDialog, setAddRoleDialog] = useState(false)
+    const [editRoleDialog, setEditRoleDialog] = useState(false)
     const [selectedPages, setSelectedPages] = useState([]);
 
     const onPageChange = (e) => {
@@ -69,7 +72,29 @@ const ManageRoles = ({ user }) => {
     }
 
     const handleAddNewRole = (data) => {
-        console.log(data, selectedPages);
+
+        fetch(`http://localhost:5000/api/v1/role`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                roleName: data?.roleName,
+                pageAccess: selectedPages
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "Success") {
+                    getRoles()
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Role created', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Please try again.', life: 3000 });
+                }
+            })
+        setAddRoleDialog(false)
     }
 
     useEffect(() => {
@@ -79,11 +104,12 @@ const ManageRoles = ({ user }) => {
 
     return (
         <div>
+            <Toast ref={toast} />
             <div className='flex justify-between items-center mb-4'>
                 <p className='text-gray-700 text-xl uppercase font-light'>Manage Roles</p>
                 <Button onClick={() => setAddRoleDialog(true)} label='Add Role' icon="pi pi-plus" size='small' />
             </div>
-            <div className='flex flex-wrap gap-4'>
+            <div className='flex flex-wrap justify-between gap-4'>
                 {
                     roles?.map(role => (
                         <div key={role?._id} className="bg-white p-[10px] w-[335px] h-[150px] rounded-md shadow-xl flex justify-center items-center">
@@ -107,7 +133,7 @@ const ManageRoles = ({ user }) => {
                                     }
                                 </div>
                                 <p className='text-gray-700 text-xl font-semibold mt-4 mb-1'>{role.roleName}</p>
-                                <Button label='Edit Role' icon="pi pi-pencil" size='small' severity='info' raised />
+                                <Button onClick={() => setEditRoleDialog(role)} label='Edit Role' icon="pi pi-pencil" size='small' severity='info' raised />
                             </div>
                         </div>
                     ))
@@ -142,6 +168,8 @@ const ManageRoles = ({ user }) => {
                     </div>
                 </form>
             </Dialog>
+
+            <EditRoleDialog editRoleDialog={editRoleDialog} setEditRoleDialog={setEditRoleDialog} pages={pages} />
 
         </div>
     );
