@@ -1,4 +1,4 @@
-const { getMonthName, loadImageToBase64 } = require('./dateformatter');
+const { getMonthName, loadImageToBase64, customDateFormat } = require('./dateformatter');
 
 exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, pendingConveyances) => {
     console.log("conveyanceData: ", conveyanceData);
@@ -19,7 +19,7 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
     if (pendingConveyances) {
         // extract only the date value from dateTime 
         customizedConveyanceDetails = pendingConveyances?.map(conveyance => {
-            const customizedDate = conveyance.date.split("T")[0]
+            const customizedDate = customDateFormat(conveyance.date).split(",")[0]
             return {
                 ...conveyance,
                 date: customizedDate
@@ -30,7 +30,7 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
     else {
         // extract only the date value from dateTime 
         customizedConveyanceDetails = conveyanceData?.conveyanceDetails.map(conveyance => {
-            const customizedDate = conveyance.date.split("T")[0]
+            const customizedDate = customDateFormat(conveyance.date).split(",")[0]
             return {
                 ...conveyance,
                 date: customizedDate
@@ -73,9 +73,10 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
 
                     doc.setFontSize(11);
                     doc.text(`Employee: ${employee.name}`, 30, 55);
-                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
+                    // doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
+                    doc.text(`Date: ${customDateFormat(new Date()).split(",")[0]}`, 30, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 190, 55);
-                    doc.text(`Total bill: ${conveyanceData.totalAmount}`, 190, 65);
+                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 190, 65);
                     doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 190, 75);
                 }
 
@@ -89,7 +90,8 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
 
                     doc.setFontSize(11);
                     doc.text(`Employee: ${employee.name}`, 30, 55);
-                    doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
+                    // doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
+                    doc.text(`Date: ${customDateFormat(new Date()).split(",")[0]}`, 30, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 190, 55);
                     doc.text(`Total amount: ${conveyanceData.totalAmount}`, 190, 65);
                     doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 190, 75);

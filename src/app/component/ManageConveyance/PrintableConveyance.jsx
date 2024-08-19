@@ -28,7 +28,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) 
                     <div className='flex justify-around font-semibold'>
                         <div>
                             <p>Employee: {selectedEmployee?.name}</p>
-                            <p>Date: {new Date().toISOString().split("T")[0]}</p>
+                            <p>Date: {customDateFormat(new Date()).split(",")[0]}</p>
                         </div>
                         <div>
                             <p>Total Bill: {conveyanceData?.totalAmount}</p>
@@ -36,10 +36,10 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) 
                         </div>
                     </div>
                 </div>
-                <div className='mt-4 shadow-md rounded-md'>
+                <div className='mt-4 rounded-md'>
                     {/* <Button onClick={() => window.print()} icon='pi pi-print' className='print-hidden' /> */}
                     <Button label='Export' onClick={() => exportEmployeeConveyanceToPDF(selectedEmployee, conveyanceData, month, year)} icon='pi pi-file-pdf' raised severity='info' className='p-button-sm p-button-glass' />
-                    <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" className='mt-2'>
+                    <DataTable value={conveyanceData?.conveyanceDetails} size='small' emptyMessage="No Due Conveyance" className='mt-2 shadow-md'>
                         {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                         <Column body={detailsTableDateTemplate} header="Date"></Column>
                         <Column field='from' header="From"></Column>
