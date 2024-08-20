@@ -169,7 +169,7 @@ const ManageRoles = ({ user }) => {
                 </form>
             </Dialog>
 
-            <EditRoleDialog editRoleDialog={editRoleDialog} setEditRoleDialog={setEditRoleDialog} pages={pages} />
+            <EditRoleDialog user={user} editRoleDialog={editRoleDialog} setEditRoleDialog={setEditRoleDialog} pages={pages} getRoles={getRoles} />
 
         </div>
     );
