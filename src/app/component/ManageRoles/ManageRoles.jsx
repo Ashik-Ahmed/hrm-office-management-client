@@ -119,16 +119,23 @@ const ManageRoles = ({ user }) => {
                                     {
                                         role?.users?.length > 3 ?
                                             <AvatarGroup>
+                                                {
+                                                    role?.users?.slice(0, 3).map(user => (
+                                                        <Avatar key={user?._id} image={user?.image || '/public/images/user.png'} size="large" shape="circle" />
+                                                    ))
+                                                }
+                                                {/* <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
                                                 <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
-                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
-                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
+                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" /> */}
                                                 <Avatar label={role?.users?.length - 3} shape="circle" size="large" />
                                             </AvatarGroup>
                                             :
                                             <AvatarGroup>
-                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
-                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
-                                                <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
+                                                {
+                                                    role?.users?.map(user => (
+                                                        <Avatar key={user?._id} image={user?.image || '/public/images/user.png'} size="large" shape="circle" />
+                                                    ))
+                                                }
                                             </AvatarGroup>
                                     }
                                 </div>
