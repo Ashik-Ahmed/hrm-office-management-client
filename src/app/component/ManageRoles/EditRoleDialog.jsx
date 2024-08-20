@@ -31,16 +31,26 @@ const EditRoleDialog = ({ user, editRoleDialog, setEditRoleDialog, pages, getRol
 
         console.log("Role ID: ", editRoleDialog?._id, "Role Name: ", data?.roleName, "selectedPages: ", selectedPages);
 
+        let updatedRoleData;
+        if (data.roleName) {
+            updatedRoleData = {
+                roleName: data?.roleName,
+                pageAccess: selectedPages
+            }
+        }
+        else {
+            updatedRoleData = {
+                pageAccess: selectedPages
+            }
+        }
+
         fetch(`http://localhost:5000/api/v1/role/${editRoleDialog?._id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({
-                roleName: data?.roleName,
-                pageAccess: selectedPages
-            })
+            body: JSON.stringify(updatedRoleData)
         })
             .then(res => res.json())
             .then(data => {
