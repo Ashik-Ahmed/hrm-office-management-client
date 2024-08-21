@@ -1,7 +1,10 @@
 "use client"
 
+import Image from 'next/image';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
@@ -73,6 +76,15 @@ const EditRoleDialog = ({ user, editRoleDialog, setEditRoleDialog, pages, getRol
         }
     }, [editRoleDialog]);
 
+    const userNameTemplate = (rowData) => {
+        return (
+            <div className='flex items-center space-x-2'>
+                <Image src={rowData.image || '/images/user.png'} height={35} width={35} priority alt='user photo' className='rounded-full' style={{ width: '35px', height: '35px' }} />
+                <span className='text-md'>{rowData.firstName} {rowData.lastName}</span>
+            </div>
+        )
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -104,6 +116,14 @@ const EditRoleDialog = ({ user, editRoleDialog, setEditRoleDialog, pages, getRol
                         <Button type='submit' label="Submit" className="p-button-sm" />
                     </div>
                 </form>
+
+                <div className='mt-12'>
+                    <p className='text-xl font-light uppercase'>User List</p>
+                    <DataTable value={editRoleDialog?.users} size='small' responsiveLayout="scroll" className='mt-4 border shadow-md'>
+                        <Column body={userNameTemplate} header="Name" />
+                        <Column field="department" header="Department" />
+                    </DataTable>
+                </div>
             </Dialog>
         </div>
     );
