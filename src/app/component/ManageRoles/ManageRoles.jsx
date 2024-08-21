@@ -121,19 +121,19 @@ const ManageRoles = ({ user }) => {
                                             <AvatarGroup>
                                                 {
                                                     role?.users?.slice(0, 3).map(user => (
-                                                        <Avatar key={user?._id} image={user?.image || '/public/images/user.png'} size="large" shape="circle" />
+                                                        <Avatar key={user?._id} image={user.image ? user?.image : '/images/user.png'} size="small" shape="circle" />
                                                     ))
                                                 }
                                                 {/* <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
                                                 <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" />
                                                 <Avatar image="https://i.ibb.co/6R5w2tB/ashik-ahmed.png" size="large" shape="circle" /> */}
-                                                <Avatar label={role?.users?.length - 3} shape="circle" size="large" />
+                                                <Avatar label={`+${role?.users?.length - 3}`} size="small" shape="circle" />
                                             </AvatarGroup>
                                             :
                                             <AvatarGroup>
                                                 {
                                                     role?.users?.map(user => (
-                                                        <Avatar key={user?._id} image={user?.image || '/public/images/user.png'} size="large" shape="circle" />
+                                                        <Avatar key={user?._id} image={"/images/user.png"} size="small" shape="circle" />
                                                     ))
                                                 }
                                             </AvatarGroup>
