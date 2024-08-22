@@ -4,9 +4,9 @@ import Layout from './Layout';
 
 const DefaultLayout = async ({ children }) => {
     const session = await auth();
-    // console.log("session from default layout: ", session);
+    // console.log("session from default layout: ", session?.user);
     return (
-        <Layout session={session}> {children}</Layout >
+        <Layout user={session?.user}> {children}</Layout >
     )
 }
 

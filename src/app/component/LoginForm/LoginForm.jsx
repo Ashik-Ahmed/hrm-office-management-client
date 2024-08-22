@@ -1,20 +1,32 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { doCredentialLogin } from '@/serverActions/authActions';
 import Image from 'next/image'
 import logo from '../../../../public/images/logo-with-text.png'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
+import { useSession } from 'next-auth/react';
+import { signIn } from '@/auth';
 
 const LoginForm = () => {
+
+    const { data: session, status } = useSession();
+
 
     const router = useRouter()
 
     const [loginError, setLoginError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [passwordVisibility, setPasswordVisibility] = useState(false)
+
+    // useEffect(() => {
+    //     if (status === 'authenticated') {
+    //         // Once the session is authenticated, then redirect
+    //         router.push('/');
+    //     }
+    // }, [status, router]);
 
 
     const handleLogin = async (e) => {
@@ -33,20 +45,32 @@ const LoginForm = () => {
                 setLoginError("Wrong Credentials")
             }
             else {
-                router.push('/')
-                // router.refresh()
-                // redirect('/')
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 800); // Small delay to ensure the navigation is complete
+                // router.push('/')
+
+                // Force NextAuth to refetch the session after login
+                // const refreshedSession = await fetch('/api/auth/session');
+                // console.log("refreshedSession: ", refreshedSession);
+                // if (refreshedSession.ok) {
+                //     router.push('/'); // Redirect to the homepage after successful login
+                // }
+
+
+
+
+                router.refresh()
+                //     // redirect('/')
+                //     // setTimeout(() => {
+                //     //     window.location.reload();
+                //     // }, 800); // Small delay to ensure the navigation is complete
             }
         } catch (error) {
             // console.log("Login error from LoginForm component: ", error);
             setLoginError("Wrong Credentials")
             // setLoginError(error.message)
             // throw new Error(error.message)
+        } finally {
+            setLoading(false);  // Stop loading spinner
         }
-        setLoading(false)
     }
 
     return (

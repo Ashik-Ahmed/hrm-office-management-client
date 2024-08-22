@@ -9,15 +9,18 @@ import { redirect, usePathname, useRouter } from 'next/navigation';
 import Cookies from 'universal-cookie';
 import { useSession } from 'next-auth/react';
 import { doLogout } from '@/serverActions/authActions';
+import Loading from '../Loading/Loading';
 
 
-const Sidebar = ({ session }) => {
+const Sidebar = ({ user }) => {
+    console.log("user from sidebar: ", user);
+    // const session = useSession();
+    // console.log("session from sidebar: ", session);
+    // const cookie = new Cookies()
 
-    const cookie = new Cookies()
-
-    if (session) {
-        cookie.set("TOKEN", session.user.accessToken, { path: "/" });
-    }
+    // if (session) {
+    //     cookie.set("TOKEN", session.user.accessToken, { path: "/" });
+    // }
 
     const currentPath = usePathname();
     // console.log(currentPath);
@@ -86,8 +89,11 @@ const Sidebar = ({ session }) => {
     //     return <></>
     // }
 
-    return (
+    if (!user?.pageAccess) {
+        return <Loading />
+    }
 
+    return (
         <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700 '>
             <div className='flex mt-6'>
                 <div className='flex flex-col px-4 justify-between'>
@@ -147,11 +153,11 @@ const Sidebar = ({ session }) => {
                         <ul className=' mt-4 text-gray-600'>
                             <p className={`py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
 
-                            <Link href='/' style={{ fontFamily: 'revert' }} className={`${currentPath == '/' && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath == '/' ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  Dashboard</Link>
+                            {/* <Link href='/' style={{ fontFamily: 'revert' }} className={`${currentPath == '/' && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath == '/' ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  Dashboard</Link> */}
                             {
-                                menus.map((menu, index) => {
+                                user?.pageAccess?.map((menu, index) => {
                                     return (
-                                        <Link key={index} href={menu.link} style={{ fontFamily: 'revert' }} className={`${currentPath.includes(menu.link) && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath.includes(menu.link) ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  {menu.name}</Link>
+                                        <Link key={index} href={menu.url} style={{ fontFamily: 'revert' }} className={`${currentPath === (menu.url) && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath === (menu.url) ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  {menu.title}</Link>
                                     )
                                 })
                             }

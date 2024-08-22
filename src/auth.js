@@ -57,6 +57,7 @@ export const {
                             user_id: employee._id || '',
                             photo: employee.image || '',
                             department: employee.department || '',
+                            pageAccess: employee.pageAccess || [],
                             accessToken: employee.accessToken || ''
                         };
                     }
@@ -84,6 +85,7 @@ export const {
                 token._id = user.user_id || '';
                 token.photo = user.photo || '';
                 token.department = user.department || '';
+                token.pageAccess = user.pageAccess || [];
                 token.accessToken = user.accessToken || '';
             }
             return token;
@@ -96,6 +98,7 @@ export const {
                 session.user._id = token._id || '';
                 session.user.photo = token.photo || '';
                 session.user.department = token.department || '';
+                session.user.pageAccess = token.pageAccess || [];
                 session.user.accessToken = token.accessToken || '';
             }
             // console.log("session is: ", session);

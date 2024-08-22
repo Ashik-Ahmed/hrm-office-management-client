@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { usePathname } from 'next/navigation';
 import Sidebar from '../Sidebar/Sidebar';
 
-const Layout = ({ children, session }) => {
-    // console.log("session from main layout: ", session);
+const Layout = ({ children, user }) => {
+    // console.log("session from client Layout: ", user);
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const pathname = usePathname();
@@ -19,7 +19,7 @@ const Layout = ({ children, session }) => {
             {/* <!-- ===== Page Wrapper Start ===== --> */}
             <div className="flex h-screen bg-gray-100 overflow-hidden">
                 {/* <!-- ===== Sidebar Start ===== --> */}
-                <Sidebar />
+                <Sidebar user={user} />
                 {/* <!-- ===== Sidebar End ===== --> */}
 
                 {/* <!-- ===== Content Area Start ===== --> */}

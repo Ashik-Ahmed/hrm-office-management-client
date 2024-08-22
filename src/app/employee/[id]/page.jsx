@@ -5,7 +5,6 @@ import React from 'react';
 const UserDetails = async ({ params: { id } }) => {
 
     const { user } = await auth();
-    console.log("User fom employee page: ", user);
 
     return (
         <EmployeeDetails id={id} user={user} />

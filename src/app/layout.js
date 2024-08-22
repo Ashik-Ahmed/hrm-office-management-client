@@ -16,7 +16,8 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 
-  const session = await auth();
+  // const session = await auth();
+  // console.log("session from layout file: ", user);
 
   return (
     <html lang="en">
@@ -34,7 +35,7 @@ export default async function RootLayout({ children }) {
               {children}
             </div>
           </div> */}
-          <DefaultLayout session={session}>{children}</DefaultLayout>
+          <DefaultLayout>{children}</DefaultLayout>
         </NextAuthSessionProvider>
       </body>
     </html>
