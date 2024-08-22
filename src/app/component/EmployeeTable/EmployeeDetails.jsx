@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading';
 import userPhoto from '../../../../public/images/user.png'
 
 const EmployeeDetails = ({ id, user }) => {
-    console.log(user);
+    // console.log(user);
     const toast = useRef()
     const [employee, setEmployee] = useState(user)
 
@@ -32,7 +32,11 @@ const EmployeeDetails = ({ id, user }) => {
     }
 
     const sendResetPasswordEmail = () => {
-        fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`)
+        fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`, {
+            headers: {
+                'Authorization': `Bearer ${user?.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
