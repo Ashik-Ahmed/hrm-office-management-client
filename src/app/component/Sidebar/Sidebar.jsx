@@ -82,7 +82,7 @@ const Sidebar = ({ user }) => {
     // }
 
     if (!user?.pageAccess) {
-        return <Loading />
+        return <></>
     }
 
     return (

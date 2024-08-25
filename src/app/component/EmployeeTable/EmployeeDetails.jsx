@@ -6,13 +6,16 @@ import { Toast } from 'primereact/toast';
 import React, { useEffect, useRef, useState } from 'react';
 import Loading from '../Loading/Loading';
 import userPhoto from '../../../../public/images/user.png'
+import { redirect } from 'next/navigation';
 
 const EmployeeDetails = ({ id, user }) => {
     // console.log(user);
     const toast = useRef()
     const [employee, setEmployee] = useState(user)
+    const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
+    const getEmployee = async () => {
+        setLoading(true)
         const url = `http://localhost:5000/api/v1/employee/${id}`;
 
         fetch(url, {
@@ -25,11 +28,13 @@ const EmployeeDetails = ({ id, user }) => {
                 console.log(data)
                 setEmployee(data.data)
             })
-    }, [id])
 
-    if (!employee && user?.accessToken) {
-        return <Loading />
+        setLoading(false)
     }
+
+    useEffect(() => {
+        getEmployee()
+    }, [id])
 
     const sendResetPasswordEmail = () => {
         fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`, {
@@ -47,6 +52,16 @@ const EmployeeDetails = ({ id, user }) => {
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
             })
+    }
+
+
+
+    if (loading) {
+        return <Loading />
+    }
+
+    if (!employee) {
+        redirect('/not-found')
     }
 
     return (
