@@ -6,6 +6,7 @@ export const PUBLIC_ROUTES = [
 export const PROTECTED_ROUTES = [
     '/profile',
     '/employee/[id]',
+    '/reset-password',
     '/not-found'
 ]
 
@@ -24,10 +25,6 @@ export function doesRoleHaveAccessToURL(user, url) {
 
         // Create a RegExp and ensure it matches the entire URL (^...$)
         const regex = new RegExp(`^${regexPattern}$`);
-
-        // Debugging the regex and URL
-        console.log("Regex:", regex);
-        console.log("URL:", url);
 
         return regex.test(url); // Test if the constructed regex matches the given URL
     });

@@ -27,9 +27,13 @@ const EmployeeDetails = ({ id, user }) => {
             .then(data => {
                 console.log(data)
                 setEmployee(data.data)
-            })
 
-        setLoading(false)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.error("Error fetching employee data:", error);
+                setLoading(false); // Handle error and stop loading
+            });
     }
 
     useEffect(() => {
