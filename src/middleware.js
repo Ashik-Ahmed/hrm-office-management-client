@@ -4,11 +4,16 @@ import { doesRoleHaveAccessToURL, PROTECTED_ROUTES, PROTECTED_SUB_ROUTES, PUBLIC
 
 export async function middleware(request) {
 
-    // if (request.nextUrl.pathname === '/not-found') {
-    //     return NextResponse.next();
-    // }
+    const isPublicRoute = PUBLIC_ROUTES.some(route => {
+        const regexPattern = route
+            .replace(/\[.*?\]/g, '[^/]+') // Handle dynamic segments like [token]
+            .replace(/\//g, '\\/');       // Escape slashes for the RegExp
 
-    if (PUBLIC_ROUTES.includes(request.nextUrl.pathname)) {
+        const regex = new RegExp(`^${regexPattern}$`);
+        return regex.test(request.nextUrl.pathname);
+    });
+
+    if (isPublicRoute) {
         return NextResponse.next();
     }
 
@@ -16,9 +21,9 @@ export async function middleware(request) {
     const session = await auth();
     // console.log("user from middleware: ", session?.user);
     const isAuthenticated = !!session?.user?.email;
-    const isPublicRoute = (PUBLIC_ROUTES.find((route) => request.nextUrl.pathname.startsWith(route)) && !PROTECTED_SUB_ROUTES.find(route => request.nextUrl.pathname.includes(route)))
-    // console.log("isAuthenticated: ", isAuthenticated, "isPublicRoute: ", isPublicRoute);
-    if (!isPublicRoute && !isAuthenticated) {
+    // const isPublicRoute = (PUBLIC_ROUTES.find((route) => request.nextUrl.pathname.startsWith(route)) && !PROTECTED_SUB_ROUTES.find(route => request.nextUrl.pathname.includes(route)))
+
+    if (!isAuthenticated) {
         return NextResponse.redirect(new URL('/auth/signin', request.nextUrl))
     }
     if (session?.user) {

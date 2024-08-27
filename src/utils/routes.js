@@ -1,12 +1,12 @@
 export const PUBLIC_ROUTES = [
     '/auth/signin',
-    '/auth/forget-password'
+    '/auth/forget-password',
+    '/auth/reset-password/[token]',
 ]
 
 export const PROTECTED_ROUTES = [
     '/profile',
     '/employee/[id]',
-    '/reset-password',
     '/not-found'
 ]
 

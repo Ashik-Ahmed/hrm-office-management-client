@@ -10,7 +10,7 @@ const Layout = ({ children, user }) => {
 
     const pathname = usePathname();
 
-    if (pathname.includes('auth')) {
+    if (pathname.includes('auth' || 'forget-password' || 'reset-password')) {
         return children
     }
 

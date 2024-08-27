@@ -41,10 +41,16 @@ const EmployeeDetails = ({ id, user }) => {
     }, [id])
 
     const sendResetPasswordEmail = () => {
+
+        const resetPasswordUrl = `${window.location.origin}/auth/reset-password`;
+        console.log(resetPasswordUrl);
         fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`, {
+            method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user?.accessToken}`
-            }
+            },
+            body: JSON.stringify({ resetPasswordUrl })
         })
             .then(res => res.json())
             .then(data => {
