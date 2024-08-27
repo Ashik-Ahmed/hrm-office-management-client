@@ -31,9 +31,9 @@ const ManageRoles = ({ user }) => {
         let _selectedPages = [...selectedPages];
 
         if (e.checked)
-            _selectedPages.push(e.value.url);
+            _selectedPages.push(e.value._id);
         else
-            _selectedPages = _selectedPages.filter(page => page !== e.value.url);
+            _selectedPages = _selectedPages.filter(page => page !== e.value._id);
 
         setSelectedPages(_selectedPages);
     };
@@ -164,7 +164,7 @@ const ManageRoles = ({ user }) => {
                                     <label htmlFor={page._id} className="ml-4">
                                         {page?.title}
                                     </label>
-                                    <Checkbox inputId={page._id} name="category" value={page} onChange={onPageChange} checked={selectedPages.some((item) => item === page?.url)} />
+                                    <Checkbox inputId={page._id} name="category" value={page} onChange={onPageChange} checked={selectedPages.some((item) => item === page?._id)} />
                                 </div>
                             );
                         })}
