@@ -143,7 +143,7 @@ const Sidebar = ({ user }) => {
                     <div className='mt-8 text-sm'>
                         <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
                         <ul className=' mt-4 text-gray-600'>
-                            <p className={`py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
+                            <p className={`py-2 flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
 
                             {/* <Link href='/' style={{ fontFamily: 'revert' }} className={`${currentPath == '/' && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath == '/' ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  Dashboard</Link> */}
                             {
