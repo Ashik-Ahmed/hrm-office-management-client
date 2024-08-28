@@ -13,8 +13,9 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Controller, useForm } from 'react-hook-form';
-import { getAllDepartments } from '@/libs/department';
+import { getAllDepartments, getAllRoles } from '@/libs/department';
 import { InputTextarea } from 'primereact/inputtextarea';
+
 
 const EmployeeDetails = ({ id, user }) => {
 
@@ -28,12 +29,23 @@ const EmployeeDetails = ({ id, user }) => {
     const [editUserDialog, setEditUserDialog] = useState(false)
     const [selectedDepartment, setSelectedDepartment] = useState(null);
     const [department, sertDepartment] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [role, setRole] = useState();
     const [image, setImage] = useState();
     const [date, setDate] = useState('');
     const [gender, setGender] = useState();
     const [maritalStatus, setMaritalStatus] = useState();
     const [birthDate, setBirthDate] = useState();
+    const [formValues, setFormValues] = useState({});
+
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
 
 
     const userRoles = ['Admin', 'Employee'];
@@ -43,6 +55,11 @@ const EmployeeDetails = ({ id, user }) => {
 
         sertDepartment(departments?.data)
         // department.push({ departmentName: 'All', })
+    }
+
+    const getRoles = async () => {
+        const roles = await getAllRoles(user?.accessToken)
+        setRoles(roles?.data)
     }
 
 
@@ -72,6 +89,7 @@ const EmployeeDetails = ({ id, user }) => {
         getEmployee()
         if (user) {
             getDepartments();
+            getRoles();
         }
     }, [id, user])
 
@@ -113,7 +131,38 @@ const EmployeeDetails = ({ id, user }) => {
     }
 
     const handleEditEmployee = (data) => {
-        console.log(data);
+        data.userRole = role?._id;
+
+        // Remove empty fields 
+        const updatedUserData = Object.entries(data).reduce((acc, [key, value]) => {
+            if (value !== "" && value !== undefined && value !== null) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {});
+
+        fetch(`http://localhost:5000/api/v1/employee/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user?.accessToken}`
+            },
+            body: JSON.stringify(updatedUserData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 'Success') {
+                    getEmployee();
+                    setEditUserDialog(false);
+                    resetFormData();
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee updated successfully', life: 3000 });
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
+                }
+            })
+
     }
 
 
@@ -143,6 +192,7 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                         <div>
                             <p className='text-sm font-bold text-gray-700'>Employee ID: {employee?.employeeId}</p>
+                            <p className='text-sm font-bold text-gray-500'>User Role: {employee?.userRole}</p>
                             <p className='text-sm text-gray-500'>Joining Date: {employee?.joiningDate}</p>
                         </div>
                     </div>
@@ -160,7 +210,7 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                         <div>
                             <span>Date of Birth : </span>
-                            <span>{employee?.dob}</span>
+                            <span>{employee?.birthDate}</span>
                         </div>
                         <div>
                             <span>Gender : </span>
@@ -169,10 +219,6 @@ const EmployeeDetails = ({ id, user }) => {
                         <div>
                             <span>Blood Group : </span>
                             <span>{employee?.bloodGroup}</span>
-                        </div>
-                        <div>
-                            <span>Marital Status : </span>
-                            <span>{employee?.maritalStatus}</span>
                         </div>
                         <div>
                             <span>Address : </span>
@@ -192,27 +238,29 @@ const EmployeeDetails = ({ id, user }) => {
                 <form onSubmit={handleSubmit(handleEditEmployee)} className='mt-2'>
 
                     <div className='w-full'>
+                        <label htmlFor="department">Department</label>
                         <Dropdown
                             {...register("department")}
-                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' showClear placeholder={employee?.department || "Select Department*"} className="w-full placeholder-opacity-20" />
+                            id='department' value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); }} options={department} optionLabel='departmentName' showClear placeholder={employee?.department || "Select Department*"} className="w-full placeholder-opacity-20" />
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className="w-full">
+                            <label htmlFor="employeeId">Employee ID</label>
                             <InputText
                                 {...register("employeeId")}
+                                id='employeeId'
                                 keyfilter="int" placeholder={employee?.employeeId || "Employee ID"} className='w-full' />
                         </div>
                         <div className='w-full'>
-                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
-
-                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
+                            <label htmlFor="joiningDate">Joining Date</label>
                             <Controller
+                                id="joiningDate"
                                 name="joiningDate"
                                 control={control}
                                 render={({ field }) => (
                                     <Calendar
                                         value={date}
-                                        onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
+                                        onChange={(e) => { setDate(e.value); field.onChange(e.value); }}
                                         dateFormat="dd/mm/yy"
                                         placeholder={employee?.joiningDate || "Joining Date"}
                                         className='w-full'
@@ -223,70 +271,88 @@ const EmployeeDetails = ({ id, user }) => {
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="firstName">First Name</label>
                             <InputText
                                 {...register("firstName")}
-                                type='text' placeholder={employee?.firstName || "First Name"} className='w-full' />
+                                id='firstName' type='text' placeholder={employee?.firstName || "First Name"} className='w-full' />
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="lastName">Last Name</label>
                             <InputText
                                 {...register("lastName")}
-                                type='text' placeholder={employee?.lastName || "Last Name"} className='w-full' />
+                                id='lastName' type='text' placeholder={employee?.lastName || "Last Name"} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="email">Email</label>
                             <InputText
                                 {...register("email")}
-                                type='email' placeholder={employee?.email || "Email"} className='w-full' />
+                                id='email' type='email' placeholder={employee?.email || "Email"} className='w-full' />
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="mobile">Mobile</label>
                             <InputText
                                 {...register("mobile")}
-                                type='text' placeholder={employee?.mobile || "Mobile"} className='w-full' />
+                                id='mobile' type='text' placeholder={employee?.mobile || "Mobile"} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="designation">Designation</label>
                             <InputText
                                 {...register("designation")}
-                                type='text' placeholder={employee?.designation || "Designation"} className='w-full' />
+                                id='designation' type='text' placeholder={employee?.designation || "Designation"} className='w-full' />
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="userRole">Role</label>
                             <Dropdown
                                 {...register("userRole")}
-                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={employee?.userRole || "Select Role"} className="w-full placeholder-opacity-20" />
+                                id='userRole' value={role} onChange={(e) => { setRole(e.value); }} options={roles} optionLabel='roleName' showClear placeholder={employee?.userRole || "Select Role"} className="w-full placeholder-opacity-20" />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <Calendar
-                                value={birthDate}
-                                onChange={(e) => { setBirthDate(e.value) }}
-                                dateFormat="dd/mm/yy"
-                                placeholder={employee?.birthDate || "Date of Birth"}
-                                className='w-full'
+                            <label htmlFor="birthDate">Date of Birth</label>
+                            <Controller
+                                id="birthDate"
+                                name="birthDate"
+                                control={control}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={birthDate}
+                                        onChange={(e) => { setBirthDate(e.value); field.onChange(e.value); }}
+                                        dateFormat="dd/mm/yy"
+                                        placeholder={employee?.birthDate || "Date of birth"}
+                                        className='w-full'
+                                    />
+                                )}
                             />
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="gender">Gender</label>
                             <Dropdown
                                 {...register("gender")}
-                                value={gender} onChange={(e) => setGender(e.value)} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} placeholder={employee?.gender || "Select Gender"} className="w-full placeholder-opacity-20" />
+                                id='gender' value={gender} onChange={(e) => { setGender(e.value); handleChange }} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} showClear placeholder={employee?.gender || "Select Gender"} className="w-full placeholder-opacity-20" />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="bloodGroup">Blood Group</label>
                             <InputText
                                 {...register("bloodGroup")}
-                                type='text' placeholder={employee?.bloodGroup || "Blood Group"} className='w-full' />
+                                id='bloodGroup' type='text' placeholder={employee?.bloodGroup || "Blood Group"} className='w-full' />
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="address">Address</label>
                             <InputTextarea
                                 {...register("address")}
-                                type='text' placeholder={employee?.address || "Address"} className='w-full' />
+                                id='address' type='text' placeholder={employee?.address || "Address"} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2'>
-                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
+                        <label htmlFor="photo">Employee Photo</label>
+                        <input onChange={handlePhotoChange} id='photo' name='file' type="file" className='w-full border border-violet-600' />
                     </div>
 
                     <div className='mt-4 text-right'>

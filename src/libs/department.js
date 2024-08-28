@@ -21,3 +21,15 @@ exports.getActiveDepartments = async (accessToken) => {
 
     return departments;
 }
+
+exports.getAllRoles = async (accessToken) => {
+    const data = await fetch('http://localhost:5000/api/v1/role', {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        },
+        next: { revalidate: 3 }
+    })
+    const roles = await data.json()
+
+    return roles;
+}
