@@ -105,7 +105,7 @@ const EditRoleDialog = ({ user, editRoleDialog, setEditRoleDialog, pages, getRol
                             return (
                                 <div key={page._id} className="flex items-center border-b justify-between">
                                     <label htmlFor={page._id} className="ml-4 font-semibold text-gray-500">
-                                        {page?.title}
+                                        {page?.title} <span className='text-gray-400 text-xs ml-2'>{`(${page?.url})`}</span>
                                     </label>
                                     <Checkbox inputId={page._id} name="category" value={page} onChange={onPageChange} checked={selectedPages.some((item) => item === page?._id)} className='mr-4' />
                                 </div>

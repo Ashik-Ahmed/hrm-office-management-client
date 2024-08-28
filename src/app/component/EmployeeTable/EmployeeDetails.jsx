@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Loading from '../Loading/Loading';
 import userPhoto from '../../../../public/images/user.png'
 import { redirect } from 'next/navigation';
+import { Divider } from 'primereact/divider';
 
 const EmployeeDetails = ({ id, user }) => {
     // console.log(user);
@@ -77,39 +78,62 @@ const EmployeeDetails = ({ id, user }) => {
     return (
         <div>
             <Toast ref={toast} />
-            <div className="flex gap-x-2 w-full bg-white p-2 my-2 rounded-md shadow-xl">
-                <div className='flex items-start gap-x-4 w-3/5 mr-8'>
+            <div className="flex gap-x-2 w-full bg-white p-4 my-2 rounded-md shadow-xl">
+                <div className='flex items-start gap-x-4 w-1/2 mr-8'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
-                        <Image src={employee?.image || userPhoto} width={150} height={150} alt='user photo' priority className='rounded-md shadow-lg border max-w-[200px] max-h-[200px]' />
+                        <Image src={employee?.image || userPhoto} width={200} height={200} alt='user photo' priority className='rounded-full shadow-lg' style={{ width: '130px', height: '130px' }} />
                     </div>
                     <div className='flex flex-col gap-8'>
                         <div>
                             {/* <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
                             <p>{viewUserDialog.designation}</p> */}
-                            <h3 className='text-xl font-bold'>{employee?.firstName} {employee?.lastName}</h3>
-                            <p>{employee?.designation}</p>
+                            <h3 className='text-xl font-bold text-gray-700'>{employee?.firstName} {employee?.lastName}</h3>
+                            <p className='text-gray-500 font-bold text-sm'>{employee?.department}</p>
+                            <p className='text-gray-500 text-sm'>{employee?.designation}</p>
                         </div>
                         <div>
-                            <h5 className='font-semibold'>About</h5>
-                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos a delectus quos vero accusamus consequatur suscipit laudantium consectetur totam adipisci!</p>
+                            <p className='text-sm font-bold text-gray-700'>Employee ID: {employee?.employeeId}</p>
+                            <p className='text-sm text-gray-500'>Joining Date: {employee?.joiningDate}</p>
                         </div>
                     </div>
                 </div>
-                <div className='w-2/5 flex flex-col justify-between'>
-
-                    <div>
-                        <h5>Highter Education</h5>
-                        <p className='font-semibold'>Master in Science</p>
-                    </div>
-                    <div>
-                        <h5>Salary Range</h5>
-                        <p className='font-semibold'>$120,000 - 140,000</p>
-                    </div>
-
-                    <div>
-                        <Button onClick={sendResetPasswordEmail} label='Reset employee Password' size='small' />
+                <Divider layout="vertical" />
+                <div className='w-1/2 flex flex-col justify-between'>
+                    <div className='flex flex-col gap-2 font-semibold text-gray-700 text-sm'>
+                        <div>
+                            <span>Phone : </span>
+                            <span className='text-purple-700'>{employee?.mobile}</span>
+                        </div>
+                        <div>
+                            <span>Email : </span>
+                            <span className='text-purple-700'>{employee?.email}</span>
+                        </div>
+                        <div>
+                            <span>Date of Birth : </span>
+                            <span>{employee?.dob}</span>
+                        </div>
+                        <div>
+                            <span>Gender : </span>
+                            <span>{employee?.gender}</span>
+                        </div>
+                        <div>
+                            <span>Blood Group : </span>
+                            <span>{employee?.bloodGroup}</span>
+                        </div>
+                        <div>
+                            <span>Marital Status : </span>
+                            <span>{employee?.maritalStatus}</span>
+                        </div>
+                        <div>
+                            <span>Address : </span>
+                            <span>{employee?.address}</span>
+                        </div>
                     </div>
                 </div>
+                <Button icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+            </div>
+            <div>
+                <Button onClick={sendResetPasswordEmail} label='Reset Employee Password' size='small' />
             </div>
         </div>
     );
