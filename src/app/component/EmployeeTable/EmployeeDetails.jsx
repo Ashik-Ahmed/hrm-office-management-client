@@ -8,12 +8,43 @@ import Loading from '../Loading/Loading';
 import userPhoto from '../../../../public/images/user.png'
 import { redirect } from 'next/navigation';
 import { Divider } from 'primereact/divider';
+import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
+import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
+import { Controller, useForm } from 'react-hook-form';
+import { getAllDepartments } from '@/libs/department';
+import { InputTextarea } from 'primereact/inputtextarea';
 
 const EmployeeDetails = ({ id, user }) => {
-    // console.log(user);
-    const toast = useRef()
+
+    const toast = useRef(null)
+
+    const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
     const [employee, setEmployee] = useState(user)
     const [loading, setLoading] = useState(false)
+
+    const [editUserDialog, setEditUserDialog] = useState(false)
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [department, sertDepartment] = useState([]);
+    const [role, setRole] = useState();
+    const [image, setImage] = useState();
+    const [date, setDate] = useState('');
+    const [gender, setGender] = useState();
+    const [maritalStatus, setMaritalStatus] = useState();
+    const [birthDate, setBirthDate] = useState();
+
+
+    const userRoles = ['Admin', 'Employee'];
+
+    const getDepartments = async () => {
+        const departments = await getAllDepartments(user?.accessToken)
+
+        sertDepartment(departments?.data)
+        // department.push({ departmentName: 'All', })
+    }
+
 
     const getEmployee = async () => {
         setLoading(true)
@@ -39,7 +70,10 @@ const EmployeeDetails = ({ id, user }) => {
 
     useEffect(() => {
         getEmployee()
-    }, [id])
+        if (user) {
+            getDepartments();
+        }
+    }, [id, user])
 
     const sendResetPasswordEmail = () => {
 
@@ -65,6 +99,22 @@ const EmployeeDetails = ({ id, user }) => {
             })
     }
 
+    const handlePhotoChange = (event) => {
+        setImage(event.target.files[0]);
+    };
+
+    const resetFormData = () => {
+        reset();
+        setDate(null);
+        setBirthDate(null);
+        setRole(null);
+        setGender(null);
+        setSelectedDepartment('')
+    }
+
+    const handleEditEmployee = (data) => {
+        console.log(data);
+    }
 
 
     if (loading) {
@@ -130,11 +180,120 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                     </div>
                 </div>
-                <Button icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+                <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
             </div>
             <div>
                 <Button onClick={sendResetPasswordEmail} label='Reset Employee Password' size='small' />
             </div>
+
+            {/* Edit Employee Dialog  */}
+            <Dialog header="Edit Employee Data" visible={editUserDialog} style={{ width: '50vw' }} onHide={() => { setEditUserDialog(false); resetFormData() }}>
+
+                <form onSubmit={handleSubmit(handleEditEmployee)} className='mt-2'>
+
+                    <div className='w-full'>
+                        <Dropdown
+                            {...register("department")}
+                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' showClear placeholder={employee?.department || "Select Department*"} className="w-full placeholder-opacity-20" />
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className="w-full">
+                            <InputText
+                                {...register("employeeId")}
+                                keyfilter="int" placeholder={employee?.employeeId || "Employee ID"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
+
+                            {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
+                            <Controller
+                                name="joiningDate"
+                                control={control}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={date}
+                                        onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
+                                        dateFormat="dd/mm/yy"
+                                        placeholder={employee?.joiningDate || "Joining Date"}
+                                        className='w-full'
+                                    />
+                                )}
+                            />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("firstName")}
+                                type='text' placeholder={employee?.firstName || "First Name"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("lastName")}
+                                type='text' placeholder={employee?.lastName || "Last Name"} className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("email")}
+                                type='email' placeholder={employee?.email || "Email"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("mobile")}
+                                type='text' placeholder={employee?.mobile || "Mobile"} className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("designation")}
+                                type='text' placeholder={employee?.designation || "Designation"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <Dropdown
+                                {...register("userRole")}
+                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder={employee?.userRole || "Select Role"} className="w-full placeholder-opacity-20" />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <Calendar
+                                value={birthDate}
+                                onChange={(e) => { setBirthDate(e.value) }}
+                                dateFormat="dd/mm/yy"
+                                placeholder={employee?.birthDate || "Date of Birth"}
+                                className='w-full'
+                            />
+                        </div>
+                        <div className='w-full'>
+                            <Dropdown
+                                {...register("gender")}
+                                value={gender} onChange={(e) => setGender(e.value)} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} placeholder={employee?.gender || "Select Gender"} className="w-full placeholder-opacity-20" />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <InputText
+                                {...register("bloodGroup")}
+                                type='text' placeholder={employee?.bloodGroup || "Blood Group"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <InputTextarea
+                                {...register("address")}
+                                type='text' placeholder={employee?.address || "Address"} className='w-full' />
+                        </div>
+                    </div>
+                    <div className='mt-2'>
+                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
+                    </div>
+
+                    <div className='mt-4 text-right'>
+                        <Button type='submit' label="Submit" className="p-button-sm" loading={loading} />
+                    </div>
+                </form>
+            </Dialog>
         </div>
     );
 };
