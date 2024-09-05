@@ -14,8 +14,9 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 import userPhoto from '../../../../public/images/user.png'
 import Link from 'next/link';
 import Image from 'next/image';
+import { InputTextarea } from 'primereact/inputtextarea';
 
-const EmployeeList = ({ user }) => {
+const EmployeeList = ({ user, userRoles }) => {
 
     const [employees, setEmployees] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -26,7 +27,9 @@ const EmployeeList = ({ user }) => {
     const [selectedDepartment, setSelectedDepartment] = useState(null)
     const [queryDepartment, setQueryDepartment] = useState('')
     const [date, setDate] = useState('')
+    const [birthDate, setBirthDate] = useState()
     const [role, setRole] = useState()
+    const [gender, setGender] = useState();
     const [image, setImage] = useState()
 
 
@@ -34,7 +37,6 @@ const EmployeeList = ({ user }) => {
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
 
-    const userRoles = ['Admin', 'Employee']
 
     const getDepartments = async () => {
         const departments = await getAllDepartments(user?.accessToken)
@@ -238,19 +240,22 @@ const EmployeeList = ({ user }) => {
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
 
                     <div className='w-full'>
+                        <label htmlFor="department">Department</label>
                         <Dropdown
                             {...register("department", { required: "Department is required" })}
-                            value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' showClear placeholder="Select Department*" className="w-full placeholder-opacity-20" />
+                            id='department' value={selectedDepartment} onChange={(e) => { setSelectedDepartment(e.value); console.log(e.value); }} options={department} optionLabel='departmentName' showClear placeholder="Select Department*" className="w-full placeholder-opacity-20" />
                         {errors.departemnt?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.departemnt.message}</span>}
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className="w-full">
+                            <label htmlFor="employeeId">Employee ID*</label>
                             <InputText
                                 {...register("employeeId", { required: "Employee ID is required" })}
-                                keyfilter="int" placeholder="Employee ID*" className='w-full' />
+                                id='employeeId' keyfilter="int" placeholder="Employee ID*" className='w-full' />
                             {errors.employeeId?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.employeeId.message}</span>}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="joiningDate">Joining Date*</label>
                             {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" /> */}
 
                             {/* <Calendar value={date} onChange={(e) => setDate(e.value)} dateFormat="dd/mm/yy" placeholder='Joining Date' className='w-full' /> */}
@@ -260,6 +265,7 @@ const EmployeeList = ({ user }) => {
                                 rules={{ required: "Joining date is required" }}
                                 render={({ field }) => (
                                     <Calendar
+                                        id='joiningDate'
                                         value={date}
                                         onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
                                         placeholder='Joining date*'
@@ -272,48 +278,94 @@ const EmployeeList = ({ user }) => {
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="firstName">First Name*</label>
                             <InputText
                                 {...register("firstName", { required: "First Name is required" })}
-                                type='text' placeholder="First Name*" className='w-full' />
+                                id='firstName' type='text' placeholder="First Name*" className='w-full' />
                             {errors.firstName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.firstName.message}</span>}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="lastName">Last Name*</label>
                             <InputText
                                 {...register("lastName", { required: "Last Name is required" })}
-                                type='text' placeholder="Last Name*" className='w-full' />
+                                id='lastName' type='text' placeholder="Last Name*" className='w-full' />
                             {errors.lastName?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.lastName.message}</span>}
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="email">Email*</label>
                             <InputText
                                 {...register("email", { required: "Email is required" })}
-                                type='email' placeholder="Email*" className='w-full' />
+                                id='email' type='email' placeholder="Email*" className='w-full' />
                             {errors.email?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.email.message}</span>}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="mobile">Mobile*</label>
                             <InputText
                                 {...register("mobile", { required: "Mobile no. is required" })}
-                                type='text' placeholder="Mobile*" className='w-full' />
+                                id='mobile' type='text' placeholder="Mobile*" className='w-full' />
                             {errors.mobile?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.mobile.message}</span>}
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
+                            <label htmlFor="designation">Designation*</label>
                             <InputText
                                 {...register("designation", { required: "Designation is required" })}
-                                type='text' placeholder="Designation*" className='w-full' />
+                                id='designation' type='text' placeholder="Designation*" className='w-full' />
                             {errors.designation?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.designation.message}</span>}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor="userRole">User Role*</label>
                             <Dropdown
                                 {...register("userRole", { required: "Role is required" })}
-                                value={role} onChange={(e) => setRole(e.value)} options={userRoles} placeholder="Select User Role*" className="w-full placeholder-opacity-20" />
+                                id='userRole' value={role} onChange={(e) => setRole(e.value)} options={userRoles} optionLabel='roleName' placeholder="Select User Role*" className="w-full placeholder-opacity-20" />
                             {errors.userRole?.type === 'required' && <span className='text-xs text-red-500' role="alert">{errors.userRole.message}</span>}
                         </div>
                     </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <label htmlFor="birthDate">Date of Birth</label>
+                            <Controller
+                                id="birthDate"
+                                name="birthDate"
+                                control={control}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={birthDate}
+                                        onChange={(e) => { setBirthDate(e.value); field.onChange(e.value); }}
+                                        dateFormat="dd/mm/yy"
+                                        placeholder={"Date of birth"}
+                                        className='w-full'
+                                    />
+                                )}
+                            />
+                        </div>
+                        <div className='w-full'>
+                            <label htmlFor="gender">Gender</label>
+                            <Dropdown
+                                {...register("gender")}
+                                id='gender' value={gender} onChange={(e) => { setGender(e.value); handleChange }} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} showClear placeholder={"Select Gender"} className="w-full placeholder-opacity-20" />
+                        </div>
+                    </div>
+                    <div className='mt-2 flex gap-x-4'>
+                        <div className='w-full'>
+                            <label htmlFor="bloodGroup">Blood Group</label>
+                            <InputText
+                                {...register("bloodGroup")}
+                                id='bloodGroup' type='text' placeholder={"Blood Group"} className='w-full' />
+                        </div>
+                        <div className='w-full'>
+                            <label htmlFor="address">Address</label>
+                            <InputTextarea
+                                {...register("address")}
+                                id='address' type='text' placeholder={"Address"} className='w-full' />
+                        </div>
+                    </div>
                     <div className='mt-2'>
-                        <input onChange={handlePhotoChange} name='file' type="file" className='w-full border border-violet-600' />
+                        <label htmlFor="photo">Employee Photo</label>
+                        <input onChange={handlePhotoChange} id='photo' name='file' type="file" className='w-full border border-violet-600' />
                     </div>
 
                     <div className='mt-4 text-right'>
