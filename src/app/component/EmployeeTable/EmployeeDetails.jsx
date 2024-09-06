@@ -186,7 +186,7 @@ const EmployeeDetails = ({ id, user }) => {
                         <div>
                             {/* <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
                             <p>{viewUserDialog.designation}</p> */}
-                            <h3 className='text-xl font-bold text-gray-700'>{employee?.firstName} {employee?.lastName}</h3>
+                            <h3 className='text-2xl font-bold text-gray-700'>{employee?.firstName} {employee?.lastName}</h3>
                             <p className='text-gray-500 font-bold text-sm'>{employee?.department}</p>
                             <p className='text-gray-500 text-sm'>{employee?.designation}</p>
                         </div>
@@ -200,13 +200,13 @@ const EmployeeDetails = ({ id, user }) => {
                 <Divider layout="vertical" />
                 <div className='w-1/2 flex flex-col justify-between'>
                     <div className='flex flex-col gap-2 font-semibold text-gray-700 text-sm'>
-                        <div>
-                            <span>Phone : </span>
-                            <span className='text-purple-700'>{employee?.mobile}</span>
+                        <div className='flex'>
+                            <span className='w-1/3'>Phone : </span>
+                            <span className='w-2/3'>{employee?.mobile}</span>
                         </div>
                         <div>
-                            <span>Email : </span>
-                            <span className='text-purple-700'>{employee?.email}</span>
+                            <span className='w-1/3'>Email : </span>
+                            <span className='w-2/3'>{employee?.email}</span>
                         </div>
                         <div>
                             <span>Date of Birth : </span>

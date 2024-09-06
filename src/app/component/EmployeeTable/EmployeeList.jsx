@@ -15,6 +15,8 @@ import userPhoto from '../../../../public/images/user.png'
 import Link from 'next/link';
 import Image from 'next/image';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { FaTrashCan } from "react-icons/fa6";
+
 
 const EmployeeList = ({ user, userRoles }) => {
 
@@ -81,13 +83,21 @@ const EmployeeList = ({ user, userRoles }) => {
 
     //add user form submission functionality
     const handleAddUser = async (data) => {
-        console.log('add user');
+
         setLoading(true);
 
-        data.joiningDate = date?.toLocaleDateString("en-GB");
-        console.log(data);
+        data.userRole = role?._id;
 
-        const { photo, ...userData } = data;
+        // Remove empty fields 
+        const updatedUserData = Object.entries(data).reduce((acc, [key, value]) => {
+            if (value !== "" && value !== undefined && value !== null) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {});
+
+
+        const { photo, ...userData } = updatedUserData;
 
         try {
             if (image) {
@@ -346,7 +356,7 @@ const EmployeeList = ({ user, userRoles }) => {
                             <label htmlFor="gender">Gender</label>
                             <Dropdown
                                 {...register("gender")}
-                                id='gender' value={gender} onChange={(e) => { setGender(e.value); handleChange }} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} showClear placeholder={"Select Gender"} className="w-full placeholder-opacity-20" />
+                                id='gender' value={gender} onChange={(e) => { setGender(e.value); }} options={[{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }]} showClear placeholder={"Select Gender"} className="w-full placeholder-opacity-20" />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
@@ -387,12 +397,11 @@ const EmployeeList = ({ user, userRoles }) => {
                 <p className="m-0">
                     Delete user: {deleteUserDialog.firstName} {deleteUserDialog.lastName} ?
                 </p>
-                <div className='flex justify-end gap-x-2 mt-8'>
+                <div className='md:flex justify-end gap-x-2 mt-8'>
                     <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
                     <Button onClick={handleDeleteUser} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
-
 
 
             <div className='flex justify-between items-center mb-1 px-2 mx-auto'>
@@ -421,8 +430,11 @@ const EmployeeList = ({ user, userRoles }) => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {
                                     employees?.map((employee) => (
-                                        <Link href={`/employee/${employee._id}`} key={employee._id} >
-                                            <div className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 cursor-pointer h-full">
+                                        <div key={employee?._id} className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 h-full">
+                                            {
+                                                user.role === "Super Admin" && <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
+                                            }
+                                            <Link href={`/employee/${employee?._id}`} >
                                                 <Image
                                                     src={employee.image || userPhoto}
                                                     alt={employee.name}
@@ -434,8 +446,8 @@ const EmployeeList = ({ user, userRoles }) => {
                                                 <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
                                                 <p className="text-sm text-gray-500">{employee.designation}</p>
                                                 <p>{employee.department}</p>
-                                            </div>
-                                        </Link >
+                                            </Link >
+                                        </div>
                                     ))
                                 }
                             </div >
@@ -446,7 +458,7 @@ const EmployeeList = ({ user, userRoles }) => {
                             </div>
                 }
             </div >
-        </div>
+        </div >
     );
 };
 
