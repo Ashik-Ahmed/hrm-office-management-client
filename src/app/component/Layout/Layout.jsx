@@ -23,7 +23,7 @@ const Layout = ({ children, user }) => {
                 {/* <!-- ===== Sidebar End ===== --> */}
 
                 {/* <!-- ===== Content Area Start ===== --> */}
-                <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+                <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden mt-12 md:mt-0">
                     {/* <!-- ===== Main Content Start ===== --> */}
                     <main>
                         <div className="mx-auto max-w-screen-2xl p-2 md:p-2 2xl:p-2">
