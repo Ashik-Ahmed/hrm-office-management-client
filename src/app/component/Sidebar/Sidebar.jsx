@@ -86,15 +86,18 @@ const Sidebar = ({ user }) => {
     }
 
     return (
-        <div className='sticky top-0 min-w-[300px] h-screen bg-white text-gray-700 '>
-            <div className='flex mt-6'>
-                <div className='flex flex-col px-4 justify-between'>
-                    <ul className='flex flex-col justify-center items-center gap-6 mt-2'>
+        <div className='sticky top-0 md:min-w-[300px] h-screen bg-white text-gray-700 '>
+            <div className='flex justify-start gap-x-2 items-center p-4 mt-6'>
+                <Image src={logo} alt='logo' width='40' height='40' />
+                <h2 className='text-2xl'>Infozillion</h2>
+            </div>
+            <div className='flex'>
+                <div className='md:flex flex-col px-4 justify-between hidden'>
+                    <ul className='flex flex-col justify-center items-center gap-6'>
                         {/* <div className='bg-gray-600 hover:bg-gray-500 duration-200 cursor-pointer text-white p-3 -ml-1.5 flex rounded-full'>
                             <i className='pi pi-th-large' style={{ fontSize: '.75rem' }}></i>
                         </div> */}
-                        <Image src={logo} alt='logo' width='40' height='40' />
-                        <i className='mt-4 pi pi-search cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
+                        <i className='pi pi-search cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-calendar cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-id-card cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
                         <i className='pi pi-comments cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
@@ -138,9 +141,8 @@ const Sidebar = ({ user }) => {
                     </ul>
                 </div>
 
-                <div className='w-full h-[95vh] overflow-y-scroll scrollbar-none'>
-                    <h2 className='text-2xl'>Infozillion</h2>
-                    <div className='mt-8 text-sm'>
+                <div className='w-full px-4 h-[95vh] overflow-y-scroll scrollbar-none'>
+                    <div className='text-sm'>
                         <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
                         <ul className=' mt-4 text-gray-600'>
                             <p className={`py-2 flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>

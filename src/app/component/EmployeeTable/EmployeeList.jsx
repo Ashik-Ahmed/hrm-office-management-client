@@ -244,6 +244,61 @@ const EmployeeList = ({ user, userRoles }) => {
             {/* Employee Data Table  */}
             {/* <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} department={department} queryDepartment={queryDepartment} setQueryDepartment={setQueryDepartment} /> */}
 
+            <div className='flex justify-between items-center mb-1 px-2 mx-auto'>
+                <div className='flex items-center gap-x-2'>
+                    <h3 className='font-light'>EMPLOYEE LIST</h3>
+                    {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
+                    {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
+                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
+                </div>
+                <div>
+                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} showClear options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
+                </div>
+                {/* <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
+                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='p-inputtext-sm' />
+                </span> */}
+            </div>
+
+            {/* employee table  */}
+            <div className="container mx-auto p-2" >
+                {
+                    loading ?
+                        <Loading />
+                        :
+                        employees?.length > 0 ?
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {
+                                    employees?.map((employee) => (
+                                        <div key={employee?._id} className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 h-full">
+                                            {
+                                                user.role === "Super Admin" && <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
+                                            }
+                                            <Link href={`/employee/${employee?._id}`} >
+                                                <Image
+                                                    src={employee.image || userPhoto}
+                                                    alt={employee.name}
+                                                    className="w-full h-40 object-contain mb-2 rounded-md"
+                                                    width={200}
+                                                    height={200}
+                                                    priority
+                                                />
+                                                <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
+                                                <p className="text-sm text-gray-500">{employee.designation}</p>
+                                                <p>{employee.department}</p>
+                                            </Link >
+                                        </div>
+                                    ))
+                                }
+                            </div >
+                            :
+                            <div className="bg-white p-4 rounded-md h-full mx-auto text-center">
+                                <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
+                                <p className='text-2xl text-gray-600'>No Employee Found</p>
+                            </div>
+                }
+            </div >
+
             {/* add user dialog  */}
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset(); setSelectedDepartment('') }}>
 
@@ -398,66 +453,13 @@ const EmployeeList = ({ user, userRoles }) => {
                     Delete user: {deleteUserDialog.firstName} {deleteUserDialog.lastName} ?
                 </p>
                 <div className='md:flex justify-end gap-x-2 mt-8'>
-                    <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info' />
+                    <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info mb-2 md:mb-0' />
                     <Button onClick={handleDeleteUser} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
 
 
-            <div className='flex justify-between items-center mb-1 px-2 mx-auto'>
-                <div className='flex items-center gap-x-2'>
-                    <h3 className='font-light'>EMPLOYEE LIST</h3>
-                    {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
-                    {/* <Button onClick={() => setAddUserDialog(true)} icon="pi pi-plus" className='p-button p-button-sm p-button-info' /> */}
-                    <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
-                </div>
-                <div>
-                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} showClear options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
-                </div>
-                {/* <span className="p-input-icon-left">
-                    <i className="pi pi-search" />
-                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='p-inputtext-sm' />
-                </span> */}
-            </div>
 
-            {/* employee table  */}
-            <div className="container mx-auto p-2" >
-                {
-                    loading ?
-                        <Loading />
-                        :
-                        employees?.length > 0 ?
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {
-                                    employees?.map((employee) => (
-                                        <div key={employee?._id} className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 h-full">
-                                            {
-                                                user.role === "Super Admin" && <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
-                                            }
-                                            <Link href={`/employee/${employee?._id}`} >
-                                                <Image
-                                                    src={employee.image || userPhoto}
-                                                    alt={employee.name}
-                                                    className="w-full h-40 object-contain mb-2 rounded-md"
-                                                    width={200}
-                                                    height={200}
-                                                    priority
-                                                />
-                                                <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
-                                                <p className="text-sm text-gray-500">{employee.designation}</p>
-                                                <p>{employee.department}</p>
-                                            </Link >
-                                        </div>
-                                    ))
-                                }
-                            </div >
-                            :
-                            <div className="bg-white p-4 rounded-md h-full mx-auto text-center">
-                                <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                                <p className='text-2xl text-gray-600'>No Employee Found</p>
-                            </div>
-                }
-            </div >
         </div >
     );
 };
