@@ -177,12 +177,15 @@ const EmployeeDetails = ({ id, user }) => {
     return (
         <div>
             <Toast ref={toast} />
-            <div className="flex gap-x-2 w-full bg-white p-4 my-2 rounded-md shadow-xl">
-                <div className='flex items-start gap-x-4 w-1/2 mr-8'>
+            <div className="md:flex gap-x-2 w-full bg-white p-4 my-2 rounded-md shadow-xl">
+                <div className='md:flex items-start gap-x-4 md:w-1/2 rounded-md'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
                         <Image src={employee?.image || userPhoto} width={200} height={200} alt='user photo' priority className='rounded-full shadow-lg' style={{ width: '130px', height: '130px' }} />
                     </div>
-                    <div className='flex flex-col gap-8'>
+                    <div className='absolute top-10 right-10 md:hidden'>
+                        <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+                    </div>
+                    <div className='flex flex-col gap-8 w-full shadow-lg md:shadow-none p-2'>
                         <div>
                             {/* <h3 className='text-xl font-bold'>{viewUserDialog.firstName} {viewUserDialog.lastName}</h3>
                             <p>{viewUserDialog.designation}</p> */}
@@ -197,36 +200,42 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                     </div>
                 </div>
-                <Divider layout="vertical" />
-                <div className='w-1/2 flex flex-col justify-between'>
+
+                <div className="hidden md:block">
+                    <Divider layout="vertical" />
+                </div>
+
+                <div className='md:w-1/2 flex flex-col justify-between rounded-md shadow-lg md:shadow-none p-2 mt-4 md:mt-0'>
                     <div className='flex flex-col gap-2 font-semibold text-gray-700 text-sm'>
                         <div className='flex'>
                             <span className='w-1/3'>Phone : </span>
                             <span className='w-2/3'>{employee?.mobile}</span>
                         </div>
-                        <div>
+                        <div className='flex'>
                             <span className='w-1/3'>Email : </span>
                             <span className='w-2/3'>{employee?.email}</span>
                         </div>
-                        <div>
-                            <span>Date of Birth : </span>
-                            <span>{employee?.birthDate}</span>
+                        <div className='flex'>
+                            <span className='w-1/3'>Date of Birth : </span>
+                            <span className='w-2/3'>{employee?.birthDate.split('T')[0]}</span>
                         </div>
-                        <div>
-                            <span>Gender : </span>
-                            <span>{employee?.gender}</span>
+                        <div className='flex'>
+                            <span className='w-1/3'>Gender : </span>
+                            <span className='w-2/3'>{employee?.gender}</span>
                         </div>
-                        <div>
-                            <span>Blood Group : </span>
-                            <span>{employee?.bloodGroup}</span>
+                        <div className='flex'>
+                            <span className='w-1/3'>Blood Group : </span>
+                            <span className='w-2/3'>{employee?.bloodGroup}</span>
                         </div>
-                        <div>
-                            <span>Address : </span>
-                            <span>{employee?.address}</span>
+                        <div className='flex'>
+                            <span className='w-1/3'>Address : </span>
+                            <span className='w-2/3'>{employee?.address}</span>
                         </div>
                     </div>
                 </div>
-                <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+                <div className='hidden md:block'>
+                    <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+                </div>
             </div>
             <div>
                 <Button onClick={sendResetPasswordEmail} label='Reset Employee Password' size='small' />
