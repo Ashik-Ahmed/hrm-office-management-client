@@ -86,7 +86,7 @@ const Sidebar = ({ user }) => {
     }
 
     return (
-        <div className='sticky top-0 md:min-w-[300px] h-screen bg-white text-gray-700 '>
+        <div className='sticky top-0 md:min-w-[300px] h-screen bg-white text-gray-700 hidden md:block'>
             <div className='flex justify-start gap-x-2 items-center p-4 mt-6'>
                 <Image src={logo} alt='logo' width='40' height='40' />
                 <h2 className='text-2xl'>Infozillion</h2>
