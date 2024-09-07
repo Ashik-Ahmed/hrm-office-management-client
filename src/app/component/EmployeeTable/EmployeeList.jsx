@@ -244,7 +244,7 @@ const EmployeeList = ({ user, userRoles }) => {
             {/* Employee Data Table  */}
             {/* <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} department={department} queryDepartment={queryDepartment} setQueryDepartment={setQueryDepartment} /> */}
 
-            <div className='flex justify-between items-center mb-1 px-2 mx-auto'>
+            <div className='md:flex justify-between items-center mb-1 px-2 mx-auto'>
                 <div className='flex items-center gap-x-2'>
                     <h3 className='font-light'>EMPLOYEE LIST</h3>
                     {/* <h1 className="text-2xl font-bold mb-4">EMPLOYEE LIST</h1> */}
@@ -252,7 +252,7 @@ const EmployeeList = ({ user, userRoles }) => {
                     <AiFillPlusSquare onClick={() => setAddUserDialog(true)} size={25} color='#8C239E' className='cursor-pointer' />
                 </div>
                 <div>
-                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} showClear options={department} optionLabel='departmentName' placeholder="Department" className="w-full placeholder-opacity-20" />
+                    <Dropdown value={queryDepartment} onChange={(e) => setQueryDepartment(e.value)} showClear options={department} optionLabel='departmentName' placeholder="Department" className="w-full mt-2 md:mt-0 placeholder-opacity-20" />
                 </div>
                 {/* <span className="p-input-icon-left">
                     <i className="pi pi-search" />
