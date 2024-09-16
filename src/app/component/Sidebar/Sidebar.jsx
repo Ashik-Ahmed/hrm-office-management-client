@@ -10,7 +10,8 @@ import Cookies from 'universal-cookie';
 import { useSession } from 'next-auth/react';
 import { doLogout } from '@/serverActions/authActions';
 import Loading from '../Loading/Loading';
-import { HiMenuAlt1 } from "react-icons/hi";
+import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
+
 
 
 
@@ -91,10 +92,17 @@ const Sidebar = ({ user }) => {
 
     return (
         <div className='sticky top-0 md:min-w-[300px] h-screen bg-white text-gray-700'>
-            <div onClick={() => setSidebarOpen(!isSidebarOpen)} className='block md:hidden absolute top-3 bg-white left-3'>
-                <HiMenuAlt1 size={30} />
-            </div>
-            <div className={`md:block ${isSidebarOpen ? 'block' : 'hidden'}`}>
+            {
+                isSidebarOpen ?
+                    <div onClick={() => setSidebarOpen(!isSidebarOpen)} className={`block md:hidden absolute top-3 -right-3 bg-white`}>
+                        <AiOutlineMenuFold size={30} className='p-[1px]' />
+                    </div>
+                    :
+                    <div onClick={() => setSidebarOpen(!isSidebarOpen)} className={`block md:hidden absolute top-3 left-3 bg-white`}>
+                        <AiOutlineMenuUnfold size={30} className='p-[1px]' />
+                    </div>
+            }
+            <div className={`md:block  ${isSidebarOpen ? 'block' : 'hidden'}`}>
                 <div className='flex justify-start gap-x-2 items-center p-4'>
                     <Image src={logo} alt='logo' width='40' height='40' />
                     <h2 className='text-2xl'>Infozillion</h2>

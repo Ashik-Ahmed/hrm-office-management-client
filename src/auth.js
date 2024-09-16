@@ -76,6 +76,7 @@ export const {
     // pages: {
     //     signIn: "/login",
     // },
+    trustProxy: true,
     callbacks: {
         jwt: async ({ token, user }) => {
             // console.log("inside jwt user: ", user);

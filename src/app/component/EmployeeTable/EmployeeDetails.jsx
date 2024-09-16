@@ -217,7 +217,7 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                         <div className='flex'>
                             <span className='w-1/3'>Date of Birth : </span>
-                            <span className='w-2/3'>{employee?.birthDate.split('T')[0]}</span>
+                            <span className='w-2/3'>{employee?.birthDate?.split('T')[0]}</span>
                         </div>
                         <div className='flex'>
                             <span className='w-1/3'>Gender : </span>
