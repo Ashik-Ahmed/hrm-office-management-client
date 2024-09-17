@@ -61,7 +61,7 @@ const Profile = ({ params: { id } }) => {
     const handleChangePassword = (data) => {
         console.log(data);
 
-        fetch(`http://localhost:5000/api/v1/employee/updatePassword/${employee.email}`, {
+        fetch(`${process.env.API_SERVER_UR}/employee/updatePassword/${employee.email}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json"

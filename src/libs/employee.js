@@ -1,5 +1,5 @@
 exports.getEmployeeById = async (empId, accessToken) => {
-    const data = await fetch(`http://localhost:5000/api/v1/employee/${empId}`, {
+    const data = await fetch(`${process.env.API_SERVER_UR}/employee/${empId}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }

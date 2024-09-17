@@ -65,7 +65,7 @@ const EmployeeDetails = ({ id, user }) => {
 
     const getEmployee = async () => {
         setLoading(true)
-        const url = `http://localhost:5000/api/v1/employee/${id}`;
+        const url = `${process.env.API_SERVER_UR}/employee/${id}`;
 
         fetch(url, {
             headers: {
@@ -97,7 +97,7 @@ const EmployeeDetails = ({ id, user }) => {
 
         const resetPasswordUrl = `${window.location.origin}/auth/reset-password`;
         console.log(resetPasswordUrl);
-        fetch(`http://localhost:5000/api/v1/employee/send-password-reset-email/${employee.email}`, {
+        fetch(`${process.env.API_SERVER_UR}/employee/send-password-reset-email/${employee.email}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const EmployeeDetails = ({ id, user }) => {
             return acc;
         }, {});
 
-        fetch(`http://localhost:5000/api/v1/employee/${id}`, {
+        fetch(`${process.env.API_SERVER_UR}/employee/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

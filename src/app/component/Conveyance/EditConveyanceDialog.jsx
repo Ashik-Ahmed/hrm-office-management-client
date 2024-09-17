@@ -28,7 +28,7 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
                 updatedData[property] = data[property];
             }
         }
-        fetch(`http://localhost:5000/api/v1/conveyance/${editConveyanceDialog._id}`, {
+        fetch(`${process.env.API_SERVER_UR}/conveyance/${editConveyanceDialog._id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',

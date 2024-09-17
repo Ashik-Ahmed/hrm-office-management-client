@@ -14,7 +14,7 @@ const LeaveStatusGraph = ({ user }) => {
 
     const getLeaveStatusData = (employeeId) => {
         setLoading(true)
-        const url = `http://localhost:5000/api/v1/employee/leaveStatus/${employeeId}`
+        const url = `${process.env.API_SERVER_UR}/employee/leaveStatus/${employeeId}`
 
         fetch(url, {
             headers: {

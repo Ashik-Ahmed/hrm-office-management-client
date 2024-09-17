@@ -35,7 +35,7 @@ export const {
                 const { email, password } = credentials;
                 // console.log("Inside authorize: ", email, password);
                 try {
-                    const res = await fetch(`http://localhost:5000/api/v1/employee/login`, {
+                    const res = await fetch(`${process.env.API_SERVER_UR}/employee/login`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

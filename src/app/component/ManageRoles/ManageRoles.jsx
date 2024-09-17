@@ -41,7 +41,7 @@ const ManageRoles = ({ user }) => {
     const getRoles = () => {
         setLoading(true)
 
-        fetch(`http://localhost:5000/api/v1/role`, {
+        fetch(`${process.env.API_SERVER_UR}/role`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -57,7 +57,7 @@ const ManageRoles = ({ user }) => {
     }
 
     const getPages = () => {
-        fetch(`http://localhost:5000/api/v1/page`, {
+        fetch(`${process.env.API_SERVER_UR}/page`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -73,7 +73,7 @@ const ManageRoles = ({ user }) => {
 
     const handleAddNewRole = (data) => {
 
-        fetch(`http://localhost:5000/api/v1/role`, {
+        fetch(`${process.env.API_SERVER_UR}/role`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`,

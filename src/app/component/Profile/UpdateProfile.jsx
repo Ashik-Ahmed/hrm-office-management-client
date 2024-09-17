@@ -43,7 +43,7 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
                     .then(data => {
                         if (data.data.url) {
                             updatedData.image = data.data.url;
-                            fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
+                            fetch(`${process.env.API_SERVER_UR}/employee/${employee._id}`, {
                                 method: 'PATCH',
                                 headers: {
                                     "content-type": "application/json",
@@ -68,7 +68,7 @@ const UpdateProfile = ({ employee, department, getEmployeeData, setUpdateForm, t
                     })
             }
             else {
-                fetch(`http://localhost:5000/api/v1/employee/${employee._id}`, {
+                fetch(`${process.env.API_SERVER_UR}/employee/${employee._id}`, {
                     method: 'PATCH',
                     headers: {
                         "content-type": "application/json",

@@ -1,5 +1,5 @@
 exports.getUserRequisitionHistory = async (userId, selectedMonth, selectedYear, accessToken) => {
-    const data = await fetch(`http://localhost:5000/api/v1/employee/requisition/${userId}?month=${selectedMonth}&year=${selectedYear}`, {
+    const data = await fetch(`${process.env.API_SERVER_UR}/employee/requisition/${userId}?month=${selectedMonth}&year=${selectedYear}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -11,7 +11,7 @@ exports.getUserRequisitionHistory = async (userId, selectedMonth, selectedYear, 
 }
 
 exports.getMonthlyRequisitionData = async (selectedMonth, selectedYear, accessToken) => {
-    const data = await fetch(`http://localhost:5000/api/v1/requisition?month=${selectedMonth}&year=${selectedYear}`, {
+    const data = await fetch(`${process.env.API_SERVER_UR}/requisition?month=${selectedMonth}&year=${selectedYear}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },

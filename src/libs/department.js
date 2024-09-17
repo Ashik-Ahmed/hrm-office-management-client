@@ -1,5 +1,5 @@
 exports.getAllDepartments = async (accessToken) => {
-    const data = await fetch('http://localhost:5000/api/v1/department', {
+    const data = await fetch(`${process.env.API_SERVER_UR}/department`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -11,7 +11,7 @@ exports.getAllDepartments = async (accessToken) => {
 }
 
 exports.getActiveDepartments = async (accessToken) => {
-    const data = await fetch('http://localhost:5000/api/v1/department?status=Active', {
+    const data = await fetch(`${process.env.API_SERVER_UR}/department?status=Active`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -23,7 +23,7 @@ exports.getActiveDepartments = async (accessToken) => {
 }
 
 exports.getAllRoles = async (accessToken) => {
-    const data = await fetch('http://localhost:5000/api/v1/role', {
+    const data = await fetch(`${process.env.API_SERVER_UR}/role`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },

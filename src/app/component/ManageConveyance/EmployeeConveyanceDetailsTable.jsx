@@ -24,7 +24,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
-        // const url = `http://localhost:5000/api/v1/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
+        // const url = `${process.env.API_SERVER_UR}/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
 
         // fetch(url)
         //     .then(res => res.json())
@@ -66,7 +66,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
             }
         }
 
-        fetch(`http://localhost:5000/api/v1/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
+        fetch(`${process.env.API_SERVER_UR}/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',

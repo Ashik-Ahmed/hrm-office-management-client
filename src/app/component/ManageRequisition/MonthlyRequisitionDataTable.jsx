@@ -45,7 +45,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     //get requisition details by id
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+        fetch(`${process.env.API_SERVER_UR}/requisition/${requisitionId}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -63,7 +63,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
         setLoading(true)
         const requisitionId = completePurchase._id
         console.log(requisitionId, data);
-        fetch(`http://localhost:5000/api/v1/requisition/${requisitionId}`, {
+        fetch(`${process.env.API_SERVER_UR}/requisition/${requisitionId}`, {
             method: "PATCH",
             headers: {
                 'content-type': 'application/json',
@@ -93,7 +93,7 @@ const MonthlyRequisitionDataTable = ({ user }) => {
     // CANCEL REQUISITION
     const handleCancelRequisition = (requisitionId) => {
         setLoading(true);
-        const url = `http://localhost:5000/api/v1/requisition/cancelRequisition/${requisitionId}`;
+        const url = `${process.env.API_SERVER_UR}/requisition/cancelRequisition/${requisitionId}`;
         // console.log(url);
         fetch(url, {
             method: "PATCH",

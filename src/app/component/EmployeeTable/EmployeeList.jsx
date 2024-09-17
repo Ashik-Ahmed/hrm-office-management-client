@@ -57,7 +57,7 @@ const EmployeeList = ({ user, userRoles }) => {
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
         console.log("Access Token: ", user?.accessToken);
-        fetch(`http://localhost:5000/api/v1/employee?department=${queryDepartment?.departmentName || 'All'}`, {
+        fetch(`${process.env.API_SERVER_UR}/employee?department=${queryDepartment?.departmentName || 'All'}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -115,7 +115,7 @@ const EmployeeList = ({ user, userRoles }) => {
 
                         if (data?.data?.url) {
                             userData.image = data.data.url
-                            fetch('http://localhost:5000/api/v1/employee', {
+                            fetch(`${process.env.API_SERVER_UR}/employee`, {
                                 method: 'POST',
                                 headers: {
                                     'content-type': 'application/json',
@@ -154,7 +154,7 @@ const EmployeeList = ({ user, userRoles }) => {
             else {
                 setLoading(true)
                 console.log('inside without image');
-                fetch('http://localhost:5000/api/v1/employee', {
+                fetch(`${process.env.API_SERVER_UR}/employee`, {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json',
@@ -210,7 +210,7 @@ const EmployeeList = ({ user, userRoles }) => {
         setLoading(true)
         // console.log('user delete', deleteUserDialog.firstName);
 
-        fetch(`http://localhost:5000/api/v1/employee/${deleteUserDialog._id}`, {
+        fetch(`${process.env.API_SERVER_UR}/employee/${deleteUserDialog._id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`

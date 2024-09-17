@@ -41,7 +41,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
 
     const fetchLeaveApplications = () => {
         setLoading(true)
-        fetch(`http://localhost:5000/api/v1/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`, {
+        fetch(`${process.env.API_SERVER_UR}/leaveApplication?year=${selectedYear}&status=${currentStatus || ''}`, {
             headers: {
                 "Authorization": `Bearer ${user?.accessToken}`
             }
@@ -68,7 +68,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
 
         console.log(currentStatus);
 
-        fetch(`http://localhost:5000/api/v1/leaveApplication/${approveDialog._id}`, {
+        fetch(`${process.env.API_SERVER_UR}/leaveApplication/${approveDialog._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -104,7 +104,7 @@ const ManageLeaveApplicationsTable = ({ user }) => {
 
         console.log(currentStatus);
 
-        fetch(`http://localhost:5000/api/v1/leaveApplication/${rejectDialog._id}`, {
+        fetch(`${process.env.API_SERVER_UR}/leaveApplication/${rejectDialog._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",

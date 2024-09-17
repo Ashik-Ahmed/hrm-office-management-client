@@ -18,7 +18,7 @@ const Task = ({ taskId, user }) => {
     const [closeTaskDialog, setCloseTaskDialog] = useState(false)
 
     const getTask = (id) => {
-        const url = `http://localhost:5000/api/v1/task/${id}`;
+        const url = `${process.env.API_SERVER_UR}/task/${id}`;
         fetch(url, {
             headers: {
                 'Authorization': `Bearer ${user.accessToken}`
@@ -38,7 +38,7 @@ const Task = ({ taskId, user }) => {
     }, [taskId]);
 
     const handleCloseTask = () => {
-        fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
+        fetch(`${process.env.API_SERVER_UR}/task/${taskId}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -61,7 +61,7 @@ const Task = ({ taskId, user }) => {
         const updates = data
         console.log(updates);
 
-        fetch(`http://localhost:5000/api/v1/task/${taskId}`, {
+        fetch(`${process.env.API_SERVER_UR}/task/${taskId}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",

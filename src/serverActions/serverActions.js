@@ -10,7 +10,7 @@ exports.leaveApplication = (data) => {
     data.rejoinDate = rejoinDate.toLocaleDateString('en-GB')
     console.log(data);
 
-    fetch('http://localhost:5000/api/v1/leaveApplication', {
+    fetch(`${process.env.API_SERVER_UR}/leaveApplication`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json'

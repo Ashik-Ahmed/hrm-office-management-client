@@ -77,7 +77,7 @@ const VisitorRegister = ({ user }) => {
         console.log(data);
 
         setLoading(true)
-        fetch('http://localhost:5000/api/v1/visitor', {
+        fetch(`${process.env.API_SERVER_UR}/visitor`, {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
