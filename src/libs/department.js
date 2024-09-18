@@ -1,4 +1,6 @@
-exports.getAllDepartments = async (accessToken) => {
+"use server"
+
+export async function getAllDepartments(accessToken) {
     const data = await fetch(`${process.env.API_SERVER_URL}/department`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -10,7 +12,7 @@ exports.getAllDepartments = async (accessToken) => {
     return departments;
 }
 
-exports.getActiveDepartments = async (accessToken) => {
+export async function getActiveDepartments(accessToken) {
     const data = await fetch(`${process.env.API_SERVER_URL}/department?status=Active`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -22,7 +24,7 @@ exports.getActiveDepartments = async (accessToken) => {
     return departments;
 }
 
-exports.getAllRoles = async (accessToken) => {
+export async function getAllRoles(accessToken) {
     const data = await fetch(`${process.env.API_SERVER_URL}/role`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`

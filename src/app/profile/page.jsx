@@ -1,8 +1,8 @@
 import React from 'react';
 import Profile from '../component/Profile/Profile';
-import { getEmployeeById } from '@/libs/employee';
-import { getAllDepartments } from '@/libs/department';
 import { auth } from '@/auth';
+import { getAllDepartments } from '@/libs/department';
+import { getEmployeeById } from '@/libs/employee';
 
 const ProfilePage = async () => {
 

@@ -5,11 +5,9 @@ import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import profilePhoto from '../../../../public/images/user.png'
 import { Button } from 'primereact/button'
-import { getEmployeeById } from '@/libs/employee';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
-import { getAllDepartments } from '@/libs/department';
 import { Controller, useForm } from 'react-hook-form';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
@@ -17,6 +15,8 @@ import { Password } from 'primereact/password';
 import UpdateProfile from '@/app/component/Profile/UpdateProfile';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { getAllDepartments } from '@/libs/department';
+import { getEmployeeById } from '@/libs/employee';
 
 const Profile = ({ params: { id } }) => {
 

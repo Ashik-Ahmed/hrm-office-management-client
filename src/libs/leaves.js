@@ -1,5 +1,6 @@
+"use server"
 
-exports.getAllLeaves = async () => {
+export async function getAllLeaves() {
     const leaves = await fetch(`${process.env.API_SERVER_URL}/leave`, {
         next: { revalidate: 3 }
     }).then(res => res.json())
@@ -7,7 +8,7 @@ exports.getAllLeaves = async () => {
     return leaves?.data;
 }
 
-exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
+export async function getAllLeaveApplicationsByEmployeeId(employeeId) {
     const leaveApplications = await fetch(`${process.env.API_SERVER_URL}/leaveApplication/${employeeId}`, {
         next: { revalidate: 3 }
     })
@@ -19,7 +20,7 @@ exports.getAllLeaveApplicationsByEmployeeId = async (employeeId) => {
     return leaveApplications?.data;
 }
 
-exports.getAllPendingLeaveApplications = async () => {
+export async function getAllPendingLeaveApplications() {
     const pendingLeaveApplications = await fetch(`${process.env.API_SERVER_URL}/leaveApplication/pendingApplications`, {
         next: { revalidate: 3 }
     })
@@ -33,7 +34,7 @@ exports.getAllPendingLeaveApplications = async () => {
     }
 }
 
-exports.getLeaveStatus = async (employeeId) => {
+export async function getLeaveStatus(employeeId) {
     console.log(employeeId);
     const leaveStatus = await fetch(`${process.env.API_SERVER_URL}/employee/leaveStatus/${employeeId}`, {
         next: { revalidate: 3 }

@@ -1,5 +1,5 @@
 'use client'
-import { getAllDepartments } from '@/libs/department';
+
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import Loading from '../Loading/Loading';
 import Cookies from 'universal-cookie';
+import { getAllDepartments } from '@/libs/department';
 
 const DepartmentTable = ({ accessToken }) => {
 

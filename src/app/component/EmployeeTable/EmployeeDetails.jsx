@@ -13,8 +13,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Controller, useForm } from 'react-hook-form';
-import { getAllDepartments, getAllRoles } from '@/libs/department';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { getAllDepartments, getAllRoles } from '@/libs/department';
 
 
 const EmployeeDetails = ({ id, user }) => {

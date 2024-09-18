@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Loading from '../Loading/Loading';
-import { getAllDepartments } from '@/libs/department';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
@@ -16,6 +15,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { FaTrashCan } from "react-icons/fa6";
+import { getAllDepartments } from '@/libs/department';
 
 
 const EmployeeList = ({ user, userRoles }) => {
