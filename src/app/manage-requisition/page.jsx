@@ -1,4 +1,4 @@
-import { getMonthlyRequisitionData } from '@/libs/requisition';
+
 import { getServerSession } from 'next-auth';
 import React from 'react';
 import MonthlyRequisitionDataTable from '../component/ManageRequisition/MonthlyRequisitionDataTable';
