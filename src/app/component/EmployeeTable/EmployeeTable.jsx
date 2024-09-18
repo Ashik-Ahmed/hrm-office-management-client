@@ -62,7 +62,7 @@ const EmployeeTable = async ({ users, fetchAllUsers, setAddUserDialog, setDelete
             }
         }
         console.log(editEmployee._id, updatedData);
-        fetch(`${process.env.API_SERVER_URL}/employee/${editEmployee._id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/${editEmployee._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json"

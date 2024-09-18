@@ -41,7 +41,7 @@ const LeaveApplicationsTable = ({ user }) => {
 
     const getLeaveApplications = (employeeId) => {
         setLoading(true)
-        fetch(`${process.env.API_SERVER_URL}/employee/leaveApplications/${employeeId}?year=${selectedYear}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/leaveApplications/${employeeId}?year=${selectedYear}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -56,7 +56,7 @@ const LeaveApplicationsTable = ({ user }) => {
 
     const getLeaveStatusData = (employeeId) => {
         setLoading(true)
-        fetch(`${process.env.API_SERVER_URL}/employee/leaveStatus/${employeeId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/leaveStatus/${employeeId}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -85,7 +85,7 @@ const LeaveApplicationsTable = ({ user }) => {
         data.rejoinDate = rejoinDate.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
         console.log(data);
 
-        fetch(`${process.env.API_SERVER_URL}/leaveApplication`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leaveApplication`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

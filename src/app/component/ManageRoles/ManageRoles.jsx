@@ -41,7 +41,7 @@ const ManageRoles = ({ user }) => {
     const getRoles = () => {
         setLoading(true)
 
-        fetch(`${process.env.API_SERVER_URL}/role`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/role`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -57,7 +57,7 @@ const ManageRoles = ({ user }) => {
     }
 
     const getPages = () => {
-        fetch(`${process.env.API_SERVER_URL}/page`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/page`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -73,7 +73,7 @@ const ManageRoles = ({ user }) => {
 
     const handleAddNewRole = (data) => {
 
-        fetch(`${process.env.API_SERVER_URL}/role`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/role`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`,

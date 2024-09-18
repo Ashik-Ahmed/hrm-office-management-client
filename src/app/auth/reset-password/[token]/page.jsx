@@ -14,7 +14,7 @@ const ResetPassword = ({ params: { token } }) => {
     const [isTokenValid, setIsTokenValid] = useState(true);
 
     const checkToken = async () => {
-        fetch(`${process.env.API_SERVER_URL}/employee/check-password-reset-token/${token}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/check-password-reset-token/${token}`, {
             method: 'GET',
         })
             .then(res => res.json())
@@ -35,7 +35,7 @@ const ResetPassword = ({ params: { token } }) => {
         console.log('New Password:', newPassword);
         console.log('Confirm Password:', confirmPassword);
 
-        fetch(`${process.env.API_SERVER_URL}/employee/reset-password/${token}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/reset-password/${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

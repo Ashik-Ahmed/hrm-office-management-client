@@ -65,7 +65,7 @@ const EmployeeDetails = ({ id, user }) => {
 
     const getEmployee = async () => {
         setLoading(true)
-        const url = `${process.env.API_SERVER_URL}/employee/${id}`;
+        const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/${id}`;
 
         fetch(url, {
             headers: {
@@ -97,7 +97,7 @@ const EmployeeDetails = ({ id, user }) => {
 
         const resetPasswordUrl = `${window.location.origin}/auth/reset-password`;
         console.log(resetPasswordUrl);
-        fetch(`${process.env.API_SERVER_URL}/employee/send-password-reset-email/${employee.email}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/send-password-reset-email/${employee.email}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ const EmployeeDetails = ({ id, user }) => {
             return acc;
         }, {});
 
-        fetch(`${process.env.API_SERVER_URL}/employee/${id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

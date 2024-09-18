@@ -33,7 +33,7 @@ const TaskTable = ({ user, allDepartments }) => {
 
     const getAllTasks = () => {
         setLoading(true)
-        const url = `${process.env.API_SERVER_URL}/task/get-all-task/${user.email}?currentStatus=${currentStatus}&page=${page}`;
+        const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/task/get-all-task/${user.email}?currentStatus=${currentStatus}&page=${page}`;
         // console.log(url);
         fetch(url, {
             headers: {
@@ -55,7 +55,7 @@ const TaskTable = ({ user, allDepartments }) => {
     }
 
     const getEmployeeByDepartment = (department) => {
-        const url = `${process.env.API_SERVER_URL}/employee/employee-by-dept?department=${department}`;
+        const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/employee-by-dept?department=${department}`;
         fetch(url, {
             headers: {
                 'Authorization': `Bearer ${user.accessToken}`
@@ -94,7 +94,7 @@ const TaskTable = ({ user, allDepartments }) => {
         taskData.assignee = selectedAssignee._id;
         // console.log(taskData);
 
-        fetch(`${process.env.API_SERVER_URL}/task`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/task`, {
             method: "POST",
             headers: {
                 'content-type': 'application/json',

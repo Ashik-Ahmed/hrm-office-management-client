@@ -25,7 +25,7 @@ const ManageConveyance = ({ user }) => {
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
-        const url = `${process.env.API_SERVER_URL}/conveyance/?month=${filterMonth}&year=${filterYear}`;
+        const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/conveyance/?month=${filterMonth}&year=${filterYear}`;
 
         fetch(url, {
             headers: {

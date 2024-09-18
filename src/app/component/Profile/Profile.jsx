@@ -51,7 +51,7 @@ const Profile = ({ user, departments, accessToken }) => {
 
     const handleChangePassword = (data) => {
 
-        fetch(`${process.env.API_SERVER_URL}/employee/updatePassword/${employee?.email}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/updatePassword/${employee?.email}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",

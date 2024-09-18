@@ -1,7 +1,7 @@
 "use server"
 
 export async function getAllDepartments(accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/department`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/department`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -13,7 +13,7 @@ export async function getAllDepartments(accessToken) {
 }
 
 export async function getActiveDepartments(accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/department?status=Active`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/department?status=Active`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -25,7 +25,7 @@ export async function getActiveDepartments(accessToken) {
 }
 
 export async function getAllRoles(accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/role`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/role`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },

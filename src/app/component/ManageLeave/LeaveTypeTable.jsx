@@ -27,7 +27,7 @@ const LeaveTypeTable = ({ user }) => {
 
     const getAllLeaves = () => {
         setLoading(true)
-        fetch(`${process.env.API_SERVER_URL}/leave`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leave`, {
             cache: "no-cache",
             headers: {
                 "Authorization": `Bearer ${user?.accessToken}`
@@ -48,7 +48,7 @@ const LeaveTypeTable = ({ user }) => {
     const handleCreateLeave = (data) => {
         data.createdBy = user.name;
 
-        fetch(`${process.env.API_SERVER_URL}/leave`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leave`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",

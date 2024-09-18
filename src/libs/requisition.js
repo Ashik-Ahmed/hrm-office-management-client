@@ -1,7 +1,7 @@
 "use server"
 
 export async function getUserRequisitionHistory(userId, selectedMonth, selectedYear, accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/employee/requisition/${userId}?month=${selectedMonth}&year=${selectedYear}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/requisition/${userId}?month=${selectedMonth}&year=${selectedYear}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
@@ -13,7 +13,7 @@ export async function getUserRequisitionHistory(userId, selectedMonth, selectedY
 }
 
 export async function getMonthlyRequisitionData(selectedMonth, selectedYear, accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/requisition?month=${selectedMonth}&year=${selectedYear}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/requisition?month=${selectedMonth}&year=${selectedYear}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },

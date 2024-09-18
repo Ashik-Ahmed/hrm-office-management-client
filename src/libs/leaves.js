@@ -1,7 +1,7 @@
 "use server"
 
 export async function getAllLeaves() {
-    const leaves = await fetch(`${process.env.API_SERVER_URL}/leave`, {
+    const leaves = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leave`, {
         next: { revalidate: 3 }
     }).then(res => res.json())
 
@@ -9,7 +9,7 @@ export async function getAllLeaves() {
 }
 
 export async function getAllLeaveApplicationsByEmployeeId(employeeId) {
-    const leaveApplications = await fetch(`${process.env.API_SERVER_URL}/leaveApplication/${employeeId}`, {
+    const leaveApplications = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leaveApplication/${employeeId}`, {
         next: { revalidate: 3 }
     })
         .then(res => res.json())
@@ -21,7 +21,7 @@ export async function getAllLeaveApplicationsByEmployeeId(employeeId) {
 }
 
 export async function getAllPendingLeaveApplications() {
-    const pendingLeaveApplications = await fetch(`${process.env.API_SERVER_URL}/leaveApplication/pendingApplications`, {
+    const pendingLeaveApplications = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leaveApplication/pendingApplications`, {
         next: { revalidate: 3 }
     })
         .then(res => res.json())
@@ -36,7 +36,7 @@ export async function getAllPendingLeaveApplications() {
 
 export async function getLeaveStatus(employeeId) {
     console.log(employeeId);
-    const leaveStatus = await fetch(`${process.env.API_SERVER_URL}/employee/leaveStatus/${employeeId}`, {
+    const leaveStatus = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/leaveStatus/${employeeId}`, {
         next: { revalidate: 3 }
     })
         .then(res => res.json())

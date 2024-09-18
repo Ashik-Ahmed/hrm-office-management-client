@@ -35,7 +35,7 @@ export const {
                 const { email, password } = credentials;
                 // console.log("Inside authorize: ", email, password);
                 try {
-                    const res = await fetch(`${process.env.API_SERVER_URL}/employee/login`, {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/login`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

@@ -25,7 +25,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
             }
         }
 
-        fetch(`${process.env.API_SERVER_URL}/leave/${editLeaveDialog._id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leave/${editLeaveDialog._id}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
@@ -52,7 +52,7 @@ const EditAndDeleteDialog = ({ editLeaveDialog, setEditLeaveDialog, deleteLeaveD
     const handleDeleteLeave = (leaveData) => {
         console.log(leaveData);
         setLoading(true)
-        fetch(`${process.env.API_SERVER_URL}/leave/${leaveData._id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/leave/${leaveData._id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${user?.accessToken}`

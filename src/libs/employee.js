@@ -1,7 +1,7 @@
 "use server"
 
 export async function getEmployeeById(empId, accessToken) {
-    const data = await fetch(`${process.env.API_SERVER_URL}/employee/${empId}`, {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee/${empId}`, {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }
