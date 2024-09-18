@@ -1,5 +1,5 @@
 exports.getAllTasks = async (employeeEmail, query) => {
-    const url = `${process.env.API_SERVER_UR}/task/get-all-task/${employeeEmail}?${query}`
+    const url = `${process.env.API_SERVER_URL}/task/get-all-task/${employeeEmail}?${query}`
     console.log(url);
     const data = await fetch(url)
     const tasks = await data.json();
@@ -8,7 +8,7 @@ exports.getAllTasks = async (employeeEmail, query) => {
 }
 
 exports.getTaskById = async (taskId) => {
-    const url = `${process.env.API_SERVER_UR}/task/${taskId}`;
+    const url = `${process.env.API_SERVER_URL}/task/${taskId}`;
     const data = await fetch(url);
     const taskDetails = await data.json()
 

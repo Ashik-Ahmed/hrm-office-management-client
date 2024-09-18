@@ -47,7 +47,7 @@ const EditRoleDialog = ({ user, editRoleDialog, setEditRoleDialog, pages, getRol
             }
         }
 
-        fetch(`${process.env.API_SERVER_UR}/role/${editRoleDialog?._id}`, {
+        fetch(`${process.env.API_SERVER_URL}/role/${editRoleDialog?._id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`,

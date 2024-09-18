@@ -1,5 +1,7 @@
-exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year, accessToken) => {
-    const url = `${process.env.API_SERVER_UR}/conveyance/${email}?month=${month}&year=${year}`;
+"use server"
+
+export async function getConveyanceDetailsByEmployeeEmail(email, month, year, accessToken) {
+    const url = `${process.env.API_SERVER_URL}/conveyance/${email}?month=${month}&year=${year}`;
 
     const conveyanceDetails = await fetch(url, {
         headers: {
@@ -12,10 +14,10 @@ exports.getConveyanceDetailsByEmployeeEmail = async (email, month, year, accessT
 }
 
 
-exports.getConveyanceByEmployeeEmail = async (employeeEmail) => {
+export async function getConveyanceByEmployeeEmail(employeeEmail) {
     const month = parseInt(new Date().getMonth() + 1)
     const year = parseInt(new Date().getFullYear())
-    const conveyance = await fetch(`${process.env.API_SERVER_UR}/conveyance/${employeeEmail}?month=${month}&year=${year}`,
+    const conveyance = await fetch(`${process.env.API_SERVER_URL}/conveyance/${employeeEmail}?month=${month}&year=${year}`,
         {
             next: { revalidate: 3 }
         }
@@ -25,10 +27,10 @@ exports.getConveyanceByEmployeeEmail = async (employeeEmail) => {
     return conveyance.data;
 }
 
-exports.getAllEmployeeMonthlyConveyance = async () => {
+export async function getAllEmployeeMonthlyConveyance() {
     const month = parseInt(new Date().getMonth() + 1)
     const year = parseInt(new Date().getFullYear())
-    const allConveyance = await fetch(`${process.env.API_SERVER_UR}/conveyance/?month=${month}&year=${year}`, {
+    const allConveyance = await fetch(`${process.env.API_SERVER_URL}/conveyance/?month=${month}&year=${year}`, {
         next: { revalidate: 3 }
     })
         .then(res => res.json())

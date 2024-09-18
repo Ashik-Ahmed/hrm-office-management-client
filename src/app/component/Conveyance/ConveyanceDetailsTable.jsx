@@ -42,7 +42,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
         }
         data.employee = employee;
 
-        fetch(`${process.env.API_SERVER_UR}/conveyance`, {
+        fetch(`${process.env.API_SERVER_URL}/conveyance`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -72,7 +72,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
     const handleDeleteConveyance = () => {
         setLoading(true)
         console.log(deleteDialog);
-        fetch(`${process.env.API_SERVER_UR}/conveyance/${deleteDialog._id}`, {
+        fetch(`${process.env.API_SERVER_URL}/conveyance/${deleteDialog._id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`

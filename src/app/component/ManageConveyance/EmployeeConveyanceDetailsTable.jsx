@@ -5,9 +5,9 @@ import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
 import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
-import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 import { getMonthName } from '@/utils/dateformatter';
 import { AiFillFilePdf } from 'react-icons/ai';
+import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
 
 const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
@@ -24,7 +24,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
         const filterMonth = new Date(selectedMonth).getMonth() + 1;
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
-        // const url = `${process.env.API_SERVER_UR}/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
+        // const url = `${process.env.API_SERVER_URL}/conveyance/${email}?month=${filterMonth}&year=${filterYear}`;
 
         // fetch(url)
         //     .then(res => res.json())
@@ -66,7 +66,7 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
             }
         }
 
-        fetch(`${process.env.API_SERVER_UR}/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
+        fetch(`${process.env.API_SERVER_URL}/conveyance/makePayment?employeeEmail=${makePaymentDialog?.email}&amount=${makePaymentDialog?.totalAmount}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',

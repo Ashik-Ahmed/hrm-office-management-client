@@ -7,6 +7,7 @@ import NextAuthSessionProvider from "@/utils/sessionProvider";
 import { auth } from "@/auth";
 import DefaultLayout from "./component/Layout/DefaultLayout";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

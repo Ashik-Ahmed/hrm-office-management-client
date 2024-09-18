@@ -48,7 +48,7 @@ const RequisitionHistoryTable = ({ user }) => {
         getUserRequisition()
 
         const departments = async () => {
-            fetch(`${process.env.API_SERVER_UR}/department?status=Active`, {
+            fetch(`${process.env.API_SERVER_URL}/department?status=Active`, {
                 headers: {
                     'Authorization': `Bearer ${user?.accessToken}`
                 }
@@ -96,7 +96,7 @@ const RequisitionHistoryTable = ({ user }) => {
 
         console.log(requisitionData);
 
-        fetch(`${process.env.API_SERVER_UR}/requisition`, {
+        fetch(`${process.env.API_SERVER_URL}/requisition`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -124,7 +124,7 @@ const RequisitionHistoryTable = ({ user }) => {
 
     const getRequisitionDetails = (requisitionId) => {
         setLoading(true)
-        fetch(`${process.env.API_SERVER_UR}/requisition/${requisitionId}`, {
+        fetch(`${process.env.API_SERVER_URL}/requisition/${requisitionId}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
             }
@@ -139,7 +139,7 @@ const RequisitionHistoryTable = ({ user }) => {
 
     const deleteRequisition = async (requisitionId) => {
         console.log(requisitionId);
-        fetch(`${process.env.API_SERVER_UR}/requisition/${requisitionId}`, {
+        fetch(`${process.env.API_SERVER_URL}/requisition/${requisitionId}`, {
             method: "Delete",
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`

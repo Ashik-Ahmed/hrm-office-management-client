@@ -37,7 +37,7 @@ const DepartmentTable = ({ accessToken }) => {
 
     const handleCreateDepartment = async (data) => {
         setLoading(true)
-        fetch(`${process.env.API_SERVER_UR}/department`, {
+        fetch(`${process.env.API_SERVER_URL}/department`, {
             method: "POST",
             headers: {
                 'content-type': 'application/json',
@@ -65,7 +65,7 @@ const DepartmentTable = ({ accessToken }) => {
     const handleUpdateDepartment = (deptId, updatedData) => {
         setLoading(true)
 
-        fetch(`${process.env.API_SERVER_UR}/department/${deptId}`, {
+        fetch(`${process.env.API_SERVER_URL}/department/${deptId}`, {
             method: "PATCH",
             headers: {
                 "content-type": "application/json",
