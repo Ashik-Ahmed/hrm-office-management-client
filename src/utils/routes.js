@@ -7,6 +7,7 @@ export const PUBLIC_ROUTES = [
 export const PROTECTED_ROUTES = [
     '/profile',
     '/employee/[id]',
+    '/task-manager/[id]',
     '/not-found'
 ]
 

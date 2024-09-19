@@ -89,10 +89,10 @@ const Task = ({ taskId, user }) => {
             <div className='p-2 bg-white rounded-md'>
                 <div>
                     <div className='flex items-center justify-between'>
-                        <h2 className='font-bold text-xl'>{task?.heading}</h2>
+                        <h2 className='font-bold text-xl bg-sky-200 px-2'>{task?.heading}</h2>
                         <p className={`${task?.currentStatus == 'Open' ? 'bg-green-500' : 'bg-red-400'} px-2 text-white rounded-md`}>{task?.currentStatus}</p>
                     </div>
-                    <p className='italic'>{task?.description}</p>
+                    <p className='italic my-8'>{task?.description}</p>
                 </div>
                 <hr className='my-4' />
                 <div className='text-sm'>
