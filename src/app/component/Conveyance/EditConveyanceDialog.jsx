@@ -1,18 +1,20 @@
 'use client'
 
+import { customDateFormat } from '@/utils/dateformatter';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, getConveyanceData, user }) => {
 
     const toast = useRef(null)
 
     const [loading, setLoading] = useState(false)
+    const [date, setDate] = useState(null);
 
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -22,12 +24,14 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
         console.log(data);
 
         const updatedData = {};
+        updatedData.date = date;
 
         for (const property in data) {
             if (data[property] !== "") {
                 updatedData[property] = data[property];
             }
         }
+        console.log("updatedData", updatedData);
         fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/conveyance/${editConveyanceDialog._id}`, {
             method: 'PATCH',
             headers: {
@@ -61,53 +65,66 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
                 <form onSubmit={handleSubmit(handleEditConveyance)} className='mt-2'>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
-                            <Calendar
-                                value={editConveyanceDialog.date}
-                                placeholder='Date*'
+                            {/* <Calendar
+                                value={editConveyanceDialog?.date}
+                                placeholder={editConveyanceDialog?.date?.split("T")[0] || 'Date'}
                                 className='w-full'
-                                dateFormat="dd-mm-yy"
+                                dateFormat="yy-mm-dd"
+                            /> */}
+                            <Controller
+                                name="date"
+                                control={control}
+                                render={({ field }) => (
+                                    <Calendar
+                                        value={editConveyanceDialog?.date}
+                                        onChange={(e) => { setDate(e.value); field.onChange(e.value) }}
+                                        placeholder={editConveyanceDialog?.date ? (customDateFormat(editConveyanceDialog?.date)?.split(",")[0]) : 'Date'}
+                                        className='w-full'
+                                        dateFormat="yy-mm-dd"
+                                    />
+                                )}
                             />
                         </div>
                         <div className='w-full'>
                             <InputText
                                 {...register("amount")}
-                                keyfilter='int' placeholder={`${editConveyanceDialog.amount || 'Amount*'}`} className='w-full' />
+                                keyfilter='int' placeholder={`${editConveyanceDialog?.amount || 'Amount*'}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
                                 {...register("from")}
-                                type='text' placeholder={`${editConveyanceDialog.from || "From*"}`} className='w-full' />
+                                type='text' placeholder={`${editConveyanceDialog?.from || "From*"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
                             <InputText
                                 {...register("destination")}
-                                type='text' placeholder={`${editConveyanceDialog.destination || "Destination*"}`} className='w-full' />
+                                type='text' placeholder={`${editConveyanceDialog?.destination || "Destination*"}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
                                 {...register("purpose")}
-                                placeholder={`${editConveyanceDialog.purpose || "Purpose"}`} className='w-full' />
+                                placeholder={`${editConveyanceDialog?.purpose || "Purpose"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
                             <InputText
                                 {...register("vehicle")}
-                                placeholder={`${editConveyanceDialog.vehicle || "Vehicle Type"}`} className='w-full' />
+                                placeholder={`${editConveyanceDialog?.vehicle || "Vehicle Type"}`} className='w-full' />
                         </div>
                     </div>
                     <div className='mt-2 flex gap-x-4'>
                         <div className='w-full'>
                             <InputText
                                 {...register("partner")}
-                                placeholder={`${editConveyanceDialog.partner || "Travel Partner"}`} className='w-full' />
+                                placeholder={`${editConveyanceDialog?.partner || "Travel Partner"}`} className='w-full' />
                         </div>
                         <div className='w-full'>
                             <InputText
                                 {...register("note")}
-                                placeholder={`${editConveyanceDialog.note || "Note"}`} className='w-full' />
+                                placeholder={`${editConveyanceDialog?.note || "Note"}`} className='w-full' />
                         </div>
                     </div>
                     {/* <div className='mt-2'>

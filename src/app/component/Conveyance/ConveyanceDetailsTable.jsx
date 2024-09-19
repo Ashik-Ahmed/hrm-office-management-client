@@ -108,7 +108,7 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
     const dateBodyTemplate = (rowData) => {
         return (
             <div>
-                {customDateFormat(rowData.date).split(",")[0]}
+                {customDateFormat(rowData?.date).split(",")[0]}
             </div>
         )
     }

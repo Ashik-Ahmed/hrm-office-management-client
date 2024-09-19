@@ -29,6 +29,11 @@ export async function getMonthName(monthNumber) {
 }
 
 export function customDateFormat(utcTimeStr) {
+
+    if (!utcTimeStr || isNaN(Date.parse(utcTimeStr))) {
+        return "Invalid Date";  // or any default value you prefer
+    }
+
     // Convert to Date object
     const utcDate = new Date(utcTimeStr);
 
