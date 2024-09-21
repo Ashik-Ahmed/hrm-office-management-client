@@ -109,22 +109,22 @@ const Sidebar = ({ user }) => {
                 </div>
                 <div className='flex'>
                     <div className='md:flex flex-col px-4 justify-between hidden'>
-                        <ul className='flex flex-col justify-center items-center gap-6'>
+                        <ul className='flex flex-col justify-center items-center gap-4'>
                             {/* <div className='bg-gray-600 hover:bg-gray-500 duration-200 cursor-pointer text-white p-3 -ml-1.5 flex rounded-full'>
                             <i className='pi pi-th-large' style={{ fontSize: '.75rem' }}></i>
                         </div> */}
-                            <i className='pi pi-search cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
-                            <i className='pi pi-calendar cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
-                            <i className='pi pi-id-card cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
-                            <i className='pi pi-comments cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
-                            <i className='pi pi-folder cursor-pointer hover:text-sky-400 duration-200' style={{ fontSize: '1.3rem' }}></i>
+                            <i className='pi pi-search cursor-pointer p-2 hover:bg-violet-600 hover:text-white duration-200' style={{ fontSize: '1.3rem' }}></i>
+                            <i className='pi pi-calendar cursor-pointer p-2 hover:bg-violet-600 hover:text-white duration-200' style={{ fontSize: '1.3rem' }}></i>
+                            <i className='pi pi-id-card cursor-pointer p-2 hover:bg-violet-600 hover:text-white duration-200' style={{ fontSize: '1.3rem' }}></i>
+                            <i className='pi pi-comments cursor-pointer p-2 hover:bg-violet-600 hover:text-white duration-200' style={{ fontSize: '1.3rem' }}></i>
+                            <i className='pi pi-folder cursor-pointer p-2 hover:bg-violet-600 hover:text-white duration-200' style={{ fontSize: '1.3rem' }}></i>
                             {/* <Menu model={items} popup ref={menuLeft} id="popup_menu_left" /> */}
                             {/* <i onClick={(event) => menuLeft.current.toggle(event)} aria-controls="popup_menu_left" aria-haspopup>
                             <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' />
                         </i> */}
-                            <Link href={`/profile`}><i className='pi pi-user cursor-pointer hover:text-sky-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i></Link>
+                            <Link href={`/profile`}><i className={`${currentPath === '/profile' && 'bg-violet-600 text-white font-bold'} pi pi-user cursor-pointer p-2 hover:bg-violet-600 hover:text-white  hover:font-bold duration-200`} style={{ fontSize: '1.3rem' }}></i></Link>
                             {/* <Link onClick={() => cookie.remove("TOKEN", { path: "/" })} href="/api/auth/signout"><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </Link> */}
-                            <button onClick={async () => await doLogout()}><i className='pi pi-power-off cursor-pointer hover:text-red-400 hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </button>
+                            <button onClick={async () => await doLogout()}><i className='pi pi-power-off cursor-pointer p-2 hover:bg-red-400 hover:text-white  hover:font-bold duration-200' style={{ fontSize: '1.3rem' }}></i> </button>
                             {/* <FaUser size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> */}
                             {/* <Link href="/api/auth/signout"><RiLogoutCircleRLine size={20} color='gray' className='cursor-pointer hover:text-sky-400 duration-200' /> </Link> */}
 

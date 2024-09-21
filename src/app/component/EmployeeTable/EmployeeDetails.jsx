@@ -180,7 +180,7 @@ const EmployeeDetails = ({ id, user }) => {
             <div className="md:flex gap-x-2 w-full bg-white p-4 my-2 rounded-md shadow-xl">
                 <div className='md:flex items-start gap-x-4 md:w-1/2 rounded-md'>
                     <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center'>
-                        <Image src={employee?.image || userPhoto} width={200} height={200} alt='user photo' priority className='rounded-full shadow-lg' style={{ width: '130px', height: '130px' }} />
+                        <Image src={employee?.image || userPhoto} width={200} height={200} alt='user photo' priority className='rounded-full shadow-lg p-1 border-2  border-violet-600' style={{ width: '130px', height: '130px' }} />
                     </div>
                     <div className='absolute top-10 right-10 md:hidden'>
                         <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
