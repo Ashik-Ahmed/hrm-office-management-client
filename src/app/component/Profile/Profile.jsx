@@ -83,8 +83,11 @@ const Profile = ({ user, departments, accessToken }) => {
         <div className='flex'>
             <Toast ref={toast} />
             <div class="bg-white rounded w-1/3">
-                <div className='p-2 mx-auto text-center border-b-4'>
+                {/* <div className='p-2 mx-auto text-center border-b-4'>
                     <Image class="mx-auto rounded-md w-40 h-40 object-contain" width='120' height='120' src={employee?.image || profilePhoto} alt='User Photo' priority />
+                </div> */}
+                <div className='min-w-[150px] min-h-[150px]  flex justify-center items-center border-b-4'>
+                    <Image src={employee?.image || userPhoto} width={200} height={200} alt='user photo' priority className='rounded-full shadow-lg' style={{ width: '130px', height: '130px' }} />
                 </div>
                 <div className='mt-0 pl-4 w-full'>
                     <div className='text-left py-4 mt-4'>
@@ -108,10 +111,10 @@ const Profile = ({ user, departments, accessToken }) => {
                             <p className='font-semibold w-1/3'>Designation</p>
                             <span className='w-2/3'>: {employee?.designation || 'N/A'}</span>
                         </div>
-                        <div className='flex items-baseline justify-between mt-1'>
+                        {/* <div className='flex items-baseline justify-between mt-1'>
                             <p className='font-semibold w-1/3'>Role</p>
                             <span className='w-2/3'>: {employee?.userRole || 'N/A'}</span>
-                        </div>
+                        </div> */}
                         <div className='flex items-baseline justify-between mt-1'>
                             <p className='font-semibold w-1/3'>Joining date</p>
                             <span className='w-2/3'>: {employee?.joiningDate || 'N/A'}</span>
