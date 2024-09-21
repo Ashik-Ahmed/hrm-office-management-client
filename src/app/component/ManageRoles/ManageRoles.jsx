@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { Checkbox } from 'primereact/checkbox';
 import { Toast } from 'primereact/toast';
 import EditRoleDialog from './EditRoleDialog';
+import { Menu } from 'primereact/menu';
 
 const ManageRoles = ({ user }) => {
 

@@ -16,6 +16,9 @@ import Image from 'next/image';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { FaTrashCan } from "react-icons/fa6";
 import { getAllDepartments } from '@/libs/department';
+import { SplitButton } from 'primereact/splitbutton';
+import { Menubar } from 'primereact/menubar';
+import { Menu } from 'primereact/menu';
 
 
 const EmployeeList = ({ user, userRoles }) => {
@@ -38,6 +41,8 @@ const EmployeeList = ({ user, userRoles }) => {
     const toast = useRef(null)
 
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
+
+    const menu = useRef(null);
 
 
     const getDepartments = async () => {
@@ -275,22 +280,60 @@ const EmployeeList = ({ user, userRoles }) => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {
                                     employees?.map((employee) => (
-                                        <div key={employee?._id} className="bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-xl transition duration-300 h-full">
+                                        <div key={employee?._id} className="relative bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-md transition duration-300 h-full">
                                             {
-                                                user.role === "Super Admin" && <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
+                                                user.role === "Super Admin" &&
+                                                <div className='absolute top-0 right-0'>
+
+
+                                                    <Menu model={[
+                                                        // {
+                                                        //     label: 'Edit',
+                                                        //     icon: 'pi pi-fw pi-pencil',
+                                                        //     command: () => {
+                                                        //         setDeleteUserDialog(employee)
+                                                        //     }
+                                                        // },
+                                                        {
+                                                            label: 'Delete',
+                                                            icon: 'pi pi-fw pi-trash',
+                                                            command: () => { setDeleteUserDialog(employee) }
+                                                        }
+                                                    ]} popup ref={menu} popupAlignment="right" className="w-24" />
+                                                    <Button
+                                                        icon="pi pi-ellipsis-v"
+                                                        onClick={(e) => menu.current.toggle(e)}
+                                                        aria-controls="popup_menu"
+                                                        aria-haspopup
+                                                        rounded
+                                                        text
+                                                        severity="secondary"
+                                                    />
+
+                                                    {/* <Menubar model={[{ icon: "pi pi-ellipsis-v", items: [{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }] }]} style={{ '--submenu-icon-display': 'none' }} /> */}
+
+                                                    {/* <Menu model={[{ items: [{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }] }]} popup id="popup_menu_right" popupAlignment="right" />
+                                                    <Button icon="pi pi-ellipsis-v" className="mr-2" aria-controls="popup_menu_right" aria-haspopup size='small' text severity='secondary' /> */}
+
+
+                                                    {/* <SplitButton dropdownIcon="pi pi-ellipsis-v" model={[{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }]} size='small' style={{ paddingLeft: '0', paddingRight: '0' }} /> */}
+                                                </div>
+
+                                                // <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
                                             }
                                             <Link href={`/employee/${employee?._id}`} >
                                                 <Image
                                                     src={employee.image || userPhoto}
                                                     alt={employee.name}
-                                                    className="w-full h-40 object-contain mb-2 rounded-md"
+                                                    className="mb-2 rounded-full mx-auto"
                                                     width={200}
                                                     height={200}
                                                     priority
+                                                    style={{ width: '130px', height: '130px' }}
                                                 />
-                                                <h2 className="text-lg font-semibold mb-1">{employee.firstName + " " + employee.lastName}</h2>
-                                                <p className="text-sm text-gray-500">{employee.designation}</p>
-                                                <p>{employee.department}</p>
+                                                <h2 className="text-lg font-semibold text-center">{employee.firstName + " " + employee.lastName}</h2>
+                                                <p className="text-sm text-gray-500 text-center">{employee.designation}</p>
+                                                {/* <p>{employee.department}</p> */}
                                             </Link >
                                         </div>
                                     ))
