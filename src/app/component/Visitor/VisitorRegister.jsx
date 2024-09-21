@@ -74,7 +74,6 @@ const VisitorRegister = ({ user }) => {
 
         data.entryTime = `${entryHours}:${entryMinutes}:00`
         // data.exitTime = `${exitHours}:${exitMinutes}:00`
-        console.log(data);
 
         setLoading(true)
         fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/visitor`, {
@@ -104,7 +103,7 @@ const VisitorRegister = ({ user }) => {
 
     const exportVisitorList = (visitorList) => {
         const reportMonth = `${selectedMonth.toLocaleString('default', { month: 'long' })}-${selectedYear.getFullYear()}`;
-        const generatedBy = user.name
+        const generatedBy = user?.name
 
         const visitorReport = {
             reportMonth,

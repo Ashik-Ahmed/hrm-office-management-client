@@ -131,6 +131,7 @@ const EmployeeList = ({ user, userRoles }) => {
                                         setRole(null);
                                         setDate(null)
                                         setImage(null)
+                                        sertDepartment([])
                                         fetchAllUsers()
                                         setLoading(false)
                                         setAddUserDialog(false)
@@ -142,6 +143,7 @@ const EmployeeList = ({ user, userRoles }) => {
                                         setRole(null);
                                         setDate(null)
                                         setImage(null)
+                                        sertDepartment([])
                                         fetchAllUsers()
                                         setLoading(false)
                                         setAddUserDialog(false)
@@ -165,41 +167,44 @@ const EmployeeList = ({ user, userRoles }) => {
                     .then(res => res.json())
                     .then(data => {
                         if (data.status == 'Success') {
-                            console.log(data);
+                            // console.log(data);
                             reset();
                             setRole(null);
                             setDate(null)
                             setImage(null)
+                            sertDepartment([])
                             fetchAllUsers()
                             setLoading(false)
                             setAddUserDialog(false)
-                            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Employee profile created', life: 3000 });
+                            toast?.current?.show({ severity: 'success', summary: 'Success', detail: 'Employee profile created', life: 3000 });
                         }
                         else {
-                            console.log(data);
+                            // console.log(data);
                             reset();
                             setRole(null);
                             setDate(null)
                             setImage(null)
+                            sertDepartment([])
                             fetchAllUsers()
                             setLoading(false)
                             setAddUserDialog(false)
-                            toast.current.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
+                            toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: `${data?.error}`, life: 3000 });
                         }
                     })
             }
 
 
         } catch (error) {
-            console.error('Error occurred during image upload:', error);
+            // console.error('Error occurred during image upload:', error);
             reset();
             setRole(null);
             setDate(null)
             setImage(null)
+            sertDepartment([])
             fetchAllUsers()
             setLoading(false)
             setAddUserDialog(false)
-            toast.current.show({ severity: 'error', summary: 'Failed!', detail: 'Photo upload failed', life: 3000 });
+            toast?.current?.show({ severity: 'error', summary: 'Failed!', detail: 'Photo upload failed', life: 3000 });
         }
     }
 
@@ -219,7 +224,7 @@ const EmployeeList = ({ user, userRoles }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                if (data.data.deletedCount > 0) {
+                if (data?.data?.deletedCount > 0) {
                     fetchAllUsers()
                     setDeleteUserDialog(false);
                     setLoading(false)
@@ -233,9 +238,9 @@ const EmployeeList = ({ user, userRoles }) => {
             })
     }
 
-    if (loading) {
-        return <Loading />
-    }
+    // if (loading) {
+    //     return <Loading />
+    // }
 
     return (
         <div>

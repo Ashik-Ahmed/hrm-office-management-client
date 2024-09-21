@@ -21,10 +21,10 @@ const EditConveyanceDialog = ({ editConveyanceDialog, setEditConveyanceDialog, g
 
     const handleEditConveyance = (data) => {
         setLoading(true)
-        console.log(data);
+        console.log("form Data: ", data);
 
         const updatedData = {};
-        updatedData.date = date;
+        updatedData.date = data?.date?.toLocaleDateString('en-GB').replace(/\//g, '-').split('-').reverse().join('-');
 
         for (const property in data) {
             if (data[property] !== "") {

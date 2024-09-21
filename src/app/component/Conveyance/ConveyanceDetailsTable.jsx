@@ -14,7 +14,6 @@ import { customDateFormat } from '@/utils/dateformatter';
 
 const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadingState, month, year }) => {
 
-    console.log(user);
 
     const toast = useRef(null)
     const { register, control, formState: { errors }, handleSubmit, reset } = useForm();
@@ -54,7 +53,6 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
             .then(data => {
                 console.log(data);
                 if (data.status == "Success") {
-                    console.log("Conveyance created");
                     getConveyanceData()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Conveyance Submitted', life: 3000 });
                 }
@@ -81,12 +79,10 @@ const ConveyanceDetailsTable = ({ conveyanceData, getConveyanceData, user, loadi
             .then(res => res.json())
             .then(data => {
                 if (data.status == 'Success') {
-                    console.log('Deleted');
                     getConveyanceData()
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Conveyance Deleted', life: 3000 });
                 }
                 else {
-                    console.log(data);
                     toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
                 }
                 setDeleteDialog(false)

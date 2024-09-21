@@ -24,7 +24,7 @@ const Conveyance = ({ user }) => {
         const filterYear = new Date(selectedYear).getFullYear();
         // console.log(filterMonth, filterYear);
         const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/conveyance/${user?.email}?month=${filterMonth}&year=${filterYear}`;
-        console.log(url);
+        // console.log(url);
         fetch(url, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
@@ -32,7 +32,7 @@ const Conveyance = ({ user }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data.data);
+                // console.log(data.data);
                 setConveyanceData(data?.data)
             })
 

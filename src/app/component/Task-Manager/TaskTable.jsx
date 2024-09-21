@@ -90,8 +90,8 @@ const TaskTable = ({ user, allDepartments }) => {
             return;
         }
         const taskData = data;
-        taskData.creator = user.email;
-        taskData.assignee = selectedAssignee._id;
+        taskData.creator = user?.email;
+        taskData.assignee = selectedAssignee?._id;
         // console.log(taskData);
 
         fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/task`, {
