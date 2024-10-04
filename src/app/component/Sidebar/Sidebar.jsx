@@ -106,8 +106,8 @@ const Sidebar = ({ user }) => {
                 <Link href='/' className='flex justify-start gap-x-2 items-center p-4'>
                     <Image src={logo} alt='logo' width='40' height='40' />
                     <div className='flex flex-col'>
-                        <h2 className='text-2xl font-bold'>Infozillion</h2>
-                        <p className='text-xs text-violet-600' style={{ fontFamily: 'revert' }}>HR MANAGEMENT SYSTEM</p>
+                        <h2 className='text-xl font-bold'>Infozillion Teletech BD</h2>
+                        <p className='text-xs font-bold text-violet-600' style={{ fontFamily: 'revert' }}>HR MANAGEMENT SYSTEM</p>
                     </div>
                 </Link>
                 <div className='flex'>

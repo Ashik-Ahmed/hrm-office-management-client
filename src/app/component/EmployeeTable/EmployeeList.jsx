@@ -325,7 +325,7 @@ const EmployeeList = ({ user, userRoles }) => {
                                                 <Image
                                                     src={employee.image || userPhoto}
                                                     alt={employee.name}
-                                                    className="mb-2 rounded-full mx-auto"
+                                                    className="content-center mb-2 rounded-full mx-auto p-1 border-2 border-violet-600"
                                                     width={200}
                                                     height={200}
                                                     priority
