@@ -103,10 +103,13 @@ const Sidebar = ({ user }) => {
                     </div>
             }
             <div className={`md:block  ${isSidebarOpen ? 'block' : 'hidden'}`}>
-                <div className='flex justify-start gap-x-2 items-center p-4'>
+                <Link href='/' className='flex justify-start gap-x-2 items-center p-4'>
                     <Image src={logo} alt='logo' width='40' height='40' />
-                    <h2 className='text-2xl'>Infozillion</h2>
-                </div>
+                    <div className='flex flex-col'>
+                        <h2 className='text-2xl font-bold'>Infozillion</h2>
+                        <p className='text-xs text-violet-600' style={{ fontFamily: 'revert' }}>HR MANAGEMENT SYSTEM</p>
+                    </div>
+                </Link>
                 <div className='flex'>
                     <div className='md:flex flex-col px-4 justify-between hidden'>
                         <ul className='flex flex-col justify-center items-center gap-4'>
@@ -159,8 +162,7 @@ const Sidebar = ({ user }) => {
 
                     <div className='w-full px-4 h-[95vh] overflow-y-scroll scrollbar-none'>
                         <div className='text-sm'>
-                            <p className='text-xs' style={{ fontFamily: 'revert' }}>DIRECTORIES</p>
-                            <ul className=' mt-4 text-gray-600'>
+                            <ul className=' text-gray-600'>
                                 <p className={`py-2 flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
 
                                 {/* <Link href='/' style={{ fontFamily: 'revert' }} className={`${currentPath == '/' && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath == '/' ? <i className='pi pi-arrow-right scale-75 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  Dashboard</Link> */}

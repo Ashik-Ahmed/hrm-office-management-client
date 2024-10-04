@@ -3,12 +3,21 @@ import 'primeicons/primeicons.css';
 import "primereact/resources/themes/saga-purple/theme.css";
 import "primereact/resources/primereact.min.css";
 import { Inter } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import NextAuthSessionProvider from "@/utils/sessionProvider";
 import { auth } from "@/auth";
 import DefaultLayout from "./component/Layout/DefaultLayout";
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400",],
+});
 
-const inter = Inter({ subsets: ["latin"] });
+const robotoCondensed = Roboto_Condensed({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"], // You can adjust these weights as needed
+  variable: '--font-roboto-condensed',
+});
 
 export const metadata = {
   title: "Infozillion Teletech BD LTD",
@@ -22,9 +31,6 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <head>
-        {/* <link rel="icon" href="../../public/images/logo.png" /> */}
-      </head>
 
       <body className={inter.className}>
         <NextAuthSessionProvider>

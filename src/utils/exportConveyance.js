@@ -108,7 +108,10 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
 
                 doc.autoTable(exportColumns, customizedConveyanceDetails.sort(), {
                     startY: 85,
-
+                    styles: {
+                        lineWidth: 0.1, // Set the border width
+                        lineColor: [200, 200, 200] // Set the border color
+                    },
                     didDrawPage: function (data) {
 
                         // Footer
