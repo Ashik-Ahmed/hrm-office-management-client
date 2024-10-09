@@ -218,7 +218,7 @@ const LeaveApplicationsTable = ({ user }) => {
                         <Dropdown options={years} onChange={(e) => { setSelectedYear(e.value); }} value={selectedYear} size='small' className='p-dropdown-sm' />
                     </div>
                 </div>
-                <DataTable value={leaveApplicationHistory} loading={loading} size='small' emptyMessage="No previous application">
+                <DataTable value={leaveApplicationHistory} loading={loading} responsiveLayout="scroll" resizableColumns size='small' emptyMessage="No previous application">
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column body={fromBodyTemplate} header="From"></Column>
                     <Column body={toBodyTemplate} header="To"></Column>

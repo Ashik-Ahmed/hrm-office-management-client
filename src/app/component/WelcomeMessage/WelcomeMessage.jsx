@@ -11,7 +11,7 @@ const WelcomeMessage = ({ session }) => {
                 }
             </div>
 
-            <p>Welcome to Infozillion office management system</p>
+            <p>Welcome to HR Management System</p>
         </div>
     );
 };

@@ -10,7 +10,7 @@ const Leave = async () => {
 
     return (
         <div className='w-full'>
-            <div className='flex space-x-2 w-full'>
+            <div className='md:flex md:space-x-2 w-full'>
                 <LeaveStatusTable user={user} />
                 <LeaveStatusGraph user={user} />
             </div>

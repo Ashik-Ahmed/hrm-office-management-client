@@ -233,13 +233,21 @@ const EmployeeDetails = ({ id, user }) => {
                         </div>
                     </div>
                 </div>
-                <div className='hidden md:block'>
-                    <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
-                </div>
+                {
+                    (user?.role === 'Admin' || user?.role === 'Super Admin') && (
+                        <div className='hidden md:block'>
+                            <Button onClick={() => setEditUserDialog(true)} icon="pi pi-pencil" rounded text raised style={{ width: '35px', height: '35px' }} />
+                        </div>
+                    )
+                }
             </div>
-            <div>
-                <Button onClick={sendResetPasswordEmail} label='Reset Employee Password' size='small' />
-            </div>
+            {
+                user?.role === 'Super Admin' && (
+                    <div>
+                        <Button onClick={sendResetPasswordEmail} label='Reset Employee Password' size='small' />
+                    </div>
+                )
+            }
 
             {/* Edit Employee Dialog  */}
             <Dialog header="Edit Employee Data" visible={editUserDialog} style={{ width: '50vw' }} onHide={() => { setEditUserDialog(false); resetFormData() }}>
