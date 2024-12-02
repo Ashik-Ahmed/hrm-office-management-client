@@ -20,41 +20,41 @@ export default async function Home() {
       <div className="">
         <WelcomeMessage session={session} />
       </div>
-      <div className="flex flex-wrap justify-around gap-4 w-full my-4">
-        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl w-fit md:w-full flex justify-center items-center">
+      <div className="md:flex flex-wrap justify-around gap-4 w-full my-4">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
           <Link href='/employee'>
-            <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+            <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
               <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
               <p>Employees</p>
             </div>
           </Link>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl w-fit md:w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
             <AiOutlineLike size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Holidays</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl w-fit md:w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
             <BiCalendar size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Events</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl w-fit md:w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
             <BsCreditCard size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Payroll</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl w-fit md:w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
             <AiOutlineCalculator size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Accounts</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl w-fit md:w-full flex justify-center items-center">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[100px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
             <TbReport size={40} color="gray" className="group-hover:scale-110 duration-200" />
             <p>Reports</p>
           </div>

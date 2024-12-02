@@ -13,7 +13,7 @@ export async function loadImageToBase64(url) {
 };
 
 
-export async function getMonthName(monthNumber) {
+export function getMonthName(monthNumber) {
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"

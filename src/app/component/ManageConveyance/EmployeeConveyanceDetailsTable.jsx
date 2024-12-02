@@ -11,7 +11,6 @@ import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
 
 const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmployeeConveyance, selectedMonth, selectedYear }) => {
-
     const [loading, setLoading] = useState(false)
     const [makePaymentDialog, setMakePaymentDialog] = useState(false)
     const [selectedEmployee, setSelectedEmployee] = useState(null)
@@ -200,10 +199,10 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
 
                 <div>
                     <p className='font-semibold underline mb-2'>Conveyance Bill</p>
+                    <p>Month: {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedMonth)}-{new Date(selectedYear).getFullYear()}</p>
                     <p>Employee: {makePaymentDialog?.name}</p>
                     <p>Amount: {makePaymentDialog?.pendingAmount} BDT</p>
                 </div>
-
                 <div className='flex justify-end gap-x-2 mt-8'>
                     <Button onClick={() => setMakePaymentDialog(false)} label='Cancel' className='p-button p-button-sm p-button-danger' />
                     <Button onClick={() => handleConveyanceBillPayment()} disabled={!conveyanceData} loading={loading} label='Confirm' className='p-button p-button-sm p-button-info' />

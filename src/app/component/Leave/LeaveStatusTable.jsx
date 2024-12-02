@@ -47,7 +47,7 @@ const LeaveStatusTable = ({ user }) => {
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full mb-4 md:mb-0'>
             <div className='flex gap-x-4'>
                 <div className='shadow-lg p-2 bg-white rounded-md w-full'>
                     <div className='flex justify-between items-center gap-x-2 mb-2'>
