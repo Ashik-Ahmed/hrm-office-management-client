@@ -339,7 +339,7 @@ const EmployeeList = ({ user, userRoles }) => {
 
 
             {/* add user dialog  */}
-            <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset(); setSelectedDepartment('') }}>
+            <Dialog header="Add Employee" visible={addUserDialog} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset(); setSelectedDepartment('') }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                 <form onSubmit={handleSubmit(handleAddUser)} className='mt-2'>
 
