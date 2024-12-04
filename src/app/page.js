@@ -20,46 +20,47 @@ export default async function Home() {
       <div className="">
         <WelcomeMessage session={session} />
       </div>
-      <div className="md:flex flex-wrap justify-around gap-4 w-full my-4">
-        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <Link href='/employee'>
-            <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full my-4">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <Link href="/employee">
+            <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
               <FiUsers size={40} color="gray" className="group-hover:scale-110 duration-200" />
-              <p>Employees</p>
+              <p className="mt-2">Employees</p>
             </div>
           </Link>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
             <AiOutlineLike size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Holidays</p>
+            <p className="mt-2">Holidays</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
             <BiCalendar size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Events</p>
+            <p className="mt-2">Events</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
             <BsCreditCard size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Payroll</p>
+            <p className="mt-2">Payroll</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
             <AiOutlineCalculator size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Accounts</p>
+            <p className="mt-2">Accounts</p>
           </div>
         </div>
-        <div className="bg-white p-4 md:p-[20px] rounded-xl  shadow-xl md:w-fit w-full flex justify-center items-center mb-4 md:mb-0">
-          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 w-[80px] md:w-[120px] h-[80px] text-center cursor-pointer">
+        <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
+          <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
             <TbReport size={40} color="gray" className="group-hover:scale-110 duration-200" />
-            <p>Reports</p>
+            <p className="mt-2">Reports</p>
           </div>
         </div>
       </div>
+
       <div className="md:flex gap-x-4 mb-6">
         <div className="md:w-1/2 card bg-white rounded-xl p-2 mb-4 md:mb-0">
           <p className="text-gray-700 uppercase m-2">Revenue Calc.</p>
