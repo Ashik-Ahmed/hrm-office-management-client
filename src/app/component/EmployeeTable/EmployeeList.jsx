@@ -27,6 +27,7 @@ const EmployeeList = ({ user, userRoles }) => {
     const [loading, setLoading] = useState(false)
     const [addUserDialog, setAddUserDialog] = useState(false)
     const [editUserDialog, setEditUserDialog] = useState(false)
+    const [currentEmployee, setCurrentEmployee] = useState(null)
     const [deleteUserDialog, setDeleteUserDialog] = useState(false)
     const [department, sertDepartment] = useState([])
     const [selectedDepartment, setSelectedDepartment] = useState(null)
@@ -61,7 +62,6 @@ const EmployeeList = ({ user, userRoles }) => {
 
     const fetchAllUsers = (queryDepartment) => {
         setLoading(true)
-        console.log("Access Token: ", user?.accessToken);
         fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/employee?department=${queryDepartment?.departmentName || 'All'}`, {
             headers: {
                 'Authorization': `Bearer ${user?.accessToken}`
@@ -214,6 +214,12 @@ const EmployeeList = ({ user, userRoles }) => {
     }
 
 
+    const handleDeleteMenuClick = (employee) => {
+        setDeleteUserDialog(employee);
+        console.log("Selected employee for deletion:", employee);
+    };
+
+
     //delete user
     const handleDeleteUser = () => {
 
@@ -243,16 +249,10 @@ const EmployeeList = ({ user, userRoles }) => {
             })
     }
 
-    // if (loading) {
-    //     return <Loading />
-    // }
 
     return (
         <div>
             <Toast ref={toast} />
-
-            {/* Employee Data Table  */}
-            {/* <EmployeeTable users={employees} fetchAllUsers={fetchAllUsers} setAddUserDialog={setAddUserDialog} setDeleteUserDialog={setDeleteUserDialog} department={department} queryDepartment={queryDepartment} setQueryDepartment={setQueryDepartment} /> */}
 
             <div className='md:flex justify-between items-center mb-1 px-2 mx-auto'>
                 <div className='flex items-center gap-x-2'>
@@ -271,81 +271,72 @@ const EmployeeList = ({ user, userRoles }) => {
             </div>
 
             {/* employee table  */}
-            <div className="container mx-auto p-2" >
-                {
-                    loading ?
-                        <Loading />
-                        :
-                        employees?.length > 0 ?
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {
-                                    employees?.map((employee) => (
-                                        <div key={employee?._id} className="relative bg-white p-4 rounded-md hover:shadow-violet-400 hover:translate-x-1 hover:-translate-y-1 hover:shadow-md transition duration-300 h-full">
-                                            {
-                                                user.role === "Super Admin" &&
-                                                <div className='absolute top-0 right-0'>
-
-
-                                                    <Menu model={[
-                                                        // {
-                                                        //     label: 'Edit',
-                                                        //     icon: 'pi pi-fw pi-pencil',
-                                                        //     command: () => {
-                                                        //         setDeleteUserDialog(employee)
-                                                        //     }
-                                                        // },
-                                                        {
-                                                            label: 'Delete',
-                                                            icon: 'pi pi-fw pi-trash',
-                                                            command: () => { setDeleteUserDialog(employee) }
-                                                        }
-                                                    ]} popup ref={menu} popupAlignment="right" className="w-24" />
-                                                    <Button
-                                                        icon="pi pi-ellipsis-v"
-                                                        onClick={(e) => menu.current.toggle(e)}
-                                                        aria-controls="popup_menu"
-                                                        aria-haspopup
-                                                        rounded
-                                                        text
-                                                        severity="secondary"
-                                                    />
-
-                                                    {/* <Menubar model={[{ icon: "pi pi-ellipsis-v", items: [{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }] }]} style={{ '--submenu-icon-display': 'none' }} /> */}
-
-                                                    {/* <Menu model={[{ items: [{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }] }]} popup id="popup_menu_right" popupAlignment="right" />
-                                                    <Button icon="pi pi-ellipsis-v" className="mr-2" aria-controls="popup_menu_right" aria-haspopup size='small' text severity='secondary' /> */}
-
-
-                                                    {/* <SplitButton dropdownIcon="pi pi-ellipsis-v" model={[{ label: 'Delete', icon: 'pi pi-trash', command: () => setDeleteUserDialog(employee) }]} size='small' style={{ paddingLeft: '0', paddingRight: '0' }} /> */}
-                                                </div>
-
-                                                // <button className='bg-red-400 hover:bg-red-500 text-white p-1 rounded mb-1' onClick={() => setDeleteUserDialog(employee)}><FaTrashCan /></button>
-                                            }
-                                            <Link href={`/employee/${employee?._id}`} >
-                                                <Image
-                                                    src={employee.image || userPhoto}
-                                                    alt={employee.name}
-                                                    className="content-center mb-2 rounded-full mx-auto p-1 border-2 border-violet-600"
-                                                    width={200}
-                                                    height={200}
-                                                    priority
-                                                    style={{ width: '130px', height: '130px' }}
-                                                />
-                                                <h2 className="text-lg font-semibold text-center">{employee.firstName + " " + employee.lastName}</h2>
-                                                <p className="text-sm text-gray-500 text-center">{employee.designation}</p>
-                                                {/* <p>{employee.department}</p> */}
-                                            </Link >
-                                        </div>
-                                    ))
-                                }
-                            </div >
-                            :
-                            <div className="bg-white p-4 rounded-md h-full mx-auto text-center">
-                                <i className="pi pi-exclamation-triangle text-red-500" style={{ fontSize: '3rem' }}></i>
-                                <p className='text-2xl text-gray-600'>No Employee Found</p>
+            <div className="container mx-auto p-4">
+                {loading ? (
+                    <Loading />
+                ) : employees?.length > 0 ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {employees?.map((employee) => (
+                            <div
+                                key={employee?._id}
+                                className="relative bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                            >
+                                {user.role === "Super Admin" && (
+                                    <div className="absolute top-2 right-2">
+                                        <Button
+                                            icon="pi pi-ellipsis-v"
+                                            onClick={(e) => { menu.current.toggle(e); setCurrentEmployee(employee); }}
+                                            aria-controls="popup_menu"
+                                            aria-haspopup
+                                            rounded
+                                            text
+                                            severity="secondary"
+                                        />
+                                        <Menu
+                                            model={[
+                                                {
+                                                    label: "Delete",
+                                                    icon: "pi pi-fw pi-trash",
+                                                    command: () => setDeleteUserDialog(currentEmployee)
+                                                },
+                                            ]}
+                                            popup
+                                            ref={menu}
+                                            popupAlignment="right"
+                                            style={{ width: "100px", padding: "4px" }}
+                                        // onClick={(e) => {
+                                        //     setDeleteUserDialog(e.employee);
+                                        //     console.log(e.employee);
+                                        // }}
+                                        />
+                                    </div>
+                                )}
+                                <Link href={`/employee/${employee?._id}`}>
+                                    <Image
+                                        src={employee.image ? employee.image : userPhoto}
+                                        alt={employee?.name}
+                                        className="mb-4 rounded-full mx-auto border-2 border-violet-600"
+                                        width={130}
+                                        height={130}
+                                        style={{ width: '130px', height: '130px' }}
+                                    />
+                                    <h2 className="text-lg font-semibold text-center">{`${employee.firstName} ${employee.lastName}`}</h2>
+                                    <p className="text-sm text-gray-500 text-center">{employee.designation}</p>
+                                </Link>
                             </div>
-                }
-            </div >
+                        ))}
+                    </div>
+                ) : (
+                    <div className="bg-white p-4 rounded-md mx-auto text-center">
+                        <i
+                            className="pi pi-exclamation-triangle text-red-500"
+                            style={{ fontSize: "3rem" }}
+                        ></i>
+                        <p className="text-2xl text-gray-600">No Employee Found</p>
+                    </div>
+                )}
+            </div>
+
 
             {/* add user dialog  */}
             <Dialog header="Add Employee" visible={addUserDialog} style={{ width: '50vw' }} onHide={() => { setAddUserDialog(false); setDate(null); setRole(null); reset(); setSelectedDepartment('') }}>
@@ -490,24 +481,21 @@ const EmployeeList = ({ user, userRoles }) => {
 
 
             {/* user delete modal */}
-            <Dialog header="Delete Confirmation" visible={deleteUserDialog} onHide={() => setDeleteUserDialog(false)} style={{ width: '25vw' }} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
+            <Dialog header="Delete Confirmation" visible={deleteUserDialog} onHide={() => setDeleteUserDialog(false)} breakpoints={{ '960px': '75vw', '641px': '100vw' }}>
 
                 {
                     loading &&
                     <Loading />
                 }
 
-                <p className="m-0">
-                    Delete user: {deleteUserDialog.firstName} {deleteUserDialog.lastName} ?
+                <p className="m-4">
+                    Delete user: {deleteUserDialog?.firstName} {deleteUserDialog?.lastName} ?
                 </p>
                 <div className='md:flex justify-end gap-x-2 mt-8'>
                     <Button onClick={() => setDeleteUserDialog(false)} label='Cancel' className='p-button p-button-sm p-button-info mb-2 md:mb-0' />
                     <Button onClick={handleDeleteUser} label='Delete' className='p-button p-button-sm p-button-danger' />
                 </div>
             </Dialog>
-
-
-
         </div >
     );
 };
