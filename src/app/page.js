@@ -11,6 +11,7 @@ import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth';
+import EmployeeAttendance from './component/EmployeeAttendance/EmployeeAttendance'
 
 export default async function Home() {
 
@@ -61,7 +62,11 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="md:flex gap-x-4 mb-6">
+      <div>
+        <EmployeeAttendance />
+      </div>
+
+      {/* <div className="md:flex gap-x-4 mb-6">
         <div className="md:w-1/2 card bg-white rounded-xl p-2 mb-4 md:mb-0">
           <p className="text-gray-700 uppercase m-2">Revenue Calc.</p>
           <div className="">
@@ -80,7 +85,7 @@ export default async function Home() {
             <LineChart />
           </div>
         </div>
-      </div>
+      </div> */}
     </div >
   );
 }
