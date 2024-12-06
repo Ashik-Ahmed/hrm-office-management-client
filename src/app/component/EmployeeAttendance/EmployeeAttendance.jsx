@@ -19,10 +19,11 @@ const EmployeeAttendance = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [attendanceData, setAttendanceData] = useState([
-        { date: '2024-12-01', status: 'on-time' },
-        { date: '2024-12-02', status: 'late' },
-        { date: '2024-12-03', status: 'absent' },
-        { date: '2024-12-04', status: 'leave' },
+        { date: '2024-12-01', status: 'Present' },
+        { date: '2024-12-02', status: 'Late' },
+        { date: '2024-12-03', status: 'Absent' },
+        { date: '2024-12-04', status: 'Leave' },
+        { date: '2024-12-05', status: 'Holiday' },
     ]);
 
     const statusColors = {
@@ -30,7 +31,7 @@ const EmployeeAttendance = () => {
         'Late': '#F59E0B',
         'Absent': '#EF4444',
         'Leave': '#3B82F6',
-        'Holiday': '#F87171',
+        'Holiday': '#808080',
     };
 
     useEffect(() => {
@@ -57,14 +58,14 @@ const EmployeeAttendance = () => {
                         '#F59E0B', // amber for late
                         '#EF4444', // red for absent
                         '#3B82F6',  // blue for leave
-                        '#F87171',  // rose for holiday
+                        '#808080',  // rose for holiday
                     ],
                     borderColor: [
                         '#10B981',
                         '#F59E0B',
                         '#EF4444',
                         '#3B82F6',
-                        '#F87171',
+                        '#808080',
                     ],
                     borderWidth: 1
                 }]
@@ -77,7 +78,7 @@ const EmployeeAttendance = () => {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: 'left',
                         },
                         tooltip: {
                             enabled: true,
@@ -129,7 +130,6 @@ const EmployeeAttendance = () => {
                   ${dayAttendance ? statusColors[dayAttendance.status] : 'bg-gray-100 text-gray-500'}
                   hover:scale-105 cursor-pointer
                 `}
-                                onClick={() => dayAttendance && setSelectedEmployee(dayAttendance)}
                             >
                                 {day.getDate()}
                             </div>
@@ -142,6 +142,16 @@ const EmployeeAttendance = () => {
 
     return (
         <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-6xl mx-auto flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
+
+
+            {/* Doughnut Chart Section */}
+            <div className="w-full md:w-1/2 flex flex-col items-center">
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Attendance Summary</h3>
+                <div className="relative w-full h-96">
+                    <canvas ref={chartRef}></canvas>
+                </div>
+            </div>
+
             {/* Calendar Section */}
             <div className="w-full md:w-1/2">
                 <div className="flex space-x-4 mb-6">
@@ -169,14 +179,6 @@ const EmployeeAttendance = () => {
                     </select>
                 </div>
                 {renderCalendar()}
-            </div>
-
-            {/* Doughnut Chart Section */}
-            <div className="w-full md:w-1/2 flex flex-col items-center">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Attendance Summary</h3>
-                <div className="relative w-full h-64">
-                    <canvas ref={chartRef}></canvas>
-                </div>
             </div>
         </div>
     );
