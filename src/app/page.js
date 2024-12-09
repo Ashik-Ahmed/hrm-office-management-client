@@ -11,7 +11,9 @@ import Link from "next/link";
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
 import { redirect } from 'next/navigation'
 import { auth } from '@/auth';
-import EmployeeAttendance from './component/EmployeeAttendance/EmployeeAttendance'
+import MonthlyEmployeeAttendance from './component/EmployeeAttendance/MonthlyEmployeeAttendance'
+import DailyEmployeeAttendance from './component/EmployeeAttendance/DailyEmployeeAttendance'
+import WeeklyAttendanceChart from './component/EmployeeAttendance/WeeklyAttendanceChart'
 
 export default async function Home() {
 
@@ -62,8 +64,13 @@ export default async function Home() {
         </div>
       </div>
 
+      <div className='md:flex gap-x-4'>
+        <DailyEmployeeAttendance />
+        <WeeklyAttendanceChart />
+      </div>
+
       <div>
-        <EmployeeAttendance />
+        <MonthlyEmployeeAttendance />
       </div>
 
       {/* <div className="md:flex gap-x-4 mb-6">

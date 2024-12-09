@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, DoughnutController } fro
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
 
-const EmployeeAttendance = () => {
+const MonthlyEmployeeAttendance = () => {
     const chartRef = useRef(null);
     const chartInstanceRef = useRef(null);
 
@@ -141,19 +141,17 @@ const EmployeeAttendance = () => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-6xl mx-auto flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
-
-
+        <div className="w-full mx-auto flex flex-col md:flex-row md:justify-between space-y-6 md:space-y-0 md:space-x-6">
             {/* Doughnut Chart Section */}
-            <div className="w-full md:w-1/2 flex flex-col items-center">
+            <div className="w-full md:w-1/2 flex flex-col items-center bg-white p-6 rounded-xl shadow-xl">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">Attendance Summary</h3>
-                <div className="relative w-full h-96">
-                    <canvas ref={chartRef}></canvas>
+                <div className="relative w-full h-96 mx-auto">
+                    <canvas ref={chartRef} className='w-full mx-auto'></canvas>
                 </div>
             </div>
 
             {/* Calendar Section */}
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-xl">
                 <div className="flex space-x-4 mb-6">
                     <select
                         value={selectedMonth}
@@ -184,4 +182,4 @@ const EmployeeAttendance = () => {
     );
 };
 
-export default EmployeeAttendance;
+export default MonthlyEmployeeAttendance;
