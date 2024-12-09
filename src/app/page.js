@@ -65,7 +65,9 @@ export default async function Home() {
       </div>
 
       <div className='md:flex gap-x-4'>
-        <DailyEmployeeAttendance />
+        <div>
+          <DailyEmployeeAttendance />
+        </div>
         <WeeklyAttendanceChart />
       </div>
 

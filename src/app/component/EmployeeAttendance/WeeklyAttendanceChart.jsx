@@ -48,12 +48,14 @@ const WeeklyAttendanceChart = () => {
                 display: false,
             },
             tooltip: {
-                backgroundColor: "#f8fafc",
+                backgroundColor: "#1f2937",
                 titleFont: { size: 14, weight: "bold" },
                 bodyFont: { size: 12 },
                 borderColor: "#e5e7eb",
                 borderWidth: 1,
                 cornerRadius: 6,
+                titleColor: "#ffffff", // White text color for the title
+                bodyColor: "#ffffff", // White text color for the body
             },
         },
         scales: {
@@ -74,10 +76,10 @@ const WeeklyAttendanceChart = () => {
     };
 
     return (
-        <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+        <div className="w-full h-auto p-6 bg-white rounded-lg shadow-lg border-2 mb-4">
             <h2 className="text-lg font-semibold mb-4">Weekly Working Hours</h2>
-            <div className="">
-                <Chart type="bar" data={data} options={options} />
+            <div className="md:h-[350px]" style={{ position: 'relative' }}>
+                <Chart type="bar" data={data} options={options} style={{ height: '100%' }} />
             </div>
         </div>
     );
