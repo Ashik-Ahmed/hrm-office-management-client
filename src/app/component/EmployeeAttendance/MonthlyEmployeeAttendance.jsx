@@ -27,11 +27,11 @@ const MonthlyEmployeeAttendance = () => {
     ]);
 
     const statusColors = {
-        'Present': '#10B981',
-        'Late': '#F59E0B',
-        'Absent': '#EF4444',
-        'Leave': '#3B82F6',
-        'Holiday': '#808080',
+        'Present': 'bg-green-500',
+        'Late': 'bg-yellow-500',
+        'Absent': 'bg-red-500',
+        'Leave': 'bg-blue-500',
+        'Holiday': 'bg-gray-500',
     };
 
     useEffect(() => {
@@ -119,17 +119,17 @@ const MonthlyEmployeeAttendance = () => {
                         if (!day) return <div key={`empty-${index}`} className="p-2"></div>;
 
                         const formattedDate = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-
                         const dayAttendance = attendanceData.find(a => a.date === formattedDate);
+                        // const bgColor = dayAttendance ? statusColors[dayAttendance.status] : '#f3f4f6'; // Default gray
 
                         return (
                             <div
                                 key={day.toString()}
                                 className={`
-                  p-2 text-center rounded-lg shadow-sm transition-all 
-                  ${dayAttendance ? statusColors[dayAttendance.status] : 'bg-gray-100 text-gray-500'}
-                  hover:scale-105 cursor-pointer
-                `}
+                                    p-2 text-center rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer
+                                    ${dayAttendance ? statusColors[dayAttendance.status] : 'bg-gray-100'}
+                                    ${new Date().getDate() === day.getDate() ? "bg-blue-800 text-white" : ""}
+                                `}
                             >
                                 {day.getDate()}
                             </div>
