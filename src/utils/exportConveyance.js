@@ -1,4 +1,4 @@
-const { getMonthName, loadImageToBase64, customDateFormat } = require('./dateformatter');
+const { getMonthName, loadImageToBase64, customDateFormat, default: formatNumberBD } = require('./dateformatter');
 
 exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, pendingConveyances) => {
     console.log("conveyanceData: ", conveyanceData);
@@ -19,10 +19,12 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
     if (pendingConveyances) {
         // extract only the date value from dateTime 
         customizedConveyanceDetails = pendingConveyances?.map(conveyance => {
-            const customizedDate = customDateFormat(conveyance.date).split(",")[0]
+            const customizedDate = customDateFormat(conveyance.date).split(",")[0];
+            const customNumberFormat = formatNumberBD(conveyance.amount);
             return {
                 ...conveyance,
-                date: customizedDate
+                date: customizedDate,
+                amount: customNumberFormat
             }
         })
     }
@@ -76,8 +78,8 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
                     // doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
                     doc.text(`Date: ${customDateFormat(new Date()).split(",")[0]}`, 30, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 190, 55);
-                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 190, 65);
-                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 190, 75);
+                    doc.text(`Total amount: ${formatNumberBD(conveyanceData.totalAmount)}`, 190, 65);
+                    doc.text(`Due amount: ${formatNumberBD(conveyanceData.totalDueAmount)}`, 190, 75);
                 }
 
                 else {
@@ -93,8 +95,8 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
                     // doc.text(`Date: ${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`, 30, 65);
                     doc.text(`Date: ${customDateFormat(new Date()).split(",")[0]}`, 30, 65);
                     doc.text(`Total trips: ${conveyanceData.totalConveyances}`, 190, 55);
-                    doc.text(`Total amount: ${conveyanceData.totalAmount}`, 190, 65);
-                    doc.text(`Due amount: ${conveyanceData.totalDueAmount}`, 190, 75);
+                    doc.text(`Total amount: ${formatNumberBD(conveyanceData.totalAmount)}`, 190, 65);
+                    doc.text(`Due amount: ${formatNumberBD(conveyanceData.totalDueAmount)}`, 190, 75);
                 }
 
 

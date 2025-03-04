@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlinePendingActions } from 'react-icons/md';
 import { TbReportMoney } from 'react-icons/tb';
 import ConveyanceDetailsTable from './ConveyanceDetailsTable';
+import formatNumberBD from '@/utils/dateformatter';
 
 const Conveyance = ({ user }) => {
 
@@ -68,7 +69,7 @@ const Conveyance = ({ user }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Total Amount</p>
                         {
-                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${conveyanceData?.totalAmount || "00"} `} </p>
+                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${formatNumberBD(conveyanceData?.totalAmount) || "00"} `} </p>
                         }
                         {
                             conveyanceData?.totalConveyances > 0 ?
@@ -83,7 +84,7 @@ const Conveyance = ({ user }) => {
                     <div className="flex flex-col justify-center items-center w-[200px] h-[80px] text-center cursor-pointer text-gray-500 group-hover:text-white">
                         <p>Due</p>
                         {
-                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${conveyanceData?.totalDueAmount || "00"}`}</p>
+                            loading ? <p>Loading....</p> : <p className='text-3xl text-gray-600 group-hover:text-white font-bold'>&#2547; {`${formatNumberBD(conveyanceData?.totalDueAmount) || "00"}`}</p>
                         }
                         {
                             conveyanceData?.pendingConveyances > 0 ?
