@@ -5,7 +5,7 @@ import { Dialog } from 'primereact/dialog';
 import React, { useState } from 'react';
 import PrintableConveyance from './PrintableConveyance';
 import { exportEmployeeConveyanceToPDF, exportMonthlyConveyanceReport } from '@/utils/exportConveyance';
-import { getMonthName } from '@/utils/dateformatter';
+import formatNumberBD, { getMonthName } from '@/utils/dateformatter';
 import { AiFillFilePdf } from 'react-icons/ai';
 import { getConveyanceDetailsByEmployeeEmail } from '@/libs/conveyance';
 
@@ -105,6 +105,23 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
             /* Add any other custom styles here */
         },
     };
+
+    const totalAmountBodyTemplate = (rowData) => {
+        return (
+            <div className='flex gap-x-2 items-center'>
+                <span>{formatNumberBD(rowData.totalAmount)}</span>
+            </div>
+        )
+    }
+
+    const pendingAmountBodyTemplate = (rowData) => {
+        return (
+            <div className='flex gap-x-2 items-center'>
+                <span>{formatNumberBD(rowData.pendingAmount)}</span>
+            </div>
+        )
+    }
+
     const actionBodyTemplate = (rowData) => {
         return (
             <div className='flex gap-x-2 items-center'>
@@ -132,8 +149,8 @@ const EmployeeConveyanceDetailsTable = ({ user, getConveyanceData, monthlyEmploy
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                     <Column field='name' header="Name"></Column>
                     <Column field='totalConveyances' header="Total Trips"></Column>
-                    <Column field='totalAmount' header="Total Amount"></Column>
-                    <Column field="pendingAmount" header="Due Amount"></Column>
+                    <Column body={totalAmountBodyTemplate} header="Total Amount"></Column>
+                    <Column body={pendingAmountBodyTemplate} header="Due Amount"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
                 </DataTable>
             </div>

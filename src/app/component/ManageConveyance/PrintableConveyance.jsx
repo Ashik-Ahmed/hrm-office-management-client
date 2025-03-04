@@ -5,7 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import React from 'react';
 import itblLogo from '../../../../public/images/logo.png'
 import { exportEmployeeConveyanceToPDF } from '@/utils/exportConveyance';
-import { customDateFormat, getMonthName } from '@/utils/dateformatter';
+import formatNumberBD, { customDateFormat, getMonthName } from '@/utils/dateformatter';
 
 const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) => {
     const detailsTableDateTemplate = (rowData) => {
@@ -30,7 +30,7 @@ const PrintableConveyance = ({ selectedEmployee, conveyanceData, month, year }) 
                             <p>Date: {customDateFormat(new Date()).split(",")[0]}</p>
                         </div>
                         <div>
-                            <p>Total Bill: {conveyanceData?.totalAmount}</p>
+                            <p>Total Bill: {formatNumberBD(conveyanceData?.totalAmount)}</p>
                             <p>Total Trips: {conveyanceData?.totalConveyances}</p>
                         </div>
                     </div>
