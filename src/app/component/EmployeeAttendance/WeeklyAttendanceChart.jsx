@@ -76,7 +76,7 @@ const WeeklyAttendanceChart = () => {
     };
 
     return (
-        <div className="w-full h-auto p-6 bg-white rounded-lg shadow-lg border-2 mb-4">
+        <div className="w-full h-auto p-6 bg-white rounded-lg shadow-lg mb-4">
             <h2 className="text-lg font-semibold mb-4">Weekly Working Hours</h2>
             <div className="md:h-[350px]" style={{ position: 'relative' }}>
                 <Chart type="bar" data={data} options={options} style={{ height: '100%' }} />

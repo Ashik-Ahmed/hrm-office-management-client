@@ -55,7 +55,7 @@ const DailyEmployeeAttendance = () => {
     const offset = circumference - (progress / 100) * circumference
 
     return (
-        <div className="w-80 rounded-lg border border-violet-600 bg-white p-6 shadow-lg mb-4">
+        <div className="w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 shadow-lg mb-4">
             <div className="space-y-6">
                 {/* Header */}
                 <div className="space-y-1">

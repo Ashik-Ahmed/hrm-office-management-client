@@ -7,9 +7,9 @@ exports.exportEmployeeConveyanceToPDF = (employee, conveyanceData, month, year, 
         { field: 'from', header: 'From' },
         { field: 'destination', header: 'Destination' },
         { field: 'vehicle', header: 'Vehicle' },
-        { field: 'amount', header: 'Amount' },
-        { field: 'paymentStatus', header: 'Payment' },
         { field: 'purpose', header: 'Purpose' },
+        { field: 'amount', header: 'Amount' },
+        // { field: 'paymentStatus', header: 'Payment' },
     ]
 
     const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }))
