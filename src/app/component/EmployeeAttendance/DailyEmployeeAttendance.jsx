@@ -32,7 +32,8 @@ const DailyEmployeeAttendance = () => {
         setTotalHours(`${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`)
         const totalMinutes = hours * 60 + minutes
         const progressPercentage = Math.min((totalMinutes / (8 * 60)) * 100, 100)
-        setProductionHours((totalMinutes / 60).toFixed(2))
+        // setProductionHours((totalMinutes / 60).toFixed(2))
+        setProductionHours(`${hours} hours ${minutes} minutes`)
         setProgress(progressPercentage)
     }
 
@@ -78,7 +79,7 @@ const DailyEmployeeAttendance = () => {
                             />
                             {/* Progress circle */}
                             <circle
-                                className="stroke-violet-600 transition-all duration-500"
+                                className={`transition-all duration-500 ${progress === 100 ? 'stroke-green-500' : 'stroke-orange-400'}`}
                                 strokeWidth={strokeWidth}
                                 strokeLinecap="round"
                                 fill="transparent"
@@ -101,7 +102,7 @@ const DailyEmployeeAttendance = () => {
                 {/* Production Hours */}
                 <div className="rounded-md bg-gray-50 px-4 py-2">
                     <p className="text-sm text-gray-600">
-                        Production : {productionHours} hrs
+                        Production : {productionHours}
                     </p>
                 </div>
 
