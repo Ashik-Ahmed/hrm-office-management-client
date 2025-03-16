@@ -147,6 +147,22 @@ const ManageLeaveApplicationsTable = ({ user }) => {
         )
     }
 
+    const fromDateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {customDateFormat(rowData.fromDate).split(",")[0]}
+            </div>
+        )
+    }
+
+    const toDateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {customDateFormat(rowData.toDate).split(",")[0]}
+            </div>
+        )
+    }
+
     const statusBodyTemplate = (rowData) => {
         return (
             <div>
@@ -197,8 +213,10 @@ const ManageLeaveApplicationsTable = ({ user }) => {
                     </div>
                 </div>
                 <DataTable value={leaveApplications} size='small' removableSort sortMode="multiple" loading={loading}>
-                    <Column field="createdAt" body={appliedOnBodyTemplate} header="Applied on" sortable></Column>
+                    {/* <Column field="createdAt" body={appliedOnBodyTemplate} header="Applied on" sortable></Column> */}
                     <Column field='employee.name' header="Name" sortable></Column>
+                    <Column body={fromDateBodyTemplate} header="From"></Column>
+                    <Column body={toDateBodyTemplate} header="To"></Column>
                     <Column field="leaveType" header="Leave Type"></Column>
                     <Column field="totalDay" header="Total"></Column>
                     <Column body={statusBodyTemplate} header="Current Status"></Column>
