@@ -14,6 +14,7 @@ import { auth } from '@/auth';
 import MonthlyEmployeeAttendance from './component/EmployeeAttendance/MonthlyEmployeeAttendance'
 import DailyEmployeeAttendance from './component/EmployeeAttendance/DailyEmployeeAttendance'
 import WeeklyAttendanceChart from './component/EmployeeAttendance/WeeklyAttendanceChart'
+import LeaveSummary from './component/EmployeeAttendance/LeaveSummary'
 
 export default async function Home() {
 
@@ -23,7 +24,7 @@ export default async function Home() {
       <div className="">
         <WelcomeMessage session={session} />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full my-4">
+      {/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full my-4">
         <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
           <Link href="/employee">
             <div className="flex flex-col justify-center items-center group hover:translate-y-1.5 duration-200 text-center cursor-pointer">
@@ -62,15 +63,19 @@ export default async function Home() {
             <p className="mt-2">Reports</p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className='md:flex gap-x-4'>
-        <div>
+        <div className='w-full h-full'>
           <DailyEmployeeAttendance />
         </div>
-        <WeeklyAttendanceChart />
+        <div className='w-full h-full'>
+          <WeeklyAttendanceChart />
+        </div>
+        <div className='w-full h-full'>
+          <LeaveSummary />
+        </div>
       </div>
-
       <div>
         <MonthlyEmployeeAttendance />
       </div>

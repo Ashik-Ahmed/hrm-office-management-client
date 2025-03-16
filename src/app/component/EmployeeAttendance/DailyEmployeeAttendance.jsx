@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { MdFingerprint } from 'react-icons/md'
 
 const DailyEmployeeAttendance = () => {
     const [currentTime, setCurrentTime] = useState(new Date())
@@ -56,7 +57,7 @@ const DailyEmployeeAttendance = () => {
     const offset = circumference - (progress / 100) * circumference
 
     return (
-        <div className="w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 shadow-lg mb-4">
+        <div className="w-full md:w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 shadow-lg mb-4">
             <div className="space-y-6">
                 {/* Header */}
                 <div className="space-y-1">
@@ -108,7 +109,7 @@ const DailyEmployeeAttendance = () => {
 
                 {/* Punch Status */}
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                    <MdFingerprint size={20} color='green' />
                     <span>Punched In at {punchInTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
                 </div>
 

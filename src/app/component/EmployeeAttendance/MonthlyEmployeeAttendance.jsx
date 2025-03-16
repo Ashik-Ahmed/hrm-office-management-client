@@ -19,11 +19,11 @@ const MonthlyEmployeeAttendance = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [attendanceData, setAttendanceData] = useState([
-        { date: '2024-12-01', status: 'Present' },
-        { date: '2024-12-02', status: 'Late' },
-        { date: '2024-12-03', status: 'Absent' },
-        { date: '2024-12-04', status: 'Leave' },
-        { date: '2024-12-05', status: 'Holiday' },
+        { date: '2025-03-01', status: 'Present' },
+        { date: '2025-03-02', status: 'Late' },
+        { date: '2025-03-03', status: 'Absent' },
+        { date: '2025-03-04', status: 'Leave' },
+        { date: '2025-03-05', status: 'Holiday' },
     ]);
 
     const statusColors = {
