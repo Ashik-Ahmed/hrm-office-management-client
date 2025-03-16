@@ -42,7 +42,7 @@ const LeaveSummary = () => {
                 </div>
             </div>
             <div className='w-full h-full p-6 bg-yellow-400 rounded-lg shadow-lg mt-4'>
-                <h5 className='text-lg font-semibold'>Next Holiday</h5>
+                <h5 className='text-lg font-semibold text-gray-900'>Next Holiday</h5>
                 <p>Independence Day, 26 Mar 2025</p>
                 <div className='w-full mt-4'>
                     <Link href="/leave" className='block w-full bg-white text-gray-700 px-2 py-1 rounded-md'>

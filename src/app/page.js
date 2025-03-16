@@ -21,7 +21,7 @@ export default async function Home() {
   const session = await auth();
   return (
     <div className="text-gray-700">
-      <div className="">
+      <div className="mb-4">
         <WelcomeMessage session={session} />
       </div>
       {/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full my-4">
