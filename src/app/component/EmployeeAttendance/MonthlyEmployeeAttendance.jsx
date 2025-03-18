@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
 import { FaCalendar } from 'react-icons/fa6';
+import { Calendar } from 'primereact/calendar';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
@@ -17,8 +18,9 @@ const MonthlyEmployeeAttendance = () => {
 
     const yearRange = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
 
-    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+    const [selectedMonth, setSelectedMonth] = useState(new Date());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
     const [attendanceData, setAttendanceData] = useState([
         { date: '2025-03-01', status: 'Present' },
         { date: '2025-03-02', status: 'Late' },
@@ -34,6 +36,10 @@ const MonthlyEmployeeAttendance = () => {
         'Leave': 'bg-blue-500',
         'Holiday': 'bg-gray-500',
     };
+
+    // Fixed: Get month from selectedMonth object correctly
+    const currentMonth = selectedMonth.getMonth(); // returns 0-11
+    const currentYear = selectedYear;
 
     useEffect(() => {
         if (chartRef && chartRef.current) {
@@ -93,8 +99,8 @@ const MonthlyEmployeeAttendance = () => {
     }, []);
 
     const renderCalendar = () => {
-        const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1);
-        const lastDayOfMonth = new Date(selectedYear, selectedMonth + 1, 0);
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
         const startingDay = firstDayOfMonth.getDay();
 
         const days = [];
@@ -102,17 +108,18 @@ const MonthlyEmployeeAttendance = () => {
             days.push(null);
         }
 
+        // Fixed: Use correct parameters when creating date objects
         for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
-            days.push(new Date(selectedYear, selectedMonth, day));
+            days.push(new Date(currentYear, currentMonth, day));
         }
 
         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         return (
-            <div>
-                <div className="grid grid-cols-7 mb-4 text-gray-600 font-semibold">
+            <div className=''>
+                <div className="grid grid-cols-7 mb-4 text-white font-semibold border bg-violet-600">
                     {dayNames.map(day => (
-                        <div key={day} className="text-center">{day}</div>
+                        <div key={day} className="text-center border border-white">{day}</div>
                     ))}
                 </div>
                 <div className="grid grid-cols-7 gap-2">
@@ -121,7 +128,10 @@ const MonthlyEmployeeAttendance = () => {
 
                         const formattedDate = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
                         const dayAttendance = attendanceData.find(a => a.date === formattedDate);
-                        // const bgColor = dayAttendance ? statusColors[dayAttendance.status] : '#f3f4f6'; // Default gray
+                        const today = new Date();
+                        const isToday = today.getDate() === day.getDate() &&
+                            today.getMonth() === day.getMonth() &&
+                            today.getFullYear() === day.getFullYear();
 
                         return (
                             <div
@@ -129,7 +139,7 @@ const MonthlyEmployeeAttendance = () => {
                                 className={`
                                     p-2 text-center rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer
                                     ${dayAttendance ? statusColors[dayAttendance.status] : 'bg-gray-100'}
-                                    ${new Date().getDate() === day.getDate() ? "bg-blue-800 text-white" : ""}
+                                    ${isToday ? "bg-blue-800 text-white" : ""}
                                 `}
                             >
                                 {day.getDate()}
@@ -148,7 +158,7 @@ const MonthlyEmployeeAttendance = () => {
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold mb-4">Attendance Summary</h3>
                     <div className='flex gap-x-2 items-center border px-4 rounded-md bg-gray-100 text-gray-600'>
-                        <p>{selectedMonth}-{new Date().getFullYear()}</p>
+                        <p>{monthNames[currentMonth]}-{currentYear}</p>
                         <FaCalendar />
                     </div>
                 </div>
@@ -159,19 +169,30 @@ const MonthlyEmployeeAttendance = () => {
 
             {/* Calendar Section */}
             <div className="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-xl">
-                <h3 className="text-lg font-semibold mb-4">Attendance Status</h3>
-                <div className="flex space-x-4 mb-6">
-                    <select
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold">Attendance Status</h3>
+                    <Calendar
                         value={selectedMonth}
-                        onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                        className="w-full p-2 border rounded"
-                    >
-                        {monthNames.map((month, index) => (
-                            <option key={month} value={index}>
-                                {month}
-                            </option>
-                        ))}
-                    </select>
+                        onChange={(e) => { setSelectedMonth(e.value); setSelectedYear(new Date(e.value).getFullYear()) }}
+                        view='month'
+                        dateFormat='MM yy'
+                    />
+                </div>
+                {/* <div className="flex space-x-4 mb-6">
+                    <Calendar
+                        value={selectedMonth}
+                        onChange={(e) => { setSelectedMonth(e.value); setSelectedYear(new Date(e.value).getFullYear()) }}
+                        view='month'
+                        dateFormat='MM yy'
+                        className="w-full"
+                    />
+                    <Calendar
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedYear(e.value)}
+                        view="year"
+                        dateFormat="yy"
+                        className="w-full"
+                    />
                     <select
                         value={selectedYear}
                         onChange={(e) => setSelectedYear(Number(e.target.value))}
@@ -183,7 +204,7 @@ const MonthlyEmployeeAttendance = () => {
                             </option>
                         ))}
                     </select>
-                </div>
+                </div> */}
                 {renderCalendar()}
             </div>
         </div>
