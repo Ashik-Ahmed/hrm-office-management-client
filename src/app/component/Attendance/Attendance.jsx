@@ -3,6 +3,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useState } from 'react';
 import { AiFillFilePdf } from 'react-icons/ai';
+import { MdOutlineWatchLater } from 'react-icons/md';
 
 const Attendance = () => {
 
@@ -17,7 +18,7 @@ const Attendance = () => {
             break: "30 Min",
             late: "-",
             overtime: "-",
-            productionHours: "9.05 Hrs",
+            productionHours: 9.05,
         },
         {
             date: "03 Mar 2025",
@@ -27,7 +28,7 @@ const Attendance = () => {
             break: "25 Min",
             late: "-",
             overtime: "1 Hr",
-            productionHours: "9.55 Hrs",
+            productionHours: 9.55,
         },
         {
             date: "05 Mar 2025",
@@ -37,7 +38,7 @@ const Attendance = () => {
             break: "15 Min",
             late: "-",
             overtime: "40 Min",
-            productionHours: "9.10 Hrs",
+            productionHours: 9.10,
         },
         {
             date: "07 Mar 2025",
@@ -47,7 +48,7 @@ const Attendance = () => {
             break: "35 Min",
             late: "-",
             overtime: "-",
-            productionHours: "8.20 Hrs",
+            productionHours: 8.20,
         },
         {
             date: "10 Mar 2025",
@@ -57,7 +58,7 @@ const Attendance = () => {
             break: "40 Min",
             late: "15 Min",
             overtime: "25 Min",
-            productionHours: "8.40 Hrs",
+            productionHours: 8.40,
         },
         {
             date: "15 Mar 2025",
@@ -67,7 +68,7 @@ const Attendance = () => {
             break: "50 Min",
             late: "-",
             overtime: "45 Min",
-            productionHours: "8.55 Hrs",
+            productionHours: 8.55,
         },
         {
             date: "18 Mar 2025",
@@ -77,7 +78,7 @@ const Attendance = () => {
             break: "20 Min",
             late: "-",
             overtime: "30 Min",
-            productionHours: "9.25 Hrs",
+            productionHours: 9.25,
         },
         {
             date: "21 Mar 2025",
@@ -87,7 +88,7 @@ const Attendance = () => {
             break: "12 Min",
             late: "-",
             overtime: "50 Min",
-            productionHours: "9.35 Hrs",
+            productionHours: 9.35,
         },
         {
             date: "25 Mar 2025",
@@ -97,7 +98,7 @@ const Attendance = () => {
             break: "45 Min",
             late: "10 Min",
             overtime: "-",
-            productionHours: "7.40 Hrs",
+            productionHours: 7.40,
         },
         {
             date: "28 Mar 2025",
@@ -107,21 +108,31 @@ const Attendance = () => {
             break: "18 Min",
             late: "-",
             overtime: "40 Min",
-            productionHours: "9.45 Hrs",
+            productionHours: 9.45,
         }
     ];
 
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
-                <div className={`flex items-center px-2 rounded text-sm text-center ${rowData.status == "Present" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
-                    <span className={`h-1.5 w-1.5 rounded-full inline-block mr-1 ${rowData.status == "Present" ? "bg-green-600" : "bg-red-400"}`}></span>
+                <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData.status == "Present" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                    <span className={`h-1.5 w-1.5 rounded-full inline-block ${rowData.status == "Present" ? "bg-green-600" : "bg-red-400"}`}></span>
                     <span> {rowData.status}</span>
                 </div>
             </div>
         )
     }
 
+    const productionHoursBodyTemplate = (rowData) => {
+        return (
+            <div className='w-fit'>
+                <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData.productionHours >= 8 ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                    <MdOutlineWatchLater size={12} />
+                    <span>{rowData.productionHours} Hrs</span>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>
@@ -142,7 +153,7 @@ const Attendance = () => {
                     <Column field='break' header="Break"></Column>
                     <Column field='late' header="Late"></Column>
                     <Column field='overtime' header="Overtime"></Column>
-                    <Column field='productionHours' header="Production Hours"></Column>
+                    <Column body={productionHoursBodyTemplate} header="Production Hours"></Column>
                 </DataTable>
             </div>
         </div>
