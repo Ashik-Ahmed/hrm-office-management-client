@@ -4,13 +4,11 @@ import React from "react";
 import { Chart } from "primereact/chart";
 
 const weekData = [
+    { day: "Sun", hours: 8.4 },
     { day: "Mon", hours: 8.5 },
     { day: "Tue", hours: 7.2 },
     { day: "Wed", hours: 8.0 },
-    { day: "Thu", hours: 6.5 },
-    { day: "Fri", hours: 4.5 },
-    { day: "Sat", hours: 2.0 },
-    { day: "Sun", hours: 0 },
+    { day: "Thu", hours: 6.5 }
 ];
 
 // Function to dynamically set bar colors

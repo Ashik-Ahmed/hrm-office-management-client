@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
-import { FaCalendar } from 'react-icons/fa6';
+import { FaArrowRightLong, FaCalendar } from 'react-icons/fa6';
 import { Calendar } from 'primereact/calendar';
+import Link from 'next/link';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend, DoughnutController);
@@ -29,11 +30,11 @@ const MonthlyEmployeeAttendance = () => {
     ]);
 
     const statusColors = {
-        'Present': 'bg-green-500',
-        'Late': 'bg-yellow-500',
-        'Absent': 'bg-red-500',
-        'Leave': 'bg-blue-500',
-        'Holiday': 'bg-gray-500',
+        'Present': 'bg-green-500 text-white',
+        'Late': 'bg-yellow-500 text-white',
+        'Absent': 'bg-red-500 text-white',
+        'Leave': 'bg-blue-500 text-white',
+        'Holiday': 'bg-gray-500 text-white',
     };
 
     // Fixed: Get month from selectedMonth object correctly
@@ -132,13 +133,18 @@ const MonthlyEmployeeAttendance = () => {
                             today.getMonth() === day.getMonth() &&
                             today.getFullYear() === day.getFullYear();
 
+                        // Check if the day is Friday (5 = Friday)
+                        const isFriday = day.getDay() === 5;
+
                         return (
                             <div
                                 key={day.toString()}
                                 className={`
-                                    p-2 text-center rounded-lg shadow-sm transition-all hover:scale-105 cursor-pointer
-                                    ${dayAttendance ? statusColors[dayAttendance.status] : 'bg-gray-100'}
+                                    p-2 text-center rounded shadow-sm transition-all hover:scale-105 cursor-pointer
                                     ${isToday ? "bg-violet-400 text-white animate-pulse" : ""}
+                                    ${isFriday ? "bg-gray-500 text-white" :
+                                        dayAttendance ? statusColors[dayAttendance.status] : "bg-gray-100"
+                                    }
                                 `}
                             >
                                 {day.getDate()}
@@ -205,6 +211,12 @@ const MonthlyEmployeeAttendance = () => {
                     </select>
                 </div> */}
                 {renderCalendar()}
+
+                <div className='w-full mt-8'>
+                    <Link href="/leave" className='block w-full bg-violet-600 text-white px-2 py-1 rounded-md'>
+                        <span className='w-full flex justify-center items-center mx-auto gap-x-2'>See Details <FaArrowRightLong /></span>
+                    </Link>
+                </div>
             </div>
         </div>
     );
