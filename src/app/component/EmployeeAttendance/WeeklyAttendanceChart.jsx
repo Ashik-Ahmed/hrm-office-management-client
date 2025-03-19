@@ -8,7 +8,9 @@ const weekData = [
     { day: "Mon", hours: 8.5 },
     { day: "Tue", hours: 7.2 },
     { day: "Wed", hours: 8.0 },
-    { day: "Thu", hours: 6.5 }
+    { day: "Thu", hours: 6.5 },
+    { day: "Fri", hours: 0 },
+    { day: "Sat", hours: 0 },
 ];
 
 // Function to dynamically set bar colors
