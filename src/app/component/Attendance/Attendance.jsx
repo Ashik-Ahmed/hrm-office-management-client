@@ -1,10 +1,12 @@
 "use client"
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import React from 'react';
+import React, { useState } from 'react';
 import { AiFillFilePdf } from 'react-icons/ai';
 
 const Attendance = () => {
+
+    const [loading, setLoading] = useState(false);
 
     const attendanceData = [
         {
@@ -109,12 +111,23 @@ const Attendance = () => {
         }
     ];
 
+    const statusBodyTemplate = (rowData) => {
+        return (
+            <div className='w-fit'>
+                <div className={`flex items-center px-2 rounded text-sm text-center ${rowData.status == "Present" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                    <span className={`h-1.5 w-1.5 rounded-full inline-block mr-1 ${rowData.status == "Present" ? "bg-green-600" : "bg-red-400"}`}></span>
+                    <span> {rowData.status}</span>
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <div>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>CONVEYANCE REPORT</h3>
+                    <h3 className='font-light'>ATTENDANCE DATA</h3>
                     {/* {
                         monthlyEmployeeConveyance?.employeeData?.length > 0 &&
                         <AiFillFilePdf onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} size={25} className='cursor-pointer text-red-500' />
@@ -124,7 +137,7 @@ const Attendance = () => {
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
                     <Column field='date' header="Date"></Column>
                     <Column field='checkIn' header="Check In"></Column>
-                    <Column field='status' header="Status"></Column>
+                    <Column body={statusBodyTemplate} header="Status"></Column>
                     <Column field='checkOut' header="Check Out"></Column>
                     <Column field='break' header="Break"></Column>
                     <Column field='late' header="Late"></Column>
