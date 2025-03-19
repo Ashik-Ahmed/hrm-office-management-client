@@ -112,6 +112,10 @@ const Attendance = () => {
         }
     ];
 
+    const exportAttendanceReport = (data) => {
+        console.log(data);
+    }
+
     const statusBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
@@ -139,10 +143,10 @@ const Attendance = () => {
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>ATTENDANCE DATA</h3>
-                    {/* {
-                        monthlyEmployeeConveyance?.employeeData?.length > 0 &&
-                        <AiFillFilePdf onClick={() => exportConveyanceReport(monthlyEmployeeConveyance)} size={25} className='cursor-pointer text-red-500' />
-                    } */}
+                    {
+                        attendanceData?.length > 0 &&
+                        <AiFillFilePdf onClick={() => exportAttendanceReport(attendanceData)} size={25} className='cursor-pointer text-red-500' />
+                    }
                 </div>
                 <DataTable value={attendanceData} size='small' emptyMessage="No Conveyance found" loading={loading} >
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
