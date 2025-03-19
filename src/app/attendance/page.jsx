@@ -1,9 +1,12 @@
+import { auth } from '@/auth';
 import React from 'react';
+import Attendance from '../component/Attendance/Attendance';
 
-const page = () => {
+const page = async () => {
+    const user = await auth();
     return (
         <div>
-            Attendance Page
+            <Attendance user={user} />
         </div>
     );
 };
