@@ -5,7 +5,7 @@ import { FaArrowRightLong, FaCalendar } from 'react-icons/fa6';
 const LeaveSummary = () => {
     return (
         <div>
-            <div className="w-full h-full p-6 bg-white rounded-lg shadow-lg">
+            <div className="w-full h-full mt-4 md:mt-0 p-6 bg-white rounded-lg shadow-lg">
                 <div className='flex items-center justify-between mb-4'>
                     <h3 className='text-lg font-semibold'>Leave Summary</h3>
                     <p className='flex gap-x-2 items-center border px-4 rounded-md bg-gray-100 text-gray-600'>

@@ -66,7 +66,7 @@ export default async function Home() {
       </div> */}
 
       <div className='md:flex gap-x-4'>
-        <div className='w-full h-full'>
+        <div className='h-full'>
           <DailyEmployeeAttendance />
         </div>
         <div className='w-full h-full'>
