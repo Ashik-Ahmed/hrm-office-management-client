@@ -155,8 +155,7 @@ const Attendance = () => {
                         <Calendar value={selectedMonth} onChange={(e) => setSelectedMonth(e.value)} view="month" dateFormat="MM yy" />
                     </div>
                 </div>
-                <DataTable value={attendanceData} size='small' emptyMessage="No Conveyance found" loading={loading} >
-                    {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
+                <DataTable value={attendanceData} size='small' emptyMessage="Not found" loading={loading} paginator rows={10} rowsPerPageOptions={[10, 20, 40]}>
                     <Column field='date' header="Date"></Column>
                     <Column field='checkIn' header="Check In"></Column>
                     <Column body={statusBodyTemplate} header="Status"></Column>

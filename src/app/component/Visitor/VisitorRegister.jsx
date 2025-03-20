@@ -46,14 +46,13 @@ const VisitorRegister = ({ user }) => {
         setGlobalFilterValue(value);
     };
 
-
     const getMonthlyVisitorData = async () => {
 
         const month = new Date(selectedMonth).getMonth() + 1;
         const year = new Date(selectedYear).getFullYear();
         setLoading(true)
         const visitors = await getMonthlyVisitors(month, year, user?.accessToken)
-        // console.log(visitors.data);
+
         setMonthlyVisitors(visitors.data);
         setLoading(false)
     }
