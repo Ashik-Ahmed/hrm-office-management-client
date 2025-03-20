@@ -116,7 +116,6 @@ const Attendance = ({ user }) => {
     ];
 
     const exportAttendanceReport = async (data) => {
-        console.log(data);
         const exportAttendance = await exportEmployeeAttendanceToPDF(user, data, selectedMonth.getMonth() + 1, selectedMonth.getFullYear());
     }
 
