@@ -1,4 +1,5 @@
 "use client"
+import { exportEmployeeAttendanceToPDF } from '@/utils/exportAttendance';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
@@ -6,7 +7,7 @@ import React, { useState } from 'react';
 import { AiFillFilePdf } from 'react-icons/ai';
 import { MdOutlineWatchLater } from 'react-icons/md';
 
-const Attendance = () => {
+const Attendance = ({ user }) => {
 
     const [loading, setLoading] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -114,8 +115,9 @@ const Attendance = () => {
         }
     ];
 
-    const exportAttendanceReport = (data) => {
+    const exportAttendanceReport = async (data) => {
         console.log(data);
+        const exportAttendance = await exportEmployeeAttendanceToPDF(user, data, selectedMonth.getMonth() + 1, selectedMonth.getFullYear());
     }
 
     const statusBodyTemplate = (rowData) => {
@@ -155,7 +157,7 @@ const Attendance = () => {
                         <Calendar value={selectedMonth} onChange={(e) => setSelectedMonth(e.value)} view="month" dateFormat="MM yy" />
                     </div>
                 </div>
-                <DataTable value={attendanceData} size='small' emptyMessage="Not found" loading={loading} paginator rows={10} rowsPerPageOptions={[10, 20, 40]}>
+                <DataTable value={attendanceData} size='small' emptyMessage="Not found" loading={loading} paginator rows={30} rowsPerPageOptions={[10, 20, 30, 40]}>
                     <Column field='date' header="Date"></Column>
                     <Column field='checkIn' header="Check In"></Column>
                     <Column body={statusBodyTemplate} header="Status"></Column>
