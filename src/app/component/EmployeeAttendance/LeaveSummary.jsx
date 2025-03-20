@@ -45,7 +45,7 @@ const LeaveSummary = () => {
                 <h5 className='text-lg font-semibold text-gray-900'>Next Holiday</h5>
                 <p>Independence Day, 26 Mar 2025</p>
                 <div className='w-full mt-4'>
-                    <Link href="/leave" className='block w-full bg-white text-gray-700 px-2 py-1 rounded-md'>
+                    <Link href="/holiday" className='block w-full bg-white text-gray-700 px-2 py-1 rounded-md'>
                         <span className='w-full flex justify-center items-center mx-auto gap-x-2'>See All <FaArrowRightLong /></span>
                     </Link>
                 </div>
