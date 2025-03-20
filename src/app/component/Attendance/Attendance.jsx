@@ -1,4 +1,5 @@
 "use client"
+import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useState } from 'react';
@@ -8,6 +9,7 @@ import { MdOutlineWatchLater } from 'react-icons/md';
 const Attendance = () => {
 
     const [loading, setLoading] = useState(false);
+    const [selectedMonth, setSelectedMonth] = useState(new Date());
 
     const attendanceData = [
         {
@@ -141,12 +143,17 @@ const Attendance = () => {
     return (
         <div>
             <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
-                <div className='flex items-center gap-x-2 mb-2'>
-                    <h3 className='font-light'>ATTENDANCE DATA</h3>
-                    {
-                        attendanceData?.length > 0 &&
-                        <AiFillFilePdf onClick={() => exportAttendanceReport(attendanceData)} size={25} className='cursor-pointer text-red-500' />
-                    }
+                <div className='flex items-center justify-between mb-2'>
+                    <div className='flex items-center gap-x-2'>
+                        <h3 className='font-light'>ATTENDANCE DATA</h3>
+                        {
+                            attendanceData?.length > 0 &&
+                            <AiFillFilePdf onClick={() => exportAttendanceReport(attendanceData)} size={25} className='cursor-pointer text-red-500' />
+                        }
+                    </div>
+                    <div>
+                        <Calendar value={selectedMonth} onChange={(e) => setSelectedMonth(e.value)} view="month" dateFormat="MM yy" />
+                    </div>
                 </div>
                 <DataTable value={attendanceData} size='small' emptyMessage="No Conveyance found" loading={loading} >
                     {/* <Column body={dateBodyTemplate} header="Date"></Column> */}
