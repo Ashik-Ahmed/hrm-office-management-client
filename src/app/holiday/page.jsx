@@ -20,7 +20,7 @@ const page = () => {
             "title": "President’s Day",
             "date": "17 Feb 2025",
             "description": "Honoring past US Presidents",
-            "status": "Active"
+            "status": "Inactive"
         },
         {
             "title": "Good Friday",
@@ -51,6 +51,12 @@ const page = () => {
             "date": "01 Sep 2025",
             "description": "Honors working people",
             "status": "Inactive"
+        },
+        {
+            "title": "Veterans Day",
+            "date": "11 Nov 2025",
+            "description": "Honors military veterans",
+            "status": "Active"
         },
         {
             "title": "Veterans Day",
