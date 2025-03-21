@@ -37,9 +37,9 @@ const Holidays = ({ holidays }) => {
                 </div>
             </div>
             <div>
-                <DataTable value={holidays} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="title" header="Title" style={{ color: 'black', fontSize: '.8rem', fontWeight: 'bold' }}></Column>
-                    <Column field="date" header="Date"></Column>
+                <DataTable value={holidays} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }}>
+                    <Column field="title" header="Title" style={{ color: '#808080', fontSize: '.8rem', fontWeight: 'bold' }}></Column>
+                    <Column field="date" header="Date" sortable></Column>
                     <Column field="description" header="Description"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
                 </DataTable>
