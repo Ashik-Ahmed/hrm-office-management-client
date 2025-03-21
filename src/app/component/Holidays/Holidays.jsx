@@ -5,12 +5,14 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
-const Holidays = ({ holidays }) => {
+const Holidays = ({ user, holidays }) => {
 
+    const toast = useRef(null);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const [editHolidayDialog, setEditHolidayDialog] = useState(false);
@@ -20,6 +22,28 @@ const Holidays = ({ holidays }) => {
 
     const handleAddHoliday = (data) => {
         console.log(data);
+        data.createdBy = user._id;
+
+        fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/holiday`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "Authorization": `Bearer ${user?.accessToken}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == "Success") {
+                    toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Added', life: 3000 });
+                    reset();
+                }
+                else {
+                    toast.current.show({ severity: 'error', summary: 'Failed!', detail: data.error, life: 3000 });
+                }
+            })
+        setAddHolidayDialog(false);
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -35,6 +59,7 @@ const Holidays = ({ holidays }) => {
 
     return (
         <div className='mt-1 shadow-lg p-2 bg-white rounded-md'>
+            <Toast ref={toast} />
             <div className='flex justify-between items-center gap-x-2 mb-2'>
                 <div className='flex items-center gap-x-2 mb-2'>
                     <h3 className='font-light'>HOLIDAYS</h3>
