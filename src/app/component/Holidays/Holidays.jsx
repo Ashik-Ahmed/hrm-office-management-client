@@ -125,6 +125,18 @@ const Holidays = ({ user, holidays }) => {
                 </form>
 
             </Dialog>
+
+            {/* delete holiday dialog  */}
+            <Dialog header="Delete Holiday" visible={deleteHolidayDialog} style={{ width: '25vw' }} onHide={() => { setDeleteHolidayDialog(false) }}>
+                <div className='flex flex-col mx-auto text-center gap-y-2'>
+                    <h3 className='font-bold text-red-500'>Delete this holiday?</h3>
+                    <p className='text-lg font-semibold'>{deleteHolidayDialog?.title}</p>
+                    <p className='text-sm font-semibold'>Date: {customDateFormat(deleteHolidayDialog?.date).split(",")[0]}</p>
+                </div>
+                <div className='mt-2 flex justify-end'>
+                    <Button label='Delete' onClick={() => handleDeleteHoliday(deleteHolidayDialog)} className='bg-[#8C239E] text-white w-fit' />
+                </div>
+            </Dialog>
         </div>
     );
 };
