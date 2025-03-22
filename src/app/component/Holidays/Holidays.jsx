@@ -1,5 +1,5 @@
 "use client"
-import { getAllHolidays } from '@/libs/holiday';
+import { deleteHoliday, getAllHolidays } from '@/libs/holiday';
 import { customDateFormat } from '@/utils/dateformatter';
 import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
@@ -49,6 +49,18 @@ const Holidays = ({ user, holidays }) => {
                 }
             })
         setAddHolidayDialog(false);
+    }
+
+    const handleDeleteHoliday = async () => {
+        const deleteHolidayResult = await deleteHoliday(deleteHolidayDialog?._id, user?.accessToken);
+        if (deleteHolidayResult.status == "Success") {
+            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Deleted', life: 3000 });
+            router.refresh();
+        }
+        else {
+            toast.current.show({ severity: 'error', summary: 'Failed!', detail: deleteHolidayResult.error, life: 3000 });
+        }
+        setDeleteHolidayDialog(false);
     }
 
     const dateBodyTemplate = (rowData) => {

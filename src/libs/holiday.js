@@ -10,3 +10,15 @@ export async function getAllHolidays(accessToken) {
 
     return holidays?.data;
 }
+
+export async function deleteHoliday(holidayId, accessToken) {
+    const deleteHoliday = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/holiday/${holidayId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+        .then(res => res.json())
+
+    return deleteHoliday;
+}
