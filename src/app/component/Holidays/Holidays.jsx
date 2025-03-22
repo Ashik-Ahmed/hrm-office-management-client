@@ -1,7 +1,6 @@
 "use client"
 import { deleteHoliday, getAllHolidays } from '@/libs/holiday';
 import { customDateFormat } from '@/utils/dateformatter';
-import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -16,7 +15,6 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 const Holidays = ({ user, holidays }) => {
 
     const toast = useRef(null);
-    const router = useRouter();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const [holidayData, setHolidayData] = useState(holidays);
@@ -53,7 +51,7 @@ const Holidays = ({ user, holidays }) => {
             .then(data => {
                 console.log(data);
                 if (data.status == "Success") {
-                    router.refresh();
+                    getHolidayData();
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Added', life: 3000 });
                     reset();
                 }
@@ -68,7 +66,7 @@ const Holidays = ({ user, holidays }) => {
         const deleteHolidayResult = await deleteHoliday(deleteHolidayDialog?._id, user?.accessToken);
         if (deleteHolidayResult.status == "Success") {
             toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Deleted', life: 3000 });
-            router.refresh();
+            getHolidayData();
         }
         else {
             toast.current.show({ severity: 'error', summary: 'Failed!', detail: deleteHolidayResult.error, life: 3000 });
