@@ -1,4 +1,7 @@
 "use client"
+import { getAllHolidays } from '@/libs/holiday';
+import { customDateFormat } from '@/utils/dateformatter';
+import { useRouter } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -13,6 +16,7 @@ import { AiFillPlusSquare } from 'react-icons/ai';
 const Holidays = ({ user, holidays }) => {
 
     const toast = useRef(null);
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const [editHolidayDialog, setEditHolidayDialog] = useState(false);
@@ -21,7 +25,7 @@ const Holidays = ({ user, holidays }) => {
     const [selectedYear, setSelectedYear] = useState(new Date());
 
     const handleAddHoliday = (data) => {
-        console.log(data);
+
         data.createdBy = user._id;
 
         fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/holiday`, {
@@ -36,6 +40,7 @@ const Holidays = ({ user, holidays }) => {
             .then(data => {
                 console.log(data);
                 if (data.status == "Success") {
+                    router.refresh();
                     toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Added', life: 3000 });
                     reset();
                 }
@@ -44,6 +49,14 @@ const Holidays = ({ user, holidays }) => {
                 }
             })
         setAddHolidayDialog(false);
+    }
+
+    const dateBodyTemplate = (rowData) => {
+        return (
+            <div>
+                {customDateFormat(rowData?.date).split(",")[0]}
+            </div>
+        )
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -72,7 +85,7 @@ const Holidays = ({ user, holidays }) => {
             <div>
                 <DataTable value={holidays} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }}>
                     <Column field="title" header="Title" style={{ color: '#808080', fontSize: '.8rem', fontWeight: 'bold' }}></Column>
-                    <Column field="date" header="Date" sortable></Column>
+                    <Column body={dateBodyTemplate} header="Date" sortable></Column>
                     <Column field="description" header="Description"></Column>
                     <Column body={actionBodyTemplate} header="Action"></Column>
                 </DataTable>
