@@ -10,7 +10,7 @@ const page = async () => {
 
     return (
         <div>
-            <Holidays user={user} holidays={holidays} />
+            <Holidays user={user} holidays={holidays?.data} />
         </div>
     );
 };

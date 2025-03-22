@@ -9,7 +9,7 @@ import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillPlusSquare } from 'react-icons/ai';
 
@@ -19,10 +19,23 @@ const Holidays = ({ user, holidays }) => {
     const router = useRouter();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
+    const [holidayData, setHolidayData] = useState(holidays);
     const [editHolidayDialog, setEditHolidayDialog] = useState(false);
     const [deleteHolidayDialog, setDeleteHolidayDialog] = useState(false);
     const [addHolidayDialog, setAddHolidayDialog] = useState(false);
     const [selectedYear, setSelectedYear] = useState(new Date());
+
+
+    const getHolidayData = async () => {
+        const result = await getAllHolidays(user?.accessToken, selectedYear);
+
+        setHolidayData(result.data);
+
+    }
+
+    useEffect(() => {
+        getHolidayData();
+    }, [selectedYear]);
 
     const handleAddHoliday = (data) => {
 
@@ -95,7 +108,7 @@ const Holidays = ({ user, holidays }) => {
                 </div>
             </div>
             <div>
-                <DataTable value={holidays} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={holidayData} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }} emptyMessage="No Holidays Found">
                     <Column field="title" header="Title" style={{ color: '#808080', fontSize: '.8rem', fontWeight: 'bold' }}></Column>
                     <Column body={dateBodyTemplate} header="Date" sortable></Column>
                     <Column field="description" header="Description"></Column>
