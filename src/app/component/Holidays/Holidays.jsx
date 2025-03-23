@@ -152,7 +152,7 @@ const Holidays = ({ user, holidays }) => {
             {/* delete holiday dialog  */}
             <Dialog header="Delete Holiday" visible={deleteHolidayDialog} style={{ width: '25vw' }} onHide={() => { setDeleteHolidayDialog(false) }}>
                 <div className='flex flex-col mx-auto text-center gap-y-2'>
-                    <h3 className='font-bold text-red-500'>Delete this holiday?</h3>
+                    <i className="w-fit mx-auto pi pi-trash text-red-500 border-2 border-red-500 p-2 rounded-full"></i>
                     <p className='text-lg font-semibold'>{deleteHolidayDialog?.title}</p>
                     <p className='text-sm font-semibold'>Date: {customDateFormat(deleteHolidayDialog?.date).split(",")[0]}</p>
                 </div>
