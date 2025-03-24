@@ -22,3 +22,18 @@ export async function deleteHoliday(holidayId, accessToken) {
 
     return deleteHoliday;
 }
+
+export async function editHoliday(holidayId, data, accessToken) {
+
+    const editHoliday = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/holiday/${holidayId}`, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.json())
+
+    return editHoliday;
+}

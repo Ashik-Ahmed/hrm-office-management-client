@@ -1,5 +1,5 @@
 "use client"
-import { deleteHoliday, getAllHolidays } from '@/libs/holiday';
+import { deleteHoliday, editHoliday, getAllHolidays } from '@/libs/holiday';
 import { customDateFormat } from '@/utils/dateformatter';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
@@ -162,7 +162,7 @@ const Holidays = ({ user, holidays }) => {
 
             {/* edit holiday dialog  */}
             <Dialog header="Edit Holiday" visible={editHolidayDialog} style={{ width: '25vw' }} onHide={() => { setEditHolidayDialog(false) }}>
-                <EditHoliday user={user} editHolidayDialog={editHolidayDialog} />
+                <EditHoliday user={user} editHolidayDialog={editHolidayDialog} setEditHolidayDialog={setEditHolidayDialog} getHolidayData={getHolidayData} toast={toast} />
             </Dialog>
         </div>
     );
@@ -171,12 +171,36 @@ const Holidays = ({ user, holidays }) => {
 export default Holidays;
 
 
-const EditHoliday = ({ user, editHolidayDialog }) => {
+const EditHoliday = ({ user, editHolidayDialog, setEditHolidayDialog, getHolidayData, toast }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const handleEditHoliday = (data) => {
-        console.log(data);
+    const [changedValues, setChangedValues] = useState({});
+    const [value, setValue] = useState({});
+
+
+    // Function to update changed values dynamically
+    const handleFieldChange = (field, value) => {
+        setChangedValues((prev) => ({
+            ...prev,
+            [field]: value
+        }));
+        setValue(field, value); // Update react-hook-form state
+    };
+
+    const handleEditHoliday = async () => {
+
+        const result = await editHoliday(editHolidayDialog?._id, changedValues, user?.accessToken);
+
+        if (result.status == "Success") {
+            toast.current.show({ severity: 'success', summary: 'Success', detail: 'Holiday Updated', life: 3000 });
+            getHolidayData();
+            reset();
+        }
+        else {
+            toast.current.show({ severity: 'error', summary: 'Failed!', detail: result.error, life: 3000 });
+        }
+        setEditHolidayDialog(false);
     }
 
 
@@ -186,26 +210,31 @@ const EditHoliday = ({ user, editHolidayDialog }) => {
                 <div className='mt-4'>
                     <InputText
                         {...register('title')}
-                        defaultValue={editHolidayDialog?.title || "Title"}
+                        defaultValue={editHolidayDialog?.title}
                         placeholder='Title'
                         className='w-full'
+                        onChange={(e) => handleFieldChange('title', e.target.value)}
                     />
                 </div>
+
                 <div>
                     <Calendar
                         {...register('date')}
-                        value={new Date(editHolidayDialog?.date) || "Date"}
+                        value={editHolidayDialog?.date ? new Date(editHolidayDialog?.date) : null}
                         dateFormat="dd/mm/yy"
                         placeholder='Date'
+                        disabled
                         className='w-full'
                     />
                 </div>
+
                 <div>
                     <InputText
                         {...register('description')}
-                        defaultValue={editHolidayDialog?.description || "Description"}
+                        defaultValue={editHolidayDialog?.description}
                         placeholder='Description'
                         className='w-full'
+                        onChange={(e) => handleFieldChange('description', e.target.value)}
                     />
                 </div>
 
