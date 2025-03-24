@@ -1,9 +1,11 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { MdFingerprint } from 'react-icons/md'
 
-const DailyEmployeeAttendance = () => {
+const DailyEmployeeAttendance = ({ user }) => {
+
     const [currentTime, setCurrentTime] = useState(new Date())
     const [punchInTime] = useState(() => {
         const today = new Date()
@@ -51,18 +53,46 @@ const DailyEmployeeAttendance = () => {
 
     // Calculate SVG parameters for progress circle
     const size = 160
-    const strokeWidth = 4
+    const strokeWidth = 6
     const radius = (size - strokeWidth) / 2
     const circumference = radius * 2 * Math.PI
     const offset = circumference - (progress / 100) * circumference
+
+    const renderWelcomeMessage = () => {
+        const now = new Date()
+        const hours = now.getHours()
+        if (hours >= 5 && hours < 12) {
+            return (
+                <div className='flex justify-center gap-x-2 text-sm text-gray-600'>
+                    <p >Good Morning,</p>
+                    <p>{user?.nickName}</p>
+                </div>
+            )
+        } else if (hours >= 12 && hours < 18) {
+            return (
+                <div className='flex justify-center gap-x-2 text-sm text-gray-600'>
+                    <p >Good Afternoon,</p>
+                    <p>{user?.nickName}</p>
+                </div>
+            )
+        } else {
+            return (
+                <div className='flex justify-center gap-x-2 text-sm text-gray-600'>
+                    <p >Good Evening,</p>
+                    <p>{user?.nickName}</p>
+                </div>
+            )
+        }
+    }
 
     return (
         <div className="w-full md:w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 shadow-lg mb-4">
             <div className="space-y-6">
                 {/* Header */}
                 <div className="space-y-1">
-                    <h2 className="text-gray-500">Attendance</h2>
-                    <p className="text-lg font-semibold text-gray-800">{formatCurrentTime(currentTime)}</p>
+                    {/* <h2 className="text-gray-500">Attendance</h2> */}
+                    <h1 className="text-2xl font-semibold text-gray-800">{renderWelcomeMessage()}</h1>
+                    <p className="flex justify-center text-lg font-semibold text-gray-800">{formatCurrentTime(currentTime)}</p>
                 </div>
 
                 {/* Progress Circle */}
@@ -93,9 +123,19 @@ const DailyEmployeeAttendance = () => {
                                 }}
                             />
                         </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                        {/* <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                             <span className="text-sm text-gray-500">Total Hours</span>
                             <span className="text-xl font-semibold text-gray-800">{totalHours}</span>
+                        </div> */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <Image
+                                src={user?.image || '/images/user.png'}
+                                layout="fill"
+                                objectFit="cover"
+                                priority
+                                alt='user photo'
+                                className='rounded-full p-2'
+                            />
                         </div>
                     </div>
                 </div>

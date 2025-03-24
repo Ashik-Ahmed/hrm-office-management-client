@@ -141,7 +141,7 @@ const MonthlyEmployeeAttendance = () => {
                                 key={day.toString()}
                                 className={`
                                     p-2 text-center rounded shadow-sm transition-all hover:scale-105 cursor-pointer
-                                    ${isToday ? "bg-violet-400 text-white animate-pulse" : ""}
+                                    ${isToday ? "bg-violet-400 border-2 border-violet-700 text-white animate-pulse" : ""}
                                     ${isFriday ? "bg-gray-500 text-white" :
                                         dayAttendance ? statusColors[dayAttendance.status] : "bg-gray-100"
                                     }
@@ -213,7 +213,7 @@ const MonthlyEmployeeAttendance = () => {
                 {renderCalendar()}
 
                 <div className='w-full mt-8'>
-                    <Link href="/leave" className='block w-full bg-violet-600 text-white px-2 py-1 rounded-md'>
+                    <Link href="/attendance" className='block w-full bg-violet-600 text-white px-2 py-1 rounded-md'>
                         <span className='w-full flex justify-center items-center mx-auto gap-x-2'>See Details <FaArrowRightLong /></span>
                     </Link>
                 </div>

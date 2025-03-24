@@ -1,15 +1,5 @@
-// import { useSession } from "next-auth/react";
-import { FiUsers } from 'react-icons/fi'
-import { AiOutlineLike, AiOutlineCalculator } from 'react-icons/ai'
-import { BiCalendar } from 'react-icons/bi'
-import { BsCreditCard } from 'react-icons/bs'
-import { TbReport } from 'react-icons/tb'
-import StackedChart from "./component/Charts/StackedChart";
-import PieChart from "./component/Charts/PieChart";
-import LineChart from "./component/Charts/LineChart";
-import Link from "next/link";
+
 import WelcomeMessage from './component/WelcomeMessage/WelcomeMessage'
-import { redirect } from 'next/navigation'
 import { auth } from '@/auth';
 import MonthlyEmployeeAttendance from './component/EmployeeAttendance/MonthlyEmployeeAttendance'
 import DailyEmployeeAttendance from './component/EmployeeAttendance/DailyEmployeeAttendance'
@@ -18,12 +8,13 @@ import LeaveSummary from './component/EmployeeAttendance/LeaveSummary'
 
 export default async function Home() {
 
-  const session = await auth();
+  const { user } = await auth();
+
   return (
     <div className="text-gray-700">
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <WelcomeMessage session={session} />
-      </div>
+      </div> */}
       {/* <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 w-full my-4">
         <div className="bg-white p-4 md:p-[20px] rounded-xl shadow-xl flex justify-center items-center">
           <Link href="/employee">
@@ -67,7 +58,7 @@ export default async function Home() {
 
       <div className='md:flex gap-x-4'>
         <div className='h-full'>
-          <DailyEmployeeAttendance />
+          <DailyEmployeeAttendance user={user} />
         </div>
         <div className='w-full h-full'>
           <WeeklyAttendanceChart />

@@ -84,6 +84,7 @@ export const {
             if (user) {
                 token.role = user.role || '';
                 token._id = user.user_id || '';
+                token.nickName = user.nickName || '';
                 token.photo = user.photo || '';
                 token.department = user.department || '';
                 token.pageAccess = user.pageAccess || [];
@@ -97,6 +98,7 @@ export const {
             if (session?.user) {
                 session.user.role = token.role || '';
                 session.user._id = token._id || '';
+                session.user.nickName = token.nickName || '';
                 session.user.photo = token.photo || '';
                 session.user.department = token.department || '';
                 session.user.pageAccess = token.pageAccess || [];

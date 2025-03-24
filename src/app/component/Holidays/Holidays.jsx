@@ -146,7 +146,6 @@ const Holidays = ({ user, holidays }) => {
                         <Button type='submit' label='Submit' className='bg-[#8C239E] text-white' />
                     </div>
                 </form>
-
             </Dialog>
 
             {/* delete holiday dialog  */}
@@ -160,8 +159,60 @@ const Holidays = ({ user, holidays }) => {
                     <Button label='Delete' onClick={() => handleDeleteHoliday(deleteHolidayDialog)} className='bg-[#8C239E] text-white w-fit' />
                 </div>
             </Dialog>
+
+            {/* edit holiday dialog  */}
+            <Dialog header="Edit Holiday" visible={editHolidayDialog} style={{ width: '25vw' }} onHide={() => { setEditHolidayDialog(false) }}>
+                <EditHoliday user={user} editHolidayDialog={editHolidayDialog} />
+            </Dialog>
         </div>
     );
 };
 
 export default Holidays;
+
+
+const EditHoliday = ({ user, editHolidayDialog }) => {
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
+    const handleEditHoliday = (data) => {
+        console.log(data);
+    }
+
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit(handleEditHoliday)} className='flex flex-col gap-y-2'>
+                <div className='mt-4'>
+                    <InputText
+                        {...register('title')}
+                        defaultValue={editHolidayDialog?.title || "Title"}
+                        placeholder='Title'
+                        className='w-full'
+                    />
+                </div>
+                <div>
+                    <Calendar
+                        {...register('date')}
+                        value={new Date(editHolidayDialog?.date) || "Date"}
+                        dateFormat="dd/mm/yy"
+                        placeholder='Date'
+                        className='w-full'
+                    />
+                </div>
+                <div>
+                    <InputText
+                        {...register('description')}
+                        defaultValue={editHolidayDialog?.description || "Description"}
+                        placeholder='Description'
+                        className='w-full'
+                    />
+                </div>
+
+                <div className='mt-2 flex justify-end'>
+                    <Button type='submit' label='Submit' className='bg-[#8C239E] text-white' />
+                </div>
+            </form>
+        </div>
+    )
+}
