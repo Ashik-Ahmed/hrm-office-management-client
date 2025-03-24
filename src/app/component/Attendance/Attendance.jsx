@@ -19,7 +19,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "07:10 PM",
             break: "30 Min",
-            late: "-",
+            late: null,
             overtime: "-",
             productionHours: 9.05,
         },
@@ -29,7 +29,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "08:45 PM",
             break: "25 Min",
-            late: "-",
+            late: null,
             overtime: "1 Hr",
             productionHours: 9.55,
         },
@@ -39,7 +39,7 @@ const Attendance = ({ user }) => {
             status: "Absent",
             checkOut: "09:30 PM",
             break: "15 Min",
-            late: "-",
+            late: null,
             overtime: "40 Min",
             productionHours: 9.10,
         },
@@ -49,7 +49,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "06:35 PM",
             break: "35 Min",
-            late: "-",
+            late: null,
             overtime: "-",
             productionHours: 8.20,
         },
@@ -69,7 +69,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "06:15 PM",
             break: "50 Min",
-            late: "-",
+            late: null,
             overtime: "45 Min",
             productionHours: 8.55,
         },
@@ -79,7 +79,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "07:55 PM",
             break: "20 Min",
-            late: "-",
+            late: null,
             overtime: "30 Min",
             productionHours: 9.25,
         },
@@ -89,7 +89,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "08:30 PM",
             break: "12 Min",
-            late: "-",
+            late: null,
             overtime: "50 Min",
             productionHours: 9.35,
         },
@@ -109,7 +109,7 @@ const Attendance = ({ user }) => {
             status: "Present",
             checkOut: "08:10 PM",
             break: "18 Min",
-            late: "-",
+            late: null,
             overtime: "40 Min",
             productionHours: 9.45,
         }
@@ -125,6 +125,17 @@ const Attendance = ({ user }) => {
                 <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData.status == "Present" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
                     <span className={`h-1.5 w-1.5 rounded-full inline-block ${rowData.status == "Present" ? "bg-green-600" : "bg-red-400"}`}></span>
                     <span> {rowData.status}</span>
+                </div>
+            </div>
+        )
+    }
+
+    const lateBodyTemplate = (rowData) => {
+        return (
+            <div className='w-fit'>
+                <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData.late && "bg-red-100 text-red-600"}`}>
+                    {rowData.late && <span className={`h-1.5 w-1.5 rounded-full inline-block bg-red-400`}></span>}
+                    <span> {rowData.late || "-"}</span>
                 </div>
             </div>
         )
@@ -162,7 +173,7 @@ const Attendance = ({ user }) => {
                     <Column body={statusBodyTemplate} header="Status"></Column>
                     <Column field='checkOut' header="Check Out"></Column>
                     <Column field='break' header="Break"></Column>
-                    <Column field='late' header="Late"></Column>
+                    <Column body={lateBodyTemplate} field='late' header="Late"></Column>
                     <Column field='overtime' header="Overtime"></Column>
                     <Column body={productionHoursBodyTemplate} header="Production Hours"></Column>
                 </DataTable>
