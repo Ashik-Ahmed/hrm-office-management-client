@@ -133,8 +133,8 @@ const Attendance = ({ user }) => {
     const lateBodyTemplate = (rowData) => {
         return (
             <div className='w-fit'>
-                <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData.late && "bg-red-100 text-red-600"}`}>
-                    {rowData.late && <span className={`h-1.5 w-1.5 rounded-full inline-block bg-red-400`}></span>}
+                <div className={`flex items-center gap-x-1 px-2 rounded text-sm text-center ${rowData?.late && "bg-red-100 text-red-600"}`}>
+                    {rowData?.late && <span className={`h-1.5 w-1.5 rounded-full inline-block bg-red-400`}></span>}
                     <span> {rowData.late || "-"}</span>
                 </div>
             </div>
