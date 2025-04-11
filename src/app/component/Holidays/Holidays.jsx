@@ -17,6 +17,7 @@ const Holidays = ({ user, holidays }) => {
     const toast = useRef(null);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
+    const [loading, setLoading] = useState(false);
     const [holidayData, setHolidayData] = useState(holidays);
     const [editHolidayDialog, setEditHolidayDialog] = useState(false);
     const [deleteHolidayDialog, setDeleteHolidayDialog] = useState(false);
@@ -25,10 +26,11 @@ const Holidays = ({ user, holidays }) => {
 
 
     const getHolidayData = async () => {
+        setLoading(true);
         const result = await getAllHolidays(user?.accessToken, selectedYear);
 
         setHolidayData(result.data);
-
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -106,7 +108,7 @@ const Holidays = ({ user, holidays }) => {
                 </div>
             </div>
             <div>
-                <DataTable value={holidayData} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }} emptyMessage="No Holidays Found">
+                <DataTable value={holidayData} size='small' paginator rows={10} rowsPerPageOptions={[10, 25, 50]} stripedRows removableSort tableStyle={{ minWidth: '50rem' }} loading={loading} emptyMessage="No Holidays Found">
                     <Column field="title" header="Title" style={{ color: '#808080', fontSize: '.8rem', fontWeight: 'bold' }}></Column>
                     <Column body={dateBodyTemplate} header="Date" sortable></Column>
                     <Column field="description" header="Description"></Column>
