@@ -1,15 +1,12 @@
 'use client'
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../../../public/images/logo.png'
 import './customcss.css'
-import { redirect, usePathname, useRouter } from 'next/navigation';
-import Cookies from 'universal-cookie';
-import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 import { doLogout } from '@/serverActions/authActions';
-import Loading from '../Loading/Loading';
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 
 
@@ -60,17 +57,31 @@ const Sidebar = ({ user }) => {
                         </ul>
                     </div>
 
-                    <div className='w-full px-4 min-h-[95vh] overflow-y-scroll scrollbar-none'>
+                    <div className='w-full px-4 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200'>
                         <div className='text-sm'>
-                            <ul className='overflow-y-scroll text-gray-600'>
-                                <p className={`py-2 flex gap-x-4`}><i className='pi pi-hourglass'></i> HRMS</p>
-                                {
-                                    user?.pageAccess?.map((menu, index) => {
-                                        return (
-                                            <Link key={index} href={menu.url} style={{ fontFamily: 'revert' }} className={`${currentPath === (menu.url) && 'border-r-4 border-r-violet-500 text-violet-500 font-bold'} py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500  duration-200 cursor-pointer flex gap-x-4`}> {currentPath === (menu.url) ? <i className='pi pi-arrow-right scale-90 font-bold' /> : <i className='pi pi-ellipsis-h scale-75 ' />}  {menu.title}</Link>
-                                        )
-                                    })
-                                }
+                            <ul className='text-gray-600'>
+                                <p className={`py-2 flex gap-x-4`}>
+                                    <i className='pi pi-hourglass'></i> HRMS
+                                </p>
+                                {user?.pageAccess?.map((menu, index) => {
+                                    return (
+                                        <Link
+                                            key={index}
+                                            href={menu.url}
+                                            style={{ fontFamily: 'revert' }}
+                                            className={`${currentPath === menu.url &&
+                                                'border-r-4 border-r-violet-500 text-violet-500 font-bold'
+                                                } py-2 hover:tracking-wider hover:border-r-4 hover:border-r-violet-500 duration-200 cursor-pointer flex gap-x-4`}
+                                        >
+                                            {currentPath === menu.url ? (
+                                                <i className='pi pi-arrow-right scale-90 font-bold' />
+                                            ) : (
+                                                <i className='pi pi-ellipsis-h scale-75 ' />
+                                            )}{' '}
+                                            {menu.title}
+                                        </Link>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
