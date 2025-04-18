@@ -57,12 +57,16 @@ const Sidebar = ({ user }) => {
                         </ul>
                     </div>
 
-                    <div className='w-full px-4 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200'>
+                    <div className='w-full px-4 h-[calc(100vh-5rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200'>
+                        {/* Static HRMS section */}
+                        <div className='py-2 flex gap-x-4 items-center text-gray-600 sticky top-0 bg-white z-10'>
+                            <i className='pi pi-hourglass'></i>
+                            <span>HRMS</span>
+                        </div>
+
+                        {/* Scrollable menu items */}
                         <div className='text-sm'>
                             <ul className='text-gray-600'>
-                                <p className={`py-2 flex gap-x-4`}>
-                                    <i className='pi pi-hourglass'></i> HRMS
-                                </p>
                                 {user?.pageAccess?.map((menu, index) => {
                                     return (
                                         <Link
