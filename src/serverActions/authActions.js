@@ -5,17 +5,17 @@ import { signIn, signOut } from "@/auth";
 
 export async function doSocialLogin(formData) {
     const action = formData.get('action')
-    console.log(action);
+    // console.log(action);
     await signIn(action, { redirectTo: "/" })
 }
 
 export async function doLogout() {
-    console.log("doLogout");
+    // console.log("doLogout");
     await signOut({ redirectTo: "/auth/signin" })
 }
 
 export async function doCredentialLogin(formData) {
-    console.log("doCredentialLogin called", formData.get('email'), formData.get('password'));
+    // console.log("doCredentialLogin called", formData.get('email'), formData.get('password'));
     try {
         const email = formData.get('email')
         const password = formData.get('password')
