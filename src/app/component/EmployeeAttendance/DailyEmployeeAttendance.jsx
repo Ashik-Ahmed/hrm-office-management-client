@@ -86,7 +86,7 @@ const DailyEmployeeAttendance = ({ user }) => {
     }
 
     return (
-        <div className="w-full md:w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 shadow-lg mb-4">
+        <div className="w-full md:w-80 rounded-lg border border-violet-600 bg-violet-200 p-6 mb-4">
             <div className="space-y-6">
                 {/* Header */}
                 <div className="space-y-1">

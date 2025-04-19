@@ -159,7 +159,7 @@ const MonthlyEmployeeAttendance = () => {
     return (
         <div className="w-full mx-auto flex flex-col md:flex-row md:justify-between space-y-6 md:space-y-0 md:space-x-6">
             {/* Doughnut Chart Section */}
-            <div className="w-full md:w-1/2 flex flex-col bg-white mt-4 md:mt-0 p-6 rounded-xl shadow-xl">
+            <div className="w-full md:w-1/2 flex flex-col bg-white mt-4 md:mt-0 p-6 rounded-lg">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold mb-4">Attendance Summary</h3>
                     <div className='flex gap-x-2 items-center border px-4 rounded-md bg-gray-100 text-gray-600'>
@@ -173,7 +173,7 @@ const MonthlyEmployeeAttendance = () => {
             </div>
 
             {/* Calendar Section */}
-            <div className="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-xl">
+            <div className="w-full md:w-1/2 bg-white p-6 rounded-lg">
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold">Attendance Status</h3>
                     <Calendar
