@@ -80,7 +80,7 @@ const page = () => {
                 </div>
             </div>
             <div className='bg-white rounded p-2 mt-4'>
-                <p>Attendance Report</p>
+                <p className='text-lg font-semibold text-gray-600'>Attendance Report</p>
                 <div className='mt-4'>
                     <DataTable value={attendanceData} className="p-datatable-striped" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} >
                         <Column field="name" header="Name"></Column>
